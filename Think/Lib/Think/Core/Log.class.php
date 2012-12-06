@@ -45,7 +45,7 @@ class Log extends Think
     static $log =   array();
 
     // 日期格式
-    static $format =  '[ c ]';
+    static $format =  'Y-m-d H:i:s';
 
     /**
      +----------------------------------------------------------
@@ -63,7 +63,7 @@ class Log extends Think
      */
     static function record($message,$level=self::ERR,$record=false) {
         if($record || in_array($level,C('LOG_RECORD_LEVEL'))) {
-            $now = date(self::$format).;
+            $now = date(self::$format).strchr(microtime(true),'.');
             self::$log[] =   "{$now} {$level}: {$message}\r\n";
         }
     }
@@ -115,7 +115,7 @@ class Log extends Think
      +----------------------------------------------------------
      */
     static function write($message,$level=self::ERR,$type=self::FILE,$destination='',$extra=''){
-        $now = date(self::$format);
+        $now = date(self::$format).strchr(microtime(true),'.');
         if(empty($destination))
             $destination = C('LOG_PATH').date('y_m_d').".log";
         if(self::FILE == $type) { // 文件方式记录日志
