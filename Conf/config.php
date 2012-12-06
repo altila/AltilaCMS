@@ -1,20 +1,19 @@
 ﻿<?php
 return array(
-	'APP_DEBUG'    =>	1,
+	'APP_DEBUG'             => 1,
 	'SHOW_ERROR_MSG'        => true,
-    'URL_MODEL'=>2,
-    'JUST_ONE_APP'=>'home', // 单一部署应用默认门户应用
-	'APP_SUB_DOMAIN_DEPLOY'=>true, // 开启子域名部署
-	'APP_SUB_DOMAIN_RULES'=>array(
-		'prviews'=>array('prview'), // 预览模式
-		'*'=>array('store','store=*'), // 门店应用公用一个App
+    'URL_MODEL'             => 2,
+    'JUST_ONE_APP'          => 'home', // 单一部署应用默认门户应用
+	'APP_SUB_DOMAIN_DEPLOY' => true,   // 开启子域名部署
+	'APP_SUB_DOMAIN_RULES'  => array(
+		'prviews'=> array('prview'),   // 预览模式
+		'admin'  => array('admin'),    // 后台管理
+		//'*'      => array('store','store=*'), // 门店应用公用一个App
 	),
-	'APP_FILE_CASE'   => true,
-    'VDEPOT_CODE'     => '01',
-    'URL_HTML_SUFFIX' => 'shtml',
-    'URL_PATHINFO_DEPR'=>'/',
-    'TMPL_CACHE_ON'=>false,
-    'STRIP_RUNTIME_SPACE'=>false,
+	'APP_FILE_CASE'    => true,
+    'URL_HTML_SUFFIX'  => 'html',
+    'TMPL_CACHE_ON'    => false,
+    'STRIP_RUNTIME_SPACE'=> false,
     
 	
 	'DB_CONFIGS'=>array(
@@ -25,12 +24,12 @@ return array(
 			'password'    => '',
 			'hostname'    => '127.0.0.1',
 			'hostport'    => '3306',
-			'database'    => 'mysql',
+			'database'    => 'altilaphp',
 			'charset'     => 'utf8',
 			'prefix'      => 'think_',
 			'suffix'      => '',
 			'deploy'      => 1,
-			'rw_separate' =>true
+			'rw_separate' => true
 		), 
 
 
@@ -51,6 +50,8 @@ return array(
 	'LOAD_EXT_CONFIG' => 'staticFile.php',
     
 
+	//自定义变量
+	'USER_AUTH_KEY'  =>  'loginUser',//存储在SESSION中的用户登陆信息
 
 );
 ?>

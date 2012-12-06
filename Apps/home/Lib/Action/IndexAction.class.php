@@ -18,7 +18,7 @@ class IndexAction extends BaseAction
     * 
     +----------------------------------------------------------
     */
-    public function index(){
+	public function index(){
         $this->display();
     }
 

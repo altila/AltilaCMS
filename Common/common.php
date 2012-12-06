@@ -141,6 +141,20 @@ function isMobile($mobile){
 
 /**
 +----------------------------------------------------------
+* 判断数据值的字符编码是为utf8
++----------------------------------------------------------
+* @access  public
+* @param   string       $word
++----------------------------------------------------------
+* @return  boolen
++----------------------------------------------------------
+*/
+function isUtf8($word) {
+	return ( preg_match("/^([".chr(228)."-".chr(233)."]{1}[".chr(128)."-".chr(191)."]{1}[".chr(128)."-".chr(191)."]{1}){1}/",$word) == true || preg_match("/([".chr(228)."-".chr(233)."]{1}[".chr(128)."-".chr(191)."]{1}[".chr(128)."-".chr(191)."]{1}){1}$/",$word) == true || preg_match("/([".chr(228)."-".chr(233)."]{1}[".chr(128)."-".chr(191)."]{1}[".chr(128)."-".chr(191)."]{1}){2,}/",$word) == true ) ? true : false;
+}
+
+/**
++----------------------------------------------------------
 * 获取IP
 +----------------------------------------------------------
 * @access  public
@@ -195,82 +209,19 @@ function url($id,$type,$page=1,$data='')
 
 /**
 +----------------------------------------------------------
-* 判断数据值的字符编码是为utf8
+* 邮件发送
 +----------------------------------------------------------
 * @access  public
-* @param   string       $word
+* @param: $name[string]        接收人姓名
+* @param: $email[string]       接收人邮件地址
+* @param: $subject[string]     邮件标题
+* @param: $content[string]     邮件内容
+* @param: $type[int]           0 普通邮件， 1 HTML邮件
+* @param: $notification[bool]  true 要求回执， false 不用回执
 +----------------------------------------------------------
 * @return  boolen
 +----------------------------------------------------------
 */
-function isUtf8($word) {
-	return ( preg_match("/^([".chr(228)."-".chr(233)."]{1}[".chr(128)."-".chr(191)."]{1}[".chr(128)."-".chr(191)."]{1}){1}/",$word) == true || preg_match("/([".chr(228)."-".chr(233)."]{1}[".chr(128)."-".chr(191)."]{1}[".chr(128)."-".chr(191)."]{1}){1}$/",$word) == true || preg_match("/([".chr(228)."-".chr(233)."]{1}[".chr(128)."-".chr(191)."]{1}[".chr(128)."-".chr(191)."]{1}){2,}/",$word) == true ) ? true : false;
-}
-
-
-/*
- * 生成6位的随机数
- */
-function rand_six(){
-	return substr(mt_rand(pow(10,7),pow(10,8)-1),0,6);
-}
-/**
-+----------------------------------------------------------
-*  字符长度截取
-+----------------------------------------------------------
-*/
-function utf8_substr($str, $width = 0, $end = '', $x3 = 0) {
-	//global $CFG; // 全局变量保存 x3 的值
-	if ($width <= 0 || $width >= strlen($str)) {
-		return $str;
-	}
-	$arr = str_split($str);
-	$len = count($arr);
-	$w = 0;
-	$width *= 10;
-	// 不同字节编码字符宽度系数
-	$x1 = 11;	// ASCII
-	$x2 = 16;
-	$x3 = $x3===0 ? ( $CFG['cf3']  > 0 ? $CFG['cf3']*10 : $x3 = 21 ) : $x3*10;
-	$x4 = $x3;
-	// http://zh.wikipedia.org/zh-cn/UTF8
-	for ($i = 0; $i < $len; $i++) {
-		if ($w >= $width) {
-			$e = $end;
-			break;
-		}
-		$c = ord($arr[$i]);
-		if ($c <= 127) {
-			$w += $x1;
-		}elseif ($c >= 192 && $c <= 223) {	// 2字节头
-			$w += $x2;
-			$i += 1;
-		}elseif ($c >= 224 && $c <= 239) {	// 3字节头
-			$w += $x3;
-			$i += 2;
-		}elseif ($c >= 240 && $c <= 247) {	// 4字节头
-			$w += $x4;
-			$i += 3;
-		}
-	}
-	return implode('', array_slice($arr, 0, $i) ). $e;
-}
-
-
-/**
- * 邮件发送
-
- *
- * @param: $name[string]        接收人姓名
-
- * @param: $email[string]       接收人邮件地址
- * @param: $subject[string]     邮件标题
- * @param: $content[string]     邮件内容
- * @param: $type[int]           0 普通邮件， 1 HTML邮件
- * @param: $notification[bool]  true 要求回执， false 不用回执
- *
- * @return boolean
- */
 function send_mail($name, $email, $subject, $content, $type = 0, $notification=false){
 	Vendor('smtp#class');
     $arr_data=D('System','home')->getMailApi();
@@ -395,30 +346,20 @@ function microtime_str($intfal='0'){
 
 /**
 +----------------------------------------------------------
-* 直接导入
+* 直接导入的扩展文件
 +----------------------------------------------------------
 */
 alias_import(
-            array
-            (
-                     'mc_session'  =>  VENDOR_PATH.'/mc_session.class.php',
-                     'BaseAction'  =>  VENDOR_PATH.'/BaseAction.class.php',
-                     'BaseModel'   =>  VENDOR_PATH.'/BaseModel.class.php',
-                     'Build'       =>  VENDOR_PATH.'/Build.class.php',
-                     'Html'        =>  VENDOR_PATH.'/Html.class.php',
-                     /*添加支付配置*/
-                     'alipay'      =>  VENDOR_PATH.'/class.alipay.php',
-                     'kuaiqian'    =>  VENDOR_PATH.'/class.kuaiqian.php',
-                     'chinapnr'    =>  VENDOR_PATH.'/class.chinapnr.php',
-                     'tenpay'      =>  VENDOR_PATH.'/class.tenpay.php',
-                     'chinapay'    =>  VENDOR_PATH.'/class.chinapay.php',
-                     'cmbchina'    =>  VENDOR_PATH.'/class.cmbchina.php',
-                     'paypal'      =>  VENDOR_PATH.'/class.paypal.php',
-                     'Flexihash'   =>  VENDOR_PATH.'/class.Flexihash.php',
-                     /*SQL解析器*/
-                     'pay'         =>  VENDOR_PATH.'/class.pay.php',
-                     'CreateOrder' =>  VENDOR_PATH.'/CreateOrder.class.php'
-            )
+	array (
+		'mc_session'       =>  VENDOR_PATH.'/mc_session.class.php',
+		'BaseAction'       =>  VENDOR_PATH.'/BaseAction.class.php',
+		'BaseModel'        =>  VENDOR_PATH.'/BaseModel.class.php',
+		'AdminBaseAction'  =>  VENDOR_PATH.'/AdminBaseAction.class.php',
+		'AdminBaseModel'   =>  VENDOR_PATH.'/AdminBaseModel.class.php',
+		'Build'            =>  VENDOR_PATH.'/Build.class.php',
+		'Html'             =>  VENDOR_PATH.'/Html.class.php',
+		'Flexihash'        =>  VENDOR_PATH.'/class.Flexihash.php',
+	)
 );
 
 
@@ -447,15 +388,6 @@ function loadCache($name){
     }
     return $cache;
 }
-/**
-+----------------------------------------------------------
-* 文档状态过滤 自动判断当前是否预览模式
-+----------------------------------------------------------
-*/
-function filterStatus(){
-    return PREVIEW ? array(1,2,'or'):1;
-}
-
 
 /**
 +----------------------------------------------------------

@@ -23,10 +23,32 @@ class BaseAction extends Action {
 			if( $_COOKIE['source_code'] ) setcookie ("source_code", "", time() - 3600);
 			setcookie("source_code",urldecode($_GET['source_code']),time() + C('COOKIE_EXPIRE')*30,C('COOKIE_PATH'),C('COOKIE_DOMAIN') );
 		}
+		//用户身份验证设置
+		$this->userAuthSet();
 		//设置页面Meta
 		$this->meta($this->site_mark);
 		//设定当前时间
 		$this->now = array('time'=>time(),'date'=>date("Y-m-d H:i:s"));
+	}
+
+	/**
+	+----------------------------------------------------------
+	* 获取用户身份验证设置
+	+----------------------------------------------------------
+	* @param array $_SESSION 
+	+----------------------------------------------------------
+	* @return string
+	+----------------------------------------------------------
+	*/
+	public   function userAuthSet(){
+		$this->userInfo = array(
+			'NId'       => $_SESSION[C('USER_AUTH_KEY')]['Nid'] ,
+			'UserId'    => $_SESSION[C('USER_AUTH_KEY')]['UserId'] ,
+			'RealName'  => $_SESSION[C('USER_AUTH_KEY')]['RealName'],
+			'UserType'  => $_SESSION[C('USER_AUTH_KEY')]['UserType'],
+			'LevelId'   => $_SESSION[C('USER_AUTH_KEY')]['LevelId'],
+			'LevelName' => $_SESSION[C('USER_AUTH_KEY')]['LevelName']
+		);
 	}
 
 	/**
