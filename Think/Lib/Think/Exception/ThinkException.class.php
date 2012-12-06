@@ -21,8 +21,7 @@
  * @version   $Id$
  +------------------------------------------------------------------------------
  */
-class ThinkException extends Exception
-{//类定义开始
+class ThinkException extends Exception {
 
     /**
      +----------------------------------------------------------
@@ -46,8 +45,7 @@ class ThinkException extends Exception
      * @param string $message  异常信息
      +----------------------------------------------------------
      */
-    public function __construct($message,$code=0,$extra=false)
-    {
+    public function __construct($message,$code=0,$extra=false) {
         parent::__construct($message,$code);
         $this->type = get_class($this);
         $this->extra = $extra;
@@ -64,42 +62,45 @@ class ThinkException extends Exception
      * @return array
      +----------------------------------------------------------
      */
-    public function __toString()
-    {
+    public function __toString() {
         $trace = $this->getTrace();
-        if($this->extra)
-            // 通过throw_exception抛出的异常要去掉多余的调试信息
+        // 通过throw_exception抛出的异常要去掉多余的调试信息
+        if( $this->extra )
             array_shift($trace);
         $this->class = $trace[0]['class'];
         $this->function = $trace[0]['function'];
         $this->file = $trace[0]['file'];
         $this->line = $trace[0]['line'];
         $file   =   file($this->file);
-        $traceInfo='';
+        $traceInfo = '';
         $time = date("y-m-d H:i:m");
-        foreach($trace as $t) {
+        foreach( $trace as $t ){
             $traceInfo .= '['.$time.'] '.$t['file'].' ('.$t['line'].') ';
             $traceInfo .= $t['class'].$t['type'].$t['function'].'(';
             $traceInfo .= implode(', ', $t['args']);
-            $traceInfo .=")\n";
+            $traceInfo .= ")\n";
         }
         $error['message']   = $this->message;
         $error['type']      = $this->type;
         $error['detail']    = L('_MODULE_').'['.MODULE_NAME.'] '.L('_ACTION_').'['.ACTION_NAME.']'."\n";
-        $error['detail']   .=   ($this->line-2).': '.$file[$this->line-3];
-        $error['detail']   .=   ($this->line-1).': '.$file[$this->line-2];
-        $error['detail']   .=   '<font color="#FF6600" >'.($this->line).': <b>'.$file[$this->line-1].'</b></font>';
-        $error['detail']   .=   ($this->line+1).': '.$file[$this->line];
-        $error['detail']   .=   ($this->line+2).': '.$file[$this->line+1];
-        $error['class']     =   $this->class;
-        $error['function']  =   $this->function;
+        $error['detail']   .= ($this->line-2).': '.$file[$this->line-3];
+        $error['detail']   .= ($this->line-1).': '.$file[$this->line-2];
+        $error['detail']   .= '<font color="#FF6600" >'.($this->line).': <b>'.$file[$this->line-1].'</b></font>';
+        $error['detail']   .= ($this->line+1).': '.$file[$this->line];
+        $error['detail']   .= ($this->line+2).': '.$file[$this->line+1];
+        $error['class']     = $this->class;
+        $error['function']  = $this->function;
         $error['file']      = $this->file;
         $error['line']      = $this->line;
         $error['trace']     = $traceInfo;
-
+        //$error['user']      = $_SESSION['loginUser']['userid'];
+        $error['http_user_agent']   = $_SERVER['HTTP_USER_AGENT'];
+        $error['server_ip']         = $_SERVER['SERVER_ADDR'];
+        $error['from_ip']           = $_SERVER['REMOTE_ADDR'];
+        $error['come_url']          = 'http://'.$_SERVER['SERVER_NAME'].$_SERVER['REDIRECT_URL'];
+        $error['request_method']    = $_SERVER['REQUEST_METHOD'];
         //记录系统日志
         Log::Write('('.$this->type.') '.$this->message);
-
         return $error ;
     }
 

@@ -36,8 +36,7 @@ abstract class Action extends Think
      * @access public
      +----------------------------------------------------------
      */
-    public function __construct()
-    {    
+    public function __construct() {
         //实例化视图类
         $this->view       = Think::instance('View');
         //模版主题名称

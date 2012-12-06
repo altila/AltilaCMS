@@ -18,50 +18,37 @@ return array(
     
 	
 	'DB_CONFIGS'=>array(
-		/*openshop*/
-		'default'=>array(
-			'dbms'=>'mysql',
-			'username'=>'openmall',
-			'password'=>'123',
-			'hostname'=>'10.100.200.22:3307',
-			//'username'=>'admin',
-			//'password'=>'admin52',
-			//'hostname'=>'192.168.149.52',
-			'hostport'=>'3306',
-			'database'=>'openshop',
-			//'database'=>'bgcmsdb',
-			'charset'=>'utf8',
-			'prefix'=>'think_',
-			'suffix'=>'',
-			'deploy'=>1,
-			'rw_separate'=>true
+		/*默认主库*/
+		'default' => array(
+			'dbms'        => 'mysql',
+			'username'    => 'root',
+			'password'    => '',
+			'hostname'    => '127.0.0.1',
+			'hostport'    => '3306',
+			'database'    => 'mysql',
+			'charset'     => 'utf8',
+			'prefix'      => 'think_',
+			'suffix'      => '',
+			'deploy'      => 1,
+			'rw_separate' =>true
 		), 
 
 
 	),
 
 
- 	'TAGLIB_BUILD_IN'       =>'think,cx,Ibanggo',
-	
-	'USER_ID_COOKIETIME'=>3600,//用户ID保存cookie过期时间
-	'AUTOLOGINUSER_COOKIETIME'=>3600,//自动登录cookie过期时间
-	
-    
-
+	'TAGLIB_BUILD_IN'       =>'think,cx,Ibanggo',
 	/* Cookie设置 */
-    'COOKIE_EXPIRE'         => 86400,    // Coodie有效期
-    'COOKIE_DOMAIN'         => '.chenqiang.com',      // Cookie有效域名
-    'COOKIE_PATH'           => '/',     // Cookie路径
-    'COOKIE_PREFIX'         => 'banggo_',      // Cookie前缀 避免冲突
-    'MUCH_DOMAIN'           =>true,
- 
-	'DOMAIN' => 'chenqiang.com', 
-    'URL_ROUTER_ON'=>true,
-   'HTML_CACHE_ON'=>false,
-   'CACHE_TYPE'=>'file',
-   'HTML_PATH'=>'./b/',
-   'LOAD_EXT_CONFIG' =>'ext.php',
-   'SEARCH_URL' =>'http://meterbonwer.chenqiang.com',
+	'COOKIE_EXPIRE'         => 86400,    // Coodie有效期
+	'COOKIE_DOMAIN'         => strchr($_SERVER['HTTP_HOST'],'.'),      // Cookie有效域名
+	'MUCH_DOMAIN'           => true,
+
+	'DOMAIN' => strchr($_SERVER['HTTP_HOST'],'.'), //域名
+	'URL_ROUTER_ON' => true,
+	'HTML_CACHE_ON' => false,
+	'CACHE_TYPE' => 'file',
+	'HTML_PATH' => './b/',
+	'LOAD_EXT_CONFIG' => 'staticFile.php',
     
 
 

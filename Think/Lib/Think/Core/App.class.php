@@ -33,12 +33,10 @@ class App
      * @return void
      +----------------------------------------------------------
      */
-    static public function init()
-    {
+    static public function init() {
         // 设定错误和异常处理
         set_error_handler(array('App','appError'));
         set_exception_handler(array('App','appException'));
-
         // 加载全局编译缓存
         if(is_file(RUNTIME_PATH.'~app.php') && filemtime(RUNTIME_PATH.'~app.php')>filemtime(ROOT_PATH.'Conf/config.php')) {
             // 直接读取编译缓存文件
@@ -48,11 +46,8 @@ class App
             App::build();
         }
 
-
-
         // 加载站点扩展配置文件 不纳入编译缓存 便于动态加载
         load_ext_config();
-
         // 设置系统时区
         date_default_timezone_set(C('DEFAULT_TIMEZONE'));
         // 注册AUTOLOAD方法
@@ -61,7 +56,6 @@ class App
         Route::dispatch();
         // 加载语言包
         load_lang_pack();
-
         return ;
     }
 
@@ -159,30 +153,17 @@ class App
      */
     static public function run() {
         App::init();
-
         $plugin   =  C('APP_PLUGIN_ON');
-
         // 项目初始化标签
         if($plugin)   tag('app_init');
-
-
-        if(C('SESSION_AUTO_START'))
-        {
-
-            if(C('MUCH_DOMAIN')){
-            	ini_set("session.cookie_domain", C('COOKIE_DOMAIN'));
-          	  	//session_set_cookie_params(C('COOKIE_EXPIRE'), C('COOKIE_PATH'), C('COOKIE_DOMAIN'));
-				//session_id((isset($_COOKIE['bg_sid']) && !empty($_COOKIE['bg_sid']))?$_COOKIE['bg_sid']:md5(uniqid(mt_rand(), true)));
-	    		//setcookie('bg_sid' ,session_id(), time()+1200, C('COOKIE_PATH'),  C('COOKIE_DOMAIN'));
-            }
+        if(C('SESSION_AUTO_START')) {
+            if(C('MUCH_DOMAIN')) ini_set("session.cookie_domain", C('COOKIE_DOMAIN'));
             session_start(); // Session初始化
         }
-
         // 项目运行标签
         if($plugin)   tag('app_begin');
         // 记录应用初始化时间
         if(C('SHOW_RUN_TIME'))  G('initTime');
-
         App::exec();
         // 保存日志记录
         if(C('LOG_RECORD')) Log::save();
@@ -204,8 +185,7 @@ class App
      */
     static public function appException($e)
     {
-        dump($e);
-		halt($e->__toString());
+        halt($e->__toString());
     }
 
     /**

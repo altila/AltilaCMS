@@ -84,7 +84,7 @@ class View extends Think
         else
             return false;
     }
-
+    
     // 调试页面所有的模板变量
     public function traceVar(){
         foreach ($this->tVar as $name=>$val){
@@ -105,8 +105,7 @@ class View extends Think
      * @return mixed
      +----------------------------------------------------------
      */
-    public function display($templateFile='',$charset='',$contentType='')
-    {
+    public function display($templateFile='',$charset='',$contentType='') {
         $this->fetch($templateFile,$charset,$contentType,true);
     }
 
@@ -124,14 +123,14 @@ class View extends Think
      * @return mixed
      +----------------------------------------------------------
      */
-    public function fetch($templateFile='',$charset='',$contentType='',$display=false)
-    {
+    public function fetch($templateFile='',$charset='',$contentType='',$display=false) {
         G('_viewStartTime');
         if(empty($charset))  $charset = C('DEFAULT_CHARSET');
         if(empty($contentType)) $contentType = C('TMPL_CONTENT_TYPE');
         // 网页字符编码
         header("Content-Type:".$contentType."; charset=".$charset);
         header("Cache-control: private");  //支持页面回跳
+        //header("X-Powered-By:TOPThink".THINK_VERSION);
         header("Cache-Control: no-cache, must-revalidate");
         header("Pragma: no-cache");
         //页面缓存
@@ -142,7 +141,16 @@ class View extends Think
         $this->templateFile   =  $templateFile;
         // 模板缓存文件
         $tmplCacheFile = C('CACHE_PATH').md5($templateFile).C('TMPL_CACHFILE_SUFFIX');
-        Think::instance('ThinkTemplate')->fetch($templateFile,$this->tVar);
+        // 判断模板缓存有效
+        if(check_tmpl_cache($templateFile,$tmplCacheFile)) {
+            // 分解模板阵列变量
+            extract($this->tVar, EXTR_OVERWRITE);
+            //载入模版缓存文件
+            include $tmplCacheFile;
+        }else{
+            // 调用模板引擎解析和输出
+            Think::instance('ThinkTemplate')->fetch($templateFile,$this->tVar);
+        }
         // 获取并清空缓存
         $content = ob_get_clean();
         // 模板内容替换

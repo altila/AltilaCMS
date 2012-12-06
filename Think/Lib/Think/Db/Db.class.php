@@ -15,47 +15,46 @@
  * TOPThink 数据库抽象层 支持分布式
  +------------------------------------------------------------------------------
  */
-class Db extends Think
-{
+class Db extends Think {
 
     // 是否自动释放查询结果
-    protected $autoFree         = false;
+    protected $autoFree     = false;
     // 是否显示调试信息 如果启用会在日志文件记录sql语句
-    public $debug             = true;
+    public $debug           = true;
     // 当前数据库类型
-    protected $dbType   = '';
+    protected $dbType       = '';
     // 是否采用分布式部署
-    public $deploy  = 0;
+    public $deploy          = 0;
     // 是否使用永久连接
-    protected $pconnect         = false;
+    protected $pconnect     = false;
     // 当前SQL指令
-    protected $queryStr          = '';
+    protected $queryStr     = '';
     // 最后插入ID
-    public $lastInsID         = null;
+    public $lastInsID       = null;
     // 返回或者影响记录数
-    protected $numRows        = 0;
+    protected $numRows      = 0;
     // 返回字段数
-    protected $numCols        = 0;
+    protected $numCols      = 0;
     // 事务指令数
-    protected $transTimes     = 0;
+    protected $transTimes   = 0;
     // 错误信息
-    protected $error              = '';
+    protected $error        = '';
     // 数据库连接ID 支持多个连接
-    protected $linkID              = array();
+    protected $linkID       = array();
     // 当前连接ID
-    public $_linkID            =   null;
+    public $_linkID         = null;
     // 当前查询ID
-    public  $queryID          = null;
+    public  $queryID        = null;
     // 是否已经连接数据库
-    protected $connected       = false;
+    protected $connected    = false;
     // 数据库连接参数配置
-    protected $config             = '';
+    protected $config       = '';
     // SQL 执行时间记录
     protected $beginTime;
     // 数据库表达式
-    protected $comparison      = array('eq'=>'=','neq'=>'!=','gt'=>'>','egt'=>'>=','lt'=>'<','elt'=>'<=','notlike'=>'NOT LIKE','like'=>'LIKE');
+    protected $comparison   = array('eq'=>'=','neq'=>'!=','gt'=>'>','egt'=>'>=','lt'=>'<','elt'=>'<=','notlike'=>'NOT LIKE','like'=>'LIKE');
     // 查询表达式
-    protected $selectSql  =     'SELECT%DISTINCT% %FIELDS% FROM %TABLE%%JOIN%%WHERE%%GROUP%%HAVING%%ORDER%%LIMIT% %UNION%';
+    protected $selectSql    = 'SELECT%DISTINCT% %FIELDS% FROM %TABLE%%JOIN%%WHERE%%GROUP%%HAVING%%ORDER%%LIMIT% %UNION%';
 
     /**
      +----------------------------------------------------------
@@ -69,15 +68,11 @@ class Db extends Think
      * @return mixed 返回数据库驱动类
      +----------------------------------------------------------
      */
-    public static function getInstance($db_config='')
-    {
+    public static function getInstance($db_config=''){
         static $_instance  =  array();
-        
-          $identify =  to_guid_string($db_config);
-        ;
+        $identify =  to_guid_string($db_config);
         if (!isset($_instance[$identify])){
             $config   =   self::parseConfig($db_config);
-             
             // 数据库类型
             $dbType = ucwords(strtolower($config['dbms']));
             // 读取系统数据库驱动目录
@@ -86,7 +81,6 @@ class Db extends Think
             // 检查驱动类
             if(class_exists($dbClass)) {
                 $db = new $dbClass($config);
-               
                 // 获取当前的数据库类型
                 if( 'pdo' != strtolower($config['dbms']) )
                     $db->dbType = strtoupper($dbType);
@@ -178,8 +172,7 @@ class Db extends Think
      * @return array
      +----------------------------------------------------------
      */
-    static public function parseDSN($dsnStr)
-    {
+    static public function parseDSN($dsnStr){
         if( empty($dsnStr) ){return false;}
         $info = parse_url($dsnStr);
         if($info['scheme']){
@@ -234,13 +227,10 @@ class Db extends Think
      */
     protected function initConnect($master=true) {
         if(1 == $this->config['deploy']){
- 
         	return  $this->_linkID = $this->multiConnect($master);
-        	  
-//             采用分布式数据库 
-//                $t = $this->multiConnect($master);
-//                
-//              return $this->_linkID[$t];
+//          采用分布式数据库 
+//          $t = $this->multiConnect($master);
+//          return $this->_linkID[$t];
         }
         else
             // 默认单数据库
@@ -268,29 +258,23 @@ class Db extends Think
                 $_tconfig[$this->config['database']][$key]=explode(',',$val);
             }
         }
-        
         $_config= $_tconfig[$this->config['database']];
         //数据库读写是否分离
         //if(C('DB_RW_SEPARATE')){
 		if($this->config['rw_separate'] && count($_config['hostname'])>1){
-          
         // 主从式采用读写分离
             if($master){
                 // 默认主服务器是连接第一个数据库配置
                  $r  =   0;
             }
             else{
- 
                 // 读操作连接从服务器
- 
-                    $r = floor(mt_rand(1,count($_config['hostname'])-1));   // 每次随机连接的数据库
-             // echo '<br>';
+                $r = floor(mt_rand(1,count($_config['hostname'])-1));   // 每次随机连接的数据库
             }
         }else{
             // 读写操作不区分服务器
             $r = floor(mt_rand(0,count($_config['hostname'])-1));   // 每次随机连接的数据库
         }
-        
         $db_config = array(
             'username'  =>   isset($_config['username'][$r])?$_config['username'][$r]:$_config['username'][0],
             'password'   =>   isset($_config['password'][$r])?$_config['password'][$r]:$_config['password'][0],
@@ -301,18 +285,8 @@ class Db extends Think
             'dsn'          =>   isset($_config['dsn'][$r])?$_config['dsn'][$r]:$_config['dsn'][0],
             'params'     =>   isset($_config['params'][$r])?$_config['params'][$r]:$_config['params'][0],
         );
-        
-         return $this->connect($db_config,$r);
+        return $this->connect($db_config,$r);
     }
-    /**
-     +----------------------------------------------------------
-     * 数据库调试 记录当前SQL
-     +----------------------------------------------------------
-     * @access protected
-     +----------------------------------------------------------
-     */
-    
- 
     
     /**
      +----------------------------------------------------------
@@ -809,7 +783,7 @@ class Db extends Think
         return $this->query($sql);
     }
     
-        /**
+    /**
      +----------------------------------------------------------
      * 给表添加前缀
      +----------------------------------------------------------
@@ -891,8 +865,7 @@ class Db extends Think
      * @access public
      +----------------------------------------------------------
      */
-    public function __destruct()
-    {
+    public function __destruct(){
         // 关闭连接
         $this->close();
     }
