@@ -6,8 +6,9 @@
 			<?php $condition = "status=1&is_hide=0&sid=" . getLang();?>
 			<model model="Menu" app="Home" fun="getTree" condition="$condition" order="" limit="" key="i" result="menu">
 			<if condition=" ($menu['show_position']&2) == 2 ">
-			<li class="dropdown">				
-				<if condition=" !empty($menu['_child']) ">
+			
+			<if condition=" !empty($menu['_child']) ">
+			<li class="dropdown">
 				<a data-toggle="dropdown" class="dropdown-toggle" <eq name="menu['is_highlight']" value="1">class="red"</eq> href="#" title="{$menu['name']}"><span>{$menu['name']}</span><i class="caret"></i></a>
 				{// 显示子集 开始}
 				<ul class="dropdown-menu">
@@ -16,10 +17,12 @@
 					</volist>
 				</ul>
 				{// 显示子集 结束}
-				<else />
-				<a data-toggle="dropdown" class="dropdown-toggle" <eq name="menu['is_open']" value="1">target="_blank"</eq> <eq name="menu['is_highlight']" value="1">class="red"</eq> href="{:getUrl( $menu['model'], $menu )}" title="{$menu['name']}"><span>{$menu['name']}</span></a>
-				</if>
 			</li>
+			<else />
+			<li>
+				<a <eq name="menu['is_open']" value="1">target="_blank"</eq> <eq name="menu['is_highlight']" value="1">class="red"</eq> href="{:getUrl( $menu['model'], $menu )}" title="{$menu['name']}"><span>{$menu['name']}</span></a>
+			</li>
+			</if>
 			</if>
 			</model>
 			

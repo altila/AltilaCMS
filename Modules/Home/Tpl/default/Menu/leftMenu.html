@@ -1,25 +1,19 @@
-<div class="">
-	<model model="$modelName" fun="$functionName" condition="$condition" order="" limit="" key="i" result="leftMenu">
-
-	<div class="">
-		<volist name="leftMenu['crumbs']" id="crumbs">
-		<a title="{$crumbs['name']}" href="{:getUrl( MODULE_NAME, $crumbs )}">{$crumbs['name']}</a> &gt;  &gt; 
-		</volist>
-	</div>
-
-	<volist name="leftMenu['list']" id="list">
-	<div class="">
-		<h2><a title="{$list['name']}" href="{:getUrl( $categoryName, $list )}">{$list['name']}</a></h2>
-		<ul>
-			<volist name="list['_child']" id="vo">
-			<li><a class=" <eq name="_REQUEST[getModelPk(MODULE_NAME)]" value="$vo[getModelPk(MODULE_NAME)]">1</eq> " title="{$vo['name']}" href="{:getUrl( MODULE_NAME, $vo )}">{$vo['name']}</a></li>
-			</volist>
-		</ul>
-	</div>
+<model model="$modelName" fun="$functionName" condition="$condition" order="" limit="" key="i" result="leftMenu">
+<div class="well sidebar-nav">	
+	<volist name="leftMenu['crumbs']" id="crumbs">
+	<h2><a title="{$crumbs['name']}" href="{:getUrl( MODULE_NAME, $crumbs )}">{$crumbs['name']}</a> &gt;  &gt; </h2>
 	</volist>
 
-	</model>
+	<volist name="leftMenu['list']" id="list">
+	<ul class="nav nav-list">
+		<li class="nav-header"><a title="{$list['name']}" href="{:getUrl( $categoryName, $list )}">{$list['name']}</a></li>
+		<volist name="list['_child']" id="vo">
+		<li><a class=" <eq name="_REQUEST[getModelPk(MODULE_NAME)]" value="$vo[getModelPk(MODULE_NAME)]">1</eq> " title="{$vo['name']}" href="{:getUrl( MODULE_NAME, $vo )}">{$vo['name']}</a></li>
+		</volist>
+	</ul>
+	</volist>
 </div>
+</model>
 
 <?php unset($name,$modelName,$categoryName,$functionName,$condition); ?>
 

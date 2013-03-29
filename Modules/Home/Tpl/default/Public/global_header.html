@@ -8,14 +8,19 @@
 		<meta content="{$head['description']|htmlspecialchars}" name="description"/>
 		<meta content="{$head['keywords']|htmlspecialchars}" name="keywords" />
 		<meta name="Copyright" content="{$head['name']|htmlspecialchars}" />
-		<meta name="viewport" content="width=1024" />
 		<title>{$head['title']|htmlspecialchars}</title>
 		<link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
-		<php>echo get_static_file(array('bootstrap.css',$css.'.css'),'default');</php>
+		<php>echo get_static_file(array('bootstrap.css'),'public');</php>
+		<php>echo get_static_file(array($css.'.css'),'default');</php>
+		<style type="text/css">
+			.nav-header {
+				font-size: 16px;
+				padding: 0;
+			}
+		</style>
 	</head>
 	<body>
-	<php>echo get_static_file(array('jquery.js', 'bootstrap.js'),'default');</php>
-	<php>echo get_static_file(array('jquery-1.4.3.min.js','jquery.cookie.js','jquery.lazyload.js','common.js','a.js'),'public');</php>
+		<php>echo get_static_file(array('jquery-1.9.1.min.js', 'bootstrap.js', 'jquery.cookie.js','jquery.lazyload.js','common.js','a.js'),'public');</php>
 	
 	<require file="Admin,Public/consts_js" />
 
@@ -34,5 +39,5 @@
 		<require file="Home,Menu/menu" />
 
 		<require file="Home,Ad/default" />
-
+	</div>
 

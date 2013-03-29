@@ -1,27 +1,27 @@
 
-	<require file="Home,Ad/bottomAd" />
-
-	<require file="Home,Menu/bottomMenu" />
-
-	<div class="copyright">
-		Copyright &copy; {$head['name']|htmlspecialchars} 2000-<span id="copyrightTime"></span> | {$head['record_no']}
+	<div class="container">
+		<require file="Home,Ad/bottomAd" />
+		
+		<require file="Home,Menu/bottomMenu" />
+		
+		<div class="copyright">
+			Copyright &copy; {$head['name']|htmlspecialchars} 2000-<span id="copyrightTime"></span> | {$head['record_no']}
+		</div>
 	</div>
 
 
 
-<script type="text/javascript">
-	//版权时间
-	$("#copyrightTime").html(new Date().getFullYear());
+		<script type="text/javascript">
+			//版权时间
+			$("#copyrightTime").html(new Date().getFullYear());
 
-	//图片延迟加载;
-	$("img").lazyload({
-		placeholder : defaultImg,
-		effect : "fadeIn"
-		//failurelimit : 20,
-		//threshold : 300
-	});
-</script>
-
-		</div>
+			//图片延迟加载;
+			$("img").lazyload({
+				placeholder : defaultImg,
+				effect : "fadeIn"
+				//failurelimit : 20,
+				//threshold : 300
+			});
+		</script>		
 	</body>
 </html>
