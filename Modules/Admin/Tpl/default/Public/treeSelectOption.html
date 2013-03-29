@@ -1,0 +1,9 @@
+<?php 
+$code = empty($vo[$field['id']]) ? $_REQUEST[$field['id']] : $vo[$field['id']];
+$valueName = empty($valueName) ? getModelPk($moduleName) : $valueName;
+?>
+<model model="$moduleName" app="$appName" fun="getTreeLine" condition="$_condition" order="" limit="" key="i" result="oResult">
+<option <eq name="code" value="$oResult[$valueName]" >selected</eq> value="{$oResult[$valueName]}">{$oResult['childStr']}{$oResult['sort']}.{$oResult['name']}({$oResult['code']})</option>
+</model>
+
+<?php unset($field,$moduleName,$appName,$_condition,$valueName,$code); ?>

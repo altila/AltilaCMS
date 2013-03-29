@@ -1,0 +1,294 @@
+<style>
+.fl-row-3{position:relative;margin:20px;}
+.magic_item{position:absolute; z-index:10;}
+.isPosTest{font-size:12px;}
+.isPosTest p.normal{font-size:8px;height:10px;line-height:10px;}
+.isPosTest p.red{color:red;height:18px;line-height:18px;}
+table#rubikCube { background-color:#CCC; position:absolute; z-index:1; left:0; top:0; border-spacing:1px;}
+#rubikCube td { background-color:#FFF;}
+.border_selected { border:1px solid #F00;}
+</style>
+
+<div class="pageContent">
+	<div class="panelBar">
+		<ul class="toolBar">
+			<li>
+				<label style="text-align:right">边长：</label>
+				<SELECT id="sideLen">
+					<option value="">请选择</option>
+					<option value="98">宽度980</option>
+					<option value="30">宽度720</option>
+				</SELECT>
+			</li>
+			<li>
+				<label style="text-align:right">列数*行数：</label>
+				<INPUT TYPE="text" style="width:80px" id="columnNum" value="" readonly>*<INPUT TYPE="text" style="width:80px" id="rowNum" value="">
+			</li>
+			<li><a class="edit" onclick="createCube()"><span>创建网格</span></a></li>
+			<li><a class="add" onclick="extractUrl('add')"><span>增加新图</span></a></li>
+			<li><a class="edit" onclick="operateCube()"><span>重置魔方</span></a></li>
+			<li>
+				<label style="text-align:right">宽*高：</label>
+				<INPUT TYPE="text" style="width:80px" id="wideNum" value="">*<INPUT TYPE="text" style="width:80px" id="highNum" value="">
+			</li>
+		</ul>
+	</div>
+	<div class="pageFormContent" layoutH="86">
+		<TABLE cellpadding="1" cellspacing="2" width="100%" id="extractUrl">
+			<TR class="extractUrl"><TD>图片地址</TD><TD>跳转链接</TD></TR>
+		</TABLE>
+		<div class="fl-row-3">
+			<TABLE border="0" cellspacing="1" cellpadding="0" id="rubikCube"></TABLE>
+			<div id="J_Beauty">{$vo|htmlspecialchars_decode=ENT_QUOTES}</div>
+		</div>
+	</div>
+	<div class="formBar">
+		<ul>
+			<li><div class="buttonActive"><div class="buttonContent"><button type="submit" id="myCube">保存</button></div></div></li>
+			<li><div class="button"><div class="buttonContent"><button type="button" class="close">取消</button></div></div></li>
+		</ul>
+	</div>
+</div>
+
+
+<script type="text/javascript">
+/**
+* isPos 正方形格子布局的自动对齐
+* @description 在正方形格子布局的自动对齐中，用于判断当前位置是否进入自动对齐范围，并返回目标位置
+* @param {Object} config 配置项
+* @param {Number} config.pos 当前坐标数值（横坐标或纵坐标） 必填
+* @param {Number} config.standard 标准边长 必填
+* @param {Number} [config.offset] 偏移量 默认为0
+* @param {Number} [config.autoRang] 自动对齐范围 默认为10
+* @return {Object} obj 返回对象
+* @return {Boolean} obj.status 当前坐标值是否在自动对齐范围内
+* @return {Number} obj.pos 目标坐标值
+* @example 
+* //配置示例
+* var config = {
+*	pos: 156,
+*	standard: 142,
+*	offset: 3,
+*	autoRang: 10
+* };
+*/
+var isPos = function(config){
+	var pos = parseInt(config.pos, 10),
+		standard = parseInt(config.standard, 10) || 142,
+		offset = parseInt(config.offset, 10) || 0,
+		autoRang = parseInt(config.autoRang, 10) || 10,
+		fixed = parseInt(config.fixed, 10) || 3,
+		targetPos = pos,
+		posStatus = false,
+		r1, r2, referPos, n;
+	if((!pos && pos != 0) || !standard) return {};
+	//计算坐标值的参考值(与标准边长相除)
+	var getReferPos = function(_pos){
+		var z = parseFloat((_pos/standard).toFixed(fixed)),
+			int = parseInt(z, 10);
+		return {
+			z: z,
+			int: int,
+			float: Math.abs(parseFloat((z - int).toFixed(fixed)))
+		};
+	}(pos - offset);
+	n = getReferPos.int;
+	referPos = getReferPos.float;
+	r2 = parseFloat((autoRang/standard).toFixed(fixed));
+	r1 = 1 - r2;
+	if((referPos >= r1 && referPos <= 1) || (referPos <= r2 && referPos >= 0)){
+		n = (referPos >= r1 && referPos <=1) ? (getReferPos.z > 0 ? n+1 : n-1) : n;
+		//计算自动靠齐的目标位置
+		targetPos = n * standard + offset;
+		posStatus = true;
+	}
+	return {
+		status: posStatus,
+		pos: targetPos,
+		z: getReferPos.z,
+		n: n,
+		r: referPos
+	};
+};
+
+function dd(){
+	var mouse_pos = [0,0],moveItem = null,
+		// 位置节点值
+		tempPosition = {top:null, left:null};
+	// 拖动
+	var drag = function(){
+		$.each($(".magic_item"),function(el){
+			$(this).append('<div style="width: 100%; height: 100%; position: absolute; top: 0px; cursor: move;"><span></span></div>');
+			$(this).bind('mousemove', function(ev){
+				drag_code(ev);
+			});
+			$(this).bind('mousedown', function(ev){
+				var nowSrc = $(this).find("img").attr("src")
+				//当前选择图片对应的input框高亮
+				$.each($("#extractUrl input"),function(i){
+					if( nowSrc == $(this).val() ) 
+						$(this).addClass("border_selected");
+				});
+				mouse_pos[0] = ev.clientX;
+				mouse_pos[1] = ev.clientY;
+				this.style.zIndex = "20";
+				moveItem = this;
+			});
+			$(this).bind('mouseup', function(ev){
+				var nowSrc = $(this).find("img").attr("src")
+				//当前选择图片对应的input框取消高亮
+				$.each($("#extractUrl input"),function(i){
+					if( nowSrc == $(this).val() ) 
+						$(this).removeClass("border_selected");
+				});
+				moveItem = null;
+				this.style.zIndex = "10";
+				tempPosition.top = null;
+				tempPosition.left = null;
+			});
+		});
+	}
+	// 拖动核心
+	var drag_code = function(ev){
+		if( !moveItem ) return;
+		var abs_pos = [0, 0],_t, _l;
+		abs_pos[0] = ev.clientX - mouse_pos[0];
+		abs_pos[1] = ev.clientY - mouse_pos[1];
+		mouse_pos[0] = ev.clientX;
+		mouse_pos[1] = ev.clientY;
+		if(tempPosition.top){
+			tempPosition.top += abs_pos[1]*1;
+			_t = tempPosition.top;
+		}else{
+			_t = moveItem.style.top.match(/\-?\d+/)*1 + abs_pos[1]*1;
+		}
+		if(tempPosition.left){
+			tempPosition.left += abs_pos[0]*1;
+			_l = tempPosition.left;
+		}else{
+			_l = moveItem.style.left.match(/\-?\d+/)*1 + abs_pos[0]*1;
+		}
+		var toPosition = {},
+			_standard = $("._sideLen").val() || $("#sideLen").val(),
+			_offset = 0,
+			tPos = isPos({pos:_t, standard: _standard, offset: _offset}),
+			lPos = isPos({pos:_l, standard: _standard, offset: _offset});
+		if(tPos.status && lPos.status){
+			toPosition.left = lPos.pos + "";
+			toPosition.top = tPos.pos + "";
+		}
+		if(toPosition.top && toPosition.left){
+			if(!tempPosition.top || !tempPosition.left){
+				tempPosition.top = _t;
+				tempPosition.left = _l;
+			}
+			_l = toPosition.left;
+			_t = toPosition.top;
+		}
+		if(tempPosition.top === _t && tempPosition.left === _l){
+			tempPosition.top = null;
+			tempPosition.left = null;
+		}
+		moveItem.style.left = _l + "px";
+		moveItem.style.top = _t + "px";
+	};
+	drag();
+}
+dd();
+
+//提取图片、链接
+function extractUrl(type){
+	var str = '',obj = $(".magic_item"),tr = $("tr[class^='extractUrl_']");
+	if( typeof(obj) == 'undefined' || obj == '' || type == 'add' ){
+		str = '<TR class="extractUrl_'+tr.lengh+'"><TD><INPUT TYPE="text" style="width:480px" NAME="imgUrl[]" value=""></TD><TD><INPUT TYPE="text" style="width:480px" NAME="imgLink[]" value=""></TD></TR>';
+	}else{
+		tr.remove();
+		$.each(obj,function(i,n){
+			str += '<TR class="extractUrl_'+i+'"><TD><INPUT TYPE="text" style="width:480px" NAME="imgUrl[]" value="'+$(this).find("img").attr("src")+'"></TD><TD><INPUT TYPE="text" style="width:480px" NAME="imgLink[]" value="'+$(this).find("a").attr("href")+'"></TD></TR>';
+		});
+	}
+	$("#extractUrl").append(str);
+}
+extractUrl();
+
+//操作广告魔方
+function operateCube(){
+	var str = '',_obj = $(".magic_item"),obj = $("tr[class^='extractUrl_']");
+	if( typeof(obj) == 'undefined' || obj == '' ) return;
+	if( $(".magic_box").html() == null ) 
+		$("#J_Beauty").html('<div class="magic_box"><input class="_sideLen" type="hidden" name="_sideLen" value="" /></div>');
+	$.each(obj,function(i,n){
+		if( typeof(_obj[i]) == 'undefined' || _obj[i] == '' ){
+			str = '<div class="magic_item"><a target="_blank" href="'+$(this).find("input").eq(1).val()+'" ><img src="'+$(this).find("input").eq(0).val()+'"></a></div>';
+			$(".magic_box").append(str);
+		}else{
+			_obj.eq(i).find("a").attr({"href":$(this).find("input").eq(1).val()});
+			_obj.eq(i).find("img").attr({"src":$(this).find("input").eq(0).val()});
+			_obj.eq(i).find("div").remove();
+		}
+	});
+	$.each(_obj,function(i,n){
+		if( typeof($(this).find("img").attr("src")) == 'undefined' || $(this).find("img").attr("src") == '' ) 
+			$(this).remove();
+	});
+	dd();
+	extractUrl();
+}
+
+//创建魔方
+function createCube(){
+	var sideLen = $("#sideLen").val(),columnNum = $("#columnNum").val(),rowNum = $("#rowNum").val(),rowStr = '<TR>',str = '';
+	if( sideLen <= 0 || columnNum <= 0 || rowNum <= 0 ) return;
+	for( var i=0;i<columnNum;i++ ){
+		rowStr += '<TD width="'+(sideLen)+'" height="'+(sideLen-1)+'">&nbsp;</TD>';
+	}
+	for( var j=0;j<rowNum;j++ ){
+		str += rowStr;
+	}
+	$("#wideNum").val(sideLen*columnNum);
+	$("#highNum").val(sideLen*rowNum);
+	$("#rubikCube").attr({'width':$("#wideNum").val(),'height':$("#highNum").val()});
+	$("._sideLen").val(sideLen);
+	$("#rubikCube").html(str);
+}
+
+//保存
+$("#myCube").click(function(){
+	var hight = $("#highNum").val();
+	$.each($(".magic_item"),function(i,n){
+		$(this).find("div").remove();
+	});
+	if( hight ) $(".magic_box").attr({'style':'height:'+hight+'px'});
+	var str = $("#J_Beauty").html();
+	if( typeof(str) == 'undefined' || str == '' ){
+		alert('请选择关联分类');
+		return false;
+	}
+	$(".rubikCube").val(str);
+	$.pdialog.closeCurrent();
+});
+
+
+//选择网格尺寸
+(function($){
+	var sideLen = $("._sideLen").val();
+	if( sideLen ){
+		$('#sideLen').val(sideLen);
+		sideLenSelect(sideLen);
+	}
+	$('#sideLen').change(function(){
+		sideLenSelect($(this).val());
+	});
+})(jQuery);
+function sideLenSelect(sl){
+	if( !sl ) return;
+	var cubeArr = {
+		"98":{"cn":"10","rn":"4"},
+		"30":{"cn":"24","rn":"15"}
+	};
+	$("#columnNum").val(cubeArr[sl]['cn']);
+	$("#rowNum").val(cubeArr[sl]['rn']);
+	createCube();
+}
+
+</script>

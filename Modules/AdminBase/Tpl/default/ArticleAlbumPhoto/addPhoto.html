@@ -1,0 +1,35 @@
+
+<li><a class="add" href="javascript:showPhoto();"><span>新增</span></a></li>
+<div style="display: none"><textarea name="showPhoto" rows="5" cols="57" id="showPhoto"></textarea></div>
+
+<if condition=" empty($vo[getModelPk(MODULE_NAME)]) ">
+<php>echo get_static_file(array('editor_all_min.js','editor_config_article.js'),'ueditor');</php>
+<script type="text/javascript">
+/**
++----------------------------------------------------------
+* 显示图片上传组件
++----------------------------------------------------------
+* @access  public
++----------------------------------------------------------
+* @return  void
++----------------------------------------------------------
+* @example showPhoto()
++----------------------------------------------------------
+*/
+function showPhoto(){
+	UE.getEditor('showPhoto', {
+		//dialog内容的路径 ～会被替换成URL,垓属性一旦打开，将覆盖所有的dialog的默认路径
+		iframeUrlMap:{
+			'insertimage':'~/dialogs/image/imageUploader.html',
+		}
+		,isShow : false    //默认显示编辑器
+		,readonly : true //编辑器初始化结束后,编辑区域是否是只读的，默认是false
+		,onready : function(){     //创建一个编辑器实例
+			var dialog = this.getDialog("insertimage");
+			dialog.open();
+		}
+	});
+}
+</script>
+</if>
+

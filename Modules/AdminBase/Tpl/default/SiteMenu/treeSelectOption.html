@@ -1,0 +1,7 @@
+<?php 
+$moduleName = 'SiteMenu';
+$_condition = "sid=" . ( !empty($_REQUEST['sid']) ? $_REQUEST['sid'] : $vo['sid'] ) . ( !empty($modelType) ? '&model=' . $modelType : '' ); 
+$field = empty($field) ? array('id'=>'model_value') : $field;
+?>
+
+<require file="Admin,Public/treeSelectOption" />

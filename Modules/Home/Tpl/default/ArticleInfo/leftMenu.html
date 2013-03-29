@@ -1,0 +1,8 @@
+<?php
+$name = 'Article';
+$modelName = $name . 'Info';
+$categoryName = $name . 'Category';
+$functionName = 'leftMenuInfo';
+$condition = "categoryName=" . $categoryName . "&" . getModelPk($categoryName) . "=" . $info[getModelPk($categoryName)]. "&" . getModelPk($modelName) . "=" . $info[getModelPk($modelName)];
+?>
+<require file="Home,Menu/leftMenu" />

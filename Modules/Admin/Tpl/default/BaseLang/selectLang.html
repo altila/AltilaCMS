@@ -1,0 +1,14 @@
+<div class="tabsHeader">
+	<div class="_tabsHeaderContent">
+		<ul>
+			<?php $condition = "status=1&domain=".$siteMark;?>
+			<model model="SiteWeb" app="Admin" fun="getData" condition="$condition" order="" limit="" key="i" result="swResult">
+			<li <eq name="_REQUEST['sid']" value="$swResult['sid']" >class="selected"</eq> >
+			<a href="__URL__/index?sid={$swResult['sid']}" target='navTab' rel="{:MODULE_NAME}" ><span>{:findById('SiteNode',array('code'=>MODULE_NAME),'name')} - {:findById('BaseLang',array('code'=>$swResult['blcode']),'name')}</span></a>
+			</li>
+			</model>
+		</ul>
+	</div>
+</div>
+
+

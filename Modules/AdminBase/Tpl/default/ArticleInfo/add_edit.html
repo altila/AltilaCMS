@@ -1,0 +1,57 @@
+<php>echo get_static_file(array('editor_all_min.js','editor_config_article.js'),'ueditor');</php>
+
+<div class="pageContent">
+	<form method="post" action="__URL__/<empty name="vo[getModelPk(MODULE_NAME)]">insert<else />update</empty>/navTabId/{:MODULE_NAME}" class="pageForm required-validate" onsubmit="editorSync();return validateCallback(this,dialogAjaxDone);">
+		<input type="hidden" name="{:getModelPk(MODULE_NAME)}" value="{$vo[getModelPk(MODULE_NAME)]}" >
+		<input type="hidden" name="sid" value="<empty name="vo[getModelPk(MODULE_NAME)]">{$_REQUEST['sid']}<else />{$vo['sid']}</empty>" >
+		<input type="hidden" name="smid" value="<empty name="vo[getModelPk(MODULE_NAME)]">{$_REQUEST['smid']}<else />{$vo['smid']}</empty>" >
+		<input type="hidden" name="uid" value="{$userInfo['Uid']}">
+		<input type="hidden" name="update_time" value="{:date("Y-m-d H:i:s")}">
+		<empty name="vo[getModelPk(MODULE_NAME)]"><input type="hidden" name="add_time" value="{:date("Y-m-d H:i:s")}"></empty>
+		<div class="pageFormContent" layoutH="58">
+			<div class="unit">
+				<label>文章名称：</label>
+				<input type="text" class="required"  name="name" value="{$vo['name']}">
+			</div>
+			<!--<div class="unit">
+				<label>文章缩略图：</label>
+				<textarea name="thumbnail" rows="5" cols="20" id="editor_thumbnail"><img src="{$vo['thumbnail']}" /></textarea>
+			</div>-->
+			<div class="unit">
+				<label>文章来源：</label>
+				<input type="text" style="width:400px"  name="source_url" value="{$vo['source_url']}">
+			</div>
+			<div class="unit">
+				<label>文章简述：</label>
+				<textarea name="description" rows="5" cols="57">{$vo['description']}</textarea>
+			</div>
+			<div class="unit">
+				<label>文章内容：</label>
+				<textarea name="content" rows="5" cols="57" id="editor_content">{$vo['content']}</textarea>
+			</div>
+		</div>
+		<div class="formBar">
+			<ul>
+				<li><div class="buttonActive"><div class="buttonContent"><button type="submit">保存</button></div></div></li>
+				<li><div class="button"><div class="buttonContent"><button type="button" class="close">取消</button></div></div></li>
+			</ul>
+		</div>
+	</form>
+</div>
+<script type="text/javascript">UE.getEditor('editor_content');</script>
+<script type="text/javascript">
+	/*UE.getEditor('editor_thumbnail', {
+		//dialog内容的路径 ～会被替换成URL,垓属性一旦打开，将覆盖所有的dialog的默认路径
+		iframeUrlMap:{
+			'insertimage':'~/dialogs/image/imageSelect.html',
+		}
+		//工具栏上的所有的功能按钮和下拉框，可以在new编辑器的实例时选择自己需要的从新定义
+		,toolbars:[ ['source','insertimage'] ]
+		//是否启用元素路径，默认是显示
+		,elementPathEnabled : false
+		,initialFrameWidth:200  //初始化编辑器宽度,默认1000
+		,initialFrameHeight:80  //初始化编辑器高度,默认320
+		,wordCount:false          //是否开启字数统计
+	});*/
+</script>
+

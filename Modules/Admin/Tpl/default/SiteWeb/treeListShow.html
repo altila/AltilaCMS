@@ -1,0 +1,8 @@
+<?php 
+$treeListShowType =  1;
+$condition = empty($condition) ? "status=1&blcode=" . C('DEFAULT_LANG') : $condition;
+$moduleName = 'SiteWeb';
+$order = 'sid';
+$field = empty($field) ? array( 'id'=>'sid','name'=>'domain' ) : $field;
+?>
+<require file="Admin,Public/treeListShow" />

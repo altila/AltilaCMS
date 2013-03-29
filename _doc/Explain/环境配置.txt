@@ -1,0 +1,4 @@
+Apache开启模块：rewrite_module
+根目录下增加.htaccess文件
+
+php.ini中magic_quotes_gpc设置为On 

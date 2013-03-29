@@ -1,0 +1,34 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh-cn">
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<meta content="{$head['description']|htmlspecialchars}" name="description"/>
+		<meta content="{$head['keywords']|htmlspecialchars}" name="keywords" />
+		<meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7" />
+		<meta name="Copyright" content="{$head['name']|htmlspecialchars}" />
+		<meta name="viewport" content="width=1024" />
+		<title>{$head['title']|htmlspecialchars}</title>
+		<link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+		<php>echo get_static_file(array('global.css',$css.'.css'),'default');</php>
+	</head>
+	<body>
+	<php>echo get_static_file(array('jquery-1.4.3.min.js','jquery.cookie.js','jquery.lazyload.js','common.js','a.js'),'public');</php>
+	
+	<require file="Admin,Public/consts_js" />
+
+	{//获取广告js数组 开始}
+	<?php $isEnableAdJs = findById ( 'SiteConfig', array('key'=>'isEnableAdJs','status'=>'1'), 'value' ); ?>
+	<if condition=" $isEnableAdJs == 1 ">
+	<script type='text/javascript' src='{:domain('www')}/Ad/getAdPosList.shtml'></script>
+	</if>
+	{//获取广告js数组 结束}
+
+	<require file="Home,Ad/topAd" />
+
+	<require file="Home,Ad/logo" />
+
+	<require file="Home,Menu/menu" />
+
+	<require file="Home,Ad/default" />
+
+

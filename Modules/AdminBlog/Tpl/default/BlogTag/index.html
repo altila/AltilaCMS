@@ -1,0 +1,81 @@
+<div class="pageContent">
+
+	<div class="tabs">
+
+		<require file="Admin,BaseLang/selectLang" />
+
+		<div class="tabsContent">
+
+			<div>
+
+				<div style="float:left; width:240px; border:1px solid rgb(204, 204, 204); background: none repeat scroll 0% 0% rgb(255, 255, 255);" layouth="35">
+					<?php
+					$href = MODULE_NAME."/index?_group=tag_name&orderField=total&sid=" . $_REQUEST['sid'] . "&smid=";
+					$condition = 'model=4&';
+					?>
+					<require file="AdminBase,SiteMenu/treeListShow" />
+				</div>
+
+				<div class="unitBox" style="margin-left:246px;">
+
+					<require file="Admin,Public/pagerForm" />
+
+					<if condition=" !empty($_REQUEST['smid']) ">
+					<div class="pageHeader">
+						<form onsubmit="return navTabSearch(this);" action="__URL__" method="post">
+							<div class="searchBar">
+								<ul class="searchContent">
+									<li>
+										<label>博文标签：</label>
+										<input type="text" name="name" value="{$_REQUEST['name']}" >
+									</li>
+
+									<input type="hidden" name="sid" value="{$_REQUEST['sid']}" >
+									<input type="hidden" name="smid" value="{$_REQUEST['smid']}" >
+									<input type="hidden" name="_group" value="{$_REQUEST['_group']}" >
+									<input type="hidden" name="orderField" value="{$_REQUEST['_order']}" >
+									<div class="subBar">
+										<div class="buttonActive"><div class="buttonContent"><button type="submit">查询</button></div></div>
+									</div>
+
+								</ul>
+							</div>
+						</form>
+					</div>
+					</if>
+
+					<table class="table" width="100%" layoutH="117">
+						<thead>
+							<tr>
+								<th width="">博文标签</th>
+								<th width="">博文数量</th>
+							</tr>
+						</thead>
+						<tbody>
+							<if condition=" !empty($_REQUEST['smid']) ">
+							<volist id="vo" name="list">
+							<tr target="_id" rel="{$vo[getModelPk(MODULE_NAME)]}">
+								<td>{$vo['tag_name']}</td>
+								<td>{$vo['total']}</td>
+							</tr>
+							</volist>
+							</if>
+						</tbody>
+					</table>
+
+					<div class="panelBar">
+						<div class="pages">
+							<span>共<if condition=" !empty($_REQUEST['smid']) ">{$totalCount}<else/>0</if>条</span>
+						</div>
+						<div class="pagination" targetType="navTab" totalCount="{$totalCount}" numPerPage="{$numPerPage}" pageNumShown="10" currentPage="{$currentPage}"></div>
+					</div>
+
+				</div>
+
+			</div>
+
+		</div>
+	</div>
+
+</div>
+

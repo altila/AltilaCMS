@@ -1,0 +1,23 @@
+<require file="Home,Public/global_header" />
+
+<?php $condition = "status=1&sid=" . getLang(); ?>
+<model model="Menu" app="Home" fun="getTree" condition="$condition" order="" limit="" key="i">
+<div class="">
+	<h2><a target="_blank" href="{:getUrl( $result['model'], $result )}" title="{$result['name']}">{$result['name']}</a></h2>
+	<ul>
+		<volist name="result['_child']" id="vo">
+		<li><a target="_blank" href="{:getUrl( $vo['model'], $vo )}" title="{$vo['name']}">{$vo['name']}<if condition="!empty($vo['_child'])">:</if></a></li>
+		<ul>
+			<volist name="vo['_child']" id="v">
+			<li><a target="_blank" href="{:getUrl( $v['model'], $v )}" title="{$v['name']}">{$v['name']}</a></li>
+			</volist>
+		</ul>
+		</volist>
+	</ul>
+</div>
+</model>
+
+<?php unset($condition); ?>
+
+<require file="Home,Public/global_footer" />
+

@@ -1,0 +1,11 @@
+<div class="">
+	<?php $condition = "isListTree=1&status=1&sid=" . getLang()?>
+	<model model="Menu" app="Home" fun="getTree" condition="$condition" order="" limit="" key="i" result="bottomMenu">
+	<if condition=" ($bottomMenu['show_position']&4) == 4 ">
+	<a target="_blank" href="{:getUrl( $bottomMenu['model'], $bottomMenu )}" title="{$bottomMenu['name']}">{$bottomMenu['name']}</a>
+	</if>
+	</model>
+	<a target="_blank" href="{:getUrl( 'SiteMap' )}" title="网站地图">网站地图</a>
+</div>
+<?php unset($condition); ?>
+

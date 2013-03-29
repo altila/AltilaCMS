@@ -1,0 +1,16 @@
+<div class="accordion" fillSpace="sideBar">
+	<model model="Public" app="Admin" fun="getMenu" condition="status=1" order="" limit="" key="i" result="leftResult">
+	<if condition=" GROUP_NAME == $leftResult['code'] ">
+	<volist name="leftResult['_child']" id="vo">
+	<div class="accordionHeader" >
+		<h2><span>Folder</span>{$vo['name']}</h2>
+	</div>
+	<div class="accordionContent" <neq name="key" value="0">style="height: 215px; display: none;"</neq> >
+		<?php $condition = array('target'=>'navTab', 'class'=>' collapse');?>
+		{$vo['_child']|drawTree=$condition}
+	</div>
+	</volist>
+	</if>
+	</model>
+</div>
+

@@ -1,0 +1,127 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh-cn">
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<title>CMS管理系统</title>
+
+		<php>echo get_static_file(array('style.css','core.css'),'dwz');</php>
+		<!--[if IE]>
+		<php>echo get_static_file(array('ieHack.css'),'dwz');</php>
+		<![endif]-->
+		<style type="text/css">
+			#header{height:30px}
+			#leftside, #container, #splitBar, #splitBarProxy{top:31px}
+		</style>
+
+		<php>echo get_static_file(array('jquery-1.4.4.min.js','jquery.cookie.js','jquery.validate.js','jquery.bgiframe.js','speedup.js','common.js'),'public');</php>
+		<php>echo get_static_file(array('common.js'),'admin');</php>
+		<php>echo get_static_file(array('dwz.min.js','dwz.regional.zh.js'),'dwz');</php>
+
+		<php>//echo get_static_file(array('accordion.js','ajax.js','alertMsg.js','barDrag.js','checkbox.js','combox.js','contextmenu.js','core.js','cssTable.js','database.js','datepicker.js','dialog.js','dialogDrag.js','drag.js','effects.js','history.js','navTab.js','pagination.js','panel.js','resize.js','scrollCenter.js','stable.js','switchEnv.js','tab.js','taskBar.js','theme.js','tree.js','ui.js','util.date.js','validate.method.js','dwz.regional.zh.js'),'dwz');</php>
+
+		<require file="Admin,Public/consts_js" />
+
+
+<script type="text/javascript">
+function navTabAjaxMenu(json){
+	navTabAjaxDone(json);
+	if (json.statusCode == DWZ.statusCode.ok){
+		$("#sidebar").loadUrl("__GROUP__/Public/menu");
+	}
+}
+$(function(){
+	DWZ.init("__PUBLIC__/dwz/xml/dwz.frag.xml", {
+		loginUrl:"login_dialog.html", loginTitle:"登录",	// 弹出登录对话框
+//		loginUrl:"login.html",	// 跳到登录页面
+		statusCode:{ok:200, error:300, timeout:301}, //【可选】
+		pageInfo:{pageNum:"pageNum", numPerPage:"numPerPage", orderField:"orderField", orderDirection:"orderDirection"}, //【可选】
+		debug:false,	// 调试模式 【true|false】
+		callback:function(){
+			initEnv();
+			$("#themeList").theme({themeBase:"themes"}); // themeBase 相对于index页面的主题base路径
+		}
+	});
+});
+//清理浏览器内存,只对IE起效，FF不需要
+if ($.browser.msie) {
+	window.setInterval("CollectGarbage();", 10000);
+}
+</script>
+</head>
+
+<body scroll="no">
+	<div id="layout">
+		<div id="header">
+			<div id="navMenu">
+				<ul>
+					<model model="Public" app="Admin" fun="getMenu" condition="status=1" order="" limit="" key="i" result="topResult">
+					<li <if condition=" GROUP_NAME == $topResult['code'] ">class="selected"</if> ><a href="__APP__/{$topResult['code']}/Index/leftMenu"><span>{$topResult['name']}</span></a></li>
+					</model>
+				</ul>
+			</div>
+		</div>
+
+		<div id="leftside">
+			<div id="sidebar_s">
+				<div class="collapse">
+					<div class="toggleCollapse"><div></div></div>
+				</div>
+			</div>
+			<div id="sidebar">
+				<div class="toggleCollapse"><h2>主菜单</h2><div>收缩</div></div>
+				<require file="Admin,Index/leftMenu" />
+			</div>
+
+		</div>
+		<div id="container">
+			<div id="navTab" class="tabsPage">
+				<div class="tabsPageHeader">
+					<div class="tabsPageHeaderContent"><!-- 显示左右控制时添加 class="tabsPageHeaderMargin" -->
+						<ul class="navTab-tab">
+							<li tabid="main" class="main"><a href="javascript:;"><span><span class="home_icon">我的主页</span></span></a></li>
+						</ul>
+					</div>
+					<div class="tabsLeft">left</div><!-- 禁用只需要添加一个样式 class="tabsLeft tabsLeftDisabled" -->
+					<div class="tabsRight">right</div><!-- 禁用只需要添加一个样式 class="tabsRight tabsRightDisabled" -->
+					<div class="tabsMore">more</div>
+				</div>
+				<ul class="tabsMoreList">
+					<li><a href="javascript:;">我的主页</a></li>
+				</ul>
+				<div class="navTab-panel tabsPageContent layoutBox">
+					<div>
+						<div class="accountInfo">
+							<div class="alertInfo">
+								<p><a target="ajaxTodo" title="你确定要删除吗？" href="{:domain('Admin')}/Public/clearCache"><span>[清楚文件缓存]</span></a></p>
+								<p><a target="_blank" title="网站主页" href="{:domain('www')}"><span>[网站主页]</span></a></p>
+							</div>
+							<div class="right">
+								<p>{$nowTime['date']}</p>
+								<p>{:get_client_ip()}</p>
+							</div>
+							<p><span>{$Think['config']['sitename']}</span></p>
+							<p>Welcome, {$userInfo['UserId']}({$userInfo['Uid']})   
+								<a href="{:domain('Login')}/Logout"><span>[退出]</span></a>  
+							</p>
+						</div>
+						<div class="pageFormContent" layoutH="80">
+							<div class="divider"></div>
+							<h2>本日计划:</h2>
+							<pre style="margin: 5px; line-height: 1.4em;"></pre>
+							<div class="divider"></div>
+							<h2>工作流:</h2>
+						</div>
+					</div>
+				</div>
+					
+				</div>
+			</div>
+		</div>
+
+	</div>
+
+	<div id="footer">Copyright &copy; 2010 <a href="#" target="dialog">CMS管理系统</a></div>
+</body>
+</html>
+

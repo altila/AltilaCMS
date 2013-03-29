@@ -1,0 +1,18 @@
+<model model="$moduleName" app="$appName" fun="getTree" condition="$condition" order="$order" limit="" key="i">
+<if condition="$treeListShowType == 1">
+
+<ul class="tree treeFolder collapse">
+	<li><a rel="{:MODULE_NAME}" target="navTab" href="__GROUP__/{:MODULE_NAME}/index?{$field['id']}={$result[$field['id']]}">{$result[$field['name']]}</a></li>
+</ul>
+
+<else />
+
+<?php 
+$href = empty($href) ? MODULE_NAME."/index?sid=" . $_REQUEST['sid'] . "&".getModelPk($moduleName)."=" : $href;
+$_condition = array( 'field'=>getModelPk($moduleName), 'target'=>'navTab', 'class'=>' expand', 'rel'=>MODULE_NAME, 'href'=>$href );
+?>
+{$result|drawTree=$_condition}
+
+</if>
+</model>
+<?php unset($_condition,$appName,$href); ?>

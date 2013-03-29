@@ -1,0 +1,102 @@
+<div class="pageContent">
+
+	<div class="tabs">
+
+		<require file="Admin,BaseLang/selectLang" />
+
+		<div class="tabsContent">
+
+			<div>
+
+				<div style="float:left; width:240px; border:1px solid rgb(204, 204, 204); background: none repeat scroll 0% 0% rgb(255, 255, 255);" layouth="35">
+					<include file="AdPosition:treeListShow" />
+				</div>
+
+				<div class="unitBox" style="margin-left:246px;">
+
+					<require file="Admin,Public/pagerForm" />
+
+					<div class="pageHeader">
+						<form onsubmit="return navTabSearch(this);" action="__URL__" method="post">
+							<div class="searchBar">
+								<ul class="searchContent">
+									<li>
+										<label>广告ID：</label>
+										<input type="text" name="adid" value="{$_REQUEST['adid']}" >
+									</li>
+									<li>
+										<label>开始时间：</label>
+										<input type="text" name="start_time"  value="{$_REQUEST['start_time']}" class="date" format="yyyy-MM-dd HH:mm" readonly="true"/>
+									</li>
+									<li>
+										<label>结束时间：</label>
+										<input type="text" name="end_time"  value="{$_REQUEST['end_time']}" class="date" format="yyyy-MM-dd HH:mm" readonly="true"/>
+									</li>
+
+									<input type="hidden" name="sid" value="{$_REQUEST['sid']}" >
+									<input type="hidden" name="apid" value="{$_REQUEST['apid']}" >
+									<div class="subBar">
+										<div class="buttonActive"><div class="buttonContent"><button type="submit">查询</button></div></div>
+									</div>
+
+								</ul>
+							</div>
+						</form>
+					</div>
+
+					<if condition=" !empty($_REQUEST['apid']) ">
+					<div class="panelBar">
+						<ul class="toolBar">
+							<li><a class="add" rel="add" href="__URL__/add?sid={$_REQUEST['sid']}&apid={$_REQUEST['apid']}" target="dialog" mask="true"><span>新增</span></a></li>
+							<li><a class="delete" href="__URL__/delete?{:getModelPk(MODULE_NAME)}={_id}" target="ajaxTodo" title="你确定要删除吗？" warn="请选择数据"><span>删除</span></a></li>
+							<li><a class="edit" rel="edit" href="__URL__/edit?{:getModelPk(MODULE_NAME)}={_id}" target="dialog" mask="true" warn="请选择数据"><span>修改</span></a></li>
+						</ul>
+					</div>
+					</if>
+
+					<table class="table" width="100%" layoutH="143">
+						<thead>
+							<tr>
+								<th width="50">编号</th>
+								<th width="">广告名称</th>
+								<th width="">开始时间</th>
+								<th width="">结束时间</th>
+								<th width="55" orderField="sort" <if condition="$_REQUEST['orderField'] eq 'sort'">class="{$_REQUEST['orderDirection']}"</if> >广告排序</th>
+								<th width="130">更新时间</th>
+								<th width="35" orderField="status" <if condition="$_REQUEST['orderField'] eq 'status'">class="{$_REQUEST['orderDirection']}"</if> >状态</th>
+							</tr>
+						</thead>
+						<tbody>
+							<if condition=" !empty($_REQUEST['apid']) ">
+							<volist id="vo" name="list">
+							<tr target="_id" rel="{$vo[getModelPk(MODULE_NAME)]}">
+								<td>{$vo[getModelPk(MODULE_NAME)]}</td>
+								<td>{:findById('AdInfo',$vo['adid'],'name')}</td>
+								<td>{$vo['start_time']}</td>
+								<td>{$vo['end_time']}</td>
+								<td>{$vo['sort']}</td>
+								<td>{$vo['update_time']}</td>
+								<td>{$vo['status']|showStatus=$vo[getModelPk(MODULE_NAME)],'',getModelPk(MODULE_NAME)}</td>
+							</tr>
+							</volist>
+							</if>
+						</tbody>
+					</table>
+
+					<div class="panelBar">
+						<div class="pages">
+							<span>共<if condition=" !empty($_REQUEST['apid']) ">{$totalCount}<else/>0</if>条</span>
+						</div>
+						<div class="pagination" targetType="navTab" totalCount="{$totalCount}" numPerPage="{$numPerPage}" pageNumShown="10" currentPage="{$currentPage}"></div>
+					</div>
+
+				</div>
+
+			</div>
+
+		</div>
+	</div>
+
+</div>
+
+

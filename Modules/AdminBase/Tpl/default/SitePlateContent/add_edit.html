@@ -1,0 +1,82 @@
+<div class="pageContent">
+	<form method="post" action="__URL__/<empty name="vo[getModelPk(MODULE_NAME)]">insert<else />update</empty>/navTabId/{:MODULE_NAME}" class="pageForm required-validate" onsubmit="return validateCallback(this,dialogAjaxDone);">
+		<input type="hidden" name="{:getModelPk(MODULE_NAME)}" value="{$vo[getModelPk(MODULE_NAME)]}" >
+		<input type="hidden" name="sid" value="<empty name="vo[getModelPk(MODULE_NAME)]">{$_REQUEST['sid']}<else />{$vo['sid']}</empty>" >
+		<input type="hidden" name="spid" value="<empty name="vo[getModelPk(MODULE_NAME)]">{$_REQUEST['spid']}<else />{$vo['spid']}</empty>" >
+		<input type="hidden" name="row_position" value="<empty name="vo[getModelPk(MODULE_NAME)]">{$_REQUEST['row_position']}<else />{$vo['row_position']}</empty>" >
+		<input type="hidden" name="update_time" value="{:date("Y-m-d H:i:s")}">
+		<empty name="vo[getModelPk(MODULE_NAME)]"><input type="hidden" name="add_time" value="{:date("Y-m-d H:i:s")}"></empty>
+		<div class="pageFormContent" layoutH="58">
+			<div class="unit">
+				<label>内容名称：</label>
+				<input type="text" class="required"  name="name" value="{$vo['name']}">
+			</div>
+			<div class="unit">
+				<label>内容样式：</label>
+				<input type="text" name="class" value="{$vo['class']}">
+			</div>
+			<div class="unit">
+				<label>内容类型：</label>
+				<select name="type" id="type">
+					<option <eq name="vo['type']" value="1" >selected</eq> value="1">列表</option>
+					<option <eq name="vo['type']" value="2" >selected</eq> value="2">分类</option>
+					<option <eq name="vo['type']" value="3" >selected</eq> value="3">单篇内容</option>
+				</select>
+			</div>
+			<div class="unit">
+				<label>内容模型：</label>
+				<select name="model" id="model">
+					<option <eq name="vo['model']" value="" >selected</eq> value="">请选择</option>
+					<option <eq name="vo['model']" value="0" >selected</eq> value="0">广告</option>
+					<option <eq name="vo['model']" value="1" >selected</eq> value="1">文章</option>
+					<?php $isEnableBlog = findById ( 'SiteConfig', array('key'=>'isEnableBlog','status'=>'1'), 'value' ); ?>
+					<if condition=" $isEnableBlog == 1 ">
+					<option <eq name="vo['model']" value="4" >selected</eq> value="4">博文分类ID</option>
+					</if>
+				</select>
+			</div>
+			<div class="unit" id="model_value">
+				<label>根据菜单类型选择：</label>
+
+				<select class="model0_3" style="display:none" name="model0">
+					<option <eq name="vo['model_value']" value="0" >selected</eq> value="0">顶级</option>
+					<include file="AdPosition:treeSelectOption" />
+				</select>
+
+				<input class="model1_3" style="display:none" type="text" class="required large bLeftRequire"  name="dwz.orgId.aiid" value="{$vo['model_value']}">
+				<a class="model1_3 btnLook" style="display:none" href="__GROUP__/ArticleInfo/index?sid=<empty name="vo[getModelPk(MODULE_NAME)]">{$_REQUEST['sid']}<else />{$vo['sid']}</empty>&returnRequire=1" rel="{:MODULE_NAME}Select" mask="true" lookupGroup="orgId" >选择文章ID</a>
+
+				<select class="model1_1 model1_2" style="display:none" name="model1">
+					<option <eq name="vo['model_value']" value="0" >selected</eq> value="0">顶级</option>
+					<?php $modelType = 1; ?>
+					<include file="SiteMenu:treeSelectOption" />
+				</select>
+
+				<select class="model4_1 model4_2" style="display:none" name="model4">
+					<option <eq name="vo['model_value']" value="0" >selected</eq> value="0">顶级</option>
+					<?php $modelType = 4; ?>
+					<include file="SiteMenu:treeSelectOption" />
+				</select>
+
+			</div>
+		</div>
+		<div class="formBar">
+			<ul>
+				<li><div class="buttonActive"><div class="buttonContent"><button type="submit">保存</button></div></div></li>
+				<li><div class="button"><div class="buttonContent"><button type="button" class="close">取消</button></div></div></li>
+			</ul>
+		</div>
+	</form>
+</div>
+
+<script type="text/javascript">
+$("#type").change(function(){changeHref();});
+$("#model").change(function(){changeHref();});
+$(document).ready(function(){changeHref();});
+function changeHref(){
+	var type = $("#type").val(), model = $("#model").val();
+	$("[class^='model']").hide()
+	$(".model"+model+'_'+type).show();
+}
+</script>
+

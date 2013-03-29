@@ -1,53 +1,46 @@
 <?php
-define('STATIC_CSS_FOLDER', 'style/css');
-define('STATIC_JS_FOLDER', 'style/js');
 
 /**
 +----------------------------------------------------------
 * 获取静态文件
 +----------------------------------------------------------
+* @access  public
+* @param   string      $files
+* @param   string      $folder
++----------------------------------------------------------
+* @return  string
++----------------------------------------------------------
+* @example get_static_file(array('jquery-1.4.3.min.js','jquery_cookie.js'),'public')
++----------------------------------------------------------
 */
-function get_static_file($files, $customBaseFolder = NULL){
+function get_static_file( $files, $folder ){
 	/*静态文件版本号*/
-	$static_vision =
+	$staticVision =
 		array(
-			/*css*/
-			'index.css'=>'20110427',
-			/*js*/
-			'jquery-1.4.2.min.js'=>'',
-			'common.js'=>'',
+			/*public*/
+			'public-jquery-1.4.3.min.js'=>'',
+			'public-jquery_cookie.js'=>'',
+			'public-common.js'=>'',
+			/*admin*/
+			'admin-login.css'=>'',
 		);
-	$files = is_array($files) ? $files : (array) $files;
-
-	if (empty($customBaseFolder)) {
-		$cssFolder = STATIC_CSS_FOLDER;
-		$jsFolder = STATIC_JS_FOLDER;
-	}else{
-		$customBaseFolder = trim($customBaseFolder, '/');
-		$cssFolder = $customBaseFolder.'/css';
-		$jsFolder = $customBaseFolder.'/js';
-	}
-
-	foreach ($files as $v) {
-		$paras = explode('.', $v); //dump ( $paras );
-		$filetype = $paras[count($paras) - 1]; //dump ( $filetype );
-		array_pop($paras);
-
-		$static_list = $static_vision;
-		$file_full_name = $v;
-
-		if(!empty($customBaseFolder)){
-			//如果要给指定目录下的文件设定版本号，在文件列表中的形式为 '-folder->file.js' => 1999
-			$v = $customBaseFolder.'-'.$v;
-		}
-
-		if (strtolower($filetype) === 'css') {
-			$print_str[] = '<link rel="stylesheet" type="text/css" href="' . __PUBLIC__ . '/' . $cssFolder . '/' . $file_full_name . '?vsion=' . $static_list[$v] . '" />';
-		} else if (strtolower($filetype) === 'js') {
-			$print_str[] = '<script type="text/javascript" src="' . __PUBLIC__ . '/' . $jsFolder . '/' . $file_full_name . '?vsion=' . $static_list[$v] . '"></script>';
+	$folder = !empty($folder) ? trim($folder,'/') : 'default';
+	$files = is_array($files) ? $files : (array)$files;
+	foreach ( $files as $key => $value ) {
+		$paras = explode('.', $value);
+		$filetype = strtolower( $paras[count($paras) - 1] );
+		//若指定目录,则文件前加目录前缀
+		$keyValue = !empty($folder) ? "{$folder}-{$value}" : $value;
+		switch( $filetype ){
+			case 'css' :
+				$result[] = "<link rel=\"stylesheet\" type=\"text/css\" href=\"__PUBLIC__/{$folder}/{$filetype}/{$value}" . ( !empty($staticVision[$keyValue]) ? "?vsion={$staticVision[$keyValue]}" : '' ) . "\"/>";
+			break;
+			case 'js' :
+				$result[] = "<script type=\"text/javascript\" src=\"__PUBLIC__/{$folder}/{$filetype}/{$value}" . ( !empty($staticVision[$keyValue]) ? "?vsion={$staticVision[$keyValue]}" : '' ) . "\"></script>";
+			break;
 		}
 	}
-	return implode('', $print_str);
+	return implode('',$result);
 }
 
 

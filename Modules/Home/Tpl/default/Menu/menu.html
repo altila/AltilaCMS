@@ -1,0 +1,25 @@
+<div class="">
+	<ul>
+		<li class=""><a href="/" title="首页"><span>首页</span></a></li>
+		
+		<?php $condition = "status=1&is_hide=0&sid=" . getLang();?>
+		<model model="Menu" app="Home" fun="getTree" condition="$condition" order="" limit="" key="i" result="menu">
+		<if condition=" ($menu['show_position']&2) == 2 ">
+		<li class=" ">
+			<a <eq name="menu['is_open']" value="1">target="_blank"</eq> <eq name="menu['is_highlight']" value="1">class="red"</eq> href="{:getUrl( $menu['model'], $menu )}" title="{$menu['name']}"><span>{$menu['name']}</span></a>
+			<if condition=" !empty($menu['_child']) ">
+			{// 显示子集 开始}
+			<ul>
+				<volist name="menu['_child']" id="vo">
+				<li><a <eq name="vo['is_open']" value="1">target="_blank"</eq> <eq name="menu['is_highlight']" value="1">class="red"</eq> href="{:getUrl( $vo['model'], $vo )}" title="{$vo['name']}">{$vo['name']}</a></li>
+				</volist>
+			</ul>
+			{// 显示子集 结束}
+		</li>
+		</if>
+		</model>
+		
+	</ul>
+</div>
+<?php unset($condition,$_condition,$modelName,$appName); ?>
+

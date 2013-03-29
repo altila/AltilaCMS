@@ -1,0 +1,73 @@
+<?php
+$dateType = !empty($dateType) ? $dateType : 'Y-m-d H:i';
+$thumbWidth = !empty($thumbWidth) ? $thumbWidth : 65;
+$imgWidth = !empty($imgWidth) ? $imgWidth : 195;
+$limit = !empty($limit) ? $limit : $info['list_num'];
+$appName = !empty($appName) ? $appName : 'Home';
+$modelName = $name . 'Info';
+$categoryName = $name . 'Category';
+$tagName = $name . 'Tag';
+$groupName = $name . 'Group';
+
+$pid = findReturn ( $categoryName, array('crumb'=>array( 'like', $info['crumb'].'%') ), getModelPk($categoryName), 'str' );
+$condition = "status=1&" . getModelPk($categoryName) . "=in#" . $pid . "&cp=" . $_REQUEST['cp'];
+?>
+
+<div class="">
+	<model model="$modelName" app="$appName" fun="getList" condition="$condition" order="" limit="$limit" key="i" result="listResult">
+	<?php $list = $listResult['list'];?>
+
+	<ul class="">
+		<volist name="list" id="vo">
+		<li>
+
+			<if condition=" !empty($vo['thumbnail']) ">
+			<img width="{$thumbWidth}" original="{$vo['thumbnail']}" src="{:C('DEFAULT_IMG')}" alt="{$vo['name']}">
+			</if>
+
+			<a target="_blank" href="{:getUrl( $modelName, $vo )}" title="{$vo['name']}">{$vo['name']}</a>
+
+			<span>{$vo['description']}</span>
+
+			<if condition=" !empty($vo['img_url']) ">
+			<?php $imgArr = explode(',',$vo['img_url']);?>
+			<a target="_blank" href="{:getUrl( $modelName, $vo )}" title="{$vo['name']}">
+				<volist name="imgArr" id="img">
+				<if condition=" !empty($img) ">
+				<img width="{$imgWidth}" original="{$img}" src="{:C('DEFAULT_IMG')}" alt="{$vo['name']}">
+				</if>
+				</volist>
+			</a>
+			</if>
+
+			<if condition=" !empty($vo['tags_name']) ">
+			<?php $tagArr = explode(',',$vo['tags_name']);?>
+			<div class="tag">
+				<volist name="tagArr" id="tag">
+				<if condition=" !empty($tag) ">
+				<a target="_blank" href="{:getUrl( $tagName, $tag )}" title="{$tag}">{$tag}</a>
+				</if>
+				</volist>
+			</div>
+			</if>
+
+			<span class="">{$vo['uid']|findById="AdminUser/UserBase",###,'user_id'}</span>
+
+			<span class="">{$vo['add_time']|strtotime|date=$dateType,###}</span>
+
+		</li>
+		</volist>
+	</ul>
+
+	<div class="more">
+		<a target="_blank" href="{:getUrl( $categoryName, $info )}" title="查看更多">查看更多>></a>
+	</div>
+
+	<if condition=" $info['is_page'] == 1 ">
+	<div class="bottom-pager">{$listResult['page']}</div>
+	</if>
+
+	</model>
+</div>
+<?php unset($name,$modelName,$categoryName,$tagName,$groupName,$pid,$condition,$limit,$thumbWidth,$imgWidth,$listType,$list,$imgArr);?>
+

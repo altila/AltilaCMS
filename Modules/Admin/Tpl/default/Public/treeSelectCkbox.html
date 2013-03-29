@@ -1,0 +1,52 @@
+<div style="border:1px solid rgb(204, 204, 204); background: none repeat scroll 0% 0% rgb(255, 255, 255);" layouth="35" <eq name="_REQUEST['returnRequire']" value="1">id="treeSelectCkbox"</eq> >
+<model model="$moduleName" fun="getTree" condition="$_condition" order="" limit="" key="i">
+{$result|drawTree=$condition}
+</model>
+</div>
+<eq name="_REQUEST['returnRequire']" value="1">
+<div class="formBar">
+	<ul>
+		<li><div class="buttonActive"><div class="buttonContent"><button type="submit" id="returnIds">确定</button></div></div></li>
+		<li><div class="button"><div class="buttonContent"><button type="button" class="close">取消</button></div></div></li>
+	</ul>
+</div>
+<script>
+$(function(){
+	$("#returnIds").click(function(){
+		returnIds();
+	});
+})
+</script>
+</eq>
+<script>
+	/**
+	+----------------------------------------------------------
+	* 返回选择的ID
+	+----------------------------------------------------------
+	* @access  public
+	+----------------------------------------------------------
+	* @return  void
+	+----------------------------------------------------------
+	* @example returnIds()
+	+----------------------------------------------------------
+	*/
+	function returnIds(){
+		var ids = "",field = "{$field}";
+		$("#treeSelectCkbox .ckbox").each(function(){
+			var me = $(this);
+			if( me.hasClass('checked') ){
+				ids += me.find("input[name="+field+"]").val()+",";
+			}
+		});
+		ids = ids.substring(0,ids.length-1);
+		if( ids ){
+			$("#"+field).val(ids);
+			//$.pdialog.closeCurrent();
+		}else{
+			alert('请选择');
+			return false;
+		}
+	}
+
+</script>
+

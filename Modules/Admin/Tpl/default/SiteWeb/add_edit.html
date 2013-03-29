@@ -1,0 +1,61 @@
+<div class="pageContent">
+	<form method="post" action="__URL__/<empty name="vo[getModelPk(MODULE_NAME)]">insert<else />update</empty>/navTabId/{:MODULE_NAME}" class="pageForm required-validate" onsubmit="return validateCallback(this,dialogAjaxDone);">
+		<input type="hidden" name="{:getModelPk(MODULE_NAME)}" value="{$vo[getModelPk(MODULE_NAME)]}" >
+		<input type="hidden" name="update_time" value="{:date("Y-m-d H:i:s")}">
+		<empty name="vo[getModelPk(MODULE_NAME)]"><input type="hidden" name="add_time" value="{:date("Y-m-d H:i:s")}"></empty>
+		<div class="pageFormContent" layoutH="58">
+			<if condition=" empty($_REQUEST['domain']) ">
+			<div class="unit">
+				<label>网站域名：</label>
+				<input type="text" class="required"  name="domain" value="{$vo['domain']}">
+			</div>
+			<else />
+			<input type="hidden" name="domain" value="{$_REQUEST['domain']}">
+			</if>
+			<div class="unit">
+				<label>网站名称：</label>
+				<input type="text" class="required"  name="name" value="{$vo['name']}">
+			</div>
+			<if condition=" !empty($_REQUEST['domain']) ">
+			<div class="unit">
+				<label>网站语言：</label>
+				<empty name="vo[getModelPk(MODULE_NAME)]">
+				<select name="blcode">
+					<require file="Admin,BaseLang/treeSelectOption" />
+				</select>
+				<else />
+				<input type="text" class="required"  name="blcode" value="{:findById('BaseLang',array('code'=>$vo['blcode']),'name')}" disabled="true" >
+				<input type="hidden" name="blcode" value="{$vo['blcode']}" >
+				</empty>
+			</div>
+			<div class="unit">
+				<label>网站模板：</label>
+				<input type="text" class="huge bLeft"  name="template" value="<empty name="vo['template']">default<else />{$vo['template']}</empty>">
+			</div>
+			<div class="unit">
+				<label>网站关键字：</label>
+				<textarea class="huge bLeft" name="keywords" ROWS="5" COLS="57">{$vo['keywords']}</textarea>
+			</div>
+			<div class="unit">
+				<label>网站描述：</label>
+				<textarea class="huge bLeft" name="description" ROWS="5" COLS="57">{$vo['description']}</textarea>
+			</div>
+			<div class="unit">
+				<label>网站备案号：</label>
+				<textarea class="huge bLeft" name="record_no" ROWS="5" COLS="57">{$vo['record_no']}</textarea>
+			</div>
+			<div class="unit">
+				<label>网站底部信息：</label>
+				<textarea class="huge bLeft" name="bottom_info" ROWS="5" COLS="57">{$vo['bottom_info']}</textarea>
+			</div>
+			</if>
+		</div>
+		<div class="formBar">
+			<ul>
+				<li><div class="buttonActive"><div class="buttonContent"><button type="submit">保存</button></div></div></li>
+				<li><div class="button"><div class="buttonContent"><button type="button" class="close">取消</button></div></div></li>
+			</ul>
+		</div>
+	</form>
+</div>
+

@@ -1,0 +1,36 @@
+<?php $condition = array( 'field'=>getModelPk(MODULE_NAME), 'target'=>'ajax', 'class'=>' collapse', 'rel'=>MODULE_NAME.'AjaxBox', 'href'=>MODULE_NAME.'/edit?'.getModelPk(MODULE_NAME).'=', 'isShowStatus'=>1, 'isAll'=>1 );?>
+{$list|list_to_tree=getModelPk(MODULE_NAME)|drawTree=$condition}
+<script>
+	$(function(){
+		var pk = '{:getModelPk(MODULE_NAME)}';
+		$(".add").click(function(){
+			$("#{:MODULE_NAME}Operate .delete").attr( "href", $("#{:MODULE_NAME}Operate .delete").attr( "_href") + '0' );
+			$("#{:MODULE_NAME}Operate .sort").attr( "href", $("#{:MODULE_NAME}Operate .sort").attr( "_href") + '0' );
+		})
+		$("#{:MODULE_NAME}Tree a").each(function(){
+			var aTag = $(this);
+			aTag.click(function(){
+				$("#{:MODULE_NAME}Operate .delete").attr( "href", $("#{:MODULE_NAME}Operate .delete").attr( "_href") + aTag.attr("pkid") );
+				$("#{:MODULE_NAME}Operate .sort").attr( "href", $("#{:MODULE_NAME}Operate .sort").attr( "_href") + aTag.attr("pkid") );
+			}).find("span").click(function(){
+				var href = '';
+				switch($(this).attr("status")){
+					case '0' :
+						href = "__URL__/resume?navTabId={:MODULE_NAME}&" + pk + "=" + aTag.attr("pkid");
+						break;
+					case '2' :
+						href = "__URL__/checkPass?navTabId={:MODULE_NAME}&" + pk + "=" + aTag.attr("pkid");
+						break;
+					case '1' :
+						href = "__URL__/forbid?navTabId={:MODULE_NAME}&" + pk + "=" + aTag.attr("pkid");
+						break;
+					case '-1' :
+						href = "__URL__/recycle?navTabId={:MODULE_NAME}&" + pk + "=" + aTag.attr("pkid");
+						break;
+				}
+				ajaxTodo(href);
+			});
+		});
+	});
+</script>
+

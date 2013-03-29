@@ -1,0 +1,46 @@
+<div class="pageContent">
+	<form method="post" action="__URL__/<empty name="vo[getModelPk(MODULE_NAME)]">insert<else />update</empty>/navTabId/{:MODULE_NAME}" class="pageForm required-validate" onsubmit="return validateCallback(this,dialogAjaxDone);">
+		<input type="hidden" name="{:getModelPk(MODULE_NAME)}" value="{$vo[getModelPk(MODULE_NAME)]}" >
+		<input type="hidden" name="sid" value="<empty name="vo[getModelPk(MODULE_NAME)]">{$_REQUEST['sid']}<else />{$vo['sid']}</empty>" >
+		<input type="hidden" name="spgid" value="<empty name="vo[getModelPk(MODULE_NAME)]">{$_REQUEST['spgid']}<else />{$vo['spgid']}</empty>" >
+		<input type="hidden" name="update_time" value="{:date("Y-m-d H:i:s")}">
+		<empty name="vo[getModelPk(MODULE_NAME)]"><input type="hidden" name="add_time" value="{:date("Y-m-d H:i:s")}"></empty>
+		<div class="pageFormContent" layoutH="58">
+			<div class="unit">
+				<label>面板名称：</label>
+				<input type="text" class="required" name="name" value="{$vo['name']}">
+			</div>
+			<div class="unit">
+				<label>面板列数：</label>
+				<table>
+					<tr>
+						<td style="padding-right:20px;">
+							<img width="50px" src="__PUBLIC__/admin/images/layout/layout_1.gif" alt="一列"><br>
+							<input type="radio" name="row" <eq name="vo['row']" value="1" >checked</eq> value="1">一列
+						</td>
+						<td style="padding-right:20px;">
+							<img width="50px" src="__PUBLIC__/admin/images/layout/layout_2.gif" alt="二列"><br>
+							<input type="radio" name="row" <eq name="vo['row']" value="2" >checked</eq> value="2">二列
+						</td>
+						<td style="padding-right:20px;">
+							<img width="50px" src="__PUBLIC__/admin/images/layout/layout_3.gif" alt="三列"><br>
+							<input type="radio" name="row" <eq name="vo['row']" value="3" >checked</eq> value="3">三列
+						</td>
+					</tr>
+				</table>
+			</div>
+			<div class="unit">
+				<label>面板样式：</label>
+				<input type="text" name="class" value="{$vo['class']}">
+			</div>
+		</div>
+		<div class="formBar">
+			<ul>
+				<li><div class="buttonActive"><div class="buttonContent"><button type="submit">保存</button></div></div></li>
+				<li><div class="button"><div class="buttonContent"><button type="button" class="close">取消</button></div></div></li>
+			</ul>
+		</div>
+	</form>
+</div>
+
+

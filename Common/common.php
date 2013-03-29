@@ -8,16 +8,16 @@
 * 网站url地址
 +----------------------------------------------------------
 * @access  public
-* @param   string      $type      类型：www,act,member,api等
+* @param   str      $type      类型：www,act,member,api等
 +----------------------------------------------------------
-* @return  string
+* @return  str
 +----------------------------------------------------------
 * @example domain('www')  =>  "http://www.altilaphp.com";
 +----------------------------------------------------------
 */
 function domain($type){
-	$url = "http://".strtolower($type).C('DOMAIN');
-	return ( PREVIEW == true ) ? "{$url}/preview.php" : $url;
+	$url = C('APP_SUB_DOMAIN_DEPLOY') ? "http://" . strtolower($type) . "." . C('DOMAIN') : ( $type == 'www' ? "http://{$type}." . C('DOMAIN') : "http://www." . C('DOMAIN') . "/" . ucfirst($type) );
+	return $url;
 }
 
 /**
@@ -25,16 +25,17 @@ function domain($type){
 * 主题模板切换
 +----------------------------------------------------------
 * @access  public
-* @param   string      $app      子项目名
-* @param   string      $tpl      模板名称
+* @param   str      $app      子项目名
+* @param   str      $tpl      模板名称
 +----------------------------------------------------------
-* @return  string
+* @return  str
 +----------------------------------------------------------
-* @example switch_tpl('home','index')  =>  "home/Tpl/default/index.html";
+* @example switch_tpl('分组名','主题名@模块名/操作名')
 +----------------------------------------------------------
 */
 function switch_tpl($app,$tpl){
-	return APPS_PATH.$app.'/Tpl/default/'.$tpl.C('TMPL_TEMPLATE_SUFFIX');
+	$_tpl = ( strpos($tpl,'@') ) ? strtr($tpl,array('@'=>'/')) : "default/{$tpl}";
+	return APP_PATH.C('APP_GROUP_PATH')."/{$app}/Tpl/{$_tpl}".C('TMPL_TEMPLATE_SUFFIX');
 }
 
 /**
@@ -42,19 +43,21 @@ function switch_tpl($app,$tpl){
 * 配合标签完成参数传值
 +----------------------------------------------------------
 * @access  public
-* @param   string      $string      参数
+* @param   str      $string      参数
 +----------------------------------------------------------
-* @return  array
+* @return  arr
 +----------------------------------------------------------
 * @example a=b&c=d  => array('a'=>'b','c'=>'d')
 +----------------------------------------------------------
 */
-function parseArrToStr($string){
+function parse_string ( $string ) {
 	if( empty($string) ) return ;
+	$return = array();
 	$temp = explode('&',$string);
-	foreach ($temp as $key => $val){
+	foreach ( $temp as $key => $val ) {
 		$_tmp = explode('=',$val);
-		$return[$_tmp[0]] = $_tmp[1];
+		if( $_tmp[0] != '' && $_tmp[1] != '' ) 
+			$return[$_tmp[0]] = $_tmp[1];
 	}
 	return $return;
 }
@@ -64,9 +67,9 @@ function parseArrToStr($string){
 * 配合标签完成参数传值
 +----------------------------------------------------------
 * @access  public
-* @param   array       $data      参数
+* @param   arr       $data      参数
 +----------------------------------------------------------
-* @return  string
+* @return  str
 +----------------------------------------------------------
 * @example array('a'=>'b','c'=>'d')  =>  a=b&c=d
 +----------------------------------------------------------
@@ -99,11 +102,47 @@ function image_url($thumb,$width,$height,$color_code){
 
 /**
 +----------------------------------------------------------
+* 获取url地址
++----------------------------------------------------------
+*/
+function getUrl( $type, $list = '' ){
+	$model = D( $type );
+	switch( $type ){
+	case 'ArticleInfo' :
+		$url = domain('www') . "/ArticleInfo/{$list[getModelPk("Home/{$type}")]}";
+		break;
+	case 'ArticleCategory' :
+		$url = domain('www') . "/ArticleCategory/{$list[getModelPk("Home/{$type}")]}_1";
+		break;
+	case '1' :
+		$url = domain('www') . "/ArticleCategory/{$list['smid']}_1";
+		break;
+	case 'SiteMap' :
+		$url = domain('www') . "/SiteMap";
+		break;
+	case 'BlogInfo' :
+		$url = domain('www') . "/Blog/BlogInfo/{$list[getModelPk("Blog/{$type}")]}";
+		break;
+	case 'BlogCategory' :
+		$url = domain('www') . "/Blog/BlogCategory/{$list[getModelPk("Blog/{$type}")]}_1";
+		break;
+	case '4' :
+		$url = domain('www') . "/Blog/BlogCategory/{$list['smid']}_1";
+		break;
+	case 'BlogTag' :
+		$url = domain('www') . "/Blog/BlogTag/" . urlencode($list);
+		break;
+	}
+	return $url . C('TMPL_TEMPLATE_SUFFIX');
+}
+
+/**
++----------------------------------------------------------
 * 验证是否为正常提交表单
 +----------------------------------------------------------
 * @access  public
 +----------------------------------------------------------
-* @return  boolen
+* @return  boo
 +----------------------------------------------------------
 */
 function isPost(){
@@ -115,9 +154,9 @@ function isPost(){
 * 验证输入的邮件地址是否合法
 +----------------------------------------------------------
 * @access  public
-* @param   string      $email
+* @param   str      $email
 +----------------------------------------------------------
-* @return  boolen
+* @return  boo
 +----------------------------------------------------------
 */
 function isEmail($email){
@@ -130,9 +169,9 @@ function isEmail($email){
 * 验证手机号码是否合法
 +----------------------------------------------------------
 * @access  public
-* @param   string       $mobile
+* @param   str       $mobile
 +----------------------------------------------------------
-* @return  boolen
+* @return  boo
 +----------------------------------------------------------
 */
 function isMobile($mobile){
@@ -144,9 +183,9 @@ function isMobile($mobile){
 * 判断数据值的字符编码是为utf8
 +----------------------------------------------------------
 * @access  public
-* @param   string       $word
+* @param   str       $word
 +----------------------------------------------------------
-* @return  boolen
+* @return  boo
 +----------------------------------------------------------
 */
 function isUtf8($word) {
@@ -155,56 +194,22 @@ function isUtf8($word) {
 
 /**
 +----------------------------------------------------------
-* 获取IP
+* 判断字符中是否包含繁体
 +----------------------------------------------------------
 * @access  public
+* @param   str       $str
 +----------------------------------------------------------
-* @return  string
-+----------------------------------------------------------
-*/
-function ip(){
-	if( getenv('HTTP_CLIENT_IP') && strcasecmp(getenv('HTTP_CLIENT_IP'), 'unknown') )
-		$ip = getenv('HTTP_CLIENT_IP');
-	elseif( getenv('HTTP_X_FORWARDED_FOR') && strcasecmp(getenv('HTTP_X_FORWARDED_FOR'), 'unknown') )
-		$ip = getenv('HTTP_X_FORWARDED_FOR');
-	elseif( getenv('REMOTE_ADDR') && strcasecmp(getenv('REMOTE_ADDR'), 'unknown') )
-		$ip = getenv('REMOTE_ADDR');
-	elseif( isset($_SERVER['REMOTE_ADDR']) && $_SERVER['REMOTE_ADDR'] && strcasecmp($_SERVER['REMOTE_ADDR'], 'unknown') )
-		$ip = $_SERVER['REMOTE_ADDR'];
-	return preg_match("/[\d\.]{7,15}/", $ip, $matches) ? $matches[0] : 'unknown';
-}
-
-
-/**
-+----------------------------------------------------------
-* 资讯所用
+* @return  boo
 +----------------------------------------------------------
 */
-function url($id,$type,$page=1,$data='')
-{
-    if(empty($id)) return '';
-    switch($type) {
-    case 0:// 资讯首页
-        return Html::getIndexUrl($id,$data);
-    case 1:// 频道页
-        return Html::getChannelUrl($id,$data);
-    case 2:// 栏目列表页
-        return Html::getCateListUrl($id,$page,$data);
-    case 3:// 内容页
-        return Html::getArticleUrl($id,$page,$data);
-    case 4:// 栏目首页 暂时不用
-        return Html::getCateIndexUrl($id,$data);
-    case 5:// 公共页面
-        return Html::getPublicPageUrl($id,$data);
-    case 6:// 图库页面
-        return Html::getPicUrl($id,$data,5279);
-    case 7:// 子文档页面
-        return Html::getRecordUrl($id,$data);
-    case 8:// 频道列表页
-        return Html::getChannelListUrl($id,$page,$data);
-    case 9:
-        return __APP__.'/';
-    }
+function isbig5str($str) {
+	for( $i=0; $i<mb_strlen($str, 'UTF-8'); $i++ ) {
+		$code = mb_substr($str, $i, 1, 'UTF-8');
+		if( @iconv('utf-8', 'gb2312', $code) == '' ) {
+			return true;
+		}
+	}
+	return false;
 }
 
 /**
@@ -331,9 +336,6 @@ function send_mail($name, $email, $subject, $content, $type = 0, $notification=f
     }
 }
 
-
-
-
 /** 获取当前时间戳，精度可维护 */
 function microtime_str($intfal='0'){
    list($usec, $sec) = explode(" ", microtime());
@@ -346,166 +348,72 @@ function microtime_str($intfal='0'){
 
 /**
 +----------------------------------------------------------
-* 直接导入的扩展文件
-+----------------------------------------------------------
-*/
-alias_import(
-	array (
-		'mc_session'       =>  VENDOR_PATH.'/mc_session.class.php',
-		'BaseAction'       =>  VENDOR_PATH.'/BaseAction.class.php',
-		'BaseModel'        =>  VENDOR_PATH.'/BaseModel.class.php',
-		'AdminBaseAction'  =>  VENDOR_PATH.'/AdminBaseAction.class.php',
-		'AdminBaseModel'   =>  VENDOR_PATH.'/AdminBaseModel.class.php',
-		'Build'            =>  VENDOR_PATH.'/Build.class.php',
-		'Html'             =>  VENDOR_PATH.'/Html.class.php',
-		'Flexihash'        =>  VENDOR_PATH.'/class.Flexihash.php',
-	)
-);
-
-
-
-/**
-+----------------------------------------------------------
-* 加载缓存配置
-+----------------------------------------------------------
-*/
-function loadCache($name){
-    define('_AppsCache',RUNTIME_PATH.'_AppsCache/');
-    switch(strtoupper(C('CACHE_TYPE'))){
-        case 'DB':// 数据库缓存
-            $cache   =  dbCache($name);
-            break;
-        case 'XCACHE':// Xcache缓存
-            $cache  =  xcache($name);
-            break;
-        case 'FILE':// 文件缓存
-        default:
-            if(!is_dir(_AppsCache)){
-                mkdir(_AppsCache,0777,true);
-            }
-            $cache	=	include _AppsCache.'~'.$name.'.php';
-            break;
-    }
-    return $cache;
-}
-
-/**
-+----------------------------------------------------------
 * 分页封装
-* $pages 页码总数
-* $spaer  分页参数 默认page
-* $showpage 当前显示 1,2,3，4数字
-* $showdetail 分页形式
-* $currpage 默认当前页
-* $post post 查询条件
-* $pseudoStatic 是否启用伪静态,1:启用,0:不启用
-*
++----------------------------------------------------------
+* @access  public
+* @param   int      $pages 页码总数
+* @param   int      $showdetail 分页形式
+* @param   int      $pseudoStatic 是否启用伪静态,1:启用,0:不启用
+* @param   str      $spaer  分页参数 默认cp
+* @param   int      $showpage 当前显示 1,2,3，4数字
+* @param   int      $currpage 默认当前页
+* @param   arr      $post post 查询条件
++----------------------------------------------------------
+* @return  boo
 +----------------------------------------------------------
 */
-function split_page($pages,$sper,$showpage=8,$showdetail=0,$currpage=1,$post=array(),$pseudoStatic=0){
+function split_page ( $pages, $showdetail = 0, $pseudoStatic = 1, $sper = 'cp', $showpage = 8, $currpage = 1, $post = array() ) {
 	if( $pages <= 1 ) return '';
-	$p = !empty($sper) ? $sper : 'page';
-	$currpage = empty($_GET[$p]) ? $currpage : ( intval($_GET[$p]) <= 0 || intval($_GET[$p]) > $pages ) ? $currpage : intval($_GET[$p]);
-	$currpage = $currpage > $pages ? $pages : $currpage;
-	$url =  $_SERVER['REQUEST_URI'].( substr(strstr($_SERVER['REQUEST_URI'],'?'),1) ? '' : "?{$p}=" );
-	$parse =  parse_url($url);
+	$currpage = ( empty($_GET[$sper]) || intval($_GET[$sper]) <= 0 ) ? $currpage : (  intval($_GET[$sper]) > $pages ? $pages : intval($_GET[$sper]) );
+	$parse =  parse_url($_SERVER['REQUEST_URI']);
 	if( isset($parse['query']) ){
-		parse_str(ltrim($parse['query'],'?'),$params); unset($params[$p]);
+		parse_str(ltrim($parse['query'],'?'),$params); unset($params[$sper]);
 		//$_POST查询条件跟url中的条件是否有交集
 		if( !array_intersect_key($params,$post) ) $params = array_merge($params,$post);
-		$pg = ( empty($params) ? '' : '&' ) . "{$p}=\$i";
-		$url = $parse['path'] . '?' . http_build_query($params) . $pg;
 	}
-	//启用伪静态时改变url
-	if( $pseudoStatic == '1' ){
-		$pathArr = explode('.',$parse['path']);
-		$path = ( ( strpos( $pathArr[0],"{$p}_" ) ) ? preg_replace("/{$p}_([\s\S]+)/","{$p}_\$i",$pathArr[0]) : "{$pathArr[0]}_cp_\$i" ) . ".{$pathArr[1]}";
-		$url = strtr($url,array($parse['path']=>$path,'?'.$pg=>'','&'.$pg=>'',$pg=>''));
-	}
+	$url = preg_replace("/_([\s\S]+)".C('TMPL_TEMPLATE_SUFFIX')."/","_\$i".C('TMPL_TEMPLATE_SUFFIX'),$parse['path']) . ( !empty($params) ? "?".http_build_query($params) : "" );
+	if( $pseudoStatic != 1 ) $url = "{$parse['path']}?{$sper}=\$i" . ( !empty($params) ? "&".http_build_query($params) : "" );
 	$upRow = $currpage - 1;$downRow = $currpage + 1;$page_str = ''; $upPage = ''; $downPage = '';$pagestr = '';
 	//上一页,下一页
-	if(  $upRow > 0 ){
-		$upClass = ( $showdetail == 1 ) ? 'btn-prev' : ( ( $showdetail == 2 ) ? 'prevPage' : '' );
-		$upPage = "<a href='".( ( $upRow > 0 ) ? strtr($url,array('$i'=>$upRow)) : '#' )."' class='{$upClass}' >".( $showdetail == 1 ? '上一页' : '' )."</a>";
-	}
-	if( $upRow < 1 && $showdetail == 2 ) $upPage = "<span class='noprevPage'>".( $showdetail == 1 ? '上一页' : '' )."</span>";
-	if(  $downRow <= $pages ){
-		$downClass = ( $showdetail == 1 ) ? 'btn-next' : ( ( $showdetail == 2 ) ? 'nextPage' : '' );
-		$downPage = "<a href='".( ( $downRow <= $pages ) ? strtr($url,array('$i'=>$downRow)) : '#' )."'  class='{$downClass}' >下一页</a>";
-	}
-	if( $downRow > $pages  && $showdetail == 2 ) $downPage = "<span class='nonextPage'>下一页</span>";
+	$upPage = ( $upRow > 0 ) ? "<a href='".strtr($url,array('$i'=>$upRow))."' class='prevPage' >上一页</a>" : "<span class='noprevPage'>上一页</span>";
+	$downPage = ( $downRow <= $pages ) ? "<a href='".strtr($url,array('$i'=>$downRow))."' class='nextPage' >下一页</a>" : "<span class='nonextPage'>下一页</span>";
 	//取得分页的起始位置
 	$start_page = ( $currpage < $showpage ) ? 1 : ( ( $currpage > $pages - $showpage ) ? ( $pages - $showpage + 1 ) : $currpage );
 	$end_page = ( $start_page + $showpage) > $pages ? $pages: ( $currpage < $showpage ? $showpage : ( $start_page + $showpage - 1 ) );
 	//生成1,2,3,4....
 	for( $i = $start_page;$i <= $end_page;$i++ ){
-		$is_curr = ( $i == $currpage ) ? 'class="currentPage"' : 'class="pageNum"';
-		$pagestr .= "<a href='".strtr($url,array('$i'=>$i))."' {$is_curr} >{$i}</a>";
+		$is_curr = ( $i == $currpage ) ? 'currentPage' : 'pageNum';
+		$pagestr .= "<a href='".strtr($url,array('$i'=>$i))."' class='{$is_curr}' >{$i}</a>";
 	}
-	//第一页，最后一页
-	$first_page = ( $start_page > 1 ) ? "<a href='".strtr($url,array('$i'=>1))."' class='pageNum'>1</a><em>...</em>" : '';
-	$end_page = ( $end_page + 1 ) <= $pages ? "<em>...</em><a href='".strtr($url,array('$i'=>$pages))."' page='{$pages}' class='pageNum'>{$pages}</a>" : '';
+	//首页,尾页
+	$first_page = ( $start_page > 1 ) ? "<a href='".strtr($url,array('$i'=>1))."' class='pageNum'>1</a><em>...</em>" : "";
+	$end_page = ( $end_page + 1 ) <= $pages ? "<em>...</em><a href='".strtr($url,array('$i'=>$pages))."' page='{$pages}' class='pageNum'>{$pages}</a>" : "";
+	//组合样式
 	if( $showdetail == 1 ){
-		$page_str = ( $pages > $showpage ) ? "<form action='".strtr($url,array("_{$p}_\$i"=>''))."' method='get' name='gofind' style='display:inline' onSubmit='return isValid(this);' >" : '';
-		$page_str .= $upPage.$first_page.$pagestr.$end_page.$downPage;
-		$page_str .= "<span>共 {$pages} 页</span>";
+		$page_str = ( $pages > $showpage ) ? "<form action='".strtr($url,array("_\$i".C('TMPL_TEMPLATE_SUFFIX')=>C('TMPL_TEMPLATE_SUFFIX')))."' method='get' name='gofind' style='display:inline' onSubmit='return isValid(this);' >" : '';
+		$page_str .= "{$first_page}{$upPage}{$pagestr}{$downPage}{$end_page}<span>共 {$pages} 页</span>";
 		if( $pages > $showpage ){
-			$page_str .= "  到第<input name='{$p}' type='text' class='spage_input' />页";
+			$page_str .= "  到第<input name='{$sper}' type='text' class='spage_input' />页";
 			foreach ($params as $key => $val){
 				$page_str .= "<input name='{$key}' type='hidden' value='{$val}' />";
 			}
 			$page_str .= "<input type='submit' value='Go' class='input-num'></form>";
 		}
-	}elseif( $showdetail == 2 ){
+	}elseif( $showdetail == 2 )
 		$page_str = "{$upPage}<span>{$currpage}/{$pages}</span>{$downPage}";
-	}else{
-		$page_str = $upPage.$first_page.$pagestr.$end_page.$downPage;
-	}
+	else
+		$page_str = "{$first_page}{$upPage}{$pagestr}{$downPage}{$end_page}<span>共 {$pages} 页</span>";
 	return $page_str;
 }
 
-
-
-function split_page_ajax($pages, $type, $id, $showpage=8, $currpage=1) {
-	if($pages<=1) return "　";
-	$currpage = $currpage>$pages ? $pages : $currpage;
-    $upRow   = $currpage-1;
-    $downRow = $currpage+1;
-    $page_str= '';
-    $upPage ='';
-    $downPage = '';
-    if ($upRow>0){
-        $upPage = "<a onclick='ajaxGetList(\"" . $type ."\", \"" . $id . "\", \"" . $upRow . "\", \"" . $pages . "\")' class='btn-prev'>上一页</a>";
-    }
-    if ($downRow <= $pages){
-        $downPage = "<a onclick='ajaxGetList(\"" . $type ."\", \"" . $id . "\", \"" . $downRow . "\", \"" . $pages . "\")' class='btn-next'>下一页</a>";
-    }
-    //取得分页的起始位置
-    $start_page = ($currpage<$showpage) ? 1 : (($currpage>$pages-$showpage) ? ($pages-$showpage+1) : $currpage);
-    $end_page   = ($start_page+$showpage)>$pages ? $pages : ($currpage<$showpage ? $showpage : ($start_page+$showpage-1));
-    //生成1,2,3,4....
-    $pagestr = '';
-    for($i=$start_page;$i<=$end_page;$i++){
-        $is_curr  = ($i==$currpage) ? "class='currentPage'" : "class='pageNum'";
-        $pagestr .= "<a onclick='ajaxGetList(\"" . $type ."\", \"" . $id . "\", \"" . $i . "\", \"" . $pages . "\")'" . $is_curr . ">{$i}</a>";
-    }
-    //第一页，最后一页
-    $first_page = ($start_page>1) ? "<a onclick='ajaxGetList(\"" . $type ."\", \"" . $id . "\", \"1\", \"" . $pages . "\")' class='pageNum'>1</a><em>...</em>" : '';
-    $end_page = ($end_page+1)<=$pages ? "<em>...</em><a onclick='ajaxGetList(\"" . $type ."\", \"" . $id . "\", \"" . $pages . "\", \"" . $pages . "\")' class='pageNum'>{$pages}</a>":'';
-
-    $page_str .=$upPage.$first_page.$pagestr.$end_page.$downPage;
-    //$page_str .= '<span>共 '.$pages.'</span> 页  / 当前第 <b>'.$currpage.'</b> 页';
-	$page_str .= '<span>共 '.$pages.' 页</span>';
-    return $page_str;
-}
 
 function checkstrlength($str,$length){
 	if(strlen($str)<=$length*2)return $str;
 	$restr = '';
 	for($i=0;$i< $length*3;$i++) {
-	$restr .= ord($str[$i])>127 ? $str[$i].$str[++$i].$str[++$i] : $str[$i];
+		$restr .= ord($str[$i])>127 ? $str[$i].$str[++$i].$str[++$i] : $str[$i];
 	}
-    return $restr;
+	return $restr;
 }
 
 /**
@@ -513,9 +421,9 @@ function checkstrlength($str,$length){
 * 简单XML输出
 +----------------------------------------------------------
 * @access  public
-* @param   array        $params      参数
+* @param   arr        $params      参数
 +----------------------------------------------------------
-* @return  string
+* @return  str
 +----------------------------------------------------------
 * @example 
 +----------------------------------------------------------
@@ -535,28 +443,37 @@ function simpleXmlWrite($params){
 
 /**
 +----------------------------------------------------------
-*  分类树
+* 分类树
++----------------------------------------------------------
+* @access  public
+* @param   arr      $list      数据
+* @param   str      $pk        主键名
+* @param   str      $pid       子集ID
+* @param   str      $child     子项目名
+* @param   int      $root      层级
++----------------------------------------------------------
+* @return  arr
 +----------------------------------------------------------
 */
-function list_to_tree($list, $pk='id',$pid = 'pid',$child = '_child',$root=0){
+function list_to_tree( $list, $pk='id', $pid='parent_id', $child='_child', $root=0 ){
 	// 创建Tree
 	$tree = array();
-	if( is_array($list) ) {
-		// 创建基于主键的数组引用
-		$refer = array();
-		foreach ($list as $key => $data) {
-			$refer[$data[$pk]] =& $list[$key];
-		}
-		foreach ($list as $key => $data) {
-			// 判断是否存在parent
-			$parentId = $data[$pid];
-			if ($root == $parentId) {
-				$tree[] =& $list[$key];
-			}else{
-				if (isset($refer[$parentId])) {
-					$parent =& $refer[$parentId];
-					$parent[$child][] =& $list[$key];
-				}
+	if( !is_array($list) )
+		return $tree;
+	// 创建基于主键的数组引用
+	$refer = array();
+	foreach ( $list as $key => $data ) {
+		$refer[$data[$pk]] =& $list[$key];
+	}
+	foreach ( $list as $key => $data ) {
+		// 判断是否存在parent
+		$parentId = $data[$pid];
+		if ( $root == $parentId ) {
+			$tree[] =& $list[$key];
+		}else{
+			if ( isset($refer[$parentId]) ) {
+				$parent =& $refer[$parentId];
+				$parent[$child][] =& $list[$key];
 			}
 		}
 	}
@@ -565,14 +482,54 @@ function list_to_tree($list, $pk='id',$pid = 'pid',$child = '_child',$root=0){
 
 /**
 +----------------------------------------------------------
+* 自动转换字符集 支持数组转换
++----------------------------------------------------------
+* @access  public
+* @param   str      $fContents  字符串
+* @param   str      $from       源
+* @param   str      $to         终
++----------------------------------------------------------
+* @return  arr
++----------------------------------------------------------
+*/
+function auto_charset( $fContents, $from, $to ) {
+	$from = strtoupper($from)=='UTF8' ? 'utf-8' : $from;
+	$to = strtoupper($to)=='UTF8' ? 'utf-8' : $to;
+	//如果编码相同或者非字符串标量则不转换
+	if( strtoupper($from) === strtoupper($to) || empty($fContents) || (is_scalar($fContents) && !is_string($fContents)) ){
+		return $fContents;
+	}
+	if( is_string($fContents) ) {
+		if(function_exists('mb_convert_encoding')){
+			return mb_convert_encoding ($fContents, $to, $from);
+		}elseif(function_exists('iconv')){
+			return iconv($from,$to,$fContents);
+		}else{
+			return $fContents;
+		}
+	} elseif( is_array($fContents) ) {
+		foreach ( $fContents as $key => $val ) {
+			$_key = auto_charset($key,$from,$to);
+			$fContents[$_key] = auto_charset($val,$from,$to);
+			if( $key != $_key )
+				unset($fContents[$key]);
+		}
+		return $fContents;
+	}else{
+		return $fContents;
+	}
+}
+
+/**
++----------------------------------------------------------
 * 字符串转字符串
 +----------------------------------------------------------
 * @access  public
-* @param   string       $string      参数
-* @param   string       $sper        连接符
-* @param   string       $tper        分割符
+* @param   str       $string      参数
+* @param   str       $sper        连接符
+* @param   str       $tper        分割符
 +----------------------------------------------------------
-* @return  string
+* @return  str
 +----------------------------------------------------------
 * @example a,b,c,d => a','b','c','d
 +----------------------------------------------------------
@@ -583,116 +540,88 @@ function strToStr($string,$sper="'",$tper=","){
 
 /**
 +----------------------------------------------------------
-* 加密解密
+* 中文字符串截取
++----------------------------------------------------------
+* @access  public
+* @param   str       $str        字符串
+* @param   str       $start      起始位置
+* @param   str       $length     字符串长度
+* @param   str       $charset    中文字符格式
+* @param   str       $suffix     字符串后缀
++----------------------------------------------------------
+* @return  str
++----------------------------------------------------------
+* @example msubstr( strip_tags($description), 0, 100 )
 +----------------------------------------------------------
 */
-function authcode($string, $operation = 'DECODE', $key = '', $expiry = 0){
-
-	$ckey_length = 4;
-	$key  = md5($key ? $key : C('AUTH_KEY'));
-	$keya = md5(substr($key, 0, 16));
-	$keyb = md5(substr($key, 16, 16));
-	$keyc = $ckey_length ? ($operation == 'DECODE' ? substr($string, 0, $ckey_length): substr(md5(microtime()), -$ckey_length)) : '';
-
-	$cryptkey = $keya.md5($keya.$keyc);
-	$key_length = strlen($cryptkey);
-
-	$string = $operation == 'DECODE' ? base64_decode(substr($string, $ckey_length)) : sprintf('%010d', $expiry ? $expiry + time() : 0).substr(md5($string.$keyb), 0, 16).$string;
-	$string_length = strlen($string);
-
-	$result = '';
-	$box = range(0, 255);
-
-	$rndkey = array();
-	for($i = 0; $i <= 255; $i++) {
-		$rndkey[$i] = ord($cryptkey[$i % $key_length]);
-	}
-
-	for($j = $i = 0; $i < 256; $i++) {
-		$j = ($j + $box[$i] + $rndkey[$i]) % 256;
-		$tmp = $box[$i];
-		$box[$i] = $box[$j];
-		$box[$j] = $tmp;
-	}
-
-	for($a = $j = $i = 0; $i < $string_length; $i++) {
-		$a = ($a + 1) % 256;
-		$j = ($j + $box[$a]) % 256;
-		$tmp = $box[$a];
-		$box[$a] = $box[$j];
-		$box[$j] = $tmp;
-		$result .= chr(ord($string[$i]) ^ ($box[($box[$a] + $box[$j]) % 256]));
-	}
-
-	if($operation == 'DECODE') {
-		if((substr($result, 0, 10) == 0 || substr($result, 0, 10) - time() > 0) && substr($result, 10, 16) == substr(md5(substr($result, 26).$keyb), 0, 16)) {
-			return substr($result, 26);
-		} else {
-			return '';
-		}
-	} else {
-		return $keyc.str_replace('=', '', base64_encode($result));
-	}
+function msubstr ( $str, $start = 0, $length, $charset = "utf-8", $suffix = '...' ) {
+	$str = rtrim( $str, $suffix );
+	if( strlen($str) <= 3*$length )
+		return $str;
+	if( function_exists("mb_substr") )
+		return mb_substr( $str, $start, $length, $charset ) . $suffix;
+	elseif( function_exists('iconv_substr') )
+		return iconv_substr( $str, $start, $length, $charset ) . $suffix;
+	$re['utf-8']  = "/[\x01-\x7f]|[\xc2-\xdf][\x80-\xbf]|[\xe0-\xef][\x80-\xbf]{2}|[\xf0-\xff][\x80-\xbf]{3}/";
+	$re['gb2312'] = "/[\x01-\x7f]|[\xb0-\xf7][\xa0-\xfe]/";
+	$re['gbk']    = "/[\x01-\x7f]|[\x81-\xfe][\x40-\xfe]/";
+	$re['big5']   = "/[\x01-\x7f]|[\x81-\xfe]([\x40-\x7e]|\xa1-\xfe])/";
+	preg_match_all( $re[$charset], $str, $match );
+	$slice = join( "", array_slice($match[0], $start, $length) );
+	return $slice.$suffix;
 }
 
-
-	//取得当前时间
-	function gmtime(){
-		return (time() - date('Z'));
+/*
+ * 设定出生年，月，日列表值
+ */
+function getBirthdayYearList(){
+	$start_year=1910;
+	$end_year=mydate('Y');
+	$index=$start_year;
+	$year_list=array();
+	for($index=$start_year;$index<=$end_year;$index++){
+		$year_list[$index]=$index;
 	}
-
-
-	/*
-	 * 设定出生年，月，日列表值
-	 */
-	function getBirthdayYearList(){
-		$start_year=1910;
-		$end_year=mydate('Y');
-		$index=$start_year;
-		$year_list=array();
-		for($index=$start_year;$index<=$end_year;$index++){
-			$year_list[$index]=$index;
+	return $year_list;
+}
+function getBirthdayMonthList(){
+	$start_month=1;
+	$end_month=12;
+	$month_list=array();
+	for($i=$start_month;$i<=$end_month;$i++){
+		$i=sprintf("%02d",$i);
+		$month_list[$i]=$i;
+	}
+	return $month_list;
+}
+function getBirthdayDayList(){
+	$start_day=1;
+	$end_day=31;
+	$day_list=array();
+	for($i=$start_day;$i<=$end_day;$i++){
+		$i=sprintf("%02d",$i);
+		$day_list[$i]=sprintf("%02d",$i);
+	}
+	return $day_list;
+}
+function unique_arr($array2D,$stkeep=false,$ndformat=true){
+	if($stkeep) $stArr = array_keys($array2D);
+	if($ndformat) $ndArr = array_keys(end($array2D));
+	foreach ($array2D as $v){
+		$v = join(",",$v);
+		$temp[] = $v;
+	}
+	$temp = array_unique($temp);
+	foreach ($temp as $k => $v){
+		if($stkeep) $k = $stArr[$k];
+		if($ndformat){
+			$tempArr = explode(",",$v);
+			foreach($tempArr as $ndkey => $ndval) $output[$k][$ndArr[$ndkey]] = $ndval;
 		}
-		return $year_list;
+		else $output[$k] = explode(",",$v);
 	}
-	function getBirthdayMonthList(){
-		$start_month=1;
-		$end_month=12;
-		$month_list=array();
-		for($i=$start_month;$i<=$end_month;$i++){
-			$i=sprintf("%02d",$i);
-			$month_list[$i]=$i;
-		}
-		return $month_list;
-	}
-	function getBirthdayDayList(){
-		$start_day=1;
-		$end_day=31;
-		$day_list=array();
-		for($i=$start_day;$i<=$end_day;$i++){
-			$i=sprintf("%02d",$i);
-			$day_list[$i]=sprintf("%02d",$i);
-		}
-		return $day_list;
-	}
-	function unique_arr($array2D,$stkeep=false,$ndformat=true){
-        if($stkeep) $stArr = array_keys($array2D);
-        if($ndformat) $ndArr = array_keys(end($array2D));
-        foreach ($array2D as $v){
-            $v = join(",",$v);
-            $temp[] = $v;
-        }
-        $temp = array_unique($temp);
-        foreach ($temp as $k => $v){
-            if($stkeep) $k = $stArr[$k];
-            if($ndformat){
-                $tempArr = explode(",",$v);
-                foreach($tempArr as $ndkey => $ndval) $output[$k][$ndArr[$ndkey]] = $ndval;
-            }
-            else $output[$k] = explode(",",$v);
-        }
-        return $output;
-    }
+	return $output;
+}
 
 /**
 +----------------------------------------------------------
@@ -734,133 +663,127 @@ function make_semiangle($str){
 	return strtr($str, $arr);
 }
 
+/*      //////////////////////////////////////////////模板 - 数据获取 - 开始//////////////////////////////////////////////      */
 
 /**
 +----------------------------------------------------------
-* 判断一个字符是否包含繁体
+* 获取当前语言
++----------------------------------------------------------
+* @access  public
+* @param   int       $type      类型：1为获取sid,2为获取blcode
++----------------------------------------------------------
+* @return  str
++----------------------------------------------------------
+* @example getLang()
 +----------------------------------------------------------
 */
-function isbig5str($str) {
-	for($i=0; $i<mb_strlen($str, 'UTF-8'); $i++) {
-		$code = mb_substr($str, $i, 1, 'UTF-8');
-		if(@iconv('utf-8', 'gb2312', $code) == '') {
-			return true;
-		}
+function getLang ( $type = 1 ) {
+	$lang = C('DEFAULT_LANG');
+	if( in_array( $_REQUEST['l'],explode(',',C('LANG_LIST')) ))
+		$lang = $_REQUEST['l'];
+	else if( in_array( $_COOKIE['l'],explode(',',C('LANG_LIST')) ))
+		$lang = $_COOKIE['l'];
+	if( $type == 2 ) return $lang;
+	if( $type == 1 ){
+		$siteInfo = A( 'Base' )->siteInfo;
+		return $siteInfo[$lang]['sid'];
 	}
-	return false;
 }
 
-    /**
-    +----------------------------------------------------------
-    | xss
-    +----------------------------------------------------------
-    */
-    function remove_xss($val){
-       $val    = preg_replace('/([\x00-\x08,\x0b-\x0c,\x0e-\x19])/', '', $val);
-       $search = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890!@#$%^&*()~`";:?+/={}[]-_|\'\\';
+/*      //////////////////////////////////////////////模板 - 数据获取 - 结束//////////////////////////////////////////////      */
 
-       for($i = 0; $i < strlen($search); $i++){
-          $val = preg_replace('/(&#[xX]0{0,8}'.dechex(ord($search[$i])).';?)/i', $search[$i], $val); // with a ;
-          $val = preg_replace('/(&#0{0,8}'.ord($search[$i]).';?)/', $search[$i], $val);
-       }
+/*      //////////////////////////////////////////////$_REQUEST数据过滤 - 开始//////////////////////////////////////////////      */
 
-       // now the only remaining whitespace attacks are \t, \n, and \r
-       $ra1 = array
-             (
-                'javascript', 'vbscript', 'expression', 'applet', 'meta', 'xml', 'blink', 'link', 'style', 'script',
-                'embed', 'object', 'iframe', 'frame', 'frameset', 'ilayer', 'layer', 'bgsound', 'title', 'base'
-             );
-       $ra2 = array
-             (
-                'onabort', 'onactivate', 'onafterprint', 'onafterupdate', 'onbeforeactivate', 'onbeforecopy', 'onbeforecut',
-                'onbeforedeactivate', 'onbeforeeditfocus', 'onbeforepaste', 'onbeforeprint', 'onbeforeunload', 'onbeforeupdate',
-                'onblur', 'onbounce', 'oncellchange', 'onchange', 'onclick', 'oncontextmenu', 'oncontrolselect', 'oncopy', 'oncut',
-                'ondataavailable', 'ondatasetchanged', 'ondatasetcomplete', 'ondblclick', 'ondeactivate', 'ondrag', 'ondragend', 'ondragenter', 'ondragleave', 'ondragover', 'ondragstart', 'ondrop', 'onerror', 'onerrorupdate', 'onfilterchange', 'onfinish', 'onfocus',
-                'onfocusin', 'onfocusout', 'onhelp', 'onkeydown', 'onkeypress', 'onkeyup', 'onlayoutcomplete', 'onload', 'onlosecapture',
-                'onmousedown', 'onmouseenter', 'onmouseleave', 'onmousemove', 'onmouseout', 'onmouseover', 'onmouseup', 'onmousewheel', 'onmove', 'onmoveend', 'onmovestart', 'onpaste', 'onpropertychange', 'onreadystatechange', 'onreset', 'onresize', 'onresizeend', 'onresizestart', 'onrowenter', 'onrowexit', 'onrowsdelete', 'onrowsinserted', 'onscroll', 'onselect', 'onselectionchange', 'onselectstart', 'onstart', 'onstop', 'onsubmit', 'onunload'
-             );
-       $ra = array_merge($ra1, $ra2);
+/**
++----------------------------------------------------------
+* _REQUEST参数过滤
++----------------------------------------------------------
+* @access  public
++----------------------------------------------------------
+* @return  void
++----------------------------------------------------------
+*/
+function filter_param() {
+	foreach ( $_REQUEST as $_k => $_v ) {
+		$value = is_array($_v) ? $_v : daddslashes(urldecode($_v));
+		$_REQUEST[$_k] = $value;
+		if( array_key_exists($_k,$_POST) ) $_POST[$_k] = $value;
+		if( array_key_exists($_k,$_GET) ) $_GET[$_k] = $value;
+	}
+}
 
-       $found = true;
-       while($found == true){
-          $val_before = $val;
-          for($i = 0; $i < sizeof($ra); $i++){
-             $pattern = '/';
-             for($j = 0; $j < strlen($ra[$i]); $j++){
-                if ($j > 0){
-                   $pattern .= '(';
-                   $pattern .= '(&#[xX]0{0,8}([9ab]);)';
-                   $pattern .= '|';
-                   $pattern .= '|(&#0{0,8}([9|10|13]);)';
-                   $pattern .= ')*';
-                }
-                $pattern .= $ra[$i][$j];
-             }
-             $pattern .= '/i';
-             $replacement = substr($ra[$i], 0, 2).'<x>'.substr($ra[$i], 2); // add in <> to nerf the tag
-             $val = preg_replace($pattern, $replacement, $val); // filter out the hex tags
-             if ($val_before == $val){
-                $found = false;
-             }
-          }
-       }
-       return $val;
-    }
+/**
++----------------------------------------------------------
+* 字符转义
++----------------------------------------------------------
+* @access  public
+* @param   arr or str      $string      字符串
++----------------------------------------------------------
+* @return  str
++----------------------------------------------------------
+ */
+function daddslashes( $string ) {
+	if( !is_array($string) )
+		return sql_replace($string);
+	$keys = array_keys($string);
+	foreach( $keys as $key ){
+		$string[$key] = daddslashes($string[$key]);
+	}
+	return $string;
+}
 
-    /**
-    +----------------------------------------------------------
-    |  filter_param
-    +----------------------------------------------------------
-    */
-    function filter_param(){
-       foreach($_REQUEST as $_k => $_v){
-            $rs = daddslashes(urldecode($_v));
-            $_REQUEST[$_k] = $rs;
-            if(array_key_exists($_k,$_POST)){
-                $_POST[$_k] = $rs;
-            }
-            if(array_key_exists($_k,$_GET)){
-                $_GET[$_k] = $rs;
-            }
-       }
-    }
-    /**
-    +----------------------------------------------------------
-    | 字符转义
-    +----------------------------------------------------------
-    */
-    function daddslashes($string){
-        if(is_array($string)){
-    		$keys = array_keys($string);
-    		foreach($keys as $key){
-    			$val = $string[$key];
-    			unset($string[$key]);
-    			$string[$key] = daddslashes($val);
-    		}
-    	}else{
-    		$string = sql_replace($string);
-    	}
-        $domain = array_slice(explode('.',$_SERVER['HTTP_HOST']),0,-2);
-        $domain = $domain[0];
-        return (MODULE_NAME=='Search' || $domain=='search') ? str_ireplace('   ','',$string) : $string;
-    }
-    /**
-    +----------------------------------------------------------
-    | sql 关键字过滤 '\t','\n','\r',  ' ""  '>','<',
-    +----------------------------------------------------------
-    */
-    function sql_replace($value){
-        $value= MAGIC_QUOTES_GPC == true ? stripslashes($value): addslashes($value);
-        $str  = array(
-                      'insert','delete','update','select','drop','create','modify','rename','alter','sleep','where','union','join','like',
-                      'execute','count' ,'and','load_file','outfile','from','case','then','else','1=1','when','%20','"',"'",'>','<',
-                      '--','*/','/*','*','script'
-                     );
-        $show  = array();
-        $value = strip_tags($value);
-        $callback = (trim(str_ireplace($str,$show, $value)));
-        return $callback;
-    }
+/**
++----------------------------------------------------------
+* sql 关键字过滤
++----------------------------------------------------------
+* @access  public
+* @param   str      $value      字符串
++----------------------------------------------------------
+* @return  str
++----------------------------------------------------------
+ */
+function sql_replace( $value ) {
+	$value = html2txt( $value,array('script','comment') );
+	$str  = array( 
+		'--', '*/', '/*', '*', '#' 
+		,'insert','delete','update','select','drop','create','modify','rename','alter','sleep','where','union','join','like','execute','count' ,'and','load_file','outfile','from','case','then','else','1=1','when'
+	);
+	$callback = htmlspecialchars( trim( str_ireplace($str,'', $value) ) );
+	return $callback;
+}
+
+/**
++----------------------------------------------------------
+* HTML代码过滤成纯文本
++----------------------------------------------------------
+* @access  public
+* @param   str      $str      字符串
+* @param   arr      $type     过滤类型
++----------------------------------------------------------
+* @return  str
++----------------------------------------------------------
+*/
+function html2txt( $str, $type ) {
+	$_search = array(
+		'script'  => '/<(script.*?)>(.*?)<(\/script.*?)>/si',   // Strip out javascript 
+		'style'   => '/<(style.*?)>(.*?)<(\/style.*?)>/si',    // Strip style tags properly
+		'comment' => '@<![\s\S]*?--[ \t\n\r]*>@'         // Strip multi-line comments including CDATA 
+	);
+	$search = array(
+		'/<\!--.*?-->/si',    //过滤注释标签
+		'/<(\/?html.*?)>/si', //过滤html标签
+		'/<(\/?meta.*?)>/si', //过滤meta标签
+		'/<(\/?link.*?)>/si', //过滤link标签
+		'/<(title.*?)>(.*?)<(\/title.*?)>/si',//过滤title标签
+	);
+	if( !empty($type) && is_array($type) )
+		foreach( $type as $key=>$val )
+			if( !empty($_search[$val]) ) $search[] = $_search[$val];
+	$search = !empty($search) ? $search : $_search;
+	return preg_replace( $search, '', $str );
+}
+
+/*      //////////////////////////////////////////////$_REQUEST数据过滤 - 结束//////////////////////////////////////////////      */
 
 
 ?>

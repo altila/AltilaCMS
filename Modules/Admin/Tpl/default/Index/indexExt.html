@@ -1,0 +1,38 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh-cn">
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<title>CMS 管理系统</title>
+		<php>echo get_static_file(array('ext-all.css','desktop.css'),'extjs/Public');</php>
+</head>
+<body>
+	<a href="{:domain("www")}" target="_blank" alt="Create By :altila开发" id="poweredby"><div></div></a>
+
+	<php>echo get_static_file(array('ext-all-debug.js','ext-lang-zh_cn.js'),'extjs/Public');</php>
+	<php>//echo get_static_file(array('all-classes.js'),'extjs/desktop');</php>
+
+	{//加载基础JS 开始}
+	<script type="text/javascript">
+		var ROOT = "__ROOT__", APP  = "__APP__", PUBLIC  = "__PUBLIC__", 
+		EXTROOT = PUBLIC + '/extjs', EXTAPPS = EXTROOT + '/Apps', EXTCOMMON = EXTROOT + '/Common', EXTCONF = EXTROOT + '/Conf', EXTPUBLIC = EXTROOT + '/Public', EXTWIN = EXTROOT + '/Win';
+		Ext.Loader.setConfig({
+			enabled: true,
+		});
+		Ext.Loader.setPath({
+			'Ext.ux'   : EXTCOMMON + '/ux',
+			AppsRoot   : EXTAPPS,
+			ConfRoot   : EXTCONF,
+			CommonRoot : EXTCOMMON,
+			WinRoot    : EXTWIN,
+			MyDesktop  : EXTROOT,
+		});
+		Ext.require('MyDesktop.App');
+		Ext.onReady(function () {
+			myDesktopApp = new MyDesktop.App();
+		});
+	</script>
+	{//加载基础JS 结束}
+</body>
+</html>
+
