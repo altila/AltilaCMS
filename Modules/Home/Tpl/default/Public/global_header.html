@@ -1,17 +1,20 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" lang="zh-cn">
-	<head>
-		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
+<head>
+    <meta charset="utf-8">
 		<meta content="{$head['description']|htmlspecialchars}" name="description"/>
 		<meta content="{$head['keywords']|htmlspecialchars}" name="keywords" />
-		<meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7" />
 		<meta name="Copyright" content="{$head['name']|htmlspecialchars}" />
 		<meta name="viewport" content="width=1024" />
 		<title>{$head['title']|htmlspecialchars}</title>
 		<link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
-		<php>echo get_static_file(array('global.css',$css.'.css'),'default');</php>
+		<php>echo get_static_file(array('bootstrap.css',$css.'.css'),'default');</php>
 	</head>
 	<body>
+	<php>echo get_static_file(array('jquery.js', 'bootstrap.js'),'default');</php>
 	<php>echo get_static_file(array('jquery-1.4.3.min.js','jquery.cookie.js','jquery.lazyload.js','common.js','a.js'),'public');</php>
 	
 	<require file="Admin,Public/consts_js" />
@@ -25,10 +28,11 @@
 
 	<require file="Home,Ad/topAd" />
 
-	<require file="Home,Ad/logo" />
+	<div class="container">
+		<require file="Home,Ad/logo" />
 
-	<require file="Home,Menu/menu" />
+		<require file="Home,Menu/menu" />
 
-	<require file="Home,Ad/default" />
+		<require file="Home,Ad/default" />
 
 

@@ -1,13 +1,10 @@
-<div class="">
-	<h2 class="">
-		当前位置:
-		<a href="/" title="首页">首页</a> &gt; 
-		<model model="$modelName" app="$appName" fun="breadCrumbs" condition="$condition" order="" limit="" key="i">
-		<a target="_blank" href="{:getUrl( $modelName, $result )}" title="{$result['name']}">{$result['name']}</a> &gt; 
-		</model>
-		<span>{$info['name']}</span>
-	</h2>
-</div>
+<ul class="breadcrumb">
+	<li><a href="/" title="首页">首页</a> <span class="divider">/</span></li>
+	<model model="$modelName" app="$appName" fun="breadCrumbs" condition="$condition" order="" limit="" key="i">
+	<li><a target="_blank" href="{:getUrl( $modelName, $result )}" title="{$result['name']}">{$result['name']}</a> <span class="divider">/</span></li>
+	</model>
+	<li class="active">{$info['name']}</li>
+</ul>
 
 <?php unset($modelName,$appName,$condition); ?>
 
