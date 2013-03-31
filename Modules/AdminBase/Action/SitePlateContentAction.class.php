@@ -41,6 +41,7 @@ class SitePlateContentAction extends ABaseAction {
 		else if( $_REQUEST['model'] == 1 && in_array($_REQUEST['type'],array(1,2)) ) $_POST['model_value'] = $_REQUEST['model1'];
 		else if( $_REQUEST['model'] == 4 && in_array($_REQUEST['type'],array(1,2)) ) $_POST['model_value'] = $_REQUEST['model4'];
 		else $_POST['model_value'] = '';
+		$_POST['list_opt'] = array_sum($_POST['list_opt']);
 	}
 
 	/**
@@ -54,6 +55,7 @@ class SitePlateContentAction extends ABaseAction {
 		else if( $_REQUEST['model'] == 1 && in_array($_REQUEST['type'],array(1,2)) ) $_POST['model_value'] = $_REQUEST['model1'];
 		else if( $_REQUEST['model'] == 4 && in_array($_REQUEST['type'],array(1,2)) ) $_POST['model_value'] = $_REQUEST['model4'];
 		else $_POST['model_value'] = '';
+		$_POST['list_opt'] = array_sum($_POST['list_opt']);
 	}
 
 }

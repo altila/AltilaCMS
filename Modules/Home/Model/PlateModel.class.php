@@ -33,7 +33,7 @@ class PlateModel extends HBaseModel {
 		//查询数据
 		$date = date('Y-m-d H:i');
 		$timeCondition = "( spc.start_time < '{$date}' AND  spc.end_time > '{$date}' ) OR ( spc.start_time = '1970-01-01 08:00:00' AND spc.end_time > '{$date}' ) OR ( spc.start_time < '{$date}' AND spc.end_time = '1970-01-01 08:00:00' ) OR ( spc.start_time = '1970-01-01 08:00:00' AND spc.end_time = '1970-01-01 08:00:00' )";
-		$sql = "SELECT spc.name AS spcName,spc.row_position,spc.type,spc.model,spc.model_value,spc.class AS spcClass,spc.sort AS spcSort
+		$sql = "SELECT spc.name AS spcName,spc.row_position,spc.type,spc.model,spc.model_value,spc.class AS spcClass,spc.sort AS spcSort,spc.list_opt
 			,sp.spid,sp.name AS spName,sp.row,sp.class AS spClass,sp.sort AS spSort
 			,spg.spgid,spg.name AS spgName,spg.code 
 			FROM site_plate_content AS spc
@@ -45,8 +45,10 @@ class PlateModel extends HBaseModel {
 		if( empty($list) ) return;
 		//拼接数据
 		foreach( $list as $key => $val ){
-			if( $val['row_position'] <= $val['row'] )
-				$result[$val['spgCode']][$val['spSort']][$val['row_position']][$val['spcSort']] = $val;
+			if( $val['row_position'] <= $val['row'] ){
+				$result[$val['spgCode']][$val['spSort']][$val['row_position']]['data'][$val['spcSort']] = $val;
+				$result[$val['spgCode']][$val['spSort']][$val['row_position']]['conf'] = array( 'spName'=>$val['spName'], 'spClass'=>$val['spClass'] );
+			}
 		}
 		//print_r($result);
 		return array($result);

@@ -381,7 +381,7 @@ function adShow( adposid ){
 //广告自动运行
 $(document).ready(function(){
 	$("div[ap^='ad_']").each(function(){
-		var adPosId = $(this).attr("id").substr(3);
+		var adPosId = $(this).attr("ap").substr(3);
 		adShow(adPosId);
 	});
 });

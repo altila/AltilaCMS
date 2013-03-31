@@ -8,9 +8,9 @@ $menuType = C('MENU_TYPE');
 <volist name="result[$spgCode]" id="list">
 <div class="row">
 	<volist name="list" id="row">
-	<div class="">
-		<volist name="row" id="vo">
-		<div class="">
+	<div class="spjc {$row['conf']['spClass']}">
+		<volist name="row['data']" id="vo">
+		<div class="spcjc {$vo['spcClass']}">
 			<?php
 			unset($appName,$cateModel,$infoModel,$plateCondition);
 			$name = $menuType[$vo['model']]['name'];
@@ -35,7 +35,7 @@ $menuType = C('MENU_TYPE');
 
 			{//列表 开始}
 			<elseif condition=" in_array($vo['model'],array(1,4)) &&  $vo['type'] == 1 " />
-			<?php $plateCondition = 'status=1&' . getModelPk($cateModel) . '='.$vo['model_value']; $listType = 1; ?>
+			<?php $plateCondition = 'status=1&' . getModelPk($cateModel) . '='.$vo['model_value']; $listType = $vo['list_opt']; ?>
 			<model model="$cateModel" app="$appName" fun="getInfo" condition="$plateCondition" order="" limit="" key="i" result="info">
 			<require file="Home,Public/list" />
 			</model>
@@ -43,7 +43,7 @@ $menuType = C('MENU_TYPE');
 
 			{//分类 开始}
 			<elseif condition=" in_array($vo['model'],array(1,4)) &&  $vo['type'] == 2 " />
-			<?php $plateCondition = 'status=1&parent_id='.$vo['model_value']; $listType = 1; ?>
+			<?php $plateCondition = 'status=1&parent_id='.$vo['model_value']; ?>
 			<model model="$cateModel" app="$appName" fun="getInfo" condition="$plateCondition" order="" limit="" key="i" result="info">
 			<a target="_blank" href="{:getUrl( $cateModel, $info )}" title="{$info['name']}">{$info['name']}</a>
 			</model>

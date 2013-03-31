@@ -77,7 +77,7 @@ class HBaseModel extends ABaseModel {
 			$result[0]['_child'][] = $info;
 			if( !empty($infoAfter) ) foreach( $infoAfter as $key=>$val ) $result[0]['_child'][] = $val;
 		}
-		$result = array( array( 'list'=>$result ) );
+		$result = array( array( 'modelName'=>$this->getModelName(), 'list'=>$result ) );
 		//返回数据
 		return $result;
 	}
@@ -129,7 +129,7 @@ class HBaseModel extends ABaseModel {
 		}
 		//获取面包屑
 		$crumbs = $this->breadCrumbs( $result[0] );
-		$result = array( array( 'crumbs'=>$crumbs, 'list'=>$result ) );
+		$result = array( array( 'crumbs'=>$crumbs, 'modelName'=>$this->getModelName(), 'list'=>$result ) );
 		//返回数据
 		return $result;
 	}

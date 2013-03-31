@@ -3,6 +3,8 @@ $dateType = !empty($dateType) ? $dateType : 'Y-m-d H:i';
 $thumbWidth = !empty($thumbWidth) ? $thumbWidth : 65;
 $imgWidth = !empty($imgWidth) ? $imgWidth : 195;
 $limit = !empty($limit) ? $limit : $info['list_num'];
+$listType = !empty($listType) ? $listType : $info['list_opt'];
+
 $appName = !empty($appName) ? $appName : 'Home';
 $modelName = $name . 'Info';
 $categoryName = $name . 'Category';
@@ -21,15 +23,26 @@ $condition = "status=1&" . getModelPk($categoryName) . "=in#" . $pid . "&cp=" . 
 		<volist name="list" id="vo">
 		<li>
 
-			<if condition=" !empty($vo['thumbnail']) ">
+			{//缩略图 开始}
+			<if condition=" !empty($vo['thumbnail']) && ($listType&32) == 32 ">
 			<img width="{$thumbWidth}" original="{$vo['thumbnail']}" src="{:C('DEFAULT_IMG')}" alt="{$vo['name']}">
 			</if>
+			{//缩略图 结束}
 
+			{//名称 开始}
+			<if condition=" ($listType&1) == 1 ">
 			<a target="_blank" href="{:getUrl( $modelName, $vo )}" title="{$vo['name']}">{$vo['name']}</a>
+			</if>
+			{//名称 结束}
 
+			{//简介 开始}
+			<if condition=" ($listType&64) == 64 ">
 			<span>{$vo['description']}</span>
+			</if>
+			{//简介 结束}
 
-			<if condition=" !empty($vo['img_url']) ">
+			{//图片 开始}
+			<if condition=" !empty($vo['img_url']) && ($listType&128) == 128 ">
 			<?php $imgArr = explode(',',$vo['img_url']);?>
 			<a target="_blank" href="{:getUrl( $modelName, $vo )}" title="{$vo['name']}">
 				<volist name="imgArr" id="img">
@@ -39,8 +52,10 @@ $condition = "status=1&" . getModelPk($categoryName) . "=in#" . $pid . "&cp=" . 
 				</volist>
 			</a>
 			</if>
+			{//图片 结束}
 
-			<if condition=" !empty($vo['tags_name']) ">
+			{//标签 开始}
+			<if condition=" !empty($vo['tags_name']) && ($listType&256) == 256 ">
 			<?php $tagArr = explode(',',$vo['tags_name']);?>
 			<div class="tag">
 				<volist name="tagArr" id="tag">
@@ -50,22 +65,37 @@ $condition = "status=1&" . getModelPk($categoryName) . "=in#" . $pid . "&cp=" . 
 				</volist>
 			</div>
 			</if>
+			{//标签 结束}
 
+			{//用户名 开始}
+			<if condition=" ($listType&4) == 4 ">
 			<span class="">{$vo['uid']|findById="AdminUser/UserBase",###,'user_id'}</span>
+			</if>
+			{//用户名 结束}
 
+			{//添加时间 开始}
+			<if condition=" ($listType&2) == 2 ">
 			<span class="">{$vo['add_time']|strtotime|date=$dateType,###}</span>
+			</if>
+			{//添加时间 结束}
 
 		</li>
 		</volist>
 	</ul>
 
+	{//更多 开始}
+	<if condition=" ($listType&16) == 16 ">
 	<div class="more">
 		<a target="_blank" href="{:getUrl( $categoryName, $info )}" title="查看更多">查看更多>></a>
 	</div>
+	</if>
+	{//更多 结束}
 
-	<if condition=" $info['is_page'] == 1 ">
+	{//分页 开始}
+	<if condition=" ($listType&8) == 8 ">
 	<div class="bottom-pager">{$listResult['page']}</div>
 	</if>
+	{//分页 结束}
 
 	</model>
 </div>

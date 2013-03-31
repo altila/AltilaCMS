@@ -59,6 +59,14 @@
 				</select>
 
 			</div>
+			<div class="model1_1 model4_1 unit " style="display:none">
+				<label>列表显示项：</label>
+				<input type="checkbox" name="list_opt[]" <if condition=" ($vo['list_opt']&1) == 1 ">checked</if> value="1">名称
+				<input type="checkbox" name="list_opt[]" <if condition=" ($vo['list_opt']&2) == 2 ">checked</if> value="2">添加时间
+				<input type="checkbox" name="list_opt[]" <if condition=" ($vo['list_opt']&4) == 4 ">checked</if> value="4">用户名
+				<input type="checkbox" name="list_opt[]" <if condition=" ($vo['list_opt']&16) == 16 ">checked</if> value="16">更多
+				<input type="checkbox" name="list_opt[]" <if condition=" ($vo['list_opt']&32) == 32 ">checked</if> value="32">缩略图
+			</div>
 		</div>
 		<div class="formBar">
 			<ul>
