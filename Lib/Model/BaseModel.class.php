@@ -194,7 +194,7 @@ class BaseModel extends Model {
 	+----------------------------------------------------------
 	*/
 	public function getSetCache( $key, $type = 'File', $isGet = true, $value = '', $time = '900' ) {
-		if( C("APP_DEBUG") ) return;
+		if( APP_DEBUG ) return;
 		$type = in_array($type,explode(',',C('DATA_CACHE_TYPE_ARRAY'))) ? $type : 'File';
 		if( is_array($key) ){
 			foreach( $key as $k=>$v ) $_t.= $k.'='.$v.'&';

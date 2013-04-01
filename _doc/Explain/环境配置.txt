@@ -1,3 +1,18 @@
+<virtualHost 127.0.0.2:80>
+    <Directory D:/wamp/www/GitHub/AltilaCMS>
+    Options FollowSymLinks
+    AllowOverride All
+    Order allow,deny
+    Allow from all
+    FileETag None
+    </Directory>
+    DocumentRoot D:/wamp/www/GitHub/AltilaCMS
+    ServerName www.altilacms.com
+    ServerAlias *.altilacms.com
+</VirtualHost>
+
+
+
 Apache开启模块：rewrite_module
 根目录下增加.htaccess文件
 
