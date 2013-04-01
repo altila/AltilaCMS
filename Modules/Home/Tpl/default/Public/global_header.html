@@ -5,39 +5,38 @@
 <!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
 <head>
     <meta charset="utf-8">
-		<meta content="{$head['description']|htmlspecialchars}" name="description"/>
-		<meta content="{$head['keywords']|htmlspecialchars}" name="keywords" />
-		<meta name="Copyright" content="{$head['name']|htmlspecialchars}" />
-		<title>{$head['title']|htmlspecialchars}</title>
-		<link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
-		<php>echo get_static_file(array('bootstrap.css'),'public');</php>
-		<php>echo get_static_file(array($css.'.css'),'default');</php>
-		<style type="text/css">
-			.nav-header {
-				font-size: 16px;
-				padding: 0;
-			}
-		</style>
-	</head>
-	<body>
-		<php>echo get_static_file(array('jquery-1.9.1.min.js', 'bootstrap.js', 'jquery.cookie.js','jquery.lazyload.js','common.js','a.js'),'public');</php>
-	
+	<meta content="{$head['description']|htmlspecialchars}" name="description"/>
+	<meta content="{$head['keywords']|htmlspecialchars}" name="keywords" />
+	<meta name="Copyright" content="{$head['name']|htmlspecialchars}" />
+	<title>{$head['title']|htmlspecialchars}</title>
+	<link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+	<php>echo get_static_file(array('bootstrap.css'),'public');</php>
+	<php>echo get_static_file(array($css.'.css'),'default');</php>
+	<style type="text/css">
+		.nav-header {
+			font-size: 16px;
+			padding: 0;
+		}
+	</style>
+	<php>echo get_static_file(array('jquery-1.9.1.min.js', 'bootstrap.js', 'jquery.cookie.js','jquery.lazyload.js','common.js','a.js'),'public');</php>
 	<require file="Admin,Public/consts_js" />
+</head>
+<body>
 
-	{//获取广告js数组 开始}
-	<?php $isEnableAdJs = findById ( 'SiteConfig', array('key'=>'isEnableAdJs','status'=>'1'), 'value' ); ?>
-	<if condition=" $isEnableAdJs == 1 ">
-	<script type='text/javascript' src='{:domain('www')}/Ad/getAdPosList.shtml'></script>
-	</if>
-	{//获取广告js数组 结束}
+{//获取广告js数组 开始}
+<?php $isEnableAdJs = findById ( 'SiteConfig', array('key'=>'isEnableAdJs','status'=>'1'), 'value' ); ?>
+<if condition=" $isEnableAdJs == 1 ">
+<script type='text/javascript' src='{:domain('www')}/Ad/getAdPosList.shtml'></script>
+</if>
+{//获取广告js数组 结束}
 
-	<require file="Home,Ad/topAd" />
+<require file="Home,Ad/topAd" />
 
-	<div class="container">
-		<require file="Home,Ad/logo" />
+<div class="container">
+	<require file="Home,Ad/logo" />
 
-		<require file="Home,Menu/menu" />
+	<require file="Home,Menu/menu" />
 
-		<require file="Home,Ad/default" />
-	</div>
+	<require file="Home,Ad/default" />
+</div>
 
