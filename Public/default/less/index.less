@@ -2,15 +2,26 @@
 
 .panel-1 { 
 	float: left;
-	width: 400px;
+	width: 460px;
 	margin-left: 20px;
-	background: #ccc;
 }
 .panel-2 { 
 	float: left;
-	width: 520px;
+	width: 460px;
 	margin-left: 20px;
-	background: #eee;
 }
-
+.list:before, .list:after {
+	content: "";
+    display: table;
+    line-height: 0;
+}
+.list:after {
+    clear: both;
+}
+.list {
+	text-align: right;
+}
+.list a {
+	float: left;
+}
 
