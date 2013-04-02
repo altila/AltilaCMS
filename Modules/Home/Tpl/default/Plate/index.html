@@ -8,7 +8,7 @@ $menuType = C('MENU_TYPE');
 <volist name="result[$spgCode]" id="list">
 <div class="row">
 	<volist name="list" id="row">
-	<div class="spjc {$row['conf']['spClass']}">
+	<div class="spjc <notempty name="row['conf']['spClass']">{$row['conf']['spClass']}-{$key}</notempty>">
 		<volist name="row['data']" id="vo">
 		<div class="spcjc {$vo['spcClass']}">
 			<?php
