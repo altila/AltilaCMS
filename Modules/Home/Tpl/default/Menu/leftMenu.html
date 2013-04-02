@@ -1,7 +1,7 @@
 <model model="$modelName" fun="$functionName" condition="$condition" order="" limit="" key="i" result="leftMenu">
 <div class="well sidebar-nav">	
 	<volist name="leftMenu['crumbs']" id="crumbs">
-	<h2><a title="{$crumbs['name']}" href="{:getUrl( MODULE_NAME, $crumbs )}">{$crumbs['name']}</a> &gt;  &gt; </h2>
+	<h2><a title="{$crumbs['name']}" href="{:getUrl( MODULE_NAME, $crumbs )}">{$crumbs['name']}</a></h2>
 	</volist>
 
 	<volist name="leftMenu['list']" id="list">
