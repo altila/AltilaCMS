@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50136
 File Encoding         : 65001
 
-Date: 2013-03-31 16:36:16
+Date: 2013-04-02 22:05:06
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -848,7 +848,7 @@ CREATE TABLE `site_plate` (
 -- ----------------------------
 -- Records of site_plate
 -- ----------------------------
-INSERT INTO `site_plate` VALUES ('1', '1', '1', '默认面板', '2', '', '1', '1', '2013-03-24 15:51:46', '2013-03-26 13:55:23');
+INSERT INTO `site_plate` VALUES ('1', '1', '1', '默认面板', '2', 'panel-1，panel-2', '1', '1', '2013-03-24 15:51:46', '2013-04-02 22:01:10');
 INSERT INTO `site_plate` VALUES ('2', '1', '2', '默认面板', '3', '', '0', '1', '2013-03-24 15:56:22', '2013-03-24 15:56:22');
 INSERT INTO `site_plate` VALUES ('3', '1', '1', '广告', '1', '', '2', '1', '2013-03-25 14:45:03', '2013-03-25 14:45:03');
 

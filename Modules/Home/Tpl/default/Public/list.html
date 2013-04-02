@@ -25,7 +25,9 @@ $condition = "status=1&" . getModelPk($categoryName) . "=in#" . $pid . "&cp=" . 
 
 			{//缩略图 开始}
 			<if condition=" !empty($vo['thumbnail']) && ($listType&32) == 32 ">
-			<img width="{$thumbWidth}" original="{$vo['thumbnail']}" src="{:C('DEFAULT_IMG')}" alt="{$vo['name']}">
+			<a target="_blank" href="{:getUrl( $modelName, $vo )}" title="{$vo['name']}">
+				<img width="{$thumbWidth}" original="{$vo['thumbnail']}" src="{:C('DEFAULT_IMG')}" alt="{$vo['name']}">
+			</a>
 			</if>
 			{//缩略图 结束}
 
