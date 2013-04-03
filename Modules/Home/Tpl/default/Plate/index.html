@@ -30,7 +30,8 @@ $menuType = C('MENU_TYPE');
 			<elseif condition=" $vo['model'] == 1 && $vo['type'] == 3 " />
 			<?php $plateCondition = 'status=1&' . getModelPk($infoModel) . '='.$vo['model_value']; ?>
 			<model model="$infoModel" app="$appName" fun="getInfo" condition="$plateCondition" order="" limit="" key="i" result="info">
-			{$info['description']}
+			<h2>{$info['name']}</h2>
+			<p>{$info['description']}</p>
 			</model>
 			{//单篇内容 结束}
 
@@ -38,6 +39,7 @@ $menuType = C('MENU_TYPE');
 			<elseif condition=" in_array($vo['model'],array(1,4)) &&  $vo['type'] == 1 " />
 			<?php $plateCondition = 'status=1&' . getModelPk($cateModel) . '='.$vo['model_value']; $listType = $vo['list_opt']; ?>
 			<model model="$cateModel" app="$appName" fun="getInfo" condition="$plateCondition" order="" limit="" key="i" result="info">
+			<h2>{$info['name']}</h2>
 			<require file="Home,Public/list" />
 			</model>
 			{//列表 结束}

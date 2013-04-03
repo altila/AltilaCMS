@@ -19,7 +19,7 @@ $condition = "status=1&" . getModelPk($categoryName) . "=in#" . $pid . "&cp=" . 
 	<model model="$modelName" app="$appName" fun="getList" condition="$condition" order="" limit="$limit" key="i" result="listResult">
 	<?php $list = $listResult['list'];?>
 
-	<ul class="">
+	<ul class="list">
 		<volist name="list" id="vo">
 		<li>
 
@@ -77,7 +77,7 @@ $condition = "status=1&" . getModelPk($categoryName) . "=in#" . $pid . "&cp=" . 
 
 			{//添加时间 开始}
 			<if condition=" ($listType&2) == 2 ">
-			<span class="">{$vo['add_time']|strtotime|date=$dateType,###}</span>
+			<span class="date">{$vo['add_time']|strtotime|date=$dateType,###}</span>
 			</if>
 			{//添加时间 结束}
 

@@ -2,14 +2,14 @@
 @baseFontSize: 12px;
 @layoutWidth: 940px;
 
-
+//边框线
 .baseBorder(@baseBorderWidth: 1px; @baseBorderColor: @baseColor; @baseBorderStyle: solid;) {
 	border-width: @baseBorderWidth;
 	border-color: @baseBorderColor;
 	border-style: @baseBorderStyle;
 }
 
-
+//bootstrap中的设置将文本域设置为20px高，不符合项目需求，这里做了修改
 input[type="text"].search-query {
 	height: auto;
 }
@@ -30,8 +30,6 @@ input[type="text"].search-query {
 }
 .list:after {
     clear: both;
-}
-.list {
 }
 .list .date {
 	float: right;
