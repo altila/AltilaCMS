@@ -5,10 +5,10 @@
 <!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
 <head>
     <meta charset="utf-8"/>
-	<meta content="{$head['description']|htmlspecialchars}" name="description"/>
-	<meta content="{$head['keywords']|htmlspecialchars}" name="keywords" />
-	<meta name="Copyright" content="{$head['name']|htmlspecialchars}" />
 	<title>{$head['title']|htmlspecialchars}</title>
+	<meta name="description" content="{$head['description']|htmlspecialchars}"/>
+	<meta name="keywords" content="{$head['keywords']|htmlspecialchars}"/>
+	<meta name="Copyright" content="{$head['name']|htmlspecialchars}" />
 	<link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
 	<php>echo get_static_file(array('bootstrap.css'),'public');</php>
 	<php>echo get_static_file(array($css.'.css'),'default');</php>
@@ -19,6 +19,10 @@
 		}
 	</style>
 	<php>echo get_static_file(array('jquery-1.9.1.min.js', 'bootstrap.js', 'jquery.cookie.js','jquery.lazyload.js','common.js','a.js'),'public');</php>
+	<!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+      <php>echo get_static_file(array('html5shiv.js'),'public');</php>
+    <![endif]-->
 	<require file="Admin,Public/consts_js" />
 </head>
 <body>

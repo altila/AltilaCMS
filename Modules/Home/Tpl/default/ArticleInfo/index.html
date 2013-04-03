@@ -1,11 +1,16 @@
 <require file="Home,Public/global_header" />
 
-<include  file="leftMenu" />
-
-<include  file="ArticleCategory:breadCrumbs" />
-
-{$info['content']|htmlspecialchars_decode=ENT_QUOTES}
-
+<div class="container">
+	<div class="row">
+		<div class="span3">
+			<include  file="leftMenu" />
+		</div>
+		<div class="span9">
+			<include  file="ArticleCategory:breadCrumbs" />
+			{$info['content']|htmlspecialchars_decode=ENT_QUOTES}
+		</div>
+	</div>
+</div>
 
 <require file="Home,Public/global_footer" />
 

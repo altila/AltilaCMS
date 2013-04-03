@@ -31,15 +31,23 @@ $condition = "status=1&" . getModelPk($categoryName) . "=in#" . $pid . "&cp=" . 
 			</if>
 			{//缩略图 结束}
 
-			{//名称 开始}
+			{//标题 开始}
 			<if condition=" ($listType&1) == 1 ">
-			<a target="_blank" href="{:getUrl( $modelName, $vo )}" title="{$vo['name']}">{$vo['name']}</a>
+			<h4>
+				<a target="_blank" href="{:getUrl( $modelName, $vo )}" title="{$vo['name']}">{$vo['name']}</a>
+			</h4>
 			</if>
-			{//名称 结束}
+			{//标题 结束}
+
+			{//添加时间 开始}
+			<if condition=" ($listType&2) == 2 ">
+			<span class="date">{$vo['add_time']|strtotime|date=$dateType,###}</span>
+			</if>
+			{//添加时间 结束}
 
 			{//简介 开始}
 			<if condition=" ($listType&64) == 64 ">
-			<span>{$vo['description']}</span>
+			<span class="discription">{$vo['description']}</span>
 			</if>
 			{//简介 结束}
 
@@ -71,15 +79,9 @@ $condition = "status=1&" . getModelPk($categoryName) . "=in#" . $pid . "&cp=" . 
 
 			{//用户名 开始}
 			<if condition=" ($listType&4) == 4 ">
-			<span class="">{$vo['uid']|findById="AdminUser/UserBase",###,'user_id'}</span>
+			<span class="user">{$vo['uid']|findById="AdminUser/UserBase",###,'user_id'}</span>
 			</if>
 			{//用户名 结束}
-
-			{//添加时间 开始}
-			<if condition=" ($listType&2) == 2 ">
-			<span class="date">{$vo['add_time']|strtotime|date=$dateType,###}</span>
-			</if>
-			{//添加时间 结束}
 
 		</li>
 		</volist>
