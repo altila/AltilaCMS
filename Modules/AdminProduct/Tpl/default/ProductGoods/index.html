@@ -2,7 +2,9 @@
 
 	<div class="tabs">
 
+		<neq name="_REQUEST['returnRequire']" value="1">
 		<require file="Admin,BaseLang/selectLang" />
+		</neq>
 
 		<div class="tabsContent">
 
@@ -48,6 +50,9 @@
 					<table class="table" width="100%" layoutH="143">
 						<thead>
 							<tr>
+								<eq name="_REQUEST['returnRequire']" value="1">
+								<th width="30">带回</th>
+								</eq>
 								<th width="">商品主图</th>
 								<th width="">商品编码</th>
 								<th width="">商品名称</th>
@@ -61,6 +66,9 @@
 							<if condition=" !empty($_REQUEST['sid']) ">
 							<volist id="vo" name="list">
 							<tr target="_id" rel="{$vo[getModelPk(MODULE_NAME)]}">
+								<eq name="_REQUEST['returnRequire']" value="1">
+								<td><a class="btnSelect" href="javascript:$.bringBack({<?php echo getModelPk(MODULE_NAME).":'".$vo[getModelPk(MODULE_NAME)]."'"; ?>})" title="查找带回">选择</a></td>
+								</eq>
 								<td class="imgurl" onmouseover="bigImgShow($(this))" onmouseout="bigImgHide($(this))"><img height="35" src="{$vo['thumbnail']}"></td>
 								<td>{$vo['code']}</td>
 								<td>{$vo['name']}</td>

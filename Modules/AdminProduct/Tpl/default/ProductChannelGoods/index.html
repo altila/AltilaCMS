@@ -45,9 +45,9 @@
 
 					<div class="panelBar">
 						<ul class="toolBar">
-							<li><a class="add" href="__URL__/add?pcid={$_REQUEST['pcid']}&sid={$_REQUEST['sid']}" target="dialog" mask="true"><span>新增</span></a></li>
+							<li><a class="add" rel="add" href="__URL__/add?pcid={$_REQUEST['pcid']}&sid={$_REQUEST['sid']}" target="dialog" mask="true"><span>新增</span></a></li>
 							<li><a class="delete" href="__URL__/delete?{:getModelPk(MODULE_NAME)}={_id}" target="ajaxTodo" title="你确定要删除吗？" warn="请选择数据"><span>删除</span></a></li>
-							<li><a class="edit" href="__URL__/edit?{:getModelPk(MODULE_NAME)}={_id}" target="dialog" mask="true" warn="请选择数据"><span>修改</span></a></li>
+							<li><a class="edit" rel="edit" href="__URL__/edit?{:getModelPk(MODULE_NAME)}={_id}" target="dialog" mask="true" warn="请选择数据"><span>修改</span></a></li>
 						</ul>
 					</div>
 					</if>
@@ -68,9 +68,9 @@
 							<if condition=" !empty($_REQUEST['sid']) ">
 							<volist id="vo" name="list">
 							<tr target="_id" rel="{$vo[getModelPk(MODULE_NAME)]}">
-								<td class="imgurl" onmouseover="bigImgShow($(this))" onmouseout="bigImgHide($(this))"><img height="35" src="{$vo['thumbnail']}"></td>
-								<td>{$vo['code']}</td>
-								<td>{$vo['name']}</td>
+								<td class="imgurl" onmouseover="bigImgShow($(this))" onmouseout="bigImgHide($(this))"><img height="35" src="{:findById('ProductGoods',$vo['pgid'],'thumbnail')}"></td>
+								<td>{:findById('ProductGoods',$vo['pgid'],'code')}</td>
+								<td>{$vo['name_prefix']}-{:findById('ProductGoods',$vo['pgid'],'name')}-{$vo['name_suffix']}</td>
 								<td>{:findById('ProductChannel',$vo['pcid'],'name')}</td>
 								<td>{:findById('SiteMenu',$vo['smid'],'name')}</td>
 								<td>{$vo['update_time']}</td>
