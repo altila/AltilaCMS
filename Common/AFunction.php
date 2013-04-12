@@ -72,7 +72,7 @@ function showTree( $list, $level = 0, $childStr = array('|&nbsp;&nbsp;','|--'), 
 		$_value['childStr'] = "{$_childStr}{$childStr[1]}";
 		unset($_value['_child']);
 		$result[$model][] = $_value;
-		if( !empty($value['_child']) ) showTree( $value['_child'], ++$level, $childStr, $model );
+		if( !empty($value['_child']) ) showTree( $value['_child'], !empty($value['crumb']) ? count(explode('-',$value['crumb']))-1 : ++$level, $childStr, $model );
 	}
 	return $result[$model];
 }
@@ -386,42 +386,23 @@ function getCount ( $name, $map ) {
 * @param   str             $name      模块名称
 * @param   str or arr      $map       主键ID号 或 查询条件
 * @param   str             $attr      字段名称
+* @param   str             $type      返回类型:one[默认]\arr\str
+* @param   str             $sper      连接符
 +----------------------------------------------------------
-* @return  str
+* @return  str or arr
 +----------------------------------------------------------
 * @example {:findById(MODULE_NAME)}
 +----------------------------------------------------------
 */
-function findById ( $name, $map, $attr = "" ) {
+function findById ( $name, $map, $attr = "", $type = "one", $sper = "," ) {
 	if( empty($name) || empty($map) ) return;
+	$_attr = explode(',',$attr);
 	$model = D( $name );
 	$where = ( !is_array($map) ) ? "{$model->getPk()}={$map}" : $map;
-	return $model->where( $where )->getField( $attr );
-}
-
-/**
-+----------------------------------------------------------
-* 根据条件,获取数据
-+----------------------------------------------------------
-* @access  public
-* @param   str             $name      模块名称
-* @param   str or arr      $map       主键ID号 或 查询条件
-* @param   str             $attr      字段名称
-* @param   str             $sper      连接符
-* @param   int             $type      返回类型:arr、str[默认]
-+----------------------------------------------------------
-* @return  str
-+----------------------------------------------------------
-* @example {:findReturn(MODULE_NAME)}
-+----------------------------------------------------------
-*/
-function findReturn ( $name, $map, $attr = "", $type = "str", $sper = "," ) {
-	if( empty($name) || empty($map) ) return;
-	$model = D( $name );
-	$where = ( !is_array($map) ) ? "{$model->getPk()}={$map}" : $map;
+	if( $type == 'one' ) return $model->where( $where )->getField( $attr );
 	$result = $model->where( $where )->field( $attr )->select();
 	foreach( $result as $key=>$value ){
-		$_result[] = $value[$attr];
+		( !empty($_attr[1]) ) ? $_result[$value[$_attr[1]]] = $value[$_attr[0]] : $_result[] = $value[$_attr[0]];
 	}
 	return ( $type == 'str' ) ? implode($sper,$_result) : $_result ;
 }

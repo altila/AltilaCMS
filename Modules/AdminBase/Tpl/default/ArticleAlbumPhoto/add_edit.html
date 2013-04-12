@@ -15,11 +15,9 @@
 				<label>相片相册：</label>
 				<select name="aaid">
 					<option <if condition=" $vo['aaid'] == '' || $_REQUEST['aaid'] == '' " >selected</if> value="">请选择</option>
-					<option <if condition=" $vo['aaid'] == 0 || $_REQUEST['aaid'] == 0 " >selected</if> value="0">贴图</option>
-					<?php $condition = "status=1&sid=".$_REQUEST['sid'];?>
-					<model model="ArticleAlbum" fun="getData" condition="$condition" order="" limit="" key="i" result="alResult">
-					<option <if condition=" $vo['aaid'] == $alResult['aaid'] || $_REQUEST['aaid'] == $alResult['aaid'] " >selected</if> value="{$alResult['aaid']}">{$alResult['name']}</option>
-					</model>
+					<option <if condition=" $vo['aaid'] === 0 || $_REQUEST['aaid'] === 0 " >selected</if> value="0">|--0.贴图</option>
+					<?php $optionType = 1;?>
+					<require file="AdminBase,ArticleAlbum/treeSelectOption" />
 				</select>
 			</div>
 			<if condition=" empty($vo[getModelPk(MODULE_NAME)]) ">

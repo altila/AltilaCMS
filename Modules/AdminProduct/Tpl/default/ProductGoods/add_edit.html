@@ -1,12 +1,63 @@
 <div class="pageContent">
 	<form method="post" action="__URL__/<empty name="vo[getModelPk(MODULE_NAME)]">insert<else />update</empty>/navTabId/{:MODULE_NAME}" class="pageForm required-validate" onsubmit="return validateCallback(this,dialogAjaxDone);">
+	<div class="tabs">
 		<input type="hidden" name="{:getModelPk(MODULE_NAME)}" value="{$vo[getModelPk(MODULE_NAME)]}" >
+		<input type="hidden" name="sid" value="<empty name="vo[getModelPk(MODULE_NAME)]">{$_REQUEST['sid']}<else />{$vo['sid']}</empty>" >
 		<input type="hidden" name="update_time" value="{:date("Y-m-d H:i:s")}">
 		<empty name="vo[getModelPk(MODULE_NAME)]"><input type="hidden" name="add_time" value="{:date("Y-m-d H:i:s")}"></empty>
-		<div class="pageFormContent" layoutH="58">
-			<div class="unit">
-				<label>用户名称：</label>
-				<input type="text" class="required"  name="user_id" value="{$vo['user_id']}">
+
+		<div class="tabsHeader">
+			<div class="tabsHeaderContent">
+				<ul>
+					<li class="selected"><a href="#"><span>基础设置</span></a></li>
+					<li><a href="#"><span>更多设置</span></a></li>
+				</ul>
+			</div>
+		</div>
+		<div class="tabsContent" layouth="88">
+			<div >
+				<div class="pageFormContent" layoutH="88">
+					<div class="unit">
+						<label>商品主图：</label>
+						<!--<textarea name="thumbnail" rows="5" cols="20" id="editor_thumbnail"><img src="{$vo['thumbnail']}" /></textarea>-->
+						<input type="text" name="thumbnail" value="{$vo['thumbnail']}">
+					</div>
+					<div class="unit">
+						<label>商品编码：</label>
+						<input type="text" class="required alphanumeric"  name="code" value="{$vo['code']}" <notempty name="vo[getModelPk(MODULE_NAME)]">disabled</notempty> >
+					</div>
+					<div class="unit">
+						<label>商品名称：</label>
+						<input type="text" class="required"  name="name" value="{$vo['name']}">
+					</div>
+					<div class="unit">
+						<label>商品成本价：</label>
+						<input type="text" name="cost_price" value="{$vo['cost_price']}" <notempty name="vo[getModelPk(MODULE_NAME)]">disabled</notempty>>
+					</div>
+					<div class="unit">
+						<label>商品市场价：</label>
+						<input type="text" name="market_price" value="{$vo['market_price']}" <notempty name="vo[getModelPk(MODULE_NAME)]">disabled</notempty>>
+					</div>
+					<div class="unit">
+						<label>商品保护价：</label>
+						<input type="text" name="protect_price" value="{$vo['protect_price']}">
+					</div>
+
+				</div>
+			</div>
+			<div>
+				<div class="pageFormContent" layoutH="88">
+					<input type="hidden" name="pkField" value="pdcid">
+					<input type="hidden" name="field" value="content">
+					<volist name="descList" id="voList">
+					<div class="unit">
+						<label>{$voList['name']}：</label>
+						<input type="hidden" name="descList[{$voList['pdcid']}][id]" value="{$descContent[$voList['pdcid']]['id']}">
+						<textarea class="huge bLeft" name="descList[{$voList['pdcid']}][content]" ROWS="5" COLS="57">{$descContent[$voList['pdcid']]['content']}</textarea>
+					</div>
+					</volist>
+
+				</div>
 			</div>
 		</div>
 		<div class="formBar">
@@ -15,6 +66,5 @@
 				<li><div class="button"><div class="buttonContent"><button type="button" class="close">取消</button></div></div></li>
 			</ul>
 		</div>
-	</form>
-</div>
-
+	</div>
+</form>

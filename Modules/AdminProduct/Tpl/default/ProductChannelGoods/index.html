@@ -8,7 +8,7 @@
 
 			<div>
 				
-				<div class="unitBox" >
+				<div class="unitBox">
 
 					<require file="Admin,Public/pagerForm" />
 
@@ -17,6 +17,13 @@
 						<form onsubmit="return navTabSearch(this);" action="__URL__" method="post">
 							<div class="searchBar">
 								<ul class="searchContent">
+									<li>
+										<label>商品渠道：</label>
+										<select name="pcid">
+											<option <eq name="_REQUEST['pcid']" value="" >selected</eq> value="">请选择</option>
+											<require file="AdminProduct,ProductChannel/treeSelectOption" />
+										</select>
+									</li>
 									<li>
 										<label>商品编码：</label>
 										<input type="text" name="code" value="{$_REQUEST['code']}" >
@@ -38,9 +45,9 @@
 
 					<div class="panelBar">
 						<ul class="toolBar">
-							<li><a class="add" href="__URL__/add?sid={$_REQUEST['sid']}" target="dialog" max="true" mask="true"><span>新增</span></a></li>
+							<li><a class="add" href="__URL__/add?pcid={$_REQUEST['pcid']}&sid={$_REQUEST['sid']}" target="dialog" mask="true"><span>新增</span></a></li>
 							<li><a class="delete" href="__URL__/delete?{:getModelPk(MODULE_NAME)}={_id}" target="ajaxTodo" title="你确定要删除吗？" warn="请选择数据"><span>删除</span></a></li>
-							<li><a class="edit" href="__URL__/edit/sid/{$_REQUEST['sid']}/{:getModelPk(MODULE_NAME)}/{_id}" target="dialog" max="true" mask="true" warn="请选择数据"><span>修改</span></a></li>
+							<li><a class="edit" href="__URL__/edit?{:getModelPk(MODULE_NAME)}={_id}" target="dialog" mask="true" warn="请选择数据"><span>修改</span></a></li>
 						</ul>
 					</div>
 					</if>
@@ -51,8 +58,8 @@
 								<th width="">商品主图</th>
 								<th width="">商品编码</th>
 								<th width="">商品名称</th>
-								<th width="">商品成本价</th>
-								<th width="">商品市场价</th>
+								<th width="">商品渠道</th>
+								<th width="">商品分类</th>
 								<th width="130">更新时间</th>
 								<th width="35" orderField="status" <if condition="$_REQUEST['orderField'] eq 'status'">class="{$_REQUEST['orderDirection']}"</if> >状态</th>
 							</tr>
@@ -64,8 +71,8 @@
 								<td class="imgurl" onmouseover="bigImgShow($(this))" onmouseout="bigImgHide($(this))"><img height="35" src="{$vo['thumbnail']}"></td>
 								<td>{$vo['code']}</td>
 								<td>{$vo['name']}</td>
-								<td>{$vo['cost_price']}</td>
-								<td>{$vo['market_price']}</td>
+								<td>{:findById('ProductChannel',$vo['pcid'],'name')}</td>
+								<td>{:findById('SiteMenu',$vo['smid'],'name')}</td>
 								<td>{$vo['update_time']}</td>
 								<td>{$vo['status']|showStatus=$vo[getModelPk(MODULE_NAME)],'',getModelPk(MODULE_NAME)}</td>
 							</tr>

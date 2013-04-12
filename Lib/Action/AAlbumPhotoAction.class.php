@@ -130,8 +130,8 @@ class AAlbumPhotoAction extends ABaseAction {
 	+----------------------------------------------------------
 	*/
 	public function imgManagerIndex() {
-		$sid = array( 'in',findReturn ( "SiteWeb", array('domain'=>$this->siteMark), "sid", "array" ) );
-		$result = findReturn ( $this->getActionName(), array('sid'=>$sid), "url", "str", "ue_separate_ue" );
+		$sid = array( 'in',findById( "SiteWeb", array('domain'=>$this->siteMark), "sid", "arr" ) );
+		$result = findById( $this->getActionName(), array('sid'=>$sid), "url", "str", "ue_separate_ue" );
 		$TMPL_PARSE_STRING = C('TMPL_PARSE_STRING');
 		die( str_replace( '__UPLOAD__', $TMPL_PARSE_STRING['__UPLOAD__'], $result ) );
 	}

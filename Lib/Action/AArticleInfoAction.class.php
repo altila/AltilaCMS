@@ -20,6 +20,8 @@ class AArticleInfoAction extends ABaseAction {
 	public function _before_insert() {
 		$description = htmlspecialchars_decode( $_POST['description'] );
 		$content = htmlspecialchars_decode( $_POST['content'] );
+		//文章标签
+		if( !empty($_POST['tags_name']) ) $_POST['tags_name'] = str_replace( '，', ',', $_POST['tags_name'] );
 		//文章简述
 		$_POST['description'] = !empty($description) ? msubstr( strip_tags($description), 0, 100 ) : msubstr( strip_tags($content), 0, 100 );
 		//替换图片路径
@@ -41,6 +43,8 @@ class AArticleInfoAction extends ABaseAction {
 	public function _before_update() {
 		$description = htmlspecialchars_decode( $_POST['description'] );
 		$content = htmlspecialchars_decode( $_POST['content'] );
+		//文章标签
+		if( !empty($_POST['tags_name']) ) $_POST['tags_name'] = str_replace( '，', ',', $_POST['tags_name'] );
 		//文章简述
 		$_POST['description'] = !empty($description) ? msubstr( strip_tags($description), 0, 100 ) : msubstr( strip_tags($content), 0, 100 );
 		//替换图片路径

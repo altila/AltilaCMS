@@ -1,0 +1,9 @@
+<?php 
+$code = empty($vo[$field['id']]) ? $_REQUEST[$field['id']] : $vo[$field['id']];
+$valueName = empty($valueName) ? getModelPk($moduleName) : $valueName;
+?>
+<model model="$moduleName" app="$appName" fun="getData" condition="$_condition" order="" limit="" key="i" result="oResult">
+<input type="radio" <eq name="code" value="$oResult[$valueName]" >checked="checked"</eq> name="{$field['id']}" value="{$oResult[$valueName]}" >{$oResult['name']}({$oResult['code']})
+</model>
+
+<?php unset($field,$moduleName,$appName,$_condition,$valueName,$code); ?>

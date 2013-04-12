@@ -10,7 +10,7 @@
 // +----------------------------------------------------------------------
 // $Id$
 
-class BlogInfoAction extends AArticleInfoAction {
+class ProductChannelGoodsAction extends ABaseAction {
 
 	/**
 	+----------------------------------------------------------
@@ -18,39 +18,51 @@ class BlogInfoAction extends AArticleInfoAction {
 	+----------------------------------------------------------
 	*/
 	public function _before_add() {
-		if( empty($_REQUEST['smid']) ) $this->ajaxReturn( '', "请选择!", 0 );
+		if( empty($_REQUEST['sid']) ) $this->ajaxReturn( '', "请选择语言!", 0 );
 	}
 
 	/**
 	+----------------------------------------------------------
-	* 排序前置
+	* 插入前置
 	+----------------------------------------------------------
 	*/
-	public function _before_sort() {
-		if( empty($_REQUEST['smid']) ) $this->ajaxReturn( '', "请选择!", 0 );
+	public function _before_insert() {
+		if( empty($_REQUEST['smid']) ) $this->ajaxReturn( '', "请选择分类!", 0 );
+		if( empty($_REQUEST['pcid']) ) $this->ajaxReturn( '', "请选择渠道!", 0 );
 	}
 
 	/**
 	+----------------------------------------------------------
-	* 插入后置
+	* 更新前置
 	+----------------------------------------------------------
 	*/
-	public function _after_insert() {
-		$_POST[$_POST['pkField']] = D( $this->getActionName() )->getLastInsID();
-		$_POST[$_POST['field']] = $_POST['tags_name'];
-		$_POST['condition'] = array( $_POST['pkField']=>$_POST[$_POST['pkField']] );
-		D( 'BlogTag' )->editForeach( $_POST );
+	public function _before_update() {
+		if( empty($_REQUEST['smid']) ) $this->ajaxReturn( '', "请选择分类!", 0 );
+		if( empty($_REQUEST['pcid']) ) $this->ajaxReturn( '', "请选择渠道!", 0 );
 	}
 
 	/**
 	+----------------------------------------------------------
-	* 更新后置
+	* 插入前需要检验的字段
 	+----------------------------------------------------------
 	*/
-	public function _after_update() {
-		$_POST[$_POST['field']] = $_POST['tags_name'];
-		$_POST['condition'] = array( $_POST['pkField']=>$_POST[$_POST['pkField']] );
-		D( 'BlogTag' )->editForeach( $_POST );
+	public function _filterInsertCheck() {
+		$map['sid'] = $_REQUEST['sid'];
+		$map['pcid'] = $_REQUEST['pcid'];
+		$map['code'] = $_REQUEST['code'];
+		return $map;
+	}
+
+	/**
+	+----------------------------------------------------------
+	* 更新前需要检验的字段
+	+----------------------------------------------------------
+	*/
+	public function _filterUpdateCheck() {
+		$map['sid'] = $_REQUEST['sid'];
+		$map['pcid'] = $_REQUEST['pcid'];
+		$map['code'] = $_REQUEST['code'];
+		return $map;
 	}
 
 }

@@ -11,10 +11,6 @@
 // $Id$
 class ABaseModel extends BaseModel {
 
-	public function __construct(){
-		parent::__construct();
-	}
-
 	/**
 	+----------------------------------------------------------
 	* 根据条件逻辑删除表数据
@@ -105,13 +101,26 @@ class ABaseModel extends BaseModel {
 	*/
 	public function editForeach( $condition ) {
 		$condition = empty($condition) ? $_POST : $condition;
-		if( empty($condition[$condition['pkField']]) ) return;
-		$this->query( " DELETE FROM {$this->getTableName()} WHERE {$condition['pkField']} = {$condition[$condition['pkField']]} " );
-		$arr = explode( ',', str_replace( '，', ',', $condition["_{$condition['field']}"] ) );
-		foreach ( $arr as $key=>$value ) {
-			$condition[$condition['field']] = $value;
-			$this->add( $condition );
+		$_arr = findById( $this->getTableName(), $condition['condition'], "{$condition['field']},".$this->getPk(), 'arr' );
+		$arr = explode( ',', str_replace( '，', ',', $condition["{$condition['field']}"] ) );
+		foreach ( $_arr as $key=>$val )
+			if( in_array($val,$arr) ) unset($_arr[$key],$arr[array_search($val,$arr)]);
+		//更新
+		if( count($_arr) == 1 && count($arr) == 1 ){
+			$this->save( $condition );
+			return;
 		}
+		//删除
+		if( !empty($_arr) )
+			$this->query( " DELETE FROM {$this->getTableName()} WHERE {$this->getPk()} IN ( '" . implode("','",array_keys($_arr)) . "' ) " );
+		//添加
+		if( !empty($arr) )
+			foreach ( $arr as $key=>$value ) {
+				if( !empty($value) ) {
+					$condition[$condition['field']] = $value;
+					$this->add( $condition );
+				}
+			}
 		return;
 	}
 

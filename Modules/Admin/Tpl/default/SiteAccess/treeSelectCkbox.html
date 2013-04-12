@@ -2,7 +2,7 @@
 $_condition = "isHtmlModelUser=1";
 $moduleName = 'SiteNode';
 $field = getModelPk($moduleName);
-$ids = findReturn( MODULE_NAME, array( 'rid'=>$_REQUEST['rid'],'sid'=>$_REQUEST['sid'] ), $field, 'arr' );
+$ids = findById( MODULE_NAME, array( 'rid'=>$_REQUEST['rid'],'sid'=>$_REQUEST['sid'] ), $field, 'arr' );
 $condition = array( 'field'=>$field, 'class'=>' treeCheck expand', 'ids'=>$ids, 'isCheck'=>1 );
 ?>
 <require file="Admin,Public/treeSelectCkbox" />

@@ -2,7 +2,7 @@
 $moduleName = 'SiteMenu';
 $appName = 'AdminBase';
 $_condition = "sid=" . ( !empty($_REQUEST['sid']) ? $_REQUEST['sid'] : $vo['sid'] ) . ( $modelType !== '' ? '&model=' . $modelType : '' ); 
-$field = empty($field) ? array('id'=>'model_value') : $field;
+$field = empty($field) ? array('id'=>getModelPk($moduleName)) : $field;
 ?>
 
-<require file="Admin,Public/treeSelectOption" />
+<require file="Admin,Public/treeSelectRadio" />

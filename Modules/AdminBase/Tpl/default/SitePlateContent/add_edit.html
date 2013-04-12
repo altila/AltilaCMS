@@ -17,7 +17,7 @@
 			</div>
 			<div class="unit">
 				<label>内容类型：</label>
-				<select name="type" id="type">
+				<select name="type" id="modelType">
 					<option <eq name="vo['type']" value="1" >selected</eq> value="1">列表</option>
 					<option <eq name="vo['type']" value="2" >selected</eq> value="2">分类</option>
 					<option <eq name="vo['type']" value="3" >selected</eq> value="3">单篇内容</option>
@@ -31,7 +31,7 @@
 					<option <eq name="vo['model']" value="1" >selected</eq> value="1">文章</option>
 					<?php $isEnableBlog = findById ( 'SiteConfig', array('key'=>'isEnableBlog','status'=>'1'), 'value' ); ?>
 					<if condition=" $isEnableBlog == 1 ">
-					<option <eq name="vo['model']" value="4" >selected</eq> value="4">博文分类ID</option>
+					<option <eq name="vo['model']" value="4" >selected</eq> value="4">博文</option>
 					</if>
 				</select>
 			</div>
@@ -78,11 +78,11 @@
 </div>
 
 <script type="text/javascript">
-$("#type").change(function(){changeHref();});
+$("#modelType").change(function(){changeHref();});
 $("#model").change(function(){changeHref();});
 $(document).ready(function(){changeHref();});
 function changeHref(){
-	var type = $("#type").val(), model = $("#model").val();
+	var type = $("#modelType").val(), model = $("#model").val();
 	$("[class^='model']").hide()
 	$(".model"+model+'_'+type).show();
 }

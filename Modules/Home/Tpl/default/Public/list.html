@@ -11,7 +11,7 @@ $categoryName = $name . 'Category';
 $tagName = $name . 'Tag';
 $groupName = $name . 'Group';
 
-$pid = findReturn ( $categoryName, array('crumb'=>array( 'like', $info['crumb'].'%') ), getModelPk($categoryName), 'str' );
+$pid = findById( $categoryName, array('crumb'=>array( 'like', $info['crumb'].'%') ), getModelPk($categoryName), 'str' );
 $condition = "status=1&" . getModelPk($categoryName) . "=in#" . $pid . "&cp=" . $_REQUEST['cp'];
 ?>
 

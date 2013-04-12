@@ -25,11 +25,8 @@
 										<label>相片相册：</label>
 										<select name="aaid">
 											<option <eq name="_REQUEST['aaid']" value="" >selected</eq> value="">请选择</option>
-											<option <eq name="_REQUEST['aaid']" value="0" >selected</eq> value="0">贴图</option>
-											<?php $condition = "status=1&sid=".$_REQUEST['sid'];?>
-											<model model="ArticleAlbum" fun="getData" condition="$condition" order="" limit="" key="i" result="alResult">
-											<option <eq name="_REQUEST['aaid']" value="$alResult['aaid']" >selected</eq> value="{$alResult['aaid']}">{$alResult['name']}</option>
-											</model>
+											<option <eq name="_REQUEST['aaid']" value="0" >selected</eq> value="0">|--0.贴图</option>
+											<require file="AdminBase,ArticleAlbum/treeSelectOption" />
 										</select>
 									</li>
 
