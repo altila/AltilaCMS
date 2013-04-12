@@ -1,4 +1,5 @@
 新增文件：
+
 ORG.Util.RBAC使用ThinkPHP_3.1.2\Extend\Library\ORG\Util中RBAC.class.php文件
 	新增Apps\admin\Lib\ORG\Util\RBAC.class.php，修改本地使用
 
@@ -9,3 +10,7 @@ ORG.Net.UploadFile使用ThinkPHP_3.1.2\Extend\Library\ORG\Net中UploadFile文件
 
 ORG.Util.Image使用ThinkPHP_3.1.2\Extend\Library\ORG\Util中Image文件
 	修改300行,session($verifyName, md5($randval)) 改为 session($verifyName, md5(strtolower($randval)))
+
+DWZ样式文件修改,Public/dwz/css/core.css
+	修改497行,.searchBar ul.searchContent li { float:left; display:block; overflow:hidden; height:21px; padding:2px 15px 2px 0;}
+
