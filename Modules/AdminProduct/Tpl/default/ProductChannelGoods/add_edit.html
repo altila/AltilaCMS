@@ -14,11 +14,6 @@
 				</select>
 			</div>
 			<div class="unit">
-				<label>商品分类：</label>
-				<?php $modelType = '3&type=0&status=1';?>
-				<require file="AdminBase,SiteMenu/treeSelectRadio" />
-			</div>
-			<div class="unit">
 				<label>商品ID：</label>
 				<input type="text" class="required large bLeftRequire"  name="dwz.orgId.pgid" value="{$vo['pgid']}">
 				<a class="btnLook" href="__GROUP__/ProductGoods/index?sid=<empty name="vo[getModelPk(MODULE_NAME)]">{$_REQUEST['sid']}<else />{$vo['sid']}</empty>&returnRequire=1" rel="{:MODULE_NAME}Select" mask="true" lookupGroup="orgId" >选择商品ID</a>
@@ -30,6 +25,15 @@
 			<div class="unit">
 				<label>商品名称后缀：</label>
 				<input type="text" name="name_suffix" value="{$vo['name_suffix']}">
+			</div>
+			<div class="unit">
+				<label>商品销售价：</label>
+				<input type="text" name="sale_price" value="{$vo['sale_price']}">
+			</div>
+			<div class="unit">
+				<label>商品分类：</label>
+				<?php $modelType = '3&type=0&status=1';?>
+				<require file="AdminBase,SiteMenu/treeSelectRadio" />
 			</div>
 		</div>
 		<div class="formBar">

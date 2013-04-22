@@ -1,0 +1,16 @@
+<div class="unit">
+	<label>招聘地区：</label>
+	<select style="display:none" class="combox" name="province" ref="areaCity" refUrl="__APP__/Admin/BaseArea/selectArea.html?parent_id={value}">
+		<option value="">请选择省市</option>
+		<model model="BaseArea" app="Admin" fun="getData" condition="status=1&parent_id=0" order="baid" limit="" key="i">
+		<option value="{$result['baid']}">{$result['name']}</option>
+		</model>
+	</select>
+	<select style="display:none" class="combox" name="city" id="areaCity" ref="areaArea" refUrl="__APP__/Admin/BaseArea/selectArea.html?parent_id={value}">
+		<option value="">请选择城市</option>
+	</select>
+	<select style="display:none" class="combox" name="area" id="areaArea">
+		<option value="">请选择区县</option>
+	</select>
+</div>
+

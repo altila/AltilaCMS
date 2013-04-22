@@ -191,7 +191,7 @@ class ABaseModel extends BaseModel {
 	public function getData( $condition, $field, $order, $limit ) {
 		$isHtmlModelUser = !empty($condition['isHtmlModelUser']) ? $condition['isHtmlModelUser'] : 0;
 		unset($condition['isHtmlModelUser']);
-		$order = " sort " . ( !empty($order) ? $order : '' );
+		$order = !empty($order) ? $order : "sort";
 		$list = $this->where( $condition )->order( $order )->select();
 		$result = ( $isHtmlModelUser == 1 ) ? array($list) : $list;
 		return $result;

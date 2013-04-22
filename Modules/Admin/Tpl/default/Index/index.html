@@ -24,12 +24,6 @@
 
 
 <script type="text/javascript">
-function navTabAjaxMenu(json){
-	navTabAjaxDone(json);
-	if (json.statusCode == DWZ.statusCode.ok){
-		$("#sidebar").loadUrl("__GROUP__/Public/menu");
-	}
-}
 $(function(){
 	DWZ.init("__PUBLIC__/dwz/xml/dwz.frag.xml", {
 		loginUrl:"login_dialog.html", loginTitle:"登录",	// 弹出登录对话框

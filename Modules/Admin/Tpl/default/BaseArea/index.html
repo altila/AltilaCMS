@@ -3,12 +3,12 @@
 		<div class="searchBar">
 			<ul class="searchContent">
 				<li>
-					<label>节点名称：</label>
+					<label>地区名称：</label>
 					<input type="text" name="name" value="{$_REQUEST['name']}" >
 				</li>
 				<li>
-					<label>节点编码：</label>
-					<input type="text" name="code" value="{$_REQUEST['code']}" >
+					<label>地区编码：</label>
+					<input type="text" name="baid" value="{$_REQUEST['baid']}" >
 				</li>
 
 				<div class="subBar">
@@ -26,7 +26,6 @@
 		<ul class="toolBar" id="{:MODULE_NAME}Operate">
 			<li><a class="add" href="__URL__/add" target="ajax" rel="{:MODULE_NAME}AjaxBox" mask="true"><span>新增</span></a></li>
 			<li><a class="delete" _href="__URL__/delete/navTabId/{:MODULE_NAME}/{:getModelPk(MODULE_NAME)}/" href="__URL__/delete/navTabId/{:MODULE_NAME}/{:getModelPk(MODULE_NAME)}/{_id}" target="ajaxTodo" title="你确定要删除吗？" warn="请选择数据"><span>删除</span></a></li>
-			<li><a class="edit sort" _href="__URL__/sort?parent_id=" href="__URL__/sort?parent_id=0" target="dialog" mask="true" width="600" height="400" ><span>排序</span></a></li>
 			<li><a class="delete" href="__URL__/clearCache?cacheKey={:C(MODULE_NAME)}" target="ajaxTodo" title="你确定要删除吗？" ><span>清楚缓存</span></a></li>
 		</ul>
 	</div>
@@ -47,4 +46,5 @@
 	</div>
 
 </div>
+
 

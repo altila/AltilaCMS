@@ -3,7 +3,7 @@ $code = empty($vo[$field['id']]) ? $_REQUEST[$field['id']] : $vo[$field['id']];
 $valueName = empty($valueName) ? getModelPk($moduleName) : $valueName;
 $optionType = empty($optionType) ? 0 : $optionType;
 ?>
-<model model="$moduleName" app="$appName" fun="getTreeLine" condition="$_condition" order="" limit="" key="i" result="oResult">
+<model model="$moduleName" app="$appName" fun="getTreeLine" condition="$_condition" order="$order" limit="" key="i" result="oResult">
 
 <switch name="optionType" >
 <case value="1">

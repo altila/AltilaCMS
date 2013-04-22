@@ -1,0 +1,9 @@
+<?php 
+$moduleName = 'BaseArea';
+$appName = 'Admin';
+$_condition = "status=1";
+$order = getModelPk($moduleName);
+$field = array('id'=>'parent_id');
+?>
+
+<require file="Admin,Public/treeSelectOption" />

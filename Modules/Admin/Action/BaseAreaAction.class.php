@@ -10,7 +10,7 @@
 // +----------------------------------------------------------------------
 // $Id$
 
-class SiteNodeAction extends ACategoryAction {
+class BaseAreaAction extends ACategoryAction {
 
 	/**
 	+----------------------------------------------------------
@@ -26,7 +26,6 @@ class SiteNodeAction extends ACategoryAction {
 	+----------------------------------------------------------
 	*/
 	public function _before_sort() {
-		$_REQUEST['parent_id'] = !empty($_REQUEST['parent_id']) ? $_REQUEST['parent_id'] : 0;
 	}
 
 	/**
@@ -35,8 +34,7 @@ class SiteNodeAction extends ACategoryAction {
 	+----------------------------------------------------------
 	*/
 	public function _filterInsertCheck() {
-		$map['code'] = $_REQUEST['code'];
-		$map['parent_id'] = $_REQUEST['parent_id'];
+		$map['baid'] = $_REQUEST['baid'];
 		return $map;
 	}
 
@@ -46,8 +44,7 @@ class SiteNodeAction extends ACategoryAction {
 	+----------------------------------------------------------
 	*/
 	public function _filterUpdateCheck() {
-		$map['code'] = $_REQUEST['code'];
-		$map['parent_id'] = $_REQUEST['parent_id'];
+		$map['baid'] = $_REQUEST['baid'];
 		return $map;
 	}
 
@@ -57,6 +54,21 @@ class SiteNodeAction extends ACategoryAction {
 	+----------------------------------------------------------
 	*/
 	public function _before_insert() {
+	}
+
+	/**
+	+----------------------------------------------------------
+	* 选择地区
+	+----------------------------------------------------------
+	*/
+	public function selectArea() {
+		$_result[] = array('0','请选择');
+		if( !empty($_REQUEST['parent_id']) && $_REQUEST['parent_id'] != '请选择' ) {
+			$result = D( $this->getActionName() )->where( array('status'=>'1','parent_id'=>$_REQUEST['parent_id']) )->order( 'baid' )->select();
+			foreach( $result as $key=>$val )
+				$_result[] = array( $val['baid'], $val['name'] );
+		}
+		$this->ajaxReturn( json_encode($_result), '', '', 'EVAL' );
 	}
 
 }

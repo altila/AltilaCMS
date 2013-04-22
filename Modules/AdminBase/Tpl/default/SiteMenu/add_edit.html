@@ -47,7 +47,8 @@
 							<?php $isEnableNovel = findById ( 'SiteConfig', array('key'=>'isEnableNovel','status'=>'1'), 'value' ); ?>
 							<if condition=" $isEnableNovel == 1 ">
 							<option <eq name="vo['model']" value="5" >selected</eq> value="5">小说</option>
-							</if>isEnableNovel
+							</if>
+							<option <eq name="vo['model']" value="6" >selected</eq> value="6">招聘</option>
 						</select>
 					</div>
 					<div class="unit">
