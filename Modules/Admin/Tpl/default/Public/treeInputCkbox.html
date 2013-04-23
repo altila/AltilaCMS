@@ -1,0 +1,18 @@
+<?php 
+$code = empty($vo[$field['id']]) ? $_REQUEST[$field['id']] : $vo[$field['id']];
+$valueName = empty($valueName) ? getModelPk($moduleName) : $valueName;
+$optionType = empty($optionType) ? 0 : $optionType;
+?>
+<model model="$moduleName" app="$appName" fun="getData" condition="$_condition" order="$order" limit="" key="i" result="oResult">
+
+<switch name="optionType" >
+<case value="1">
+<input type="checkbox" <if condition="!empty($code) and in_array($oResult[$valueName],explode(',',$code)) " >checked="checked"</if> name="{$field['id']}[]" value="{$oResult[$valueName]}">{$oResult['name']}
+</case>
+<default />
+<input type="checkbox" <eq name="code" value="$oResult[$valueName]" >checked="checked"</eq> name="{$field['id']}[]" value="{$oResult[$valueName]}">{$oResult['name']}
+</switch>
+
+</model>
+
+<?php unset($field,$moduleName,$appName,$_condition,$order,$valueName,$code,$optionType); ?>

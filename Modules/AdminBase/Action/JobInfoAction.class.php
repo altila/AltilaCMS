@@ -10,27 +10,15 @@
 // +----------------------------------------------------------------------
 // $Id$
 
-class JobInfoAction extends ABaseAction {
+class JobInfoAction extends AArticleInfo {
 
 	/**
 	+----------------------------------------------------------
-	* 字段过滤
+	* 新增前置
 	+----------------------------------------------------------
 	*/
-	public function _filter( &$map ) {
-		$map['domain'] = $this->siteMark;
-	}
-
-	/**
-	+----------------------------------------------------------
-	* 更新前置
-	+----------------------------------------------------------
-	*/
-	public function _before_update() {
-		$_POST['name'] = strip_tags( htmlspecialchars_decode($_POST['name']) );
-		$_POST['keywords'] = strip_tags( htmlspecialchars_decode($_POST['keywords']) );
-		$_POST['description'] = strip_tags( htmlspecialchars_decode($_POST['description']) );
-		$_POST['record_no'] = strip_tags( htmlspecialchars_decode($_POST['record_no']) );
+	public function _before_add() {
+		if( empty($_REQUEST['sid']) ) $this->ajaxReturn( '', "请选择!", 0 );
 	}
 
 }

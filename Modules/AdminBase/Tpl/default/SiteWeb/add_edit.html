@@ -8,6 +8,12 @@
 				<label>网站名称：</label>
 				<input type="text" class="required"  name="name" value="{$vo['name']}">
 			</div>
+			<in name="vo['sid']" value="$fieldOpt['record_no']">
+			<div class="unit">
+				<label>网站备案号：</label>
+				<input type="text" name="record_no" value="{$vo['record_no']}">
+			</div>
+			</in>
 			<div class="unit">
 				<label>网站关键字：</label>
 				<textarea class="huge bLeft" name="keywords" ROWS="5" COLS="57">{$vo['keywords']}</textarea>
@@ -15,10 +21,6 @@
 			<div class="unit">
 				<label>网站描述：</label>
 				<textarea class="huge bLeft" name="description" ROWS="5" COLS="57">{$vo['description']}</textarea>
-			</div>
-			<div class="unit">
-				<label>网站备案号：</label>
-				<textarea class="huge bLeft" name="record_no" ROWS="5" COLS="57">{$vo['record_no']}</textarea>
 			</div>
 		</div>
 		<div class="formBar">

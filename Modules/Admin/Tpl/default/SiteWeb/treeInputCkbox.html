@@ -1,0 +1,9 @@
+<?php 
+$moduleName = 'SiteWeb';
+$appName = 'Admin';
+$_condition = "status=1";
+$order = getModelPk($moduleName);
+$field = !empty($field) ? $field : array( 'id'=>getModelPk($moduleName) );
+?>
+
+<require file="Admin,Public/treeInputCkbox" />

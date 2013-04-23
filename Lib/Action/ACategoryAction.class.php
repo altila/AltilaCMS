@@ -69,7 +69,7 @@ class ACategoryAction extends ABaseAction {
 	*/
 	public function _before_insert() {
 		if( !empty($_POST['show_position']) ) $_POST['show_position'] = array_sum($_POST['show_position']);
-		if( !empty($_POST['list_opt']) ) $_POST['list_opt'] = array_sum($_POST['list_opt']);
+		if( !empty($_POST['list_opt']) ) $_POST['list_opt'] = ( $modelName == 'SiteBatabase' ) ? implode(',',$_POST['list_opt']) : array_sum($_POST['list_opt']);
 	}
 
 	/**
@@ -96,7 +96,7 @@ class ACategoryAction extends ABaseAction {
 		$crumb = findById ( $modelName, $_POST['parent_id'], 'crumb' );
 		$_POST['crumb'] = ( !empty($crumb) ? "{$crumb}" : "" ) . "{$_POST[getModelPk($modelName)]}-";
 		if( !empty($_POST['show_position']) ) $_POST['show_position'] = array_sum($_POST['show_position']);
-		if( !empty($_POST['list_opt']) ) $_POST['list_opt'] = array_sum($_POST['list_opt']);
+		if( !empty($_POST['list_opt']) ) $_POST['list_opt'] = ( $modelName == 'SiteDatabase' ) ? implode(',',$_POST['list_opt']) : array_sum($_POST['list_opt']);
 	}
 
 }

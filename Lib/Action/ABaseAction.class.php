@@ -168,6 +168,8 @@ class ABaseAction extends BaseAction {
 	+----------------------------------------------------------
 	*/
 	public function add() {
+		$model = D( $this->getActionName() );
+		$this->fieldOpt = findById('SiteDatabase',array('parent_id'=>findById('SiteDatabase',array('code'=>$model->getTableName()),'sdid')),'list_opt,code','arr');
 		$this->display('add_edit');
 	}
 
@@ -197,6 +199,7 @@ class ABaseAction extends BaseAction {
 		$model = D( $this->getActionName() );
 		$id = $_REQUEST[$model->getPk()];
 		$this->vo = $model->where("{$model->getPk()}={$id}")->find();
+		$this->fieldOpt = findById('SiteDatabase',array('parent_id'=>findById('SiteDatabase',array('code'=>$model->getTableName()),'sdid')),'list_opt,code','arr');
 		$this->display('add_edit');
 	}
 
