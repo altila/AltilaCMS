@@ -13,6 +13,8 @@
 class ABaseAction extends BaseAction {
     // 初始化
 	function _initialize() {
+		//设置默认语言
+		cookie('think_language',C('DEFAULT_LANG'),3600);
 		//父类构造函数
 		parent::_initialize();
 		//import("@.ORG.Util.RBAC");
