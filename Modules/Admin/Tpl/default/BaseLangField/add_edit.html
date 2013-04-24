@@ -12,6 +12,25 @@
 				<label>语言名称：</label>
 				<input type="text" class="required"  name="name" value="{$vo['name']}">
 			</div>
+			<div class="unit">
+				<label>导航中是否显示：</label>
+				<select name="type">
+					<option <eq name="vo['type']" value="0" >selected</eq> value="0">字符串</option>
+					<option <eq name="vo['type']" value="1" >selected</eq> value="1">json数组</option>
+				</select>
+			</div>
+			<div class="unit">
+				<label>中文简体：</label>
+				<textarea class="huge bLeft" name="zh-cn" ROWS="3" COLS="57">{$vo['zh-cn']}</textarea>
+			</div>
+			<div class="unit">
+				<label>英文：</label>
+				<textarea class="huge bLeft" name="en-us" ROWS="3" COLS="57">{$vo['en-us']}</textarea>
+			</div>
+			<div class="unit">
+				<label>中文繁体：</label>
+				<textarea class="huge bLeft" name="zh-tw" ROWS="3" COLS="57">{$vo['zh-tw']}</textarea>
+			</div>
 		</div>
 		<div class="formBar">
 			<ul>
@@ -21,4 +40,5 @@
 		</div>
 	</form>
 </div>
+
 

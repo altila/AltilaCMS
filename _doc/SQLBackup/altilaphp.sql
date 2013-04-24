@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50136
 File Encoding         : 65001
 
-Date: 2013-04-23 15:03:18
+Date: 2013-04-24 15:48:53
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -234,7 +234,7 @@ CREATE TABLE `base_area` (
   `call_code` varchar(8) DEFAULT '0' COMMENT '长途区号',
   `status` tinyint(1) DEFAULT '2' COMMENT '状态: -1为删除，0为禁用，1为正常，2为待批',
   PRIMARY KEY (`baid`)
-) ENGINE=InnoDB AUTO_INCREMENT=820001 DEFAULT CHARSET=utf8 COMMENT='基础地区表';
+) ENGINE=InnoDB AUTO_INCREMENT=820001 DEFAULT CHARSET=utf8 COMMENT='地区管理';
 
 -- ----------------------------
 -- Records of base_area
@@ -3779,7 +3779,7 @@ CREATE TABLE `base_lang` (
   `update_time` datetime DEFAULT '1970-01-01 08:00:00' COMMENT '修改时间',
   PRIMARY KEY (`blid`),
   KEY `code` (`code`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COMMENT='基础语言表';
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COMMENT='语言管理';
 
 -- ----------------------------
 -- Records of base_lang
@@ -3787,6 +3787,34 @@ CREATE TABLE `base_lang` (
 INSERT INTO `base_lang` VALUES ('1', 'zh-cn', '中文简体', '1', '1', '2013-01-27 13:33:08', '2013-01-27 13:35:32');
 INSERT INTO `base_lang` VALUES ('2', 'en-us', '英文', '2', '1', '2013-01-27 13:35:42', '2013-01-27 13:35:42');
 INSERT INTO `base_lang` VALUES ('3', 'zh-tw', '中文繁体', '0', '0', '2013-01-27 13:35:57', '2013-01-27 13:35:57');
+
+-- ----------------------------
+-- Table structure for `base_lang_field`
+-- ----------------------------
+DROP TABLE IF EXISTS `base_lang_field`;
+CREATE TABLE `base_lang_field` (
+  `blfid` int(6) NOT NULL AUTO_INCREMENT COMMENT '主键,自增长',
+  `code` varchar(30) NOT NULL DEFAULT '' COMMENT '语言编码,可作唯一标示',
+  `name` varchar(100) NOT NULL DEFAULT '' COMMENT '语言名称',
+  `type` tinyint(1) DEFAULT '0' COMMENT '语言类型：0为字符串，1为json数组',
+  `zh-cn` varchar(500) DEFAULT '' COMMENT '中文简体',
+  `en-us` varchar(500) DEFAULT '' COMMENT '英文',
+  `zh-tw` varchar(500) DEFAULT '' COMMENT '中文繁体',
+  `sort` tinyint(5) DEFAULT '0' COMMENT '显示顺序',
+  `status` tinyint(1) DEFAULT '2' COMMENT '状态: -1为删除，0为禁用，1为正常，2为待批',
+  `add_time` datetime DEFAULT '1970-01-01 08:00:00' COMMENT '添加时间',
+  `update_time` datetime DEFAULT '1970-01-01 08:00:00' COMMENT '修改时间',
+  PRIMARY KEY (`blfid`),
+  KEY `code` (`code`)
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8 COMMENT='语言字段管理';
+
+-- ----------------------------
+-- Records of base_lang_field
+-- ----------------------------
+INSERT INTO `base_lang_field` VALUES ('1', 'SiteMap_index', '网站地图', '0', '网站地图', 'Site Map', '', '0', '1', '2013-04-23 21:08:11', '2013-04-23 21:12:41');
+INSERT INTO `base_lang_field` VALUES ('2', 'WorkYear', '工作年限', '1', '[&quot;不限&quot;,&quot;在读学生&quot;,&quot;应届毕业生&quot;,&quot;一年以上&quot;,&quot;二年以上&quot;,&quot;三年以上&quot;,&quot;五年以上&quot;,&quot;八年以上&quot;,&quot;十年以上&quot;]', '', '', '0', '1', '2013-04-23 21:12:57', '2013-04-24 11:04:14');
+INSERT INTO `base_lang_field` VALUES ('3', 'PeovideSalary', '月薪范围', '1', '[&quot;面议&quot;,&quot;1500以下&quot;,&quot;1500-2999&quot;,&quot;3000-4499&quot;,&quot;4500-5999&quot;,&quot;6000-7999&quot;,&quot;8000-9999&quot;,&quot;10000-14999&quot;,&quot;15000-19999&quot;,&quot;20000-29999&quot;,&quot;30000-49999&quot;,&quot;50000及以上&quot;]', '', '', '0', '1', '2013-04-23 21:14:55', '2013-04-24 15:30:51');
+INSERT INTO `base_lang_field` VALUES ('4', 'DegreeFrom', '学历要求', '1', '[&quot;不限&quot;,&quot;初中&quot;,&quot;高中&quot;,&quot;中专&quot;,&quot;大专&quot;,&quot;本科&quot;,&quot;硕士&quot;,&quot;博士&quot;]', '', '', '0', '1', '2013-04-23 21:16:06', '2013-04-24 11:04:25');
 
 -- ----------------------------
 -- Table structure for `blog_album`
@@ -4417,7 +4445,7 @@ CREATE TABLE `site_node` (
   PRIMARY KEY (`nid`),
   KEY `parent_id` (`parent_id`),
   KEY `code` (`code`)
-) ENGINE=InnoDB AUTO_INCREMENT=77 DEFAULT CHARSET=utf8 COMMENT='节点管理';
+) ENGINE=InnoDB AUTO_INCREMENT=78 DEFAULT CHARSET=utf8 COMMENT='节点管理';
 
 -- ----------------------------
 -- Records of site_node
@@ -4493,11 +4521,12 @@ INSERT INTO `site_node` VALUES ('68', '70', 'ProductDescriptionCategory', '描�
 INSERT INTO `site_node` VALUES ('69', '2', 'WebSite', '站点配置', '34-2-69-', '1', '0', '6', '1', '2013-03-27 14:57:36', '2013-04-22 14:42:32');
 INSERT INTO `site_node` VALUES ('70', '42', 'ProductSite', '商品配置', '46-42-70-', '1', '1', '3', '1', '2013-03-27 15:02:58', '2013-03-27 15:02:58');
 INSERT INTO `site_node` VALUES ('71', '61', 'ProductChannelGoods', '渠道商品管理', '46-42-61-71-', '2', '1', '3', '1', '2013-04-11 11:02:29', '2013-04-11 11:02:29');
-INSERT INTO `site_node` VALUES ('72', '21', 'BaseArea', '地区管理', '1-16-21-72-', '2', '1', '2', '1', '2013-04-17 21:13:15', '2013-04-17 21:13:15');
+INSERT INTO `site_node` VALUES ('72', '21', 'BaseArea', '地区管理', '1-16-21-72-', '2', '1', '3', '1', '2013-04-17 21:13:15', '2013-04-17 21:13:15');
 INSERT INTO `site_node` VALUES ('73', '2', 'Job', '招聘管理', '34-2-73-', '1', '1', '5', '1', '2013-04-22 15:07:33', '2013-04-22 15:07:33');
 INSERT INTO `site_node` VALUES ('74', '73', 'JobInfo', '招聘管理', '34-2-73-74-', '2', '1', '1', '1', '2013-04-22 15:10:07', '2013-04-22 15:10:07');
 INSERT INTO `site_node` VALUES ('75', '16', 'Database', '字段管理', '1-16-75-', '1', '1', '3', '1', '2013-04-22 22:25:18', '2013-04-22 22:25:18');
 INSERT INTO `site_node` VALUES ('76', '75', 'SiteDatabase', '字段管理', '1-16-75-76-', '2', '1', '1', '1', '2013-04-22 22:26:18', '2013-04-22 22:26:18');
+INSERT INTO `site_node` VALUES ('77', '21', 'BaseLangField', '语言定义', '1-16-21-77-', '2', '1', '2', '1', '2013-04-23 17:44:28', '2013-04-23 20:59:34');
 
 -- ----------------------------
 -- Table structure for `site_plate`
@@ -4654,7 +4683,7 @@ CREATE TABLE `site_web` (
 -- ----------------------------
 -- Records of site_web
 -- ----------------------------
-INSERT INTO `site_web` VALUES ('1', 'zh-cn', 'altilacms', 'altilaCMS网', 'altila,陈强,个人网站,IT,PHP,Jquery,JS', 'altila(陈强)个人网站,记录关于IT中PHP、JS、Jquer等技术方面咨询', 'default', '沪ICP备05033127号', null, '1', '1', '2012-12-11 13:58:09', '2013-03-19 17:05:08');
+INSERT INTO `site_web` VALUES ('1', 'zh-cn', 'altilacms', 'altilaCMS网', 'altila,陈强,个人网站,IT,PHP,Jquery,JS', 'altila(陈强)个人网站,记录关于IT中PHP、JS、Jquer等技术方面咨询', 'default', '沪ICP备10000732号', '', '1', '1', '2012-12-11 13:58:09', '2013-04-24 10:19:54');
 INSERT INTO `site_web` VALUES ('2', 'en-us', 'altilacms', 'altilaCMSWeb', 'altila', 'altila', 'default', '', '', '2', '1', '2012-12-11 13:58:09', '2013-03-19 16:34:16');
 INSERT INTO `site_web` VALUES ('3', 'en-us', 'altila', 'Altila Web', '', '', 'default', '', null, '0', '1', '2013-01-01 11:29:26', '2013-01-04 16:21:12');
 INSERT INTO `site_web` VALUES ('4', 'zh-cn', 'altila', 'Altila网', '', '', 'default', '', null, '0', '1', '2013-01-04 16:20:42', '2013-01-04 16:21:51');

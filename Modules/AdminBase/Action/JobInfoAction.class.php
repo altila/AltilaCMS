@@ -10,7 +10,7 @@
 // +----------------------------------------------------------------------
 // $Id$
 
-class JobInfoAction extends AArticleInfo {
+class JobInfoAction extends AArticleInfoAction {
 
 	/**
 	+----------------------------------------------------------

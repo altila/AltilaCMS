@@ -3,14 +3,28 @@
 	<select style="display:none" class="combox" name="province" ref="areaCity" refUrl="__APP__/Admin/BaseArea/selectArea.html?parent_id={value}">
 		<option value="">请选择省市</option>
 		<model model="BaseArea" app="Admin" fun="getData" condition="status=1&parent_id=0" order="baid" limit="" key="i">
-		<option value="{$result['baid']}">{$result['name']}</option>
+		<option <eq name="vo['province']" value="$result['baid']" >selected</eq> value="{$result['baid']}">{$result['name']}</option>
 		</model>
 	</select>
 	<select style="display:none" class="combox" name="city" id="areaCity" ref="areaArea" refUrl="__APP__/Admin/BaseArea/selectArea.html?parent_id={value}">
-		<option value="">请选择城市</option>
+		<option <eq name="vo['city']" value="$result['baid']" >selected</eq> value="">请选择城市</option>
+		<notempty name="vo['province']">
+		<?php $condition = "status=1&parent_id=".$vo['province'];?>
+		<model model="BaseArea" app="Admin" fun="getData" condition="$condition" order="baid" limit="" key="i">
+		<option <eq name="vo['city']" value="$result['baid']" >selected</eq> value="{$result['baid']}">{$result['name']}</option>
+		</model>
+		<?php unset($condition);?>
+		</notempty>
 	</select>
 	<select style="display:none" class="combox" name="area" id="areaArea">
-		<option value="">请选择区县</option>
+		<option <eq name="vo['area']" value="$result['baid']" >selected</eq> value="">请选择区县</option>
+		<notempty name="vo['city']">
+		<?php $condition = "status=1&parent_id=".$vo['city'];?>
+		<model model="BaseArea" app="Admin" fun="getData" condition="$condition" order="baid" limit="" key="i">
+		<option <eq name="vo['area']" value="$result['baid']" >selected</eq> value="{$result['baid']}">{$result['name']}</option>
+		</model>
+		<?php unset($condition);?>
+		</notempty>
 	</select>
 </div>
 

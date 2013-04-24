@@ -1,5 +1,5 @@
 <?php
-return array(
-    'SiteMap_index' => 'Site Map',
+return array (
+  'SiteMap_index' => 'Site Map',
 );
 ?>

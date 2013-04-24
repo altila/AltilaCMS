@@ -29,7 +29,7 @@
 				<select name="work_year">
 					<?php $workYear = L('WorkYear');?>
 					<volist name="workYear" id="val">
-					<option <eq name="vo['work_year']" value="{$key}" >selected</eq> value="{$key}">{$val}</option>
+					<option <eq name="vo['work_year']" value="$key" >selected</eq> value="{$key}">{$val}</option>
 					</volist>
 				</select>
 			</div>
@@ -38,7 +38,7 @@
 				<select name="provide_salary">
 					<?php $provideSalary = L('PeovideSalary');?>
 					<volist name="provideSalary" id="val">
-					<option <eq name="vo['provide_salary']" value="{$key}" >selected</eq> value="{$key}">{$val}</option>
+					<option <eq name="vo['provide_salary']" value="$key" >selected</eq> value="{$key}">{$val}</option>
 					</volist>
 				</select>
 			</div>
@@ -47,7 +47,7 @@
 				<select name="degree_from">
 					<?php $degreeFrom = L('DegreeFrom');?>
 					<volist name="degreeFrom" id="val">
-					<option <eq name="vo['degree_from']" value="{$key}" >selected</eq> value="{$key}">{$val}</option>
+					<option <eq name="vo['degree_from']" value="$key" >selected</eq> value="{$key}">{$val}</option>
 					</volist>
 				</select>
 			</div>
