@@ -60,7 +60,7 @@
 							<tr target="_id" rel="{$vo[getModelPk(MODULE_NAME)]}">
 								<td>{$vo[getModelPk(MODULE_NAME)]}</td>
 								<td>{$vo['name']}</td>
-								<td><a rel="{:MODULE_NAME}" target="navTab" href="__URL__/index?sid={$_REQUEST['sid']}&uid={$vo['uid']}">{:findById('UserBase',$vo['uid'],'user_id')}({$vo['uid']})</a></td>
+								<td><a rel="{:MODULE_NAME}" target="navTab" href="__URL__/index?sid={$_REQUEST['sid']}&uid={$vo['uid']}">{:findById('AdminUser/UserBase',$vo['uid'],'user_id')}({$vo['uid']})</a></td>
 								<td>{$vo['sort']}</td>
 								<td>{$vo['update_time']}</td>
 								<td>{$vo['status']|showStatus=$vo[getModelPk(MODULE_NAME)],'',getModelPk(MODULE_NAME)}</td>

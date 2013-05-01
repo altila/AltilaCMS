@@ -45,10 +45,10 @@ class BaseLangFieldAction extends ABaseAction {
 		$model = D( $this->getActionName() );
 		if( empty($model) ) $this->ajaxReturn( '', "非法操作!", 0 );
 		$list = $model->where( "status=1" )->select();
-		$lang = findById ( "BaseLang", array('status'=>1), "code", "arr" );
+		$lang = findById ( "Admin/BaseLang", array('status'=>1), "code", "arr" );
 		foreach( $list as $key=>$val )
 			foreach( $lang as $k=>$v )
-				if( $val[$v] != '' ) $result[$v][$val['code']] = $val['type'] == 1 ? json_decode(strtr($val[$v],array('&quot;'=>'"'))) : $val[$v];
+				if( $val[$v] != '' ) $result[$v][$val['code']] = $val['type'] == 1 ? json_decode(strtr($val[$v],array('&quot;'=>'"')),true) : $val[$v];
 		foreach( $lang as $key=>$val ){
 			$fopen = fopen(LANG_PATH."{$val}/common.php",'w');
 			fwrite($fopen,"<?php\nreturn ".var_export($result[$val],true).";\n?>");

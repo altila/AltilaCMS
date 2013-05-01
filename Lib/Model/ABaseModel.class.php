@@ -101,7 +101,7 @@ class ABaseModel extends BaseModel {
 	*/
 	public function editForeach( $condition ) {
 		$condition = empty($condition) ? $_POST : $condition;
-		$_arr = findById( $this->getTableName(), $condition['condition'], "{$condition['field']},".$this->getPk(), 'arr' );
+		$_arr = findById( ( $condition['appName'] ? "{$condition['appName']}/" : '' ) . $this->getModelName(), $condition['condition'], "{$condition['field']},".$this->getPk(), 'arr' );
 		$arr = explode( ',', str_replace( '，', ',', $condition["{$condition['field']}"] ) );
 		foreach ( $_arr as $key=>$val )
 			if( in_array($val,$arr) ) unset($_arr[$key],$arr[array_search($val,$arr)]);

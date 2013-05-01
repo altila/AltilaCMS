@@ -11,6 +11,7 @@
 // $Id$
 class ProductChannelModel extends ABaseModel {
 
+	protected $connection = 'DB_PRODUCT_CON';
 	protected $trueTableName = 'product_channel';
 
 }

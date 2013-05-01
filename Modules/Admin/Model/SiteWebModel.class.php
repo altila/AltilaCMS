@@ -11,6 +11,7 @@
 // $Id$
 class SiteWebModel extends ABaseModel {
 
+	protected $connection = 'DB_ADMIN_CON';
 	protected $trueTableName = 'site_web';
 
 }

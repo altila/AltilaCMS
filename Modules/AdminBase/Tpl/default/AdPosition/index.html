@@ -74,7 +74,7 @@
 								<td>{$vo[getModelPk(MODULE_NAME)]}</td>
 								<td>{$vo['name']}</td>
 								<td>{$vo['code']}</td>
-								<td>{:findById('AdFunction',$vo['afid'],'name')}({:findById('AdFunction',$vo['afid'],'code')})</td>
+								<td>{:findById('AdminBase/AdFunction',$vo['afid'],'name')}({:findById('AdminBase/AdFunction',$vo['afid'],'code')})</td>
 								<td>{$vo['width']}*{$vo['height']}</td>
 								<td>{$vo['sum']}*{$vo['row']}</td>
 								<td>{$vo['sort']}</td>

@@ -13,7 +13,7 @@ $optionType = empty($optionType) ? 0 : $optionType;
 <option <eq name="code" value="$oResult[$valueName]" >selected</eq> value="{$oResult[$valueName]}">{$oResult['childStr']}{$oResult['sort']}.{$oResult['name']}<notempty name="oResult['code']">({$oResult['code']})</notempty></option>
 </switch>
 
-
+{$oResult|print_r}
 </model>
 
-<?php unset($field,$moduleName,$appName,$_condition,$valueName,$code,$optionType); ?>
+<?php unset($field,$order,$moduleName,$appName,$_condition,$valueName,$code,$optionType); ?>

@@ -41,7 +41,7 @@ class AdminLoginAction extends ABaseAction {
 		$map = array();
 		$map['user_id'] = trim($_REQUEST['user_id']);
 		$map["status"] = array('gt',0);
-		$userBase = D('UserBase')->where($map)->find();
+		$userBase = D('AdminUser/UserBase')->where($map)->find();
 		if( $userBase === false ) 
 			$this->ajaxReturn( '', "提交失败！", 0, '', array('field'=>'user_id','msg'=>'帐号不存在或已禁用！') );
 		if( $userBase['password'] != md5($_REQUEST['password']) ) 

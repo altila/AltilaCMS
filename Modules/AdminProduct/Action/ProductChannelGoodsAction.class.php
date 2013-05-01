@@ -30,6 +30,7 @@ class ProductChannelGoodsAction extends ABaseAction {
 		if( empty($_REQUEST['smid']) ) $this->ajaxReturn( '', "请选择分类!", 0 );
 		if( empty($_REQUEST['pcid']) ) $this->ajaxReturn( '', "请选择渠道!", 0 );
 		if( empty($_REQUEST['dwz_orgId_pgid']) ) $this->ajaxReturn( '', "请选择商品!", 0 );
+		$_POST['pgid'] = $_REQUEST['dwz_orgId_pgid'];
 	}
 
 	/**
@@ -41,6 +42,7 @@ class ProductChannelGoodsAction extends ABaseAction {
 		if( empty($_REQUEST['smid']) ) $this->ajaxReturn( '', "请选择分类!", 0 );
 		if( empty($_REQUEST['pcid']) ) $this->ajaxReturn( '', "请选择渠道!", 0 );
 		if( empty($_REQUEST['dwz_orgId_pgid']) ) $this->ajaxReturn( '', "请选择商品!", 0 );
+		$_POST['pgid'] = $_REQUEST['dwz_orgId_pgid'];
 	}
 
 	/**

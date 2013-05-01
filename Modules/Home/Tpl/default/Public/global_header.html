@@ -28,7 +28,7 @@
 <body>
 
 {//获取广告js数组 开始}
-<?php $isEnableAdJs = findById ( 'SiteConfig', array('key'=>'isEnableAdJs','status'=>'1'), 'value' ); ?>
+<?php $isEnableAdJs = findById ( 'Admin/SiteConfig', array('key'=>'isEnableAdJs','status'=>'1'), 'value' ); ?>
 <if condition=" $isEnableAdJs == 1 ">
 <script type='text/javascript' src='{:domain('www')}/Ad/getAdPosList.shtml'></script>
 </if>

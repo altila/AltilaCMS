@@ -24,7 +24,7 @@
 					<require file="Admin,BaseLang/treeSelectOption" />
 				</select>
 				<else />
-				<input type="text" class="required"  name="blcode" value="{:findById('BaseLang',array('code'=>$vo['blcode']),'name')}" disabled="true" >
+				<input type="text" class="required"  name="blcode" value="{:findById('Admin/BaseLang',array('code'=>$vo['blcode']),'name')}" disabled="true" >
 				<input type="hidden" name="blcode" value="{$vo['blcode']}" >
 				</empty>
 			</div>

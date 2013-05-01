@@ -68,6 +68,8 @@ class ACategoryAction extends ABaseAction {
 	+----------------------------------------------------------
 	*/
 	public function _before_insert() {
+		$modelName = $this->getActionName();
+		if( $_REQUEST[getModelPk($modelName)] == $_REQUEST['parent_id'] ) $this->ajaxReturn( '', "请选正确选择父类!", 0 );
 		if( !empty($_POST['show_position']) ) $_POST['show_position'] = array_sum($_POST['show_position']);
 		if( !empty($_POST['list_opt']) ) $_POST['list_opt'] = ( $modelName == 'SiteBatabase' ) ? implode(',',$_POST['list_opt']) : array_sum($_POST['list_opt']);
 	}
@@ -93,6 +95,7 @@ class ACategoryAction extends ABaseAction {
 	*/
 	public function _before_update() {
 		$modelName = $this->getActionName();
+		if( $_REQUEST[getModelPk($modelName)] == $_REQUEST['parent_id'] ) $this->ajaxReturn( '', "请选正确选择父类!", 0 );
 		$crumb = findById ( $modelName, $_POST['parent_id'], 'crumb' );
 		$_POST['crumb'] = ( !empty($crumb) ? "{$crumb}" : "" ) . "{$_POST[getModelPk($modelName)]}-";
 		if( !empty($_POST['show_position']) ) $_POST['show_position'] = array_sum($_POST['show_position']);

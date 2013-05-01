@@ -68,11 +68,11 @@
 							<if condition=" !empty($_REQUEST['sid']) ">
 							<volist id="vo" name="list">
 							<tr target="_id" rel="{$vo[getModelPk(MODULE_NAME)]}">
-								<td class="imgurl" onmouseover="bigImgShow($(this))" onmouseout="bigImgHide($(this))"><img height="35" src="{:findById('ProductGoods',$vo['pgid'],'thumbnail')}"></td>
-								<td>{:findById('ProductGoods',$vo['pgid'],'code')}</td>
-								<td>{$vo['name_prefix']}-{:findById('ProductGoods',$vo['pgid'],'name')}-{$vo['name_suffix']}</td>
-								<td>{:findById('ProductChannel',$vo['pcid'],'name')}</td>
-								<td>{:findById('SiteMenu',$vo['smid'],'name')}</td>
+								<td class="imgurl" onmouseover="bigImgShow($(this))" onmouseout="bigImgHide($(this))"><img height="35" src="{:findById('AdminProduct/ProductGoods',$vo['pgid'],'thumbnail')}"></td>
+								<td>{:findById('AdminProduct/ProductGoods',$vo['pgid'],'code')}</td>
+								<td>{$vo['name_prefix']}-{:findById('AdminProduct/ProductGoods',$vo['pgid'],'name')}-{$vo['name_suffix']}</td>
+								<td>{:findById('AdminProduct/ProductChannel',$vo['pcid'],'name')}</td>
+								<td>{:findById('AdminBase/SiteMenu',$vo['smid'],'name')}</td>
 								<td>{$vo['update_time']}</td>
 								<td>{$vo['status']|showStatus=$vo[getModelPk(MODULE_NAME)],'',getModelPk(MODULE_NAME)}</td>
 							</tr>

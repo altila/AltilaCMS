@@ -1,6 +1,6 @@
 <?php 
 $_condition = "isHtmlModelUser=1";
-$moduleName = 'SiteNode';
+$moduleName = 'Admin/SiteNode';
 $field = getModelPk($moduleName);
 $ids = findById( MODULE_NAME, array( 'rid'=>$_REQUEST['rid'],'sid'=>$_REQUEST['sid'] ), $field, 'arr' );
 $condition = array( 'field'=>$field, 'class'=>' treeCheck expand', 'ids'=>$ids, 'isCheck'=>1 );

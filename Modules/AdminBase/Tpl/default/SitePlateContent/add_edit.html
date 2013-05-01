@@ -29,7 +29,7 @@
 					<option <eq name="vo['model']" value="" >selected</eq> value="">请选择</option>
 					<option <eq name="vo['model']" value="0" >selected</eq> value="0">广告</option>
 					<option <eq name="vo['model']" value="1" >selected</eq> value="1">文章</option>
-					<?php $isEnableBlog = findById ( 'SiteConfig', array('key'=>'isEnableBlog','status'=>'1'), 'value' ); ?>
+					<?php $isEnableBlog = findById ( 'Admin/SiteConfig', array('key'=>'isEnableBlog','status'=>'1'), 'value' ); ?>
 					<if condition=" $isEnableBlog == 1 ">
 					<option <eq name="vo['model']" value="4" >selected</eq> value="4">博文</option>
 					</if>

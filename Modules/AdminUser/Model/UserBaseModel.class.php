@@ -11,6 +11,7 @@
 // $Id$
 class UserBaseModel extends ABaseModel {
 
+	protected $connection = 'DB_USER_CON';
 	protected $trueTableName = 'user_base';
 
 	/**

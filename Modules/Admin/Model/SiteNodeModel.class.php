@@ -11,6 +11,7 @@
 // $Id$
 class SiteNodeModel extends ABaseModel {
 
+	protected $connection = 'DB_ADMIN_CON';
 	protected $trueTableName = 'site_node';
 
 	/**
@@ -25,7 +26,7 @@ class SiteNodeModel extends ABaseModel {
 	+----------------------------------------------------------
 	*/
 	public function getRoleNode() {
-		$key = "getUserNode".findById('SiteRoleUser',$this->userInfo['Uid'],'rid');
+		$key = "getUserNode".findById('Admin/SiteRoleUser',$this->userInfo['Uid'],'rid');
 		$sql = "SELECT sn.nid,sn.name
 			FROM site_role_user AS sru
 			INNER JOIN site_role AS sr ON sr.rid = sru.rid

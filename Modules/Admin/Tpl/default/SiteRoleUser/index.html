@@ -55,7 +55,7 @@
 							<tr target="_id" rel="{$vo[getModelPk(MODULE_NAME)]}">
 								<td>{$vo[getModelPk(MODULE_NAME)]}</td>
 								<td>{$vo['uid']}</td>
-								<td>{:findById('UserBase',$vo['uid'],'user_id')}</td>
+								<td>{:findById('AdminUser/UserBase',$vo['uid'],'user_id')}</td>
 								<td>{$vo['update_time']}</td>
 								<td>{$vo['status']|showStatus=$vo[getModelPk(MODULE_NAME)],'',getModelPk(MODULE_NAME)}</td>
 							</tr>

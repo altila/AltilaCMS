@@ -11,6 +11,7 @@
 // $Id$
 class BaseLangFieldModel extends ABaseModel {
 
+	protected $connection = 'DB_ADMIN_CON';
 	protected $trueTableName = 'base_lang_field';
 
 }

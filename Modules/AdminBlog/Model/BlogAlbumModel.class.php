@@ -11,6 +11,7 @@
 // $Id$
 class BlogAlbumModel extends ABaseModel {
 
+	protected $connection = 'DB_BLOG_CON';
 	protected $trueTableName = 'blog_album';
 
 }

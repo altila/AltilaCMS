@@ -124,8 +124,8 @@ class ABaseAction extends BaseAction {
 		$count = $model->where ( $map )->group ( $group )->count ( '1' );
 		//归组查询时的总数查询
 		if( !empty($group) ) {
-			$countSql = M()->getLastsql();
-			$countGroup = M()->query( " SELECT COUNT(1) AS tp_count FROM ( " . substr( $countSql, 0, strpos($countSql,'LIMIT') ) . " ) AS table1 " );
+			$countSql = $model->getLastsql();
+			$countGroup = $model->query( " SELECT COUNT(1) AS tp_count FROM ( " . substr( $countSql, 0, strpos($countSql,'LIMIT') ) . " ) AS table1 " );
 			$count = $countGroup[0]['tp_count'];
 		}
 		if( $count > 0 ) {
@@ -171,7 +171,7 @@ class ABaseAction extends BaseAction {
 	*/
 	public function add() {
 		$model = D( $this->getActionName() );
-		$this->fieldOpt = findById('SiteDatabase',array('parent_id'=>findById('SiteDatabase',array('code'=>$model->getTableName()),'sdid')),'list_opt,code','arr');
+		$this->fieldOpt = findById('Admin/SiteDatabase',array('parent_id'=>findById('Admin/SiteDatabase',array('code'=>$model->getTableName()),'sdid')),'list_opt,code','arr');
 		$this->display('add_edit');
 	}
 
@@ -201,7 +201,7 @@ class ABaseAction extends BaseAction {
 		$model = D( $this->getActionName() );
 		$id = $_REQUEST[$model->getPk()];
 		$this->vo = $model->where("{$model->getPk()}={$id}")->find();
-		$this->fieldOpt = findById('SiteDatabase',array('parent_id'=>findById('SiteDatabase',array('code'=>$model->getTableName()),'sdid')),'list_opt,code','arr');
+		$this->fieldOpt = findById('Admin/SiteDatabase',array('parent_id'=>findById('Admin/SiteDatabase',array('code'=>$model->getTableName()),'sdid')),'list_opt,code','arr');
 		$this->display('add_edit');
 	}
 

@@ -11,6 +11,7 @@
 // $Id$
 class BlogTagModel extends ABaseModel {
 
+	protected $connection = 'DB_BLOG_CON';
 	protected $trueTableName = 'blog_tag';
 
 }

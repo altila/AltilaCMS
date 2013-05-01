@@ -71,7 +71,7 @@
 							<volist id="vo" name="list">
 							<tr target="_id" rel="{$vo[getModelPk(MODULE_NAME)]}">
 								<td>{$vo[getModelPk(MODULE_NAME)]}</td>
-								<td>{:findById('AdInfo',$vo['adid'],'name')}</td>
+								<td>{:findById('AdminBase/AdInfo',$vo['adid'],'name')}</td>
 								<td>{$vo['start_time']}</td>
 								<td>{$vo['end_time']}</td>
 								<td>{$vo['sort']}</td>

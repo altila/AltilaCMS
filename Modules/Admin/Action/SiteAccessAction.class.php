@@ -21,7 +21,14 @@ class SiteAccessAction extends ABaseAction {
 		if( empty($_REQUEST['sid']) || empty($_REQUEST['rid']) ) $this->ajaxReturn( '', "请选择站点或角色!", 0 );
 	}
 
-
+	/**
+	+----------------------------------------------------------
+	* 更新前置
+	+----------------------------------------------------------
+	*/
+	public function _before_updateForeach() {
+		$_POST['condition'] = array( 'sid'=>$_REQUEST['sid'], 'rid'=>$_REQUEST['rid'] );
+	}
 
 }
 ?>

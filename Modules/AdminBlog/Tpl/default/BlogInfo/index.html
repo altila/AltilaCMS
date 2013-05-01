@@ -71,7 +71,7 @@
 								<td>{$vo[getModelPk(MODULE_NAME)]}</td>
 								<td>{$vo['name']}</td>
 								<td>{$vo['tags_name']}</td>
-								<td>{:findById('UserBase',$vo['uid'],'user_id')}({$vo['uid']})</td>
+								<td>{:findById('AdminUser/UserBase',$vo['uid'],'user_id')}({$vo['uid']})</td>
 								<td>{$vo['sort']}</td>
 								<td>{$vo['update_time']}</td>
 								<td>{$vo['status']|showStatus=$vo[getModelPk(MODULE_NAME)],'',getModelPk(MODULE_NAME)}</td>

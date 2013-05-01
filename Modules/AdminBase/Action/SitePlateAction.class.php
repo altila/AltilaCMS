@@ -30,5 +30,23 @@ class SitePlateAction extends ABaseAction {
 		if( empty($_REQUEST['spgid']) ) $this->ajaxReturn( '', "请选择!", 0 );
 	}
 
+	/**
+	+----------------------------------------------------------
+	* 插入前置
+	+----------------------------------------------------------
+	*/
+	public function _before_insert() {
+		$_POST['class'] = strtr($_POST['class'],array('，'=>','));
+	}
+
+	/**
+	+----------------------------------------------------------
+	* 插入前置
+	+----------------------------------------------------------
+	*/
+	public function _before_update() {
+		$_POST['class'] = strtr($_POST['class'],array('，'=>','));
+	}
+
 }
 ?>

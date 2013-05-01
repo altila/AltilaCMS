@@ -67,8 +67,8 @@
 							<tr target="_id" rel="{$vo[getModelPk(MODULE_NAME)]}">
 								<td>{$vo[getModelPk(MODULE_NAME)]}</td>
 								<td><a target="_blank" href="{$vo['url']}">{$vo['name']}</a></td>
-								<td><if condition=" $vo['aaid'] != '0' ">{:findById('ArticleAlbum',$vo['aaid'],'name')}<else />贴图</if></td>
-								<td>{:findById('UserBase',$vo['uid'],'user_id')}({$vo['uid']})</td>
+								<td><if condition=" $vo['aaid'] != '0' ">{:findById('AdminBase/ArticleAlbum',$vo['aaid'],'name')}<else />贴图</if></td>
+								<td>{:findById('AdminUser/UserBase',$vo['uid'],'user_id')}({$vo['uid']})</td>
 								<td class="imgurl" onmouseover="bigImgShow($(this))" onmouseout="bigImgHide($(this))"><img height="35" src="{$vo['url']}"></td>
 								<td>{:round( $vo['size']/1024, 0 ) }k</td>
 								<td>{$vo['update_time']}</td>

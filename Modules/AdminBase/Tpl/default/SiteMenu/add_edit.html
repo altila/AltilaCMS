@@ -40,11 +40,11 @@
 							<option <eq name="vo['model']" value="1" >selected</eq> value="1">文章</option>
 							<option <eq name="vo['model']" value="2" >selected</eq> value="2">图片集</option>
 							<option <eq name="vo['model']" value="3" >selected</eq> value="3">产品</option>
-							<?php $isEnableBlog = findById ( 'SiteConfig', array('key'=>'isEnableBlog','status'=>'1'), 'value' ); ?>
+							<?php $isEnableBlog = findById ( 'Admin/SiteConfig', array('key'=>'isEnableBlog','status'=>'1'), 'value' ); ?>
 							<if condition=" $isEnableBlog == 1 ">
 							<option <eq name="vo['model']" value="4" >selected</eq> value="4">博文</option>
 							</if>
-							<?php $isEnableNovel = findById ( 'SiteConfig', array('key'=>'isEnableNovel','status'=>'1'), 'value' ); ?>
+							<?php $isEnableNovel = findById ( 'Admin/SiteConfig', array('key'=>'isEnableNovel','status'=>'1'), 'value' ); ?>
 							<if condition=" $isEnableNovel == 1 ">
 							<option <eq name="vo['model']" value="5" >selected</eq> value="5">小说</option>
 							</if>

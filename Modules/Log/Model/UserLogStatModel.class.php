@@ -11,6 +11,7 @@
 // $Id$
 class UserLogStatModel extends ABaseModel {
 
+	protected $connection = 'DB_USER_CON';
 	protected $trueTableName = 'user_log_stat';
 
 	/**
@@ -28,7 +29,7 @@ class UserLogStatModel extends ABaseModel {
 	public function setUserLog( $isAdmin = '1' ) {
 		$map = array();
 		$map['uid'] = $this->userInfo['Uid'];
-		$map['sid'] = $this->siteInfo[C('DEFAULT_LANG')]['sid'];
+		$map['sid'] = A('Base')->siteInfo[C('DEFAULT_LANG')]['sid'];
 		$map['log_ip'] = get_client_ip();
 		$map['add_time'] = date("Y-m-d H:i:s");
 		$map['update_time'] = date("Y-m-d H:i:s");

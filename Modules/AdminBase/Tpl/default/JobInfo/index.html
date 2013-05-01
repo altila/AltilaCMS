@@ -59,7 +59,7 @@
 								<td>{$vo[getModelPk(MODULE_NAME)]}</td>
 								<td>{$vo['name']}</td>
 								<td>{$vo['num']}</td>
-								<td>{:findById('BaseArea',$vo['province'],'name')}-{:findById('BaseArea',$vo['city'],'name')}-{:findById('BaseArea',$vo['area'],'name')}</td>
+								<td>{:findById('Admin/BaseArea',$vo['province'],'name')}-{:findById('Admin/BaseArea',$vo['city'],'name')}-{:findById('Admin/BaseArea',$vo['area'],'name')}</td>
 								<?php $workYear = L('WorkYear');?>
 								<td>{$workYear[$vo['work_year']]}</td>
 								<?php $provideSalary = L('PeovideSalary');?>

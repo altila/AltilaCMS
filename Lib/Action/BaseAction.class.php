@@ -32,7 +32,7 @@ class BaseAction extends Action {
 		$this->secondDomain = $domainArr[0];
 		//站点标示
 		$this->siteMark = $domainArr[1];
-		$model = D( 'Base' );
+		$model = D( 'Admin/SiteWeb' );
 		//用户身份验证设置
 		$this->userInfo = $model->userAuthSet();
 		//站点信息
