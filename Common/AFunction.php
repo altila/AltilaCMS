@@ -399,10 +399,13 @@ function findById ( $name, $map, $attr = "", $type = "one", $sper = "," ) {
 	$_attr = explode(',',$attr);
 	$model = D( $name );
 	$where = ( !is_array($map) ) ? "{$model->getPk()}={$map}" : $map;
-	if( $type == 'one' ) return $model->where( $where )->getField( $attr );
-	$result = $model->where( $where )->field( $attr )->select();
-	foreach( $result as $key=>$value ){
-		( !empty($_attr[1]) ) ? $_result[$value[$_attr[1]]] = $value[$_attr[0]] : $_result[] = $value[$_attr[0]];
+	if( $type == 'one' ){
+		$_result = $model->where( $where )->getField( $attr );
+	} else {
+		$result = $model->where( $where )->field( $attr )->select();
+		foreach( $result as $key=>$value ){
+			( !empty($_attr[1]) ) ? $_result[$value[$_attr[1]]] = $value[$_attr[0]] : $_result[] = $value[$_attr[0]];
+		}
 	}
 	return ( $type == 'str' ) ? implode($sper,$_result) : $_result ;
 }

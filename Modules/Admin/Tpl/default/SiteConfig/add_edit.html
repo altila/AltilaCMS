@@ -1,9 +1,9 @@
 <div class="pageContent">
 	<form method="post" action="__URL__/<empty name="vo[getModelPk(MODULE_NAME)]">insert<else />update</empty>/navTabId/{:MODULE_NAME}" class="pageForm required-validate" onsubmit="return validateCallback(this,dialogAjaxDone);">
 		<input type="hidden" name="{:getModelPk(MODULE_NAME)}" value="{$vo[getModelPk(MODULE_NAME)]}" >
-		<input type="hidden" name="sid" value="<empty name="vo[getModelPk(MODULE_NAME)]">{$_REQUEST['sid']}<else />{$vo['sid']}</empty>" >
 		<input type="hidden" name="update_time" value="{:date("Y-m-d H:i:s")}">
 		<empty name="vo[getModelPk(MODULE_NAME)]"><input type="hidden" name="add_time" value="{:date("Y-m-d H:i:s")}"></empty>
+		<input type="hidden" name="status" value="1">
 		<div class="pageFormContent" layoutH="58">
 			<div class="unit">
 				<label>名称：</label>
@@ -15,7 +15,12 @@
 			</div>
 			<div class="unit">
 				<label>键值：</label>
-				<input type="text" class="required"  name="value" value="{$vo['value']}">
+				<input type="text" name="value" value="{$vo['value']}">
+			</div>
+			<div class="unit">
+				<label>网站ID：</label>
+				<?php $optionType = 1; $field = array('id'=>'sids');?>
+				<require file="Admin,SiteWeb/treeInputCkbox" />
 			</div>
 		</div>
 		<div class="formBar">

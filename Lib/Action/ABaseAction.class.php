@@ -171,7 +171,7 @@ class ABaseAction extends BaseAction {
 	*/
 	public function add() {
 		$model = D( $this->getActionName() );
-		$this->fieldOpt = findById('Admin/SiteDatabase',array('parent_id'=>findById('Admin/SiteDatabase',array('code'=>$model->getTableName()),'sdid')),'list_opt,code','arr');
+		$this->fieldOpt = findById('Admin/SiteDatabase',array('parent_id'=>findById('Admin/SiteDatabase',array('code'=>$model->getTableName()),'sdid')),'sids,code','arr');
 		$this->display('add_edit');
 	}
 
@@ -201,7 +201,7 @@ class ABaseAction extends BaseAction {
 		$model = D( $this->getActionName() );
 		$id = $_REQUEST[$model->getPk()];
 		$this->vo = $model->where("{$model->getPk()}={$id}")->find();
-		$this->fieldOpt = findById('Admin/SiteDatabase',array('parent_id'=>findById('Admin/SiteDatabase',array('code'=>$model->getTableName()),'sdid')),'list_opt,code','arr');
+		$this->fieldOpt = findById('Admin/SiteDatabase',array('parent_id'=>findById('Admin/SiteDatabase',array('code'=>$model->getTableName()),'sdid')),'sids,code','arr');
 		$this->display('add_edit');
 	}
 

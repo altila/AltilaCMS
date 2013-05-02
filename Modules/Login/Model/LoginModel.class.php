@@ -32,7 +32,7 @@ class LoginModel extends ABaseModel {
 		$_SESSION[$key]['UserType'] = $userBase['user_type'];
 		$_SESSION[$key]['LevelId'] = $userBase['level_id'];
 		//记录用户登录日志
-		if( findById( 'Admin/SiteConfig', array('key'=>'adminIsRecordUserLog','sid'=>A('Base')->siteInfo[C('DEFAULT_LANG')]['sid'],'status'=>1), 'value' ) )
+		if( in_array( getLang(), explode( ',', findById( 'Admin/SiteConfig', array('key'=>'adminIsRecordUserLog','sid'=>A('Base')->siteInfo[C('DEFAULT_LANG')]['sid'],'status'=>1), 'sids' ) ) ) )
 			D( 'Log/UserLogStat' )->setUserLog();
 	}
 }

@@ -28,8 +28,8 @@
 <body>
 
 {//获取广告js数组 开始}
-<?php $isEnableAdJs = findById ( 'Admin/SiteConfig', array('key'=>'isEnableAdJs','status'=>'1'), 'value' ); ?>
-<if condition=" $isEnableAdJs == 1 ">
+<?php $isEnableAdJs = explode( ',', findById ( 'Admin/SiteConfig', array('key'=>'isEnableAdJs','status'=>'1'), 'sids' ) ); ?>
+<if condition="in_array( getLang(), $isEnableAdJs )">
 <script type='text/javascript' src='{:domain('www')}/Ad/getAdPosList.shtml'></script>
 </if>
 {//获取广告js数组 结束}

@@ -40,12 +40,13 @@
 							<option <eq name="vo['model']" value="1" >selected</eq> value="1">文章</option>
 							<option <eq name="vo['model']" value="2" >selected</eq> value="2">图片集</option>
 							<option <eq name="vo['model']" value="3" >selected</eq> value="3">产品</option>
-							<?php $isEnableBlog = findById ( 'Admin/SiteConfig', array('key'=>'isEnableBlog','status'=>'1'), 'value' ); ?>
-							<if condition=" $isEnableBlog == 1 ">
+							<?php $isEnableBlog = explode( ',', findById ( 'Admin/SiteConfig', array('key'=>'isEnableBlog','status'=>'1'), 'sids' ) ); ?>
+							<if condition="( isset($vo['sid']) and in_array( $vo['sid'], $isEnableBlog ) ) or ( isset($_REQUEST['sid']) and in_array( $_REQUEST['sid'], $isEnableBlog ) ) ">
 							<option <eq name="vo['model']" value="4" >selected</eq> value="4">博文</option>
 							</if>
-							<?php $isEnableNovel = findById ( 'Admin/SiteConfig', array('key'=>'isEnableNovel','status'=>'1'), 'value' ); ?>
-							<if condition=" $isEnableNovel == 1 ">
+							<?php $isEnableNovel = explode( ',', findById ( 'Admin/SiteConfig', array('key'=>'isEnableNovel','status'=>'1'), 'sids' ) ); ?>
+							<?php print_r($isEnableNovel);?>
+							<if condition="( isset($vo['sid']) and in_array( $vo['sid'], $isEnableNovel ) ) or ( isset($_REQUEST['sid']) and in_array( $_REQUEST['sid'], $isEnableNovel ) ) ">
 							<option <eq name="vo['model']" value="5" >selected</eq> value="5">小说</option>
 							</if>
 							<option <eq name="vo['model']" value="6" >selected</eq> value="6">招聘</option>

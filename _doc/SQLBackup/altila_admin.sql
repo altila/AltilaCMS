@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50136
 File Encoding         : 65001
 
-Date: 2013-04-29 20:21:51
+Date: 2013-05-02 14:15:35
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -3652,7 +3652,7 @@ INSERT INTO `site_access` VALUES ('15', '1', '1', '33', '1', '2013-03-08 15:28:4
 DROP TABLE IF EXISTS `site_config`;
 CREATE TABLE `site_config` (
   `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '主键,自增长',
-  `sid` int(11) NOT NULL DEFAULT '0' COMMENT '网站ID，关联site_web表sid字段',
+  `sids` varchar(255) NOT NULL DEFAULT '1,2,3,4' COMMENT '网站ID，关联site_web表sid字段',
   `name` varchar(60) NOT NULL DEFAULT '' COMMENT '名称',
   `key` varchar(20) NOT NULL DEFAULT '' COMMENT '键名',
   `value` varchar(200) DEFAULT '' COMMENT '键值',
@@ -3660,17 +3660,17 @@ CREATE TABLE `site_config` (
   `add_time` datetime DEFAULT '1970-01-01 08:00:00' COMMENT '添加时间',
   `update_time` datetime DEFAULT '1970-01-01 08:00:00' COMMENT '修改时间',
   PRIMARY KEY (`id`),
-  KEY `sid` (`sid`) USING BTREE,
+  KEY `sid` (`sids`) USING BTREE,
   KEY `key` (`key`) USING BTREE
 ) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8 COMMENT='配置管理';
 
 -- ----------------------------
 -- Records of site_config
 -- ----------------------------
-INSERT INTO `site_config` VALUES ('1', '1', '后台是否记录用户登录', 'adminIsRecordUserLog', '0', '1', '2013-02-02 21:00:26', '2013-02-12 10:45:39');
-INSERT INTO `site_config` VALUES ('2', '1', '是否启用博文', 'isEnableBlog', '1', '1', '2013-03-09 21:36:23', '2013-04-28 21:39:14');
-INSERT INTO `site_config` VALUES ('3', '1', '是否启用广告js', 'isEnableAdJs', '0', '1', '2013-03-17 19:08:05', '2013-03-18 21:48:17');
-INSERT INTO `site_config` VALUES ('4', '1', '是否启用小说', 'isEnableNovel', '0', '1', '2013-03-21 14:09:28', '2013-03-21 14:09:28');
+INSERT INTO `site_config` VALUES ('1', '', '后台是否记录用户登录', 'adminIsRecordUserLog', '', '1', '2013-02-02 21:00:26', '2013-05-02 10:47:31');
+INSERT INTO `site_config` VALUES ('2', '1,2', '是否启用博文', 'isEnableBlog', '', '1', '2013-03-09 21:36:23', '2013-05-02 10:42:20');
+INSERT INTO `site_config` VALUES ('3', '1,2', '是否启用广告js', 'isEnableAdJs', '', '1', '2013-03-17 19:08:05', '2013-05-02 14:10:52');
+INSERT INTO `site_config` VALUES ('4', '', '是否启用小说', 'isEnableNovel', '', '1', '2013-03-21 14:09:28', '2013-05-02 10:46:59');
 
 -- ----------------------------
 -- Table structure for `site_database`
@@ -3679,10 +3679,10 @@ DROP TABLE IF EXISTS `site_database`;
 CREATE TABLE `site_database` (
   `sdid` int(11) NOT NULL AUTO_INCREMENT COMMENT '主键,自增长',
   `parent_id` int(6) NOT NULL DEFAULT '0' COMMENT '字段父级ID',
+  `sids` varchar(255) NOT NULL DEFAULT '1,2,3,4' COMMENT '网站ID，关联site_web表sid字段',
   `code` varchar(100) NOT NULL DEFAULT '' COMMENT '字段编码,可作唯一标示',
   `name` varchar(100) NOT NULL DEFAULT '' COMMENT '字段名称',
   `crumb` varchar(100) NOT NULL DEFAULT '' COMMENT '面包屑，用横杠分割',
-  `list_opt` varchar(255) DEFAULT '1,2,3,4' COMMENT '字段显示项，关联site_web表sid字段',
   `sort` tinyint(5) DEFAULT '0' COMMENT '显示顺序',
   `status` tinyint(1) DEFAULT '2' COMMENT '状态: -1为删除，0为禁用，1为正常，2为待批',
   `add_time` datetime DEFAULT '1970-01-01 08:00:00' COMMENT '添加时间',
@@ -3693,8 +3693,8 @@ CREATE TABLE `site_database` (
 -- ----------------------------
 -- Records of site_database
 -- ----------------------------
-INSERT INTO `site_database` VALUES ('1', '0', 'site_web', '站点管理', '1-', '1,2,3,4', '0', '1', '2013-04-23 10:19:24', '2013-04-23 15:02:11');
-INSERT INTO `site_database` VALUES ('2', '1', 'record_no', '网站备案号', '1-2-', '1,2,3,4', '0', '1', '2013-04-23 10:57:31', '2013-04-23 15:01:57');
+INSERT INTO `site_database` VALUES ('1', '0', '1,2,3,4', 'site_web', '站点管理', '1-', '0', '1', '2013-04-23 10:19:24', '2013-04-23 15:02:11');
+INSERT INTO `site_database` VALUES ('2', '1', '1,2', 'record_no', '网站备案号', '1-2-', '0', '1', '2013-04-23 10:57:31', '2013-05-02 14:14:24');
 
 -- ----------------------------
 -- Table structure for `site_node`

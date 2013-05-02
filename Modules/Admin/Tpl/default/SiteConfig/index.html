@@ -6,15 +6,10 @@
 
 			<div>
 
-				<div style="float:left; width:240px; border:1px solid rgb(204, 204, 204); background: none repeat scroll 0% 0% rgb(255, 255, 255);" layouth="6">
-					<include file="SiteWeb:treeListShow" />
-				</div>
-
-				<div class="unitBox" style="margin-left:246px;">
+				<div class="unitBox">
 
 					<require file="Admin,Public/pagerForm" />
 
-					<if condition=" !empty($_REQUEST['sid']) ">
 					<div class="pageHeader">
 						<form onsubmit="return navTabSearch(this);" action="__URL__" method="post">
 							<div class="searchBar">
@@ -44,12 +39,10 @@
 
 					<div class="panelBar">
 						<ul class="toolBar">
-							<li><a class="add" href="__URL__/add?sid={$_REQUEST['sid']}" target="dialog" mask="true"><span>新增</span></a></li>
-							<li><a class="delete" href="__URL__/delete?{:getModelPk(MODULE_NAME)}={_id}" target="ajaxTodo" title="你确定要删除吗？" warn="请选择数据"><span>删除</span></a></li>
+							<li><a class="add" href="__URL__/add" target="dialog" mask="true"><span>新增</span></a></li>
 							<li><a class="edit" href="__URL__/edit?{:getModelPk(MODULE_NAME)}={_id}" target="dialog" mask="true" warn="请选择数据"><span>修改</span></a></li>
 						</ul>
 					</div>
-					</if>
 
 					<table class="table" width="100%" layoutH="117">
 						<thead>
@@ -63,24 +56,22 @@
 							</tr>
 						</thead>
 						<tbody>
-							<if condition=" !empty($_REQUEST['sid']) ">
 							<volist id="vo" name="list">
 							<tr target="_id" rel="{$vo[getModelPk(MODULE_NAME)]}">
 								<td>{$vo[getModelPk(MODULE_NAME)]}</td>
 								<td>{$vo['name']}</td>
 								<td>{$vo['key']}</td>
-								<td>{$vo['value']}</td>
+								<td>{$vo['sids']}</td>
 								<td>{$vo['update_time']}</td>
 								<td>{$vo['status']|showStatus=$vo[getModelPk(MODULE_NAME)],'',getModelPk(MODULE_NAME)}</td>
 							</tr>
 							</volist>
-							</if>
 						</tbody>
 					</table>
 
 					<div class="panelBar">
 						<div class="pages">
-							<span>共<if condition=" !empty($_REQUEST['sid']) ">{$totalCount}<else/>0</if>条</span>
+							<span>共{$totalCount}条</span>
 						</div>
 						<div class="pagination" targetType="navTab" totalCount="{$totalCount}" numPerPage="{$numPerPage}" pageNumShown="10" currentPage="{$currentPage}"></div>
 					</div>
