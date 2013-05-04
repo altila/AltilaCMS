@@ -39,7 +39,10 @@
 						<select name="model">
 							<option <eq name="vo['model']" value="1" >selected</eq> value="1">文章</option>
 							<option <eq name="vo['model']" value="2" >selected</eq> value="2">图片集</option>
+							<?php $isEnableProduct = explode( ',', findById ( 'Admin/SiteConfig', array('key'=>'isEnableProduct','status'=>'1'), 'sids' ) ); ?>
+							<if condition="( isset($vo['sid']) and in_array( $vo['sid'], $isEnableProduct ) ) or ( isset($_REQUEST['sid']) and in_array( $_REQUEST['sid'], $isEnableProduct ) ) ">
 							<option <eq name="vo['model']" value="3" >selected</eq> value="3">产品</option>
+							</if>
 							<?php $isEnableBlog = explode( ',', findById ( 'Admin/SiteConfig', array('key'=>'isEnableBlog','status'=>'1'), 'sids' ) ); ?>
 							<if condition="( isset($vo['sid']) and in_array( $vo['sid'], $isEnableBlog ) ) or ( isset($_REQUEST['sid']) and in_array( $_REQUEST['sid'], $isEnableBlog ) ) ">
 							<option <eq name="vo['model']" value="4" >selected</eq> value="4">博文</option>

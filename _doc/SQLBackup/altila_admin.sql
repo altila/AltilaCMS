@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50136
 File Encoding         : 65001
 
-Date: 2013-05-02 14:15:35
+Date: 2013-05-04 15:37:37
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -3662,15 +3662,16 @@ CREATE TABLE `site_config` (
   PRIMARY KEY (`id`),
   KEY `sid` (`sids`) USING BTREE,
   KEY `key` (`key`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8 COMMENT='配置管理';
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8 COMMENT='配置管理';
 
 -- ----------------------------
 -- Records of site_config
 -- ----------------------------
-INSERT INTO `site_config` VALUES ('1', '', '后台是否记录用户登录', 'adminIsRecordUserLog', '', '1', '2013-02-02 21:00:26', '2013-05-02 10:47:31');
+INSERT INTO `site_config` VALUES ('1', '', '后台是否记录用户登录', 'adminIsRecordUserLog', '', '1', '2013-02-02 21:00:26', '2013-05-02 14:18:21');
 INSERT INTO `site_config` VALUES ('2', '1,2', '是否启用博文', 'isEnableBlog', '', '1', '2013-03-09 21:36:23', '2013-05-02 10:42:20');
 INSERT INTO `site_config` VALUES ('3', '1,2', '是否启用广告js', 'isEnableAdJs', '', '1', '2013-03-17 19:08:05', '2013-05-02 14:10:52');
 INSERT INTO `site_config` VALUES ('4', '', '是否启用小说', 'isEnableNovel', '', '1', '2013-03-21 14:09:28', '2013-05-02 10:46:59');
+INSERT INTO `site_config` VALUES ('5', '1,2', '是否启用商品', 'isEnableProduct', '', '1', '2013-05-02 15:57:39', '2013-05-02 16:00:58');
 
 -- ----------------------------
 -- Table structure for `site_database`
@@ -3715,7 +3716,7 @@ CREATE TABLE `site_node` (
   PRIMARY KEY (`nid`),
   KEY `parent_id` (`parent_id`) USING BTREE,
   KEY `code` (`code`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=78 DEFAULT CHARSET=utf8 COMMENT='节点管理';
+) ENGINE=InnoDB AUTO_INCREMENT=79 DEFAULT CHARSET=utf8 COMMENT='节点管理';
 
 -- ----------------------------
 -- Records of site_node
@@ -3797,6 +3798,7 @@ INSERT INTO `site_node` VALUES ('74', '73', 'JobInfo', '招聘管理', '34-2-73-
 INSERT INTO `site_node` VALUES ('75', '16', 'Database', '字段管理', '1-16-75-', '1', '1', '3', '1', '2013-04-22 22:25:18', '2013-04-22 22:25:18');
 INSERT INTO `site_node` VALUES ('76', '75', 'SiteDatabase', '字段管理', '1-16-75-76-', '2', '1', '1', '1', '2013-04-22 22:26:18', '2013-04-22 22:26:18');
 INSERT INTO `site_node` VALUES ('77', '21', 'BaseLangField', '语言定义', '1-16-21-77-', '2', '1', '2', '1', '2013-04-23 17:44:28', '2013-04-23 20:59:34');
+INSERT INTO `site_node` VALUES ('78', '21', 'BaseBrand', '品牌管理', '1-16-21-78-', '2', '1', '4', '1', '2013-05-04 13:57:37', '2013-05-04 13:59:56');
 
 -- ----------------------------
 -- Table structure for `site_role`
