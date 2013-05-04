@@ -14,3 +14,10 @@ ORG.Util.Image使用ThinkPHP_3.1.2\Extend\Library\ORG\Util中Image文件
 DWZ样式文件修改,Public/dwz/css/core.css
 	修改497行,.searchBar ul.searchContent li { float:left; display:block; overflow:hidden; height:21px; padding:2px 15px 2px 0;}
 
+ORG.Util.Page使用ThinkPHP_3.1.2\Extend\Library\ORG\Util中Page文件
+	修改54行, $_GET 改为 $_REQUEST
+	修改26、28、30行, protected 改为 public 
+
+
+
+

@@ -4,6 +4,9 @@ return array(
 	/* 数据库配置 */
 	//'DB_LIKE_FIELDS'            => 'name|title|remark',   // 默认自动模糊查询的字段 2.1以上版本有用
 
+	/* 数据库配置 */
+	'VAR_PAGE'                  => 'pageNum',  // 分页参数名
+
 	/* RBAC配置 */
 	'USER_AUTH_ON'              => true,       // 是否需要认证
 	'USER_AUTH_TYPE'            => 2,          // 默认认证类型 1 登录认证 2 实时认证

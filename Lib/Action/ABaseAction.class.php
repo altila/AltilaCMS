@@ -134,29 +134,23 @@ class ABaseAction extends BaseAction {
 			$listRows = !empty( $_REQUEST['listRows'] ) ? $_REQUEST['listRows'] : '';
 			$p = new Page ( $count, $listRows );
 			//分页查询数据
-			$voList = $model->where ( $map )->field ( $field )->order ( "`{$order}` {$sort}" )->limit ( "{$p->firstRow},{$p->listRows}" )->group ( $group )->select ();
+			$voList = $model->where ( $map )->field ( $field )->order ( "`{$order}` {$sort}" )->limit ( "{$p->firstRow},{$p->listRows}" )->group ( $group )->select ();print_r($model->getLastsql());
 			//分页跳转的时候保证查询条件
 			foreach ( $map as $key => $val ) {
 				if ( !is_array($val) ) $p->parameter .= "$key=" . urlencode ( $val ) . "&";
 			}
-			//分页显示
-			$page = $p->show();
-			//列表排序显示
-			$sortImg = $sort; //排序图标
-			$sortAlt = $sort == 'desc' ? '升序排列' : '倒序排列'; //排序提示
-			$sort = $sort == 'desc' ? 1 : 0; //排序方式
 			//模板赋值显示
 			$this->assign ( 'list', $voList );
-			$this->assign ( 'sort', $sort );
+			$this->assign ( 'sort', $sort == 'desc' ? 1 : 0 ); //排序方式
 			$this->assign ( 'order', $order );
-			$this->assign ( 'sortImg', $sortImg );
-			$this->assign ( 'sortType', $sortAlt );
-			$this->assign ( "page", $page );
+			$this->assign ( 'sortImg', $sort ); //排序图标
+			$this->assign ( 'sortType', $sort == 'desc' ? '升序排列' : '倒序排列' ); //排序提示
+			$this->assign ( "page", $p->show() ); //分页显示
 			$this->assign ( "id", $model->getpk() );
 		}
-		$this->assign ( 'totalCount', $count );
-		$this->assign ( 'numPerPage', C ( 'PAGE_LISTROWS' ) );
-		$this->assign ( 'currentPage', !empty( $_REQUEST[C ( 'VAR_PAGE' )] ) ? $_REQUEST[C ( 'VAR_PAGE' )] : 1 );
+		$this->assign ( 'totalCount', $p->totalRows );
+		$this->assign ( 'numPerPage', $p->totalPages );
+		$this->assign ( 'currentPage', $p->nowPage );
 		return;
 	}
 
