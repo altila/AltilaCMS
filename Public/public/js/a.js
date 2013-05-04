@@ -371,9 +371,9 @@ function adShow( adposid ){
 			}
 			_i++;
 		}
-		$('#ad_'+id_array[i]).html(htmlStr.ad[adList[id_array[i]]['conf']['ad_fun']]( html,adArr ) );
+		$('#ad_'+id_array[i]).html(htmlStr.ad[adList[id_array[i]]['conf']['afCode']]( html,adArr ) );
 	});
-	if( typeof(adList[id_array[i]]) != 'undefined' && adList[id_array[i]]['conf']['ad_fun'] == 'adCarousel' ) 
+	if( typeof(adList[id_array[i]]) != 'undefined' && adList[id_array[i]]['conf']['afCode'] == 'adCarousel' ) 
 		$('#adInterfaceScroll_' + adList[id_array[i]]['list'][0]['position']).slide();
 }
 

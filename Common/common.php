@@ -106,7 +106,6 @@ function image_url($thumb,$width,$height,$color_code){
 +----------------------------------------------------------
 */
 function getUrl( $type, $list = '' ){
-	$model = D( $type );
 	switch( $type ){
 	case 'ArticleInfo' :
 		$url = domain('www') . "/ArticleInfo/{$list[getModelPk("Home/{$type}")]}";
@@ -121,16 +120,25 @@ function getUrl( $type, $list = '' ){
 		$url = domain('www') . "/SiteMap";
 		break;
 	case 'BlogInfo' :
-		$url = domain('www') . "/Blog/BlogInfo/{$list[getModelPk("Blog/{$type}")]}";
+		$url = domain('Blog') . "/BlogInfo/{$list[getModelPk("Blog/{$type}")]}";
 		break;
 	case 'BlogCategory' :
-		$url = domain('www') . "/Blog/BlogCategory/{$list[getModelPk("Blog/{$type}")]}_1";
+		$url = domain('Blog') . "/BlogCategory/{$list[getModelPk("Blog/{$type}")]}_1";
 		break;
 	case '4' :
-		$url = domain('www') . "/Blog/BlogCategory/{$list['smid']}_1";
+		$url = domain('Blog') . "/BlogCategory/{$list['smid']}_1";
 		break;
 	case 'BlogTag' :
-		$url = domain('www') . "/Blog/BlogTag/" . urlencode($list);
+		$url = domain('Blog') . "/BlogTag/" . urlencode($list);
+		break;
+	case 'ProductInfo' :
+		$url = domain('Product') . "/ProductInfo/{$list[getModelPk("Product/{$type}")]}";
+		break;
+	case 'ProductCategory' :
+		$url = domain('Product') . "/ProductCategory/{$list[getModelPk("Product/{$type}")]}_1";
+		break;
+	case '3' :
+		$url = domain('www') . "/Product/ProductCategory/{$list['smid']}_1";
 		break;
 	}
 	return $url . C('TMPL_TEMPLATE_SUFFIX');
