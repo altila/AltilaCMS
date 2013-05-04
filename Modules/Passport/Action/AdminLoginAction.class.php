@@ -1,8 +1,8 @@
 <?php
 // +----------------------------------------------------------------------
-// | TOPThink [ WE CAN DO IT JUST THINK ]
+// | ThinkPHP
 // +----------------------------------------------------------------------
-// | Copyright (c) 2010 http://topthink.com All rights reserved.
+// | Copyright (c) 2007 http://thinkphp.cn All rights reserved.
 // +----------------------------------------------------------------------
 // | Licensed ( http://www.apache.org/licenses/LICENSE-2.0 )
 // +----------------------------------------------------------------------
@@ -10,8 +10,8 @@
 // +----------------------------------------------------------------------
 // $Id$
 
+class AdminLoginAction extends ABaseAction {
 
-class IndexAction extends ABaseAction {
 	/**
 	+----------------------------------------------------------
 	* 后台登录主页
@@ -40,16 +40,18 @@ class IndexAction extends ABaseAction {
 		//使用用户名、密码和状态的方式进行认证
 		$map = array();
 		$map['user_id'] = trim($_REQUEST['user_id']);
-		$map["status"] = array('gt',0);
-		$userBase = D('UserBase')->where($map)->find();
+		$map["status"] = 1;
+		$model = D( 'Passport/Login' );
+		$userBase = $model->where($map)->find();
 		if( $userBase === false ) 
 			$this->ajaxReturn( '', "提交失败！", 0, '', array('field'=>'user_id','msg'=>'帐号不存在或已禁用！') );
 		if( $userBase['password'] != md5($_REQUEST['password']) ) 
 			$this->ajaxReturn( '', "提交失败！", 0, '', array('field'=>'password','msg'=>'密码错误！') );
 		//在$_SESSION中保存用户信息
-		D( 'Login' )->setUserInfo( $userBase );
+		$model->setUserInfo( $userBase );
 		$this->ajaxReturn( '', "提交成功！", 1, '' );
 	}
 
 }
 ?>
+

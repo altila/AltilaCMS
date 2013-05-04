@@ -8,7 +8,7 @@ return array(
 
 	/* 分组设置 */
 	// 项目分组设定,多个组之间用逗号分隔,例如'Home,Admin'
-	'APP_GROUP_LIST'        => 'Login,Admin,Home,AdminBase,AdminBlog,Blog,AdminUser,AdminAd,AdminProduct',
+	'APP_GROUP_LIST'        => 'Passport,Admin,Home,AdminBase,AdminBlog,Blog,AdminUser,AdminAd,AdminProduct',
 	'APP_GROUP_MODE'        => 1,                 // 分组模式 0 普通分组 1 独立分组
 
 	/* 语言设置 */
@@ -77,6 +77,7 @@ return array(
 	// 导航类型
 	'MENU_TYPE'             => array(
 		'1' => array( 'appName'=>'Home', 'name'=>'Article', 'cateModel'=>'Category', 'infoModel'=>'Info' ),
+		'3' => array( 'appName'=>'Product', 'name'=>'Product', 'cateModel'=>'Category', 'infoModel'=>'Info' ),
 		'4' => array( 'appName'=>'Blog', 'name'=>'Blog', 'cateModel'=>'Category', 'infoModel'=>'Info' ),
 	),
 

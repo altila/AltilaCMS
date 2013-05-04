@@ -11,7 +11,7 @@ return array(
 	'ADMIN_AUTH_KEY'            => '1',        // 无需验证的用户UID
 	'USER_AUTH_MODEL'           => 'UserBase', // 默认验证数据表模型
 	'AUTH_PWD_ENCODER'          => 'md5',      // 用户认证密码加密方式
-	'USER_AUTH_GATEWAY'         => '/Login/AdminLogin',   // 默认认证网关
+	'USER_AUTH_GATEWAY'         => '/Passport/AdminLogin',   // 默认认证网关
 	'NOT_AUTH_MODULE'           => 'AdminLogin',    // 默认无需认证模块
 	'REQUIRE_AUTH_MODULE'       => '',         // 默认需要认证模块
 	'NOT_AUTH_ACTION'           => '',    // 默认无需认证操作

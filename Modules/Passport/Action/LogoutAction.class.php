@@ -10,7 +10,7 @@
 // +----------------------------------------------------------------------
 // $Id$
 
-class LogoutAction extends ABaseAction {
+class LogoutAction extends HBaseAction {
 
 	/**
 	+----------------------------------------------------------

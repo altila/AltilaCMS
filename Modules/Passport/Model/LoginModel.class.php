@@ -11,7 +11,8 @@
 // $Id$
 class LoginModel extends ABaseModel {
 
-	protected $trueTableName = 'site_web';
+	protected $connection = 'DB_USER_CON';
+	protected $trueTableName = 'user_base';
 
 	/**
 	+----------------------------------------------------------
