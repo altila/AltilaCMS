@@ -754,7 +754,7 @@ function sql_replace( $value ) {
 	$value = html2txt( $value,array('script','comment') );
 	$str  = array( 
 		'--', '*/', '/*', '*', '#' 
-		,'insert','delete','update','select','drop','create','modify','rename','alter','sleep','where','union','join','like','execute','count' ,'and','load_file','outfile','from','case','then','else','1=1','when'
+		,'%20insert','%20delete','%20update','%20select','%20drop','%20create','%20modify','%20rename','%20alter','%20sleep','%20where','%20union','%20join','%20like','%20execute','%20count' ,'%20and','%20load_file','%20outfile','%20from','%20case','%20then','%20else','%201=1','%20when'
 	);
 	$callback = htmlspecialchars( trim( str_ireplace($str,'', $value) ) );
 	return $callback;

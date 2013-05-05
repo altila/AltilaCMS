@@ -67,9 +67,11 @@ return array(
 
 	/* 自定义变量 */
 	'TMPL_PARSE_STRING'     => array(
-		'__UPLOAD__' => '/Uploads',     // 增加新的文件上传路径
+		'__UPLOAD__'            => '/Uploads',     // 文件上传路径
+		'__BRANDLOGO__'         => '/Public/brandLogo', // 品牌图片路径
 	),
 	'__UPLOAD__'            => APP_PATH.'Uploads', // 文件上传路径
+	'__BRANDLOGO__'         => APP_PATH.'Public/brandLogo', // 品牌图片路径
 	'USER_AUTH_KEY'         => 'loginUser',    // 存储在SESSION中的用户登陆信息
 	'DOMAIN'                => ltrim( strchr($_SERVER['HTTP_HOST'],'.'), '.' ), // 域名,前不带'.'
 	'DEFAULT_IMG'           => '__PUBLIC__/public/images/grey.gif', // 默认图片

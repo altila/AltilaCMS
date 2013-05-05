@@ -134,7 +134,7 @@ class ABaseAction extends BaseAction {
 			$listRows = !empty( $_REQUEST['listRows'] ) ? $_REQUEST['listRows'] : '';
 			$p = new Page ( $count, $listRows );
 			//分页查询数据
-			$voList = $model->where ( $map )->field ( $field )->order ( "`{$order}` {$sort}" )->limit ( "{$p->firstRow},{$p->listRows}" )->group ( $group )->select ();print_r($model->getLastsql());
+			$voList = $model->where ( $map )->field ( $field )->order ( "`{$order}` {$sort}" )->limit ( "{$p->firstRow},{$p->listRows}" )->group ( $group )->select ();
 			//分页跳转的时候保证查询条件
 			foreach ( $map as $key => $val ) {
 				if ( !is_array($val) ) $p->parameter .= "$key=" . urlencode ( $val ) . "&";

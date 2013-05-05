@@ -2,7 +2,7 @@
 	<label>招聘地区：</label>
 	<select style="display:none" class="combox" name="province" ref="areaCity" refUrl="__APP__/Admin/BaseArea/selectArea.html?parent_id={value}">
 		<option value="">请选择省市</option>
-		<model model="BaseArea" app="Admin" fun="getData" condition="status=1&parent_id=0" order="baid" limit="" key="i">
+		<model model="BaseArea" app="Admin" fun="getData" condition="status=1&parent_id=156" order="baid" limit="" key="i">
 		<option <eq name="vo['province']" value="$result['baid']" >selected</eq> value="{$result['baid']}">{$result['name']}</option>
 		</model>
 	</select>
