@@ -4,7 +4,7 @@
 		<div class="pageFormContent" layoutH="128">
 			<div class="unit">
 				<label>地区编码：</label>
-				<input type="text" class="required"  name="baid" value="{$vo['baid']}" <notempty name="vo[getModelPk(MODULE_NAME)]">disabled</notempty> >
+				<input type="text" class="required"  name="baid" value="{$vo['baid']}">
 			</div>
 			<div class="unit">
 				<label>父级名称：</label>
@@ -36,6 +36,10 @@
 			<div class="unit">
 				<label>经纬度：</label>
 				<input type="text" name="lat_long" value="{$vo['lat_long']}">
+			</div>
+			<div class="unit">
+				<label>时差：</label>
+				<input type="text" name="time_diff" value="{$vo['time_diff']}">
 			</div>
 		</div>
 		<div class="formBar">
