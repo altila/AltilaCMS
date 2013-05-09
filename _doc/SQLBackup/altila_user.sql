@@ -37,12 +37,12 @@ CREATE TABLE `user_base` (
   `add_time` datetime DEFAULT '1970-01-01 08:00:00' COMMENT '添加时间',
   `update_time` datetime DEFAULT '1970-01-01 08:00:00' COMMENT '修改时间',
   PRIMARY KEY (`uid`),
-  KEY `sid` (`sid`) USING BTREE,
-  KEY `user_id` (`user_id`) USING BTREE,
-  KEY `email` (`email`) USING BTREE,
-  KEY `mobile` (`mobile`) USING BTREE,
-  KEY `source_code` (`source_code`) USING BTREE,
-  KEY `add_time` (`add_time`) USING BTREE
+  KEY `sid` (`sid`),
+  KEY `user_id` (`user_id`),
+  KEY `email` (`email`),
+  KEY `mobile` (`mobile`),
+  KEY `source_code` (`source_code`),
+  KEY `add_time` (`add_time`)
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COMMENT='用户基础信息表';
 
 -- ----------------------------
@@ -67,7 +67,7 @@ CREATE TABLE `user_info` (
   `add_time` datetime DEFAULT '1970-01-01 08:00:00' COMMENT '添加时间',
   `update_time` datetime DEFAULT '1970-01-01 08:00:00' COMMENT '修改时间',
   PRIMARY KEY (`id`),
-  KEY `uid` (`uid`) USING BTREE
+  KEY `uid` (`uid`)
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COMMENT='用户扩展信息表';
 
 -- ----------------------------
@@ -88,10 +88,10 @@ CREATE TABLE `user_log_stat` (
   `add_time` datetime DEFAULT '1970-01-01 08:00:00' COMMENT '添加时间',
   `update_time` datetime DEFAULT '1970-01-01 08:00:00' COMMENT '修改时间',
   PRIMARY KEY (`id`),
-  KEY `sid` (`sid`) USING BTREE,
-  KEY `uid` (`uid`) USING BTREE,
-  KEY `log_ip` (`log_ip`) USING BTREE,
-  KEY `add_time` (`add_time`) USING BTREE
+  KEY `sid` (`sid`),
+  KEY `uid` (`uid`),
+  KEY `log_ip` (`log_ip`),
+  KEY `add_time` (`add_time`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COMMENT='用户登陆明细表';
 
 -- ----------------------------

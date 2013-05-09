@@ -29,8 +29,8 @@ CREATE TABLE `blog_album` (
   `add_time` datetime DEFAULT '1970-01-01 08:00:00' COMMENT '添加时间',
   `update_time` datetime DEFAULT '1970-01-01 08:00:00' COMMENT '修改时间',
   PRIMARY KEY (`baid`),
-  KEY `sid` (`sid`) USING BTREE,
-  KEY `uid` (`uid`) USING BTREE
+  KEY `sid` (`sid`),
+  KEY `uid` (`uid`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COMMENT='博文相册表';
 
 -- ----------------------------
@@ -55,9 +55,9 @@ CREATE TABLE `blog_album_photo` (
   `add_time` datetime DEFAULT '1970-01-01 08:00:00' COMMENT '添加时间',
   `update_time` datetime DEFAULT '1970-01-01 08:00:00' COMMENT '修改时间',
   PRIMARY KEY (`id`),
-  KEY `sid` (`sid`) USING BTREE,
-  KEY `uid` (`uid`) USING BTREE,
-  KEY `baid` (`baid`) USING BTREE
+  KEY `sid` (`sid`),
+  KEY `uid` (`uid`),
+  KEY `baid` (`baid`)
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COMMENT='博文相片表';
 
 -- ----------------------------
@@ -84,7 +84,7 @@ CREATE TABLE `blog_comment` (
   `add_time` datetime DEFAULT '1970-01-01 08:00:00' COMMENT '添加时间',
   `update_time` datetime DEFAULT '1970-01-01 08:00:00' COMMENT '修改时间',
   PRIMARY KEY (`bctid`),
-  KEY `biid` (`biid`) USING BTREE
+  KEY `biid` (`biid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='博文评论表';
 
 -- ----------------------------
@@ -104,8 +104,8 @@ CREATE TABLE `blog_comment_operate` (
   `add_time` datetime DEFAULT '1970-01-01 08:00:00' COMMENT '添加时间',
   `update_time` datetime DEFAULT '1970-01-01 08:00:00' COMMENT '修改时间',
   PRIMARY KEY (`id`),
-  KEY `bctid` (`bctid`) USING BTREE,
-  KEY `type` (`type`) USING BTREE
+  KEY `bctid` (`bctid`),
+  KEY `type` (`type`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='博文评论操作明细表';
 
 -- ----------------------------
@@ -125,7 +125,7 @@ CREATE TABLE `blog_comment_stat` (
   `add_time` datetime DEFAULT '1970-01-01 08:00:00' COMMENT '添加时间',
   `update_time` datetime DEFAULT '1970-01-01 08:00:00' COMMENT '修改时间',
   PRIMARY KEY (`id`),
-  KEY `sid` (`sid`) USING BTREE
+  KEY `sid` (`sid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='博文评论操作统计总表';
 
 -- ----------------------------
@@ -146,8 +146,8 @@ CREATE TABLE `blog_group` (
   `add_time` datetime DEFAULT '1970-01-01 08:00:00' COMMENT '添加时间',
   `update_time` datetime DEFAULT '1970-01-01 08:00:00' COMMENT '修改时间',
   PRIMARY KEY (`bgid`),
-  KEY `sid` (`sid`) USING BTREE,
-  KEY `uid` (`uid`) USING BTREE
+  KEY `sid` (`sid`),
+  KEY `uid` (`uid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='博文分组表';
 
 -- ----------------------------
@@ -177,9 +177,9 @@ CREATE TABLE `blog_info` (
   `add_time` datetime DEFAULT '1970-01-01 08:00:00' COMMENT '添加时间',
   `update_time` datetime DEFAULT '1970-01-01 08:00:00' COMMENT '修改时间',
   PRIMARY KEY (`biid`),
-  KEY `sid` (`sid`) USING BTREE,
-  KEY `uid` (`uid`) USING BTREE,
-  KEY `smid` (`smid`) USING BTREE
+  KEY `sid` (`sid`),
+  KEY `uid` (`uid`),
+  KEY `smid` (`smid`)
 ) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8 COMMENT='博文信息表';
 
 -- ----------------------------
@@ -201,9 +201,9 @@ CREATE TABLE `blog_info_group` (
   `biid` int(11) NOT NULL DEFAULT '0' COMMENT '博文ID，关联blog_info表biid字段',
   `bgid` int(11) NOT NULL DEFAULT '0' COMMENT '博文分组ID，关联blog_group表bgid字段',
   PRIMARY KEY (`id`),
-  KEY `sid` (`sid`) USING BTREE,
-  KEY `aiid` (`biid`) USING BTREE,
-  KEY `agid` (`bgid`) USING BTREE
+  KEY `sid` (`sid`),
+  KEY `aiid` (`biid`),
+  KEY `agid` (`bgid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='博文信息关联分组表';
 
 -- ----------------------------
@@ -223,11 +223,11 @@ CREATE TABLE `blog_info_operate` (
   `add_time` datetime DEFAULT '1970-01-01 08:00:00' COMMENT '添加时间',
   `update_time` datetime DEFAULT '1970-01-01 08:00:00' COMMENT '修改时间',
   PRIMARY KEY (`id`),
-  KEY `sid` (`sid`) USING BTREE,
-  KEY `uid` (`uid`) USING BTREE,
-  KEY `biid` (`biid`) USING BTREE,
-  KEY `type` (`type`) USING BTREE,
-  KEY `add_time` (`add_time`) USING BTREE
+  KEY `sid` (`sid`),
+  KEY `uid` (`uid`),
+  KEY `biid` (`biid`),
+  KEY `type` (`type`),
+  KEY `add_time` (`add_time`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='博文操作明细表';
 
 -- ----------------------------
@@ -252,8 +252,8 @@ CREATE TABLE `blog_info_stat` (
   `add_time` datetime DEFAULT '1970-01-01 08:00:00' COMMENT '添加时间',
   `update_time` datetime DEFAULT '1970-01-01 08:00:00' COMMENT '修改时间',
   PRIMARY KEY (`id`),
-  KEY `sid` (`sid`) USING BTREE,
-  KEY `biid` (`biid`) USING BTREE
+  KEY `sid` (`sid`),
+  KEY `biid` (`biid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='博文统计总表';
 
 -- ----------------------------
@@ -271,10 +271,10 @@ CREATE TABLE `blog_tag` (
   `biid` int(11) NOT NULL DEFAULT '0' COMMENT '博文ID，关联blog_info表biid字段',
   `tag_name` varchar(30) NOT NULL DEFAULT '' COMMENT '博文标签名称',
   PRIMARY KEY (`id`),
-  KEY `sid` (`sid`) USING BTREE,
-  KEY `smid` (`smid`) USING BTREE,
-  KEY `biid` (`biid`) USING BTREE,
-  KEY `tag_name` (`tag_name`) USING BTREE
+  KEY `sid` (`sid`),
+  KEY `smid` (`smid`),
+  KEY `biid` (`biid`),
+  KEY `tag_name` (`tag_name`)
 ) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8 COMMENT='博文标签表';
 
 -- ----------------------------
@@ -304,9 +304,9 @@ CREATE TABLE `blog_tag_stat` (
   `add_time` datetime DEFAULT '1970-01-01 08:00:00' COMMENT '添加时间',
   `update_time` datetime DEFAULT '1970-01-01 08:00:00' COMMENT '修改时间',
   PRIMARY KEY (`id`),
-  KEY `sid` (`sid`) USING BTREE,
-  KEY `smid` (`smid`) USING BTREE,
-  KEY `tag_name` (`tag_name`) USING BTREE
+  KEY `sid` (`sid`),
+  KEY `smid` (`smid`),
+  KEY `tag_name` (`tag_name`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='博文标签统计表';
 
 -- ----------------------------

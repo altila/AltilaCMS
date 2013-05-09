@@ -29,7 +29,7 @@ CREATE TABLE `product_channel` (
   `add_time` datetime DEFAULT '1970-01-01 08:00:00' COMMENT '添加时间',
   `update_time` datetime DEFAULT '1970-01-01 08:00:00' COMMENT '修改时间',
   PRIMARY KEY (`pcid`),
-  KEY `sid` (`sid`) USING BTREE
+  KEY `sid` (`sid`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COMMENT='渠道信息表';
 
 -- ----------------------------
@@ -57,9 +57,9 @@ CREATE TABLE `product_channel_goods` (
   `add_time` datetime DEFAULT '1970-01-01 08:00:00' COMMENT '添加时间',
   `update_time` datetime DEFAULT '1970-01-01 08:00:00' COMMENT '修改时间',
   PRIMARY KEY (`pcgid`),
-  KEY `sid` (`sid`) USING BTREE,
-  KEY `smid` (`smid`) USING BTREE,
-  KEY `pcid` (`pcid`) USING BTREE
+  KEY `sid` (`sid`),
+  KEY `smid` (`smid`),
+  KEY `pcid` (`pcid`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COMMENT='渠道商品信息表';
 
 -- ----------------------------
@@ -101,7 +101,7 @@ CREATE TABLE `product_description_category` (
   `add_time` datetime DEFAULT '1970-01-01 08:00:00' COMMENT '添加时间',
   `update_time` datetime DEFAULT '1970-01-01 08:00:00' COMMENT '修改时间',
   PRIMARY KEY (`pdcid`),
-  KEY `sid` (`sid`) USING BTREE
+  KEY `sid` (`sid`)
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COMMENT='商品描述分类表';
 
 -- ----------------------------
@@ -128,7 +128,7 @@ CREATE TABLE `product_goods` (
   `add_time` datetime DEFAULT '1970-01-01 08:00:00' COMMENT '添加时间',
   `update_time` datetime DEFAULT '1970-01-01 08:00:00' COMMENT '修改时间',
   PRIMARY KEY (`pgid`),
-  KEY `sid` (`sid`) USING BTREE
+  KEY `sid` (`sid`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COMMENT='商品信息表';
 
 -- ----------------------------

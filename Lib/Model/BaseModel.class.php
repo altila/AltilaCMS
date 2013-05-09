@@ -194,7 +194,6 @@ class BaseModel extends Model {
 	+----------------------------------------------------------
 	*/
 	public function getSetCache( $key, $type = 'File', $isGet = true, $value = '', $time = '900' ) {
-		if( APP_DEBUG ) return;
 		$type = in_array($type,explode(',',C('DATA_CACHE_TYPE_ARRAY'))) ? $type : 'File';
 		if( is_array($key) ){
 			foreach( $key as $k=>$v ) $_t.= $k.'='.$v.'&';
@@ -202,24 +201,6 @@ class BaseModel extends Model {
 		}
 		if( $isGet ) return S( $key );
 		else S( $key, $value, array( 'type'=>$type, 'expire'=>$time ) );
-	}
-
-	/**
-	+----------------------------------------------------------
-	* 清楚缓存
-	+----------------------------------------------------------
-	* @access public
-	+----------------------------------------------------------
-	* @param   arr or str      $key           键名
-	* @param   str             $type          cache类型
-	+----------------------------------------------------------
-	* @return boo
-	+----------------------------------------------------------
-	*/
-	public function clearCache( $key, $type = 'File' ) {
-		$type = in_array($type,explode(',',C('DATA_CACHE_TYPE_ARRAY'))) ? $type : 'File';
-		S( $key, null, array( 'type'=>$type ) );
-		return true;
 	}
 
 	/**
@@ -241,7 +222,7 @@ class BaseModel extends Model {
 		if( empty($key) ) return;
 		$result = $this->getSetCache( $key );
 		//返回缓存
-		if( !empty($result) ) return $result;
+		if( !empty($result) && !APP_DEBUG ) return $result;
 		$result = is_array($condition) ? $this->where($condition)->select() : $this->query($condition);
 		if( empty($result) ) return;
 		if( !empty($sort) ){
@@ -250,6 +231,24 @@ class BaseModel extends Model {
 		}
 		$this->getSetCache( $key, 'File', false, $result, $time );
 		return $result;
+	}
+
+	/**
+	+----------------------------------------------------------
+	* 清楚缓存
+	+----------------------------------------------------------
+	* @access public
+	+----------------------------------------------------------
+	* @param   arr or str      $key           键名
+	* @param   str             $type          cache类型
+	+----------------------------------------------------------
+	* @return boo
+	+----------------------------------------------------------
+	*/
+	public function clearCache( $key, $type = 'File' ) {
+		$type = in_array($type,explode(',',C('DATA_CACHE_TYPE_ARRAY'))) ? $type : 'File';
+		S( $key, null, array( 'type'=>$type ) );
+		return true;
 	}
 
 

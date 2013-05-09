@@ -28,7 +28,7 @@ CREATE TABLE `ad_function` (
   `add_time` datetime DEFAULT '1970-01-01 08:00:00' COMMENT '添加时间',
   `update_time` datetime DEFAULT '1970-01-01 08:00:00' COMMENT '修改时间',
   PRIMARY KEY (`afid`),
-  KEY `status` (`status`) USING BTREE
+  KEY `status` (`status`)
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COMMENT='广告方法表';
 
 -- ----------------------------
@@ -57,10 +57,10 @@ CREATE TABLE `ad_info` (
   `add_time` datetime DEFAULT '1970-01-01 08:00:00' COMMENT '添加时间',
   `update_time` datetime DEFAULT '1970-01-01 08:00:00' COMMENT '修改时间',
   PRIMARY KEY (`adid`),
-  KEY `sid` (`sid`) USING BTREE,
-  KEY `apid` (`apid`) USING BTREE,
-  KEY `type` (`type`) USING BTREE,
-  KEY `status` (`status`) USING BTREE
+  KEY `sid` (`sid`),
+  KEY `apid` (`apid`),
+  KEY `type` (`type`),
+  KEY `status` (`status`)
 ) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8 COMMENT='广告信息表';
 
 -- ----------------------------
@@ -92,8 +92,8 @@ CREATE TABLE `ad_position` (
   `add_time` datetime DEFAULT '1970-01-01 08:00:00' COMMENT '添加时间',
   `update_time` datetime DEFAULT '1970-01-01 08:00:00' COMMENT '修改时间',
   PRIMARY KEY (`apid`),
-  KEY `sid` (`sid`) USING BTREE,
-  KEY `status` (`status`) USING BTREE
+  KEY `sid` (`sid`),
+  KEY `status` (`status`)
 ) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8 COMMENT='广告位信息表';
 
 -- ----------------------------
@@ -121,7 +121,7 @@ CREATE TABLE `ad_schedule` (
   `add_time` datetime DEFAULT '1970-01-01 08:00:00' COMMENT '添加时间',
   `update_time` datetime DEFAULT '1970-01-01 08:00:00' COMMENT '修改时间',
   PRIMARY KEY (`id`),
-  KEY `apid` (`apid`) USING BTREE
+  KEY `apid` (`apid`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COMMENT='广告排期表';
 
 -- ----------------------------
@@ -143,8 +143,8 @@ CREATE TABLE `article_album` (
   `add_time` datetime DEFAULT '1970-01-01 08:00:00' COMMENT '添加时间',
   `update_time` datetime DEFAULT '1970-01-01 08:00:00' COMMENT '修改时间',
   PRIMARY KEY (`aaid`),
-  KEY `sid` (`sid`) USING BTREE,
-  KEY `uid` (`uid`) USING BTREE
+  KEY `sid` (`sid`),
+  KEY `uid` (`uid`)
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COMMENT='文章相册表';
 
 -- ----------------------------
@@ -170,9 +170,9 @@ CREATE TABLE `article_album_photo` (
   `add_time` datetime DEFAULT '1970-01-01 08:00:00' COMMENT '添加时间',
   `update_time` datetime DEFAULT '1970-01-01 08:00:00' COMMENT '修改时间',
   PRIMARY KEY (`id`),
-  KEY `sid` (`sid`) USING BTREE,
-  KEY `uid` (`uid`) USING BTREE,
-  KEY `aaid` (`aaid`) USING BTREE
+  KEY `sid` (`sid`),
+  KEY `uid` (`uid`),
+  KEY `aaid` (`aaid`)
 ) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8 COMMENT='文章相片表';
 
 -- ----------------------------
@@ -207,9 +207,9 @@ CREATE TABLE `article_info` (
   `add_time` datetime DEFAULT '1970-01-01 08:00:00' COMMENT '添加时间',
   `update_time` datetime DEFAULT '1970-01-01 08:00:00' COMMENT '修改时间',
   PRIMARY KEY (`aiid`),
-  KEY `sid` (`sid`) USING BTREE,
-  KEY `uid` (`uid`) USING BTREE,
-  KEY `smid` (`smid`) USING BTREE
+  KEY `sid` (`sid`),
+  KEY `uid` (`uid`),
+  KEY `smid` (`smid`)
 ) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8 COMMENT='文章信息表';
 
 -- ----------------------------
@@ -244,7 +244,7 @@ CREATE TABLE `job_info` (
   `add_time` datetime DEFAULT '1970-01-01 08:00:00' COMMENT '添加时间',
   `update_time` datetime DEFAULT '1970-01-01 08:00:00' COMMENT '修改时间',
   PRIMARY KEY (`jiid`),
-  KEY `sid` (`sid`) USING BTREE
+  KEY `sid` (`sid`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COMMENT='招聘信息表';
 
 -- ----------------------------
@@ -279,8 +279,8 @@ CREATE TABLE `site_menu` (
   `add_time` datetime DEFAULT '1970-01-01 08:00:00' COMMENT '添加时间',
   `update_time` datetime DEFAULT '1970-01-01 08:00:00' COMMENT '修改时间',
   PRIMARY KEY (`smid`),
-  KEY `sid` (`sid`) USING BTREE,
-  KEY `parent_id` (`parent_id`) USING BTREE
+  KEY `sid` (`sid`),
+  KEY `parent_id` (`parent_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=41 DEFAULT CHARSET=utf8 COMMENT='菜单管理';
 
 -- ----------------------------
@@ -343,8 +343,8 @@ CREATE TABLE `site_plate` (
   `add_time` datetime DEFAULT '1970-01-01 08:00:00' COMMENT '添加时间',
   `update_time` datetime DEFAULT '1970-01-01 08:00:00' COMMENT '修改时间',
   PRIMARY KEY (`spid`),
-  KEY `sid` (`sid`) USING BTREE,
-  KEY `status` (`status`) USING BTREE
+  KEY `sid` (`sid`),
+  KEY `status` (`status`)
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COMMENT='面板管理';
 
 -- ----------------------------
@@ -376,8 +376,8 @@ CREATE TABLE `site_plate_content` (
   `add_time` datetime DEFAULT '1970-01-01 08:00:00' COMMENT '添加时间',
   `update_time` datetime DEFAULT '1970-01-01 08:00:00' COMMENT '修改时间',
   PRIMARY KEY (`id`),
-  KEY `sid` (`sid`) USING BTREE,
-  KEY `status` (`status`) USING BTREE
+  KEY `sid` (`sid`),
+  KEY `status` (`status`)
 ) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8 COMMENT='面板内容管理';
 
 -- ----------------------------
@@ -402,8 +402,8 @@ CREATE TABLE `site_plate_group` (
   `add_time` datetime DEFAULT '1970-01-01 08:00:00' COMMENT '添加时间',
   `update_time` datetime DEFAULT '1970-01-01 08:00:00' COMMENT '修改时间',
   PRIMARY KEY (`spgid`),
-  KEY `sid` (`sid`) USING BTREE,
-  KEY `status` (`status`) USING BTREE
+  KEY `sid` (`sid`),
+  KEY `status` (`status`)
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COMMENT='面板分组管理';
 
 -- ----------------------------
