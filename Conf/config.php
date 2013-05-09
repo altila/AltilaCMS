@@ -8,7 +8,7 @@ return array(
 
 	/* 分组设置 */
 	// 项目分组设定,多个组之间用逗号分隔,例如'Home,Admin'
-	'APP_GROUP_LIST'        => 'Passport,Admin,Home,AdminBase,AdminBlog,Blog,AdminUser,AdminAd,AdminProduct',
+	'APP_GROUP_LIST'        => 'Passport,Admin,Home,AdminBase,AdminBlog,Blog,AdminUser,AdminAd,AdminProduct,Collect',
 	'APP_GROUP_MODE'        => 1,                 // 分组模式 0 普通分组 1 独立分组
 
 	/* 语言设置 */
