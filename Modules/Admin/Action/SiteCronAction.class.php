@@ -10,7 +10,7 @@
 // +----------------------------------------------------------------------
 // $Id$
 
-class SiteConfigAction extends ABaseAction {
+class SiteCronAction extends ABaseAction {
 
 	/**
 	+----------------------------------------------------------
@@ -18,6 +18,7 @@ class SiteConfigAction extends ABaseAction {
 	+----------------------------------------------------------
 	*/
 	public function _filterInsertCheck() {
+		$map['sid'] = $_REQUEST['sid'];
 		$map['key'] = $_REQUEST['key'];
 		return $map;
 	}
@@ -28,6 +29,7 @@ class SiteConfigAction extends ABaseAction {
 	+----------------------------------------------------------
 	*/
 	public function _filterUpdateCheck() {
+		$map['sid'] = $_REQUEST['sid'];
 		$map['key'] = $_REQUEST['key'];
 		return $map;
 	}

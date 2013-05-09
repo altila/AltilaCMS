@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50136
 File Encoding         : 65001
 
-Date: 2013-05-09 10:09:57
+Date: 2013-05-09 10:56:16
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -3930,7 +3930,7 @@ CREATE TABLE `base_lang_field` (
   `update_time` datetime DEFAULT '1970-01-01 08:00:00' COMMENT '修改时间',
   PRIMARY KEY (`blfid`),
   KEY `code` (`code`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8 COMMENT='语言字段管理';
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8 COMMENT='语言字段管理';
 
 -- ----------------------------
 -- Records of base_lang_field
@@ -3939,6 +3939,7 @@ INSERT INTO `base_lang_field` VALUES ('1', 'SiteMap_index', '网站地图', '0',
 INSERT INTO `base_lang_field` VALUES ('2', 'WorkYear', '工作年限', '1', '[&quot;不限&quot;,&quot;在读学生&quot;,&quot;应届毕业生&quot;,&quot;一年以上&quot;,&quot;二年以上&quot;,&quot;三年以上&quot;,&quot;五年以上&quot;,&quot;八年以上&quot;,&quot;十年以上&quot;]', '', '', '0', '1', '2013-04-23 21:12:57', '2013-04-24 11:04:14');
 INSERT INTO `base_lang_field` VALUES ('3', 'PeovideSalary', '月薪范围', '1', '[&quot;面议&quot;,&quot;1500以下&quot;,&quot;1500-2999&quot;,&quot;3000-4499&quot;,&quot;4500-5999&quot;,&quot;6000-7999&quot;,&quot;8000-9999&quot;,&quot;10000-14999&quot;,&quot;15000-19999&quot;,&quot;20000-29999&quot;,&quot;30000-49999&quot;,&quot;50000及以上&quot;]', '', '', '0', '1', '2013-04-23 21:14:55', '2013-04-24 15:30:51');
 INSERT INTO `base_lang_field` VALUES ('4', 'DegreeFrom', '学历要求', '1', '[&quot;不限&quot;,&quot;初中&quot;,&quot;高中&quot;,&quot;中专&quot;,&quot;大专&quot;,&quot;本科&quot;,&quot;硕士&quot;,&quot;博士&quot;]', '', '', '0', '1', '2013-04-23 21:16:06', '2013-04-24 11:04:25');
+INSERT INTO `base_lang_field` VALUES ('5', 'CycleType', '循环类型', '1', '[&quot;请选择&quot;,&quot;每分钟&quot;,&quot;每小时&quot;,&quot;每天&quot;,&quot;每周&quot;,&quot;每月&quot;,&quot;每年&quot;]', '', '', '0', '1', '2013-05-09 10:37:54', '2013-05-09 10:37:54');
 
 -- ----------------------------
 -- Table structure for `site_access`
@@ -4012,8 +4013,8 @@ CREATE TABLE `site_cron` (
   `sid` int(11) NOT NULL DEFAULT '0' COMMENT '网站ID，关联site_web表sid字段',
   `name` varchar(60) NOT NULL DEFAULT '' COMMENT '名称',
   `key` varchar(60) NOT NULL DEFAULT '' COMMENT '键名',
-  `value` text COMMENT '文章内容',
-  `cycle_type` tinyint(5) DEFAULT '0' COMMENT '循环类型：1为每分钟，2为每小时，3为每天，4为每周，5为每月，6为每年',
+  `value` text COMMENT '键值',
+  `cycle_type` tinyint(5) DEFAULT '1' COMMENT '循环类型：1为每分钟，2为每小时，3为每天，4为每周，5为每月，6为每年',
   `cycle` tinyint(5) DEFAULT '0' COMMENT '循环周期',
   `sort` tinyint(5) DEFAULT '0' COMMENT '显示顺序',
   `status` tinyint(1) DEFAULT '2' COMMENT '状态: -1为删除，0为禁用，1为正常，2为待批',
@@ -4021,11 +4022,12 @@ CREATE TABLE `site_cron` (
   `update_time` datetime DEFAULT '1970-01-01 08:00:00' COMMENT '修改时间',
   PRIMARY KEY (`scid`),
   KEY `sid` (`sid`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='计划任务管理';
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COMMENT='计划任务管理';
 
 -- ----------------------------
 -- Records of site_cron
 -- ----------------------------
+INSERT INTO `site_cron` VALUES ('1', '1', '地区行政代码采集', 'Collect/Area/administrative', '', '1', '1', '0', '1', '2013-05-09 10:46:49', '2013-05-09 10:56:01');
 
 -- ----------------------------
 -- Table structure for `site_database`
