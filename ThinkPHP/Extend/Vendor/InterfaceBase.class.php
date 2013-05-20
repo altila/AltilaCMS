@@ -9,8 +9,8 @@
 class InterfaceBase{
 
 	public  $url;
-	public  $timeOut;
-	private $params=null;
+	public  $timeOut = 6;
+	public  $cookie;
 	private $_exec_time = 0;
 
 	/**
@@ -18,15 +18,17 @@ class InterfaceBase{
 	* @GET提交
 	+----------------------------------------------------------
 	*/
-	public function curlFuncGet($data){
+	public function curlFuncGet() {
 		//cURL传输
 		$ch = curl_init();//print_r($this->url);
-		curl_setopt ($ch,CURLOPT_TIMEOUT, $data['timeOut']);//允许执行的最长秒数
-		curl_setopt ($ch, CURLOPT_URL, $data['url']);
+		curl_setopt ($ch, CURLOPT_TIMEOUT, $this->timeOut);//允许执行的最长秒数
+		curl_setopt ($ch, CURLOPT_URL, $this->url);
 		curl_setopt ($ch, CURLOPT_RETURNTRANSFER, 1);//获取的信息以文件流的形式返回
-		curl_setopt ($ch , CURLOPT_BINARYTRANSFER, true) ;//返回原生的（Raw）输出
+		curl_setopt ($ch, CURLOPT_BINARYTRANSFER, true) ;//返回原生的（Raw）输出
 		//指定post数据
 		curl_setopt ($ch, CURLOPT_POST, 0);//启用时会发送一个常规的POST请求,0:GET,1:POST
+		//扩展参数
+		$this->curlExpand($ch);
 		//统计获取时间
 		$info = curl_getinfo($ch);
 		$start = $this->_mkMictime();
@@ -44,16 +46,18 @@ class InterfaceBase{
 	* @POST提交
 	+----------------------------------------------------------
 	*/
-	public function curlFuncPost($data){
+	public function curlFuncPost($params) {
 		//cURL传输
-		$ch = curl_init();
+		$ch = curl_init();//print_r($this->url);
 		curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-		curl_setopt($ch,CURLOPT_URL,$this->url);
-		curl_setopt($ch,CURLOPT_RETURNTRANSFER, 1);
+		curl_setopt($ch, CURLOPT_URL, $this->url);
+		curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
 		//指定post数据
-		curl_setopt($ch,CURLOPT_POST, 1);
+		curl_setopt($ch, CURLOPT_POST, 1);
 		//添加变量
-		curl_setopt($ch,CURLOPT_POSTFIELDS,http_build_query($data['params']));
+		curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($params));
+		//扩展参数
+		$this->curlExpand($ch);
 		//统计获取时间
 		$info = curl_getinfo($ch);
 		$start = $this->_mkMictime();
@@ -63,6 +67,16 @@ class InterfaceBase{
 		curl_close($ch);
 		//返回
 		return $rs;
+	}
+
+	/**
+	+----------------------------------------------------------
+	* 扩展参数
+	+----------------------------------------------------------
+	*/
+	public function curlExpand($ch) {
+		if( !empty($this->cookie) ) curl_setopt($ch, CURLOPT_COOKIE, $this->cookie);
+
 	}
 
 	/**

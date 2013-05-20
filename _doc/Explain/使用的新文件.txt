@@ -18,6 +18,8 @@ ORG.Util.Page使用ThinkPHP_3.1.2\Extend\Library\ORG\Util中Page文件
 	修改54行, $_GET 改为 $_REQUEST
 	修改26、28、30行, protected 改为 public 
 
+ThinkPHP\Lib\Core中Db.class.php文件
+	修改multiConnect方法，去除if(empty($_config))判断
 
 
 
