@@ -99,6 +99,10 @@ class Snoopy {
 	var $_isproxy       =   false;              // set if using a proxy server
 	var $_fp_timeout    =   30;                 // timeout for socket connection
 
+	//custom new variables
+	var $lastUrl        =   "";                 // last url
+	var $stripRepStr    =   "";                 // strip replace string
+
 /*======================================================================*\
 	Function:	fetch
 	Purpose:	fetch the contents of a web page
@@ -466,7 +470,7 @@ class Snoopy {
 													# quote, otherwise match up to next space
 						'isx",$document,$links);
 		// catenate the non-empty matches from the conditional subpattern
-		while(list($key,$val) = each($links[2])) {
+		while( list($key,$val) = each($links[2]) ) {
 			if( !empty($val) ) $match[] = $val;
 		}
 		while( list($key,$val) = each($links[3]) ) {
@@ -525,7 +529,7 @@ class Snoopy {
 						"'&szlig;'i",
 						);
 		$replace = array(	"",
-							"",
+							$this->stripRepStr,
 							"\\1",
 							"\"",
 							"&",
@@ -577,7 +581,7 @@ class Snoopy {
 							$match."/",
 							"/",
 							"/"
-						);			
+						);
 		$expandedLinks = preg_replace($search,$replace,$links);
 		return $expandedLinks;
 	}
@@ -592,157 +596,112 @@ class Snoopy {
 	Output:		
 \*======================================================================*/
 	
-	function _httprequest($url,$fp,$URI,$http_method,$content_type="",$body="")
-	{
+	function _httprequest($url,$fp,$URI,$http_method,$content_type="",$body="") {
+		if( $this->lastUrl != $url ) unset($this->results);
 		$cookie_headers = '';
-		if($this->passcookies && $this->_redirectaddr)
-			$this->setcookies();
-			
+		if( $this->passcookies && $this->_redirectaddr ) $this->setcookies();
 		$URI_PARTS = parse_url($URI);
-		if(empty($url))
-			$url = "/";
-		$headers = $http_method." ".$url." ".$this->_httpversion."\r\n";		
-		if(!empty($this->agent))
-			$headers .= "User-Agent: ".$this->agent."\r\n";
-		if(!empty($this->host) && !isset($this->rawheaders['Host'])) {
+		if( empty($url) ) $url = "/";
+		$headers = $http_method." ".$url." ".$this->_httpversion."\r\n";
+		if( !empty($this->agent) ) $headers .= "User-Agent: ".$this->agent."\r\n";
+		if( !empty($this->host) && !isset($this->rawheaders['Host']) ) {
 			$headers .= "Host: ".$this->host;
-			if(!empty($this->port))
-				$headers .= ":".$this->port;
+			if( !empty($this->port) ) $headers .= ":".$this->port;
 			$headers .= "\r\n";
 		}
-		if(!empty($this->accept))
-			$headers .= "Accept: ".$this->accept."\r\n";
-		if(!empty($this->referer))
-			$headers .= "Referer: ".$this->referer."\r\n";
-		if(!empty($this->cookies))
-		{			
-			if(!is_array($this->cookies))
-				$this->cookies = (array)$this->cookies;
-	
+		if( !empty($this->accept) ) $headers .= "Accept: ".$this->accept."\r\n";
+		if( !empty($this->referer) ) $headers .= "Referer: ".$this->referer."\r\n";
+		if( !empty($this->cookies) ) {
+			if( !is_array($this->cookies) ) $this->cookies = (array)$this->cookies;
 			reset($this->cookies);
 			if ( count($this->cookies) > 0 ) {
 				$cookie_headers .= 'Cookie: ';
-				foreach ( $this->cookies as $cookieKey => $cookieVal ) {
-				$cookie_headers .= $cookieKey."=".urlencode($cookieVal)."; ";
-				}
+				foreach ( $this->cookies as $cookieKey => $cookieVal )
+					$cookie_headers .= $cookieKey."=".urlencode($cookieVal)."; ";
 				$headers .= substr($cookie_headers,0,-2) . "\r\n";
-			} 
+			}
 		}
-		if(!empty($this->rawheaders))
-		{
-			if(!is_array($this->rawheaders))
+		if( !empty($this->rawheaders) ) {
+			if( !is_array($this->rawheaders) )
 				$this->rawheaders = (array)$this->rawheaders;
-			while(list($headerKey,$headerVal) = each($this->rawheaders))
+			while( list($headerKey,$headerVal) = each($this->rawheaders) )
 				$headers .= $headerKey.": ".$headerVal."\r\n";
 		}
-		if(!empty($content_type)) {
+		if( !empty($content_type) ) {
 			$headers .= "Content-type: $content_type";
-			if ($content_type == "multipart/form-data")
+			if ( $content_type == "multipart/form-data" )
 				$headers .= "; boundary=".$this->_mime_boundary;
 			$headers .= "\r\n";
 		}
-		if(!empty($body))	
-			$headers .= "Content-length: ".strlen($body)."\r\n";
-		if(!empty($this->user) || !empty($this->pass))	
+		if( !empty($body) ) $headers .= "Content-length: ".strlen($body)."\r\n";
+		if( !empty($this->user) || !empty($this->pass) )
 			$headers .= "Authorization: Basic ".base64_encode($this->user.":".$this->pass)."\r\n";
-		
 		//add proxy auth headers
-		if(!empty($this->proxy_user))	
+		if( !empty($this->proxy_user) )
 			$headers .= 'Proxy-Authorization: ' . 'Basic ' . base64_encode($this->proxy_user . ':' . $this->proxy_pass)."\r\n";
-
-
 		$headers .= "\r\n";
-		
 		// set the read timeout if needed
-		if ($this->read_timeout > 0)
+		if ( $this->read_timeout > 0 )
 			socket_set_timeout($fp, $this->read_timeout);
 		$this->timed_out = false;
-		
 		fwrite($fp,$headers.$body,strlen($headers.$body));
-		
 		$this->_redirectaddr = false;
 		unset($this->headers);
-						
-		while($currentHeader = fgets($fp,$this->_maxlinelen))
-		{
-			if ($this->read_timeout > 0 && $this->_check_timeout($fp))
-			{
+		while( $currentHeader = fgets($fp,$this->_maxlinelen) ) {
+			if ( $this->read_timeout > 0 && $this->_check_timeout($fp) ) {
 				$this->status=-100;
 				return false;
 			}
-				
-			if($currentHeader == "\r\n")
-				break;
-						
+			if( $currentHeader == "\r\n" ) break;
 			// if a header begins with Location: or URI:, set the redirect
-			if(preg_match("/^(Location:|URI:)/i",$currentHeader))
-			{
+			if( preg_match("/^(Location:|URI:)/i",$currentHeader) ) {
 				// get URL portion of the redirect
 				preg_match("/^(Location:|URI:)[ ]+(.*)/i",chop($currentHeader),$matches);
 				// look for :// in the Location header to see if hostname is included
-				if(!preg_match("|\:\/\/|",$matches[2]))
-				{
+				if( !preg_match("|\:\/\/|",$matches[2]) ) {
 					// no host in the path, so prepend
 					$this->_redirectaddr = $URI_PARTS["scheme"]."://".$this->host.":".$this->port;
 					// eliminate double slash
-					if(!preg_match("|^/|",$matches[2]))
-							$this->_redirectaddr .= "/".$matches[2];
+					if( !preg_match("|^/|",$matches[2]) )
+						$this->_redirectaddr .= "/".$matches[2];
 					else
-							$this->_redirectaddr .= $matches[2];
-				}
-				else
+						$this->_redirectaddr .= $matches[2];
+				} else
 					$this->_redirectaddr = $matches[2];
 			}
-		
-			if(preg_match("|^HTTP/|",$currentHeader))
-			{
-                if(preg_match("|^HTTP/[^\s]*\s(.*?)\s|",$currentHeader, $status))
-				{
+			if( preg_match("|^HTTP/|",$currentHeader) ) {
+				if( preg_match("|^HTTP/[^\s]*\s(.*?)\s|",$currentHeader, $status) )
 					$this->status= $status[1];
-                }				
 				$this->response_code = $currentHeader;
 			}
-				
 			$this->headers[] = $currentHeader;
 		}
-
 		$results = '';
 		do {
-    		$_data = fread($fp, $this->maxlength);
-    		if (strlen($_data) == 0) {
-        		break;
-    		}
-    		$results .= $_data;
+			$_data = fread($fp, $this->maxlength);
+			if ( strlen($_data) == 0 ) break;
+			$results .= $_data;
 		} while(true);
-
-		if ($this->read_timeout > 0 && $this->_check_timeout($fp))
-		{
+		if ( $this->read_timeout > 0 && $this->_check_timeout($fp) ) {
 			$this->status=-100;
 			return false;
 		}
-		
 		// check if there is a a redirect meta tag
-		
-		if(preg_match("'<meta[\s]*http-equiv[^>]*?content[\s]*=[\s]*[\"\']?\d+;[\s]*URL[\s]*=[\s]*([^\"\']*?)[\"\']?>'i",$results,$match))
-
-		{
+		if( preg_match("'<meta[\s]*http-equiv[^>]*?content[\s]*=[\s]*[\"\']?\d+;[\s]*URL[\s]*=[\s]*([^\"\']*?)[\"\']?>'i",$results,$match) )
 			$this->_redirectaddr = $this->_expandlinks($match[1],$URI);	
-		}
-
 		// have we hit our frame depth and is there frame src to fetch?
-		if(($this->_framedepth < $this->maxframes) && preg_match_all("'<frame\s+.*src[\s]*=[\'\"]?([^\'\"\>]+)'i",$results,$match))
-		{
+		if( ($this->_framedepth < $this->maxframes) && preg_match_all("'<frame\s+.*src[\s]*=[\'\"]?([^\'\"\>]+)'i",$results,$match) ) {
 			$this->results[] = $results;
-			for($x=0; $x<count($match[1]); $x++)
+			for( $x=0; $x<count($match[1]); $x++ )
 				$this->_frameurls[] = $this->_expandlinks($match[1][$x],$URI_PARTS["scheme"]."://".$this->host);
 		}
 		// have we already fetched framed content?
-		elseif(is_array($this->results))
+		elseif( is_array($this->results) )
 			$this->results[] = $results;
 		// no framed content
 		else
 			$this->results = $results;
-		
+		$this->lastUrl = $url;
 		return true;
 	}
 
@@ -754,143 +713,101 @@ class Snoopy {
 				$body		body contents to send if any (POST)
 	Output:		
 \*======================================================================*/
-	
-	function _httpsrequest($url,$URI,$http_method,$content_type="",$body="")
-	{  
-		if($this->passcookies && $this->_redirectaddr)
-			$this->setcookies();
-
-		$headers = array();		
-					
+	function _httpsrequest($url,$URI,$http_method,$content_type="",$body="") {
+		if( $this->lastUrl != $url ) unset($this->results);
+		if( $this->passcookies && $this->_redirectaddr ) $this->setcookies();
+		$headers = array();
 		$URI_PARTS = parse_url($URI);
-		if(empty($url))
-			$url = "/";
+		if( empty($url) ) $url = "/";
 		// GET ... header not needed for curl
-		//$headers[] = $http_method." ".$url." ".$this->_httpversion;		
-		if(!empty($this->agent))
-			$headers[] = "User-Agent: ".$this->agent;
-		if(!empty($this->host))
-			if(!empty($this->port))
+		//$headers[] = $http_method." ".$url." ".$this->_httpversion;
+		if( !empty($this->agent) ) $headers[] = "User-Agent: ".$this->agent;
+		if( !empty($this->host) )
+			if( !empty($this->port) )
 				$headers[] = "Host: ".$this->host.":".$this->port;
 			else
 				$headers[] = "Host: ".$this->host;
-		if(!empty($this->accept))
-			$headers[] = "Accept: ".$this->accept;
-		if(!empty($this->referer))
-			$headers[] = "Referer: ".$this->referer;
-		if(!empty($this->cookies))
-		{			
-			if(!is_array($this->cookies))
-				$this->cookies = (array)$this->cookies;
-	
+		if( !empty($this->accept) ) $headers[] = "Accept: ".$this->accept;
+		if( !empty($this->referer) ) $headers[] = "Referer: ".$this->referer;
+		if( !empty($this->cookies) ) {
+			if( !is_array($this->cookies) ) $this->cookies = (array)$this->cookies;
 			reset($this->cookies);
 			if ( count($this->cookies) > 0 ) {
 				$cookie_str = 'Cookie: ';
-				foreach ( $this->cookies as $cookieKey => $cookieVal ) {
-				$cookie_str .= $cookieKey."=".urlencode($cookieVal)."; ";
-				}
+				foreach ( $this->cookies as $cookieKey => $cookieVal )
+					$cookie_str .= $cookieKey."=".urlencode($cookieVal)."; ";
 				$headers[] = substr($cookie_str,0,-2);
 			}
 		}
-		if(!empty($this->rawheaders))
-		{
-			if(!is_array($this->rawheaders))
+		if( !empty($this->rawheaders) ) {
+			if( !is_array($this->rawheaders) )
 				$this->rawheaders = (array)$this->rawheaders;
-			while(list($headerKey,$headerVal) = each($this->rawheaders))
+			while( list($headerKey,$headerVal) = each($this->rawheaders) )
 				$headers[] = $headerKey.": ".$headerVal;
 		}
-		if(!empty($content_type)) {
-			if ($content_type == "multipart/form-data")
+		if( !empty($content_type) )
+			if ( $content_type == "multipart/form-data" )
 				$headers[] = "Content-type: $content_type; boundary=".$this->_mime_boundary;
 			else
 				$headers[] = "Content-type: $content_type";
-		}
-		if(!empty($body))	
-			$headers[] = "Content-length: ".strlen($body);
-		if(!empty($this->user) || !empty($this->pass))	
+		if( !empty($body) ) $headers[] = "Content-length: ".strlen($body);
+		if( !empty($this->user) || !empty($this->pass) )
 			$headers[] = "Authorization: BASIC ".base64_encode($this->user.":".$this->pass);
-			
-		for($curr_header = 0; $curr_header < count($headers); $curr_header++) {
+		for( $curr_header = 0; $curr_header < count($headers); $curr_header++ ) {
 			$safer_header = strtr( $headers[$curr_header], "\"", " " );
 			$cmdline_params .= " -H \"".$safer_header."\"";
 		}
-		
-		if(!empty($body))
-			$cmdline_params .= " -d \"$body\"";
-		
-		if($this->read_timeout > 0)
+		if( !empty($body) ) $cmdline_params .= " -d \"$body\"";
+		if( $this->read_timeout > 0 )
 			$cmdline_params .= " -m ".$this->read_timeout;
-		
 		$headerfile = tempnam($temp_dir, "sno");
-
 		exec($this->curl_path." -k -D \"$headerfile\"".$cmdline_params." \"".escapeshellcmd($URI)."\"",$results,$return);
-		
-		if($return)
-		{
+		if( $return ) {
 			$this->error = "Error: cURL could not retrieve the document, error $return.";
 			return false;
 		}
-			
-			
 		$results = implode("\r\n",$results);
-		
 		$result_headers = file("$headerfile");
-						
 		$this->_redirectaddr = false;
 		unset($this->headers);
-						
-		for($currentHeader = 0; $currentHeader < count($result_headers); $currentHeader++)
-		{
-			
+		for( $currentHeader = 0; $currentHeader < count($result_headers); $currentHeader++ ) {
 			// if a header begins with Location: or URI:, set the redirect
-			if(preg_match("/^(Location: |URI: )/i",$result_headers[$currentHeader]))
-			{
+			if( preg_match("/^(Location: |URI: )/i",$result_headers[$currentHeader]) ) {
 				// get URL portion of the redirect
 				preg_match("/^(Location: |URI:)\s+(.*)/",chop($result_headers[$currentHeader]),$matches);
 				// look for :// in the Location header to see if hostname is included
-				if(!preg_match("|\:\/\/|",$matches[2]))
-				{
+				if( !preg_match("|\:\/\/|",$matches[2]) ) {
 					// no host in the path, so prepend
 					$this->_redirectaddr = $URI_PARTS["scheme"]."://".$this->host.":".$this->port;
 					// eliminate double slash
-					if(!preg_match("|^/|",$matches[2]))
-							$this->_redirectaddr .= "/".$matches[2];
+					if( !preg_match("|^/|",$matches[2]) )
+						$this->_redirectaddr .= "/".$matches[2];
 					else
-							$this->_redirectaddr .= $matches[2];
-				}
-				else
+						$this->_redirectaddr .= $matches[2];
+				} else
 					$this->_redirectaddr = $matches[2];
 			}
-		
-			if(preg_match("|^HTTP/|",$result_headers[$currentHeader]))
+			if( preg_match("|^HTTP/|",$result_headers[$currentHeader]) )
 				$this->response_code = $result_headers[$currentHeader];
-
 			$this->headers[] = $result_headers[$currentHeader];
 		}
-
 		// check if there is a a redirect meta tag
-		
-		if(preg_match("'<meta[\s]*http-equiv[^>]*?content[\s]*=[\s]*[\"\']?\d+;[\s]*URL[\s]*=[\s]*([^\"\']*?)[\"\']?>'i",$results,$match))
-		{
-			$this->_redirectaddr = $this->_expandlinks($match[1],$URI);	
-		}
-
+		if( preg_match("'<meta[\s]*http-equiv[^>]*?content[\s]*=[\s]*[\"\']?\d+;[\s]*URL[\s]*=[\s]*([^\"\']*?)[\"\']?>'i",$results,$match) )
+			$this->_redirectaddr = $this->_expandlinks($match[1],$URI);
 		// have we hit our frame depth and is there frame src to fetch?
-		if(($this->_framedepth < $this->maxframes) && preg_match_all("'<frame\s+.*src[\s]*=[\'\"]?([^\'\"\>]+)'i",$results,$match))
-		{
+		if( ($this->_framedepth < $this->maxframes) && preg_match_all("'<frame\s+.*src[\s]*=[\'\"]?([^\'\"\>]+)'i",$results,$match) ) {
 			$this->results[] = $results;
-			for($x=0; $x<count($match[1]); $x++)
+			for( $x=0; $x<count($match[1]); $x++ )
 				$this->_frameurls[] = $this->_expandlinks($match[1][$x],$URI_PARTS["scheme"]."://".$this->host);
 		}
 		// have we already fetched framed content?
-		elseif(is_array($this->results))
+		elseif( is_array($this->results) )
 			$this->results[] = $results;
 		// no framed content
 		else
 			$this->results = $results;
-
 		unlink("$headerfile");
-		
+		$this->lastUrl = $url;
 		return true;
 	}
 
@@ -898,28 +815,22 @@ class Snoopy {
 	Function:	setcookies()
 	Purpose:	set cookies for a redirection
 \*======================================================================*/
-	
-	function setcookies()
-	{
-		for($x=0; $x<count($this->headers); $x++)
-		{
-		if(preg_match('/^set-cookie:[\s]+([^=]+)=([^;]+)/i', $this->headers[$x],$match))
+	function setcookies() {
+		for( $x=0; $x<count($this->headers); $x++ ) {
+		if( preg_match('/^set-cookie:[\s]+([^=]+)=([^;]+)/i', $this->headers[$x],$match) )
 			$this->cookies[$match[1]] = urldecode($match[2]);
 		}
 	}
 
-	
 /*======================================================================*\
 	Function:	_check_timeout
 	Purpose:	checks whether timeout has occurred
 	Input:		$fp	file pointer
 \*======================================================================*/
-
-	function _check_timeout($fp)
-	{
-		if ($this->read_timeout > 0) {
+	function _check_timeout($fp) {
+		if ( $this->read_timeout > 0 ) {
 			$fp_status = socket_get_status($fp);
-			if ($fp_status["timed_out"]) {
+			if ( $fp_status["timed_out"] ) {
 				$this->timed_out = true;
 				return true;
 			}
@@ -932,42 +843,23 @@ class Snoopy {
 	Purpose:	make a socket connection
 	Input:		$fp	file pointer
 \*======================================================================*/
-	
-	function _connect(&$fp)
-	{
-		if(!empty($this->proxy_host) && !empty($this->proxy_port))
-			{
+	function _connect(&$fp) {
+		if( !empty($this->proxy_host) && !empty($this->proxy_port) ) {
 				$this->_isproxy = true;
-				
 				$host = $this->proxy_host;
 				$port = $this->proxy_port;
-			}
-		else
-		{
+		} else {
 			$host = $this->host;
 			$port = $this->port;
 		}
-	
 		$this->status = 0;
-		
-		if($fp = fsockopen(
-					$host,
-					$port,
-					$errno,
-					$errstr,
-					$this->_fp_timeout
-					))
-		{
-			// socket connection succeeded
-
+		// socket connection succeeded
+		if( $fp = fsockopen( $host, $port, $errno, $errstr, $this->_fp_timeout ) )
 			return true;
-		}
-		else
-		{
+		else {
 			// socket connection failed
 			$this->status = $errno;
-			switch($errno)
-			{
+			switch( $errno ) {
 				case -3:
 					$this->error="socket creation failed (-3)";
 				case -4:
@@ -980,14 +872,13 @@ class Snoopy {
 			return false;
 		}
 	}
+
 /*======================================================================*\
 	Function:	_disconnect
 	Purpose:	disconnect a socket connection
 	Input:		$fp	file pointer
 \*======================================================================*/
-	
-	function _disconnect($fp)
-	{
+	function _disconnect($fp) {
 		return(fclose($fp));
 	}
 
@@ -999,36 +890,29 @@ class Snoopy {
 				$formfiles - form upload files
 	Output:		post body
 \*======================================================================*/
-	
-	function _prepare_post_body($formvars, $formfiles)
-	{
+	function _prepare_post_body($formvars, $formfiles) {
 		settype($formvars, "array");
 		settype($formfiles, "array");
 		$postdata = '';
-
-		if (count($formvars) == 0 && count($formfiles) == 0)
-			return;
-		
-		switch ($this->_submit_type) {
+		if ( count($formvars) == 0 && count($formfiles) == 0 ) return;
+		switch ( $this->_submit_type ) {
 			case "application/x-www-form-urlencoded":
 				reset($formvars);
-				while(list($key,$val) = each($formvars)) {
-					if (is_array($val) || is_object($val)) {
-						while (list($cur_key, $cur_val) = each($val)) {
+				while( list($key,$val) = each($formvars) ) {
+					if ( is_array($val) || is_object($val) ) {
+						while ( list($cur_key, $cur_val) = each($val) ) {
 							$postdata .= urlencode($key)."[]=".urlencode($cur_val)."&";
 						}
 					} else
 						$postdata .= urlencode($key)."=".urlencode($val)."&";
 				}
 				break;
-
 			case "multipart/form-data":
 				$this->_mime_boundary = "Snoopy".md5(uniqid(microtime()));
-				
 				reset($formvars);
-				while(list($key,$val) = each($formvars)) {
-					if (is_array($val) || is_object($val)) {
-						while (list($cur_key, $cur_val) = each($val)) {
+				while( list($key,$val) = each($formvars) ) {
+					if ( is_array($val) || is_object($val) ) {
+						while ( list($cur_key, $cur_val) = each($val) ) {
 							$postdata .= "--".$this->_mime_boundary."\r\n";
 							$postdata .= "Content-Disposition: form-data; name=\"$key\[\]\"\r\n\r\n";
 							$postdata .= "$cur_val\r\n";
@@ -1039,18 +923,15 @@ class Snoopy {
 						$postdata .= "$val\r\n";
 					}
 				}
-				
 				reset($formfiles);
-				while (list($field_name, $file_names) = each($formfiles)) {
+				while ( list($field_name, $file_names) = each($formfiles) ) {
 					settype($file_names, "array");
-					while (list(, $file_name) = each($file_names)) {
-						if (!is_readable($file_name)) continue;
-
+					while ( list(, $file_name) = each($file_names) ) {
+						if ( !is_readable($file_name) ) continue;
 						$fp = fopen($file_name, "r");
 						$file_content = fread($fp, filesize($file_name));
 						fclose($fp);
 						$base_name = basename($file_name);
-
 						$postdata .= "--".$this->_mime_boundary."\r\n";
 						$postdata .= "Content-Disposition: form-data; name=\"$field_name\"; filename=\"$base_name\"\r\n\r\n";
 						$postdata .= "$file_content\r\n";
@@ -1059,7 +940,6 @@ class Snoopy {
 				$postdata .= "--".$this->_mime_boundary."--\r\n";
 				break;
 		}
-
 		return $postdata;
 	}
 }
