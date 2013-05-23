@@ -1,11 +1,26 @@
 <div class="unit">
 	<label>招聘地区：</label>
-	<select style="display:none" class="combox" name="province" ref="areaCity" refUrl="__APP__/Admin/BaseArea/selectArea.html?parent_id={value}">
+
+	<?php $isEnableAreaCountry = explode( ',', findById ( 'Admin/SiteConfig', array('key'=>'isEnableAreaCountry','status'=>'1'), 'sids' ) ); ?>
+	<if condition="( isset($vo['sid']) and in_array( $vo['sid'], $isEnableAreaCountry ) ) or ( isset($_REQUEST['sid']) and in_array( $_REQUEST['sid'], $isEnableAreaCountry ) ) ">
+	<select style="display:none" class="combox" name="country" ref="areaCountry" refUrl="__APP__/Admin/BaseArea/selectArea.html?parent_id={value}">
+		<option value="">请选择国家</option>
+		<model model="BaseArea" app="Admin" fun="getData" condition="status=1&parent_id=0" order="baid" limit="" key="i">
+		<option <eq name="vo['country']" value="$result['baid']" >selected</eq> value="{$result['baid']}">{$result['name']}</option>
+		</model>
+	</select>
+	<else />
+	<?php $vo['country'] = 156; ?>
+	</if>
+
+	<select style="display:none" class="combox" name="province" id="areaCountry" ref="areaCity" refUrl="__APP__/Admin/BaseArea/selectArea.html?parent_id={value}">
 		<option value="">请选择省市</option>
-		<model model="BaseArea" app="Admin" fun="getData" condition="status=1&parent_id=156" order="baid" limit="" key="i">
+		<?php $condition = "status=1&parent_id=".$vo['country'];?>
+		<model model="BaseArea" app="Admin" fun="getData" condition="$condition" order="baid" limit="" key="i">
 		<option <eq name="vo['province']" value="$result['baid']" >selected</eq> value="{$result['baid']}">{$result['name']}</option>
 		</model>
 	</select>
+
 	<select style="display:none" class="combox" name="city" id="areaCity" ref="areaArea" refUrl="__APP__/Admin/BaseArea/selectArea.html?parent_id={value}">
 		<option <eq name="vo['city']" value="$result['baid']" >selected</eq> value="">请选择城市</option>
 		<notempty name="vo['province']">
@@ -16,6 +31,7 @@
 		<?php unset($condition);?>
 		</notempty>
 	</select>
+
 	<select style="display:none" class="combox" name="area" id="areaArea">
 		<option <eq name="vo['area']" value="$result['baid']" >selected</eq> value="">请选择区县</option>
 		<notempty name="vo['city']">
@@ -26,5 +42,6 @@
 		<?php unset($condition);?>
 		</notempty>
 	</select>
+
 </div>
 

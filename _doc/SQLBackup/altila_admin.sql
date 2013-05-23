@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50136
 File Encoding         : 65001
 
-Date: 2013-05-22 17:28:21
+Date: 2013-05-23 13:42:21
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -5636,7 +5636,7 @@ CREATE TABLE `site_config` (
   PRIMARY KEY (`id`),
   KEY `sid` (`sids`),
   KEY `key` (`key`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8 COMMENT='配置管理';
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8 COMMENT='配置管理';
 
 -- ----------------------------
 -- Records of site_config
@@ -5646,6 +5646,7 @@ INSERT INTO `site_config` VALUES ('2', '1,2', '是否启用博文', 'isEnableBlo
 INSERT INTO `site_config` VALUES ('3', '1,2', '是否启用广告js', 'isEnableAdJs', '', '1', '2013-03-17 19:08:05', '2013-05-02 14:10:52');
 INSERT INTO `site_config` VALUES ('4', '', '是否启用小说', 'isEnableNovel', '', '1', '2013-03-21 14:09:28', '2013-05-02 10:46:59');
 INSERT INTO `site_config` VALUES ('5', '1,2', '是否启用商品', 'isEnableProduct', '', '1', '2013-05-02 15:57:39', '2013-05-02 16:00:58');
+INSERT INTO `site_config` VALUES ('6', '', '是否启用地区国家选择', 'isEnableAreaCountry', '', '1', '2013-05-23 10:42:17', '2013-05-23 13:41:42');
 
 -- ----------------------------
 -- Table structure for `site_cron`
