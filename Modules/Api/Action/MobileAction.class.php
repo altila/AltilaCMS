@@ -18,22 +18,17 @@ class MobileAction extends HBaseAction {
 		parent::_initialize();
 		//设置脚本最大执行时间
 		set_time_limit(0);
-		//载入接口方法
-		vendor('InterfaceBase#class');
-		//实例化采集类
-		$this->Interface = new InterfaceBase();
 	}
 
 	/**
 	+----------------------------------------------------------
-	* 获取ip信息 - 新浪接口
-	* www.altilacms.com/Api/Mobile?mobile=
+	* 获取手机号信息
+	* www.altilacms.com/Api/Mobile?mobile=13917440725
 	+----------------------------------------------------------
 	*/
 	public function index() {
-		$this->Interface->url = "http://www.youdao.com/smartresult-xml/search.s?jsFlag=true&type=mobile&q={$_REQUEST['mobile']}";
-		$_result = strtr( iconv( 'GBK', 'UTF-8', $this->Interface->curlFuncGet() ), array("'"=>'"') );
-		$result = json_decode( substr( $_result, strpos($_result,'{'), strpos($_result,'}')-strpos($_result,'{')+1 ), true );
+		$mobile = $_REQUEST['mobile'];
+		$result = D( $this->getActionName() )->juheMobile($mobile);
 		print_r($result);
 	}
 
