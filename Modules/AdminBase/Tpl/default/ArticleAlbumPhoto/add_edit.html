@@ -14,8 +14,7 @@
 			<div class="unit">
 				<label>相片相册：</label>
 				<select name="aaid">
-					<option <if condition=" $vo['aaid'] == '' || $_REQUEST['aaid'] == '' " >selected</if> value="">请选择</option>
-					<option <if condition=" $vo['aaid'] === 0 || $_REQUEST['aaid'] === 0 " >selected</if> value="0">|--0.贴图</option>
+					<option <if condition=" $vo['aaid'] == 0 || $_REQUEST['aaid'] == 0 " >selected</if> value="0">|--0.贴图</option>
 					<?php $optionType = 1;?>
 					<require file="AdminBase,ArticleAlbum/treeSelectOption" />
 				</select>

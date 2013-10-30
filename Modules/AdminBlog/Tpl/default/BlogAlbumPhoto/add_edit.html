@@ -14,7 +14,6 @@
 			<div class="unit">
 				<label>相片相册：</label>
 				<select name="baid">
-					<option <if condition=" $vo['baid'] == '' || $_REQUEST['baid'] == '' " >selected</if> value="">请选择</option>
 					<option <if condition=" $vo['baid'] == 0 || $_REQUEST['baid'] == 0 " >selected</if> value="0">贴图</option>
 					<?php $condition = "status=1&sid=".$_REQUEST['sid'];?>
 					<model model="BlogAlbum" fun="getData" condition="$condition" order="" limit="" key="i" result="alResult">
