@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50136
 File Encoding         : 65001
 
-Date: 2013-05-23 13:42:41
+Date: 2013-10-30 18:06:30
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -162,7 +162,7 @@ CREATE TABLE `article_album_photo` (
   `sid` int(11) NOT NULL DEFAULT '0' COMMENT '网站ID，关联site_web表sid字段',
   `uid` int(11) NOT NULL DEFAULT '0' COMMENT '用户ID，关联user_base表uid字段',
   `aaid` int(11) NOT NULL DEFAULT '0' COMMENT '相册ID，关联article_album表aaid字段；0为贴图相册',
-  `name` varchar(100) DEFAULT '' COMMENT '相片名称',
+  `name` varchar(250) DEFAULT '' COMMENT '相片名称',
   `url` varchar(250) DEFAULT '' COMMENT '相片地址',
   `size` int(11) DEFAULT '0' COMMENT '相片大小',
   `sort` tinyint(5) DEFAULT '0' COMMENT '显示顺序',
