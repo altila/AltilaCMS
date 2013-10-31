@@ -53,7 +53,7 @@
 			</div>
 			<div class="unit">
 				<label>招聘内容：</label>
-				<textarea name="content" rows="5" cols="57" id="editor_content_{:MODULE_NAME}">{$vo['content']}</textarea>
+				<require file="Admin,Block/formEditor" />
 			</div>
 		</div>
 		<div class="formBar">
@@ -64,5 +64,4 @@
 		</div>
 	</form>
 </div>
-<script type="text/javascript">UE.getEditor('editor_content_{:MODULE_NAME}');</script>
 

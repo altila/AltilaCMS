@@ -44,7 +44,7 @@
 			</div>
 			<div class="type2 unit" style="display:none">
 				<label>广告内容：</label>
-				<textarea name="content" rows="5" cols="57" id="editor_content">{$vo['content']}</textarea>
+				<require file="Admin,Block/formEditor" />
 			</div>
 			<div class="type3 unit" style="display:none">
 				<label>广告魔方：</label>
@@ -60,7 +60,6 @@
 		</div>
 	</form>
 </div>
-<script type="text/javascript">UE.getEditor('editor_content');</script>
 
 <script type="text/javascript">
 $("#type").change(function(){changeHref();});

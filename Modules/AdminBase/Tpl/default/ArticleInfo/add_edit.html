@@ -13,10 +13,10 @@
 				<label>文章名称：</label>
 				<input type="text" class="required"  name="name" value="{$vo['name']}">
 			</div>
-			<!--<div class="unit">
+			<div class="unit">
 				<label>文章缩略图：</label>
-				<textarea name="thumbnail" rows="5" cols="20" id="editor_thumbnail"><img src="{$vo['thumbnail']}" /></textarea>
-			</div>-->
+				<require file="Admin,Block/formUpImage" />
+			</div>
 			<div class="unit">
 				<label>文章来源：</label>
 				<input type="text" style="width:400px"  name="source_url" value="{$vo['source_url']}">
@@ -27,7 +27,7 @@
 			</div>
 			<div class="unit">
 				<label>文章内容：</label>
-				<textarea name="content" rows="5" cols="57" id="editor_content">{$vo['content']}</textarea>
+				<require file="Admin,Block/formEditor" />
 			</div>
 		</div>
 		<div class="formBar">
@@ -38,20 +38,4 @@
 		</div>
 	</form>
 </div>
-<script type="text/javascript">UE.getEditor('editor_content');</script>
-<script type="text/javascript">
-	/*UE.getEditor('editor_thumbnail', {
-		//dialog内容的路径 ～会被替换成URL,垓属性一旦打开，将覆盖所有的dialog的默认路径
-		iframeUrlMap:{
-			'insertimage':'~/dialogs/image/imageSelect.html',
-		}
-		//工具栏上的所有的功能按钮和下拉框，可以在new编辑器的实例时选择自己需要的从新定义
-		,toolbars:[ ['source','insertimage'] ]
-		//是否启用元素路径，默认是显示
-		,elementPathEnabled : false
-		,initialFrameWidth:200  //初始化编辑器宽度,默认1000
-		,initialFrameHeight:80  //初始化编辑器高度,默认320
-		,wordCount:false          //是否开启字数统计
-	});*/
-</script>
 
