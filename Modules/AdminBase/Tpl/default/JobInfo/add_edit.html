@@ -1,4 +1,4 @@
-<php>echo get_static_file(array('editor_all_min.js','editor_config_article.js'),'ueditor');</php>
+<php>echo get_static_file(array('ueditor.all.min.js','ueditor.config.article.js'),'ueditor');</php>
 
 <div class="pageContent">
 	<form method="post" action="__URL__/<empty name="vo[getModelPk(MODULE_NAME)]">insert<else />update</empty>/navTabId/{:MODULE_NAME}" class="pageForm required-validate" onsubmit="editorSync();return validateCallback(this,dialogAjaxDone);">
