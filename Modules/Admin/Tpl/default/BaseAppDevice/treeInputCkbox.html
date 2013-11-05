@@ -1,0 +1,20 @@
+<?php $isEnableAppDevice = explode( ',', findById ( 'Admin/SiteConfig', array('key'=>'isEnableAppDevice','status'=>'1'), 'sids' ) ); ?>
+<if condition="( isset($vo['sid']) and in_array( $vo['sid'], $isEnableAppDevice ) ) or ( isset($_REQUEST['sid']) and in_array( $_REQUEST['sid'], $isEnableAppDevice ) ) ">
+
+<?php 
+$optionType = 2;
+$moduleName = 'BaseAppDevice';
+$appName = 'Admin';
+$_condition = "status=1";
+$order = getModelPk("$appName/$moduleName");
+$field = array('id'=>'appdcode');
+$valueName = $field['id'];
+?>
+
+<div class="unit">
+	<label>设备类型：</label>
+	<require file="Admin,Block/treeInputCkbox" />
+</div>
+
+</if>
+

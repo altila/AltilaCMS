@@ -1,0 +1,24 @@
+<div class="pageContent">
+	<form method="post" action="__URL__/<empty name="vo[getModelPk(MODULE_NAME)]">insert<else />update</empty>/navTabId/{:MODULE_NAME}" class="pageForm required-validate" onsubmit="return validateCallback(this,dialogAjaxDone);">
+		<input type="hidden" name="{:getModelPk(MODULE_NAME)}" value="{$vo[getModelPk(MODULE_NAME)]}" >
+		<input type="hidden" name="update_time" value="{:date("Y-m-d H:i:s")}">
+		<empty name="vo[getModelPk(MODULE_NAME)]"><input type="hidden" name="add_time" value="{:date("Y-m-d H:i:s")}"></empty>
+		<div class="pageFormContent" layoutH="58">
+			<div class="unit">
+				<label>设备编码：</label>
+				<input type="text" class="required"  name="appdcode" value="{$vo['appdcode']}" <notempty name="vo[getModelPk(MODULE_NAME)]">disabled</notempty> >
+			</div>
+			<div class="unit">
+				<label>设备名称：</label>
+				<input type="text" class="required"  name="name" value="{$vo['name']}">
+			</div>
+		</div>
+		<div class="formBar">
+			<ul>
+				<li><div class="buttonActive"><div class="buttonContent"><button type="submit">保存</button></div></div></li>
+				<li><div class="button"><div class="buttonContent"><button type="button" class="close">取消</button></div></div></li>
+			</ul>
+		</div>
+	</form>
+</div>
+

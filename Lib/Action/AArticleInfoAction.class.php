@@ -14,6 +14,16 @@ class AArticleInfoAction extends ABaseAction {
 
 	/**
 	+----------------------------------------------------------
+	* 字段过滤
+	+----------------------------------------------------------
+	*/
+	public function _filter( &$map ) {
+		if(!empty($_REQUEST['appdcode'])) $map['_string'] = "appdcode&{$_REQUEST['appdcode']}={$_REQUEST['appdcode']}";
+		unset($map['appdcode']);
+	}
+
+	/**
+	+----------------------------------------------------------
 	* 插入前置
 	+----------------------------------------------------------
 	*/
@@ -36,6 +46,7 @@ class AArticleInfoAction extends ABaseAction {
 	+----------------------------------------------------------
 	*/
 	public function beforeOperate() {
+		if( !empty($_POST['appdcode']) ) $_POST['appdcode'] = array_sum($_POST['appdcode']);
 		$description = htmlspecialchars_decode( $_POST['description'] );
 		$content = htmlspecialchars_decode( $_POST['content'] );
 		//文章标签

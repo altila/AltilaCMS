@@ -10,10 +10,36 @@ Target Server Type    : MYSQL
 Target Server Version : 50136
 File Encoding         : 65001
 
-Date: 2013-10-30 22:10:52
+Date: 2013-11-05 09:40:34
 */
 
 SET FOREIGN_KEY_CHECKS=0;
+
+-- ----------------------------
+-- Table structure for `base_app_device`
+-- ----------------------------
+DROP TABLE IF EXISTS `base_app_device`;
+CREATE TABLE `base_app_device` (
+  `badid` int(6) NOT NULL AUTO_INCREMENT COMMENT '主键,自增长',
+  `appdcode` int(6) NOT NULL DEFAULT '0' COMMENT '设备编码,可作唯一标示,二进制递增',
+  `name` varchar(100) NOT NULL DEFAULT '' COMMENT '设备名称',
+  `sort` tinyint(5) DEFAULT '0' COMMENT '显示顺序',
+  `status` tinyint(1) DEFAULT '2' COMMENT '状态: -1为删除，0为禁用，1为正常，2为待批',
+  `add_time` datetime DEFAULT '1970-01-01 08:00:00' COMMENT '添加时间',
+  `update_time` datetime DEFAULT '1970-01-01 08:00:00' COMMENT '修改时间',
+  PRIMARY KEY (`badid`),
+  KEY `code` (`appdcode`)
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8 COMMENT='应该设备管理';
+
+-- ----------------------------
+-- Records of base_app_device
+-- ----------------------------
+INSERT INTO `base_app_device` VALUES ('1', '1', 'Wab', '1', '1', '2013-10-31 20:37:17', '2013-10-31 20:41:49');
+INSERT INTO `base_app_device` VALUES ('2', '2', 'Wap', '2', '1', '2013-10-31 20:37:26', '2013-10-31 20:41:41');
+INSERT INTO `base_app_device` VALUES ('3', '4', 'Android', '3', '1', '2013-10-31 20:37:40', '2013-10-31 20:41:34');
+INSERT INTO `base_app_device` VALUES ('4', '8', 'IOS', '4', '1', '2013-10-31 20:41:56', '2013-10-31 20:41:56');
+INSERT INTO `base_app_device` VALUES ('5', '16', 'Win', '5', '1', '2013-10-31 20:42:51', '2013-10-31 20:43:24');
+INSERT INTO `base_app_device` VALUES ('6', '32', 'Ipad', '6', '1', '2013-10-31 20:43:31', '2013-10-31 20:43:31');
 
 -- ----------------------------
 -- Table structure for `base_area`
@@ -5636,7 +5662,7 @@ CREATE TABLE `site_config` (
   PRIMARY KEY (`id`),
   KEY `sid` (`sids`),
   KEY `key` (`key`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8 COMMENT='配置管理';
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8 COMMENT='配置管理';
 
 -- ----------------------------
 -- Records of site_config
@@ -5647,6 +5673,7 @@ INSERT INTO `site_config` VALUES ('3', '1,2', '是否启用广告js', 'isEnableA
 INSERT INTO `site_config` VALUES ('4', '', '是否启用小说', 'isEnableNovel', '', '1', '2013-03-21 14:09:28', '2013-05-02 10:46:59');
 INSERT INTO `site_config` VALUES ('5', '1,2', '是否启用商品', 'isEnableProduct', '', '1', '2013-05-02 15:57:39', '2013-05-02 16:00:58');
 INSERT INTO `site_config` VALUES ('6', '', '是否启用地区国家选择', 'isEnableAreaCountry', '', '1', '2013-05-23 10:42:17', '2013-05-23 13:41:42');
+INSERT INTO `site_config` VALUES ('7', '1', '是否启用多应用设备', 'isEnableAppDevice', '', '1', '2013-11-01 10:47:34', '2013-11-01 10:47:34');
 
 -- ----------------------------
 -- Table structure for `site_cron`
@@ -5717,7 +5744,7 @@ CREATE TABLE `site_node` (
   PRIMARY KEY (`nid`),
   KEY `parent_id` (`parent_id`),
   KEY `code` (`code`)
-) ENGINE=InnoDB AUTO_INCREMENT=84 DEFAULT CHARSET=utf8 COMMENT='节点管理';
+) ENGINE=InnoDB AUTO_INCREMENT=82 DEFAULT CHARSET=utf8 COMMENT='节点管理';
 
 -- ----------------------------
 -- Records of site_node
@@ -5793,18 +5820,16 @@ INSERT INTO `site_node` VALUES ('68', '70', 'ProductDescriptionCategory', '描�
 INSERT INTO `site_node` VALUES ('69', '2', 'WebSite', '站点配置', '34-2-69-', '1', '0', '', '6', '1', '2013-03-27 14:57:36', '2013-04-22 14:42:32');
 INSERT INTO `site_node` VALUES ('70', '42', 'ProductSite', '商品配置', '46-42-70-', '1', '1', '', '3', '1', '2013-03-27 15:02:58', '2013-03-27 15:02:58');
 INSERT INTO `site_node` VALUES ('71', '61', 'ProductChannelGoods', '渠道商品管理', '46-42-61-71-', '2', '1', '', '3', '1', '2013-04-11 11:02:29', '2013-04-11 11:02:29');
-INSERT INTO `site_node` VALUES ('72', '21', 'BaseArea', '地区管理', '1-16-21-72-', '2', '1', '', '3', '1', '2013-04-17 21:13:15', '2013-04-17 21:13:15');
+INSERT INTO `site_node` VALUES ('72', '21', 'BaseArea', '地区管理', '1-16-21-72-', '2', '1', '', '4', '1', '2013-04-17 21:13:15', '2013-04-17 21:13:15');
 INSERT INTO `site_node` VALUES ('73', '2', 'Job', '招聘管理', '34-2-73-', '1', '1', '', '5', '1', '2013-04-22 15:07:33', '2013-04-22 15:07:33');
 INSERT INTO `site_node` VALUES ('74', '73', 'JobInfo', '招聘管理', '34-2-73-74-', '2', '1', '', '1', '1', '2013-04-22 15:10:07', '2013-04-22 15:10:07');
 INSERT INTO `site_node` VALUES ('75', '16', 'Database', '字段管理', '1-16-75-', '1', '1', '', '3', '1', '2013-04-22 22:25:18', '2013-04-22 22:25:18');
 INSERT INTO `site_node` VALUES ('76', '75', 'SiteDatabase', '字段管理', '1-16-75-76-', '2', '1', '', '1', '1', '2013-04-22 22:26:18', '2013-04-22 22:26:18');
-INSERT INTO `site_node` VALUES ('77', '21', 'BaseLangField', '语言定义', '1-16-21-77-', '2', '1', '', '2', '1', '2013-04-23 17:44:28', '2013-04-23 20:59:34');
-INSERT INTO `site_node` VALUES ('78', '21', 'BaseBrand', '品牌管理', '1-16-21-78-', '2', '1', '', '4', '1', '2013-05-04 13:57:37', '2013-05-04 13:59:56');
+INSERT INTO `site_node` VALUES ('77', '21', 'BaseLangField', '语言转换', '1-16-21-77-', '2', '1', '', '2', '1', '2013-04-23 17:44:28', '2013-10-31 20:05:33');
+INSERT INTO `site_node` VALUES ('78', '21', 'BaseBrand', '品牌管理', '1-16-21-78-', '2', '1', '', '5', '1', '2013-05-04 13:57:37', '2013-05-04 13:59:56');
 INSERT INTO `site_node` VALUES ('79', '44', 'SiteCron', '任务管理', '1-16-44-79-', '2', '1', '', '3', '1', '2013-05-09 09:53:08', '2013-05-09 09:53:08');
-INSERT INTO `site_node` VALUES ('80', '21', 'BaseProductCategory', '商品分类管理', '1-16-21-80-', '2', '1', '', '5', '1', '2013-05-22 17:04:49', '2013-05-22 17:04:49');
-INSERT INTO `site_node` VALUES ('81', '1', 'ProjectDocument', '项目文档', '1-81-', '1', '1', '', '2', '1', '2013-10-30 18:47:23', '2013-10-30 18:47:23');
-INSERT INTO `site_node` VALUES ('82', '81', 'FunctionIntroduction', '功能介绍', '1-81-82-', '1', '1', '', '1', '1', '2013-10-30 18:53:59', '2013-10-30 18:53:59');
-INSERT INTO `site_node` VALUES ('83', '82', 'IntroduceCMS', 'CMS介绍', '1-81-82-83-', '2', '1', '', '1', '1', '2013-10-30 18:55:05', '2013-10-30 19:29:30');
+INSERT INTO `site_node` VALUES ('80', '21', 'BaseProductCategory', '商品分类管理', '1-16-21-80-', '2', '1', '', '6', '1', '2013-05-22 17:04:49', '2013-05-22 17:04:49');
+INSERT INTO `site_node` VALUES ('81', '21', 'BaseAppDevice', '应用设备管理', '1-16-21-81-', '2', '1', '', '3', '1', '2013-10-31 20:30:28', '2013-10-31 20:30:28');
 
 -- ----------------------------
 -- Table structure for `site_role`

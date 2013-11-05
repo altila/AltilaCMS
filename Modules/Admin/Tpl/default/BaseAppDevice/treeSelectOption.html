@@ -1,0 +1,22 @@
+<?php $isEnableAppDevice = explode( ',', findById ( 'Admin/SiteConfig', array('key'=>'isEnableAppDevice','status'=>'1'), 'sids' ) ); ?>
+<if condition="( isset($vo['sid']) and in_array( $vo['sid'], $isEnableAppDevice ) ) or ( isset($_REQUEST['sid']) and in_array( $_REQUEST['sid'], $isEnableAppDevice ) ) ">
+
+<?php 
+$moduleName = 'BaseAppDevice';
+$appName = 'Admin';
+$order = '';
+$_condition = "status=1"; 
+$field = array('id'=>'appdcode');
+$valueName = $field['id'];
+?>
+
+<li>
+	<label>设备类型：</label>
+	<select name="appdcode">
+		<option <eq name="$_REQUEST['appdcode']" value="" >selected</eq> value="">请选择</option>
+		<require file="Admin,Block/treeSelectOption" />
+	</select>
+</li>
+
+</if>
+

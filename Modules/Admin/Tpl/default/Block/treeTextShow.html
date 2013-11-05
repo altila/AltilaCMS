@@ -1,0 +1,21 @@
+<?php 
+$code = empty($vo[$field['id']]) ? $_REQUEST[$field['id']] : $vo[$field['id']];
+$valueName = empty($valueName) ? getModelPk($moduleName) : $valueName;
+$optionType = empty($optionType) ? 0 : $optionType;
+?>
+<model model="$moduleName" app="$appName" fun="getData" condition="$_condition" order="$order" limit="" key="i" result="oResult">
+
+<switch name="optionType" >
+<case value="1">
+<if condition="!empty($code) and in_array($oResult[$valueName],explode(',',$code)) " >{$oResult['name']},</if>
+</case>
+<case value="2">
+<if condition="!empty($code) and ( ( $oResult[$valueName] & $code ) == $oResult[$valueName] ) " >{$oResult['name']},</if>
+</case>
+<default />
+<eq name="code" value="$oResult[$valueName]" >{$oResult['name']},</eq>
+</switch>
+
+</model>
+
+<?php unset($field,$moduleName,$appName,$_condition,$order,$valueName,$code,$optionType); ?>
