@@ -36,7 +36,7 @@
 						<ul class="toolBar">
 							<li><a class="add" rel="add" href="__URL__/add?sid={$_REQUEST['sid']}&spid={$_REQUEST['spid']}&row_position={$_REQUEST['row_position']}" target="dialog" mask="true"><span>新增</span></a></li>
 							<li><a class="delete" href="__URL__/delete?{:getModelPk(MODULE_NAME)}={_id}" target="ajaxTodo" title="你确定要删除吗？" warn="请选择数据"><span>删除</span></a></li>
-							<li><a class="edit" rel="edit" href="__URL__/edit?{:getModelPk(MODULE_NAME)}={_id}" target="dialog" mask="true" warn="请选择数据"><span>修改</span></a></li>
+							<li><a class="edit" rel="edit" href="__URL__/edit?{:getModelPk(MODULE_NAME)}={_id}&sid={$_REQUEST['sid']}" target="dialog" mask="true" warn="请选择数据"><span>修改</span></a></li>
 							<li><a class="edit" href="__URL__/sort?sid={$_REQUEST['sid']}&spid={$_REQUEST['spid']}&row_position={$_REQUEST['row_position']}" target="dialog" mask="true" width="600" height="400" ><span>排序</span></a></li>
 						</ul>
 					</div>

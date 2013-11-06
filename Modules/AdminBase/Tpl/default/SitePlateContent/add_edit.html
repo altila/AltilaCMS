@@ -29,8 +29,8 @@
 					<option <eq name="vo['model']" value="" >selected</eq> value="">请选择</option>
 					<option <eq name="vo['model']" value="0" >selected</eq> value="0">广告</option>
 					<option <eq name="vo['model']" value="1" >selected</eq> value="1">文章</option>
-					<?php $isEnableBlog = findById ( 'Admin/SiteConfig', array('key'=>'isEnableBlog','status'=>'1'), 'value' ); ?>
-					<if condition=" $isEnableBlog == 1 ">
+					<?php $isEnableBlog = explode( ',', findById ( 'Admin/SiteConfig', array('key'=>'isEnableBlog','status'=>'1'), 'sids' ) ); ?>
+					<if condition=" isset($_REQUEST['sid']) and in_array( $_REQUEST['sid'], $isEnableBlog ) ">
 					<option <eq name="vo['model']" value="4" >selected</eq> value="4">博文</option>
 					</if>
 				</select>
