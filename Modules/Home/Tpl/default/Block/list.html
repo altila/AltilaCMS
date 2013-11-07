@@ -16,19 +16,18 @@ $condition = "status=1&" . getModelPk($categoryName) . "=in#" . $pid . "&cp=" . 
 
 ?>
 
-<div class="box">
-	<div class="content">
+
 		<model model="$modelName" app="$appName" fun="getList" condition="$condition" order="" limit="$limit" key="i" result="listResult">
 		<?php $list = $listResult['list'];?>
 
 		<volist name="list" id="vo">
-		<div class="item">
+		<div class="media">
 
 			{//标题 开始}
 			<if condition=" ($listType&1) == 1 ">
-			<h2 class="title">
+			<h4 class="media-heading">
 				<a target="_blank" href="{:getUrl( $modelName, $vo )}" title="{$vo['name']}">{$vo['name']}</a>
-			</h2>
+			</h4>
 			</if>
 			{//标题 结束}
 
@@ -38,7 +37,7 @@ $condition = "status=1&" . getModelPk($categoryName) . "=in#" . $pid . "&cp=" . 
 			</if>
 			{//添加时间 结束}
 
-			<div class="content">
+			<div class="media-body">
 				{//缩略图 开始}
 				<if condition=" !empty($vo['thumbnail']) && ($listType&32) == 32 ">
 				<a target="_blank" href="{:getUrl( $modelName, $vo )}" title="{$vo['name']}">
@@ -49,7 +48,7 @@ $condition = "status=1&" . getModelPk($categoryName) . "=in#" . $pid . "&cp=" . 
 
 				{//简介 开始}
 				<if condition=" ($listType&64) == 64 ">
-				<div class="text">{$vo['description']}</div>
+				{$vo['description']}
 				</if>
 				{//简介 结束}
 			</div>
@@ -72,10 +71,10 @@ $condition = "status=1&" . getModelPk($categoryName) . "=in#" . $pid . "&cp=" . 
 			{//标签 开始}
 			<if condition=" !empty($vo['tags_name']) && ($listType&256) == 256 ">
 			<?php $tagArr = explode(',',$vo['tags_name']);?>
-			<div class="tag">
+			<div class="tags">
 				<volist name="tagArr" id="tag">
 				<if condition=" !empty($tag) ">
-				<a target="_blank" class="tag" href="{:getUrl( $tagName, $tag )}" title="{$tag}">{$tag}</a>
+				<a target="_blank" class="tag" href="{:getUrl( $tagName, $tag )}" title="{$tag}"><span class="label label-info">{$tag}</span></a>
 				</if>
 				</volist>
 			</div>
@@ -106,7 +105,6 @@ $condition = "status=1&" . getModelPk($categoryName) . "=in#" . $pid . "&cp=" . 
 		{//分页 结束}
 
 	</model>
-	</div>
-</div>
+
 <?php unset($name,$modelName,$categoryName,$tagName,$groupName,$pid,$condition,$limit,$thumbWidth,$imgWidth,$listType,$list,$imgArr);?>
 

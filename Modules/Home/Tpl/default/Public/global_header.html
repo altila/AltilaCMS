@@ -3,22 +3,40 @@
 <!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
 <!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
 <!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
-<head>
+  <head>
     <meta charset="utf-8"/>
 	<title>{$head['title']|htmlspecialchars}</title>
 	<meta name="description" content="{$head['description']|htmlspecialchars}"/>
 	<meta name="keywords" content="{$head['keywords']|htmlspecialchars}"/>
 	<meta name="Copyright" content="{$head['name']|htmlspecialchars}" />
+
 	<link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
-	<php>echo get_static_file(array('global.css',$css.'.css'),'default');</php>
-	<php>echo get_static_file(array('jquery-1.4.2.min.js', 'jquery.cookie.js','jquery.lazyload.js','common.js','a.js'),'public');</php>
-	<php>echo get_static_file(array('global.js'),'default');</php>
+	<php>echo get_static_file(array('bootstrap.css','bootstrap-responsive.css'),'boot');</php>
+	<!-- <php>echo get_static_file(array('global.css',$css.'.css'),'default');</php> -->
+	<php>echo get_static_file(array('jquery-1.9.1.min.js', 'jquery.cookie.js', 'jquery.lazyload.js','common.js','a.js'),'public');</php>
+	<php>echo get_static_file(array('bootstrap.js'),'boot');</php>
+	<php>echo get_static_file(array('blog.css'),'default');</php>
+	<style>
+	body{font-family:"ff-tisa-web-pro-1","ff-tisa-web-pro-2","Lucida Grande","Helvetica Neue",Helvetica,Arial,"Hiragino Sans GB","Hiragino Sans GB W3","Microsoft YaHei UI","Microsoft YaHei","WenQuanYi Micro Hei",sans-serif;}
+	</style>
+	<!-- <php>echo get_static_file(array('global.js'),'default');</php> -->
+
+	<!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+      <php>echo get_static_file(array('html5shiv.js'),'public');</php>
+    <![endif]-->
+
 	<!--[if IE 6]>    
 		<php>echo get_static_file(array('ie6.css'),'public');</php>
 		<php>echo get_static_file(array('DD_belatedPNG.js'),'public');</php>
 		<script>DD_belatedPNG.fix("");</script>
 	<![endif]-->
 	<require file="Admin,Public/consts_js" />
+	<style type="text/css">
+		body {
+			padding-top: 50px;
+		}
+	</style>
 </head>
 <body>
 
@@ -31,11 +49,11 @@
 
 <require file="Home,Ad/topAd" />
 
-<div class="container">
-	<require file="Home,Ad/logo" />
 
-	<require file="Home,Menu/menu" />
+<require file="Home,Ad/logo" />
 
-	<require file="Home,Ad/default" />
-</div>
+<require file="Home,Menu/menu" />
+
+<require file="Home,Ad/default" />
+
 
