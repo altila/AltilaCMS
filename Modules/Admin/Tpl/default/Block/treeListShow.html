@@ -1,18 +1,28 @@
+<if condition="$treeListShowType == 1">
+<ul class="tree treeFolder collapse">
+</if>
+
 <model model="$moduleName" app="$appName" fun="getTree" condition="$condition" order="$order" limit="" key="i">
 <if condition="$treeListShowType == 1">
 
-<ul class="tree treeFolder collapse">
-	<li><a rel="{:MODULE_NAME}" target="navTab" href="__GROUP__/{:MODULE_NAME}/index?{$field['id']}={$result[$field['id']]}">{$result[$field['name']]}</a></li>
-</ul>
+<li><a rel="{:MODULE_NAME}AjaxBox" target="ajax" href="__GROUP__/{:MODULE_NAME}/index?{$field['id']}={$result[$field['id']]}&isAjaxBox=1">{$result[$field['name']]}</a></li>
 
 <else />
 
 <?php 
-$href = empty($href) ? MODULE_NAME."/index?sid=" . $_REQUEST['sid'] . "&".getModelPk($moduleName)."=" : $href;
-$_condition = array( 'field'=>getModelPk($moduleName), 'target'=>'navTab', 'class'=>' expand', 'rel'=>MODULE_NAME, 'href'=>$href );
+$href = !empty($href) ? $href : MODULE_NAME."/index?isAjaxBox=1&sid=" . $_REQUEST['sid'] . "&".getModelPk($moduleName)."=";
+$rel = !empty($rel) ? $rel : MODULE_NAME.'AjaxBox';
+$target = !empty($target) ? $target : 'ajax';
+$_condition = array( 'field'=>getModelPk($moduleName), 'target'=>$target, 'class'=>' expand', 'rel'=>$rel, 'href'=>$href );
 ?>
 {$result|drawTree=$_condition}
 
 </if>
 </model>
-<?php unset($_condition,$appName,$href); ?>
+
+<if condition="$treeListShowType == 1">
+</ul>
+</if>
+
+
+<?php unset($_condition,$appName,$href,$rel,$target); ?>

@@ -1,3 +1,4 @@
+<if condition=" $_REQUEST['isAjaxBox'] neq 1 ">
 <div class="pageContent">
 
 	<div class="tabs">
@@ -10,8 +11,8 @@
 					<include file="SiteWeb:treeListShow" />
 				</div>
 
-				<div class="unitBox" style="margin-left:246px;">
-
+				<div class="unitBox" id="{:MODULE_NAME}AjaxBox" style="margin-left:246px;">
+</if>
 					<require file="Admin,Public/pagerForm" />
 
 					<if condition=" !empty($_REQUEST['sid']) ">
@@ -81,6 +82,7 @@
 						<div class="pagination" targetType="navTab" totalCount="{$totalCount}" numPerPage="{$numPerPage}" pageNumShown="10" currentPage="{$currentPage}"></div>
 					</div>
 
+<if condition=" $_REQUEST['isAjaxBox'] neq 1 ">
 				</div>
 
 			</div>
@@ -89,6 +91,5 @@
 	</div>
 
 </div>
-
-
+</if>
 

@@ -70,8 +70,10 @@ class HBaseModel extends ABaseModel {
 			$info = $this->where( $infoWhere )->find();
 			//前几条文章信息
 			if( $info['sort'] > 1 ) $infoBefore = $this->where( "{$where} and sort < {$info['sort']}" )->order( $order )->limit( $info['sort']-1 )->select();
+			if( $info['sort'] == 0 && empty($infoBefore) ) $infoBefore = $this->where( "{$where} and add_time > '{$info['add_time']}'" )->order( $order )->limit( round($limit/2) )->select();
 			//后几条文章信息
 			$infoAfter = $this->where( "{$where} and sort > {$info['sort']} " )->order( $order )->limit( $limit-$info['sort'] )->select();
+			if( $info['sort'] == 0 && empty($infoAfter) ) $infoAfter = $this->where( "{$where} and add_time < '{$info['add_time']}'" )->order( $order )->limit( round($limit/2) )->select();
 			//组合数据
 			if( !empty($infoBefore) ) foreach( $infoBefore as $key=>$val ) $result[0]['_child'][] = $val;
 			$result[0]['_child'][] = $info;
