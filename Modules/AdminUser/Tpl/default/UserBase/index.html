@@ -34,6 +34,7 @@
 						</form>
 					</div>
 
+					<neq name="_REQUEST['returnRequire']" value="1">
 					<div class="panelBar">
 						<ul class="toolBar">
 							<li><a class="add" href="__URL__/add" target="dialog" mask="true"><span>新增</span></a></li>
@@ -41,8 +42,9 @@
 							<li><a class="edit" href="__URL__/edit?{:getModelPk(MODULE_NAME)}={_id}" target="dialog" mask="true" warn="请选择数据"><span>修改</span></a></li>
 						</ul>
 					</div>
+					</neq>
 
-					<table class="table" width="100%" layoutH="117">
+					<table class="table" width="100%" layoutH="<eq name="_REQUEST['returnRequire']" value="1">95<else />117</eq>">
 						<thead>
 							<tr>
 								<eq name="_REQUEST['returnRequire']" value="1">

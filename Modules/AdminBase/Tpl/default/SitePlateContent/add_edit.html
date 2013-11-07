@@ -51,7 +51,7 @@
 				</select>
 
 				<input class="model1_3" style="display:none" type="text" class="required large bLeftRequire"  name="dwz.orgId.aiid" value="{$vo['model_value']}">
-				<a class="model1_3 btnLook" style="display:none" href="__GROUP__/ArticleInfo/index?sid=<empty name="vo[getModelPk(MODULE_NAME)]">{$_REQUEST['sid']}<else />{$vo['sid']}</empty>&returnRequire=1" target="dialog" mask="true" lookupGroup="orgId" >选择文章ID</a>
+				<a class="model1_3 btnLook" style="display:none" href="__GROUP__/ArticleInfo/index?sid=<empty name="vo[getModelPk(MODULE_NAME)]">{$_REQUEST['sid']}<else />{$vo['sid']}</empty>&returnRequire=1" rel="{:MODULE_NAME}Select" mask="true" lookupGroup="orgId" >选择文章ID</a>
 
 				<select class="model1_1 model1_2" style="display:none" name="model1">
 					<option <eq name="vo['model_value']" value="0" >selected</eq> value="0">顶级</option>

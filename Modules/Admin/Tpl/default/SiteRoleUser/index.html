@@ -12,7 +12,7 @@
 
 					<if condition=" !empty($_REQUEST['sid']) ">
 					<div class="pageHeader">
-						<form onsubmit="return navTabSearch(this);" action="__URL__" method="post">
+						<form onsubmit="return dialogSearch(this);" action="__URL__" method="post">
 							<div class="searchBar">
 								<ul class="searchContent">
 									<li>
@@ -33,8 +33,8 @@
 
 					<div class="panelBar">
 						<ul class="toolBar">
-							<li><a class="add" href="__URL__/add?sid={$_REQUEST['sid']}&rid={$_REQUEST['rid']}" target="dialog" rel="add" mask="true"><span>新增</span></a></li>
-							<li><a class="delete" href="__URL__/delete?{:getModelPk(MODULE_NAME)}={_id}" target="ajaxTodo" title="你确定要删除吗？" warn="请选择数据"><span>删除</span></a></li>
+							<li><a class="add" href="__URL__/add?sid={$_REQUEST['sid']}&rid={$_REQUEST['rid']}" rel="{:MODULE_NAME}_add" target="dialog" mask="true" width="600" height="450"><span>新增</span></a></li>
+							<li><a class="delete" href="__URL__/delete?{:getModelPk(MODULE_NAME)}={_id}" target="ajaxTodo" onclick='setTimeout("reloadeDialog()",200);' ><span>删除</span></a></li>
 						</ul>
 					</div>
 					</if>
@@ -57,7 +57,7 @@
 								<td>{$vo['uid']}</td>
 								<td>{:findById('AdminUser/UserBase',$vo['uid'],'user_id')}</td>
 								<td>{$vo['update_time']}</td>
-								<td>{$vo['status']|showStatus=$vo[getModelPk(MODULE_NAME)],'',getModelPk(MODULE_NAME)}</td>
+								<td>{$vo['status']|showStatus=$vo[getModelPk(MODULE_NAME)],'',getModelPk(MODULE_NAME),'',1,'setTimeout("reloadeDialog()",200);'}</td>
 							</tr>
 							</volist>
 							</if>
@@ -80,6 +80,9 @@
 
 </div>
 
-
-
+<script type="text/javascript">
+function reloadeDialog(){
+	$.pdialog.open('__GROUP__/SiteRoleUser/index?rid={$_REQUEST['rid']}&sid={$_REQUEST['sid']}', 'SiteRoleUser', '查看用户',{mask:true});
+}
+</script>
 

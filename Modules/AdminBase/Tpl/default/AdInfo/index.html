@@ -22,7 +22,7 @@
 					<require file="Admin,Public/pagerForm" />
 
 					<div class="pageHeader">
-						<form onsubmit="return navTabSearch(this);" action="__URL__" method="post">
+						<form onsubmit="return <neq name="_REQUEST['returnRequire']" value="1">navTabSearch(this);<else />dwzSearch(this, 'dialog');</neq>" action="__URL__" method="post">
 							<div class="searchBar">
 								<ul class="searchContent">
 									<li>
@@ -36,6 +36,7 @@
 
 									<input type="hidden" name="sid" value="{$_REQUEST['sid']}" >
 									<input type="hidden" name="apid" value="{$_REQUEST['apid']}" >
+									<input type="hidden" name="returnRequire" value="{$_REQUEST['returnRequire']}" >
 									<div class="subBar">
 										<div class="buttonActive"><div class="buttonContent"><button type="submit">查询</button></div></div>
 									</div>
