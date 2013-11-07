@@ -1,5 +1,5 @@
 <model model="$modelName" fun="$functionName" condition="$condition" order="" limit="" key="i" result="leftMenu">
-<div class="well sidebar-nav">	
+<div class="well sidebar-nav">
 	<volist name="leftMenu['crumbs']" id="crumbs">
 	<h2><a title="{$crumbs['name']}" href="{:getUrl( MODULE_NAME, $crumbs )}">{$crumbs['name']}</a></h2>
 	</volist>
@@ -15,5 +15,5 @@
 </div>
 </model>
 
-<?php unset($name,$modelName,$categoryName,$functionName,$condition); ?>
+<?php unset($modelName,$categoryName,$functionName,$condition); ?>
 

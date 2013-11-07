@@ -12,6 +12,10 @@
 				<input type="text" class="required"  name="name" value="{$vo['name']}">
 			</div>
 			<div class="unit">
+				<label>每页显示数量：</label>
+				<input type="text" name="list_num" value="<empty name="vo[getModelPk(MODULE_NAME)]">10<else />{$vo['list_num']}</empty>">
+			</div>
+			<div class="unit">
 				<label>内容样式：</label>
 				<input type="text" name="class" value="{$vo['class']}">
 			</div>
@@ -21,6 +25,9 @@
 					<option <eq name="vo['type']" value="1" >selected</eq> value="1">列表</option>
 					<option <eq name="vo['type']" value="2" >selected</eq> value="2">分类</option>
 					<option <eq name="vo['type']" value="3" >selected</eq> value="3">单篇内容</option>
+					<option <eq name="vo['type']" value="4" >selected</eq> value="4">面包屑</option>
+					<option <eq name="vo['type']" value="5" >selected</eq> value="5">侧栏菜单</option>
+					<option <eq name="vo['type']" value="6" >selected</eq> value="6">侧栏列表</option>
 				</select>
 			</div>
 			<div class="unit">
@@ -44,7 +51,7 @@
 				</select>
 
 				<input class="model1_3" style="display:none" type="text" class="required large bLeftRequire"  name="dwz.orgId.aiid" value="{$vo['model_value']}">
-				<a class="model1_3 btnLook" style="display:none" href="__GROUP__/ArticleInfo/index?sid=<empty name="vo[getModelPk(MODULE_NAME)]">{$_REQUEST['sid']}<else />{$vo['sid']}</empty>&returnRequire=1" rel="{:MODULE_NAME}Select" mask="true" lookupGroup="orgId" >选择文章ID</a>
+				<a class="model1_3 btnLook" style="display:none" href="__GROUP__/ArticleInfo/index?sid=<empty name="vo[getModelPk(MODULE_NAME)]">{$_REQUEST['sid']}<else />{$vo['sid']}</empty>&returnRequire=1" rel="{:MODULE_NAME}Select" target="dialog" mask="true" lookupGroup="orgId" >选择文章ID</a>
 
 				<select class="model1_1 model1_2" style="display:none" name="model1">
 					<option <eq name="vo['model_value']" value="0" >selected</eq> value="0">顶级</option>
@@ -59,18 +66,23 @@
 				</select>
 
 			</div>
-			<div class="model1_1 model4_1 unit " style="display:none">
+			<div class="model1_1 model4_1 model1_3 model4_3 unit " style="display:none">
 				<label>列表显示项：</label>
 				<input type="checkbox" name="list_opt[]" <if condition=" ($vo['list_opt']&1) == 1 ">checked</if> value="1">名称
 				<input type="checkbox" name="list_opt[]" <if condition=" ($vo['list_opt']&2) == 2 ">checked</if> value="2">添加时间
 				<input type="checkbox" name="list_opt[]" <if condition=" ($vo['list_opt']&4) == 4 ">checked</if> value="4">用户名
+				<input type="checkbox" name="list_opt[]" <if condition=" ($vo['list_opt']&8) == 8 ">checked</if> value="8">分页
 				<input type="checkbox" name="list_opt[]" <if condition=" ($vo['list_opt']&16) == 16 ">checked</if> value="16">更多
 				<input type="checkbox" name="list_opt[]" <if condition=" ($vo['list_opt']&32) == 32 ">checked</if> value="32">缩略图
+				<input type="checkbox" name="list_opt[]" <if condition=" ($vo['list_opt']&64) == 64 ">checked</if> value="64">简介
+				<input type="checkbox" name="list_opt[]" <if condition=" ($vo['list_opt']&128) == 128 ">checked</if> value="128">图片
+				<input type="checkbox" name="list_opt[]" <if condition=" ($vo['list_opt']&256) == 256 ">checked</if> value="256">标签
+				<input type="checkbox" name="list_opt[]" <if condition=" ($vo['list_opt']&512) == 512 ">checked</if> value="512">全文
 			</div>
 		</div>
 		<div class="formBar">
 			<ul>
-				<li><div class="buttonActive"><div class="buttonContent"><button type="submit">保存</button></div></div></li>
+				<li><div class="buttonActive"><div class="buttonContent"><button type="submit" onclick="setTimeout('reloadeDialog()',1000);">保存</button></div></div></li>
 				<li><div class="button"><div class="buttonContent"><button type="button" class="close">取消</button></div></div></li>
 			</ul>
 		</div>

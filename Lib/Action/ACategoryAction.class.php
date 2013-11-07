@@ -71,7 +71,6 @@ class ACategoryAction extends ABaseAction {
 		$modelName = $this->getActionName();
 		if( $_REQUEST[getModelPk($modelName)] == $_REQUEST['parent_id'] ) $this->ajaxReturn( '', "请选正确选择父类!", 0 );
 		if( !empty($_POST['show_position']) ) $_POST['show_position'] = array_sum($_POST['show_position']);
-		if( !empty($_POST['list_opt']) ) $_POST['list_opt'] = array_sum($_POST['list_opt']);
 		$_POST['sids'] = ( !empty($_POST['sids']) ) ? implode(',',$_POST['sids']) : '';
 	}
 
@@ -100,7 +99,6 @@ class ACategoryAction extends ABaseAction {
 		$crumb = findById ( $modelName, $_POST['parent_id'], 'crumb' );
 		$_POST['crumb'] = ( !empty($crumb) ? "{$crumb}" : "" ) . "{$_POST[getModelPk($modelName)]}-";
 		if( !empty($_POST['show_position']) ) $_POST['show_position'] = array_sum($_POST['show_position']);
-		if( !empty($_POST['list_opt']) ) $_POST['list_opt'] = array_sum($_POST['list_opt']);
 		$_POST['sids'] = ( !empty($_POST['sids']) ) ? implode(',',$_POST['sids']) : '';
 	}
 

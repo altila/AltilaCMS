@@ -2,22 +2,22 @@
 $crumbPid = substr( $info['crumb'], 0, strpos($info['crumb'],'-') );
 if( empty($info['crumb']) ) $crumbPid = $info['smid'];
 ?>
-<div class="navbar">
-	<div class="navbar-inner">
-		<ul class="nav">
-			<li <eq name="crumbPid" value="">class="active"</eq>><a href="/" title="首页"><span>首页</span></a></li>
+<div id="nav">
+	<div class="container">
+		<ul>
+			<li class="first <eq name="crumbPid" value="">active</eq>" ><a href="/" title="首页"><span>首页</span></a></li>
 			
 			<?php $condition = "status=1&is_hide=0&sid=" . getLang();?>
 			<model model="Menu" app="Home" fun="getTree" condition="$condition" order="" limit="" key="i" result="menu">
 			<if condition=" ($menu['show_position']&2) == 2 ">
 			
 			<li class="<eq name="crumbPid" value="$menu['smid']">active</eq> <if condition=" !empty($menu['_child']) or $menu['type'] == 0 ">dropdown</if> ">
-				<a <if condition=" !empty($menu['_child']) or $menu['type'] == 0 ">data-toggle="dropdown"</if> class="dropdown-toggle" <eq name="menu['is_highlight']" value="1">class="red"</eq> href="{:getUrl( $menu['model'], $menu )}" title="{$menu['name']}">
+				<a class="<if condition=" !empty($menu['_child']) or $menu['type'] == 0 ">dropdown</if> dropdown-toggle <eq name="menu['is_highlight']" value="1">red</eq> " href="{:getUrl( $menu['model'], $menu )}" title="{$menu['name']}">
 					<span>{$menu['name']}</span>
 					<if condition=" !empty($menu['_child']) or $menu['type'] == 0 "><i class="caret"></i></if>
 				</a>
 				{// 显示子集 开始}
-				<ul class="dropdown-menu">
+				<ul class="sub_nav">
 					<if condition=" !empty($menu['_child']) ">
 					<volist name="menu['_child']" id="vo">
 					<li <eq name="info['smid']" value="$vo['smid']">class="active"</eq> >
@@ -36,7 +36,7 @@ if( empty($info['crumb']) ) $crumbPid = $info['smid'];
 					<model model="$modelName" app="$appName" fun="getList" condition="$condition" order="" limit="$limit" key="i">
 					<volist name="result['list']" id="vo">
 					<li <eq name="info[getModelPk($_modelName)]" value="$vo[getModelPk($_modelName)]">class="active"</eq> >
-						<a <eq name="menu['is_open']" value="1">target="_blank"</eq> href="{:getUrl( $modelName, $vo )}" title="{$vo['name']}">{$vo['name']}</a>
+						<a <eq name="menu['is_open']" value="1">target="_blank"</eq> <eq name="vo['is_highlight']" value="1">class="red"</eq> href="{:getUrl( $modelName, $vo )}" title="{$vo['name']}">{$vo['name']}</a>
 					</li>
 					</volist>
 					</model>
@@ -49,10 +49,6 @@ if( empty($info['crumb']) ) $crumbPid = $info['smid'];
 			</if>
 			</model>
 		</ul>
-		<form class="navbar-form pull-right form-search">
-			<input type="text" class="input-medium search-query">
-			<button type="submit" class="btn">Search</button>
-		</form>
 	</div>
 </div>
 <?php unset($condition,$_condition,$modelName,$appName); ?>

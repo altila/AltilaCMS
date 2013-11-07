@@ -11,7 +11,7 @@
 					<require file="Admin,Public/pagerForm" />
 
 					<div class="pageHeader">
-						<form onsubmit="return navTabSearch(this);" action="__URL__" method="post">
+						<form onsubmit="return dialogSearch(this);" action="__URL__" method="post">
 							<div class="searchBar">
 								<ul class="searchContent">
 									<li>
@@ -32,17 +32,17 @@
 					</div>
 
 					<if condition=" !empty($_REQUEST['row_position']) ">
-					<div class="panelBar">
+					<div class="panelBar reloadeDialog">
 						<ul class="toolBar">
-							<li><a class="add" rel="add" href="__URL__/add?sid={$_REQUEST['sid']}&spid={$_REQUEST['spid']}&row_position={$_REQUEST['row_position']}" target="dialog" mask="true"><span>新增</span></a></li>
-							<li><a class="delete" href="__URL__/delete?{:getModelPk(MODULE_NAME)}={_id}" target="ajaxTodo" title="你确定要删除吗？" warn="请选择数据"><span>删除</span></a></li>
-							<li><a class="edit" rel="edit" href="__URL__/edit?{:getModelPk(MODULE_NAME)}={_id}&sid={$_REQUEST['sid']}" target="dialog" mask="true" warn="请选择数据"><span>修改</span></a></li>
-							<li><a class="edit" href="__URL__/sort?sid={$_REQUEST['sid']}&spid={$_REQUEST['spid']}&row_position={$_REQUEST['row_position']}" target="dialog" mask="true" width="600" height="400" ><span>排序</span></a></li>
+							<li><a class="add" rel="{:MODULE_NAME}_add" href="__URL__/add?sid={$_REQUEST['sid']}&spid={$_REQUEST['spid']}&row_position={$_REQUEST['row_position']}" target="dialog" mask="true" width="800" height="600"><span>新增</span></a></li>
+							<li><a class="delete" href="__URL__/delete?{:getModelPk(MODULE_NAME)}={_id}" target="ajaxTodo" onclick="mReloadeDialog()" ><span>删除</span></a></li>
+							<li><a class="edit" rel="{:MODULE_NAME}_edit" href="__URL__/edit?{:getModelPk(MODULE_NAME)}={_id}&sid={$_REQUEST['sid']}" target="dialog" mask="true" warn="请选择数据" width="800" height="600"><span>修改</span></a></li>
+							<li><a class="edit" href="__URL__/sort?sid={$_REQUEST['sid']}&spid={$_REQUEST['spid']}&row_position={$_REQUEST['row_position']}" target="dialog" mask="true" width="800" height="600" ><span>排序</span></a></li>
 						</ul>
 					</div>
 					</if>
 
-					<table class="table" width="100%" layoutH="115">
+					<table class="table reloadeDialog" width="100%" layoutH="115">
 						<thead>
 							<tr>
 								<th width="50">编号</th>
@@ -62,11 +62,11 @@
 								<td>{$vo['name']}</td>
 								<?php $typeArr = array( '广告','文章','图片集','产品','博文','小说' );?>
 								<td>{$typeArr[$vo['model']]}</td>
-								<?php $typeArr = array( '','列表','分类','单篇内容' );?>
+								<?php $typeArr = array( '','列表','分类','单篇内容','面包屑','侧栏菜单','侧栏列表' );?>
 								<td>{$typeArr[$vo['type']]}</td>
 								<td>{$vo['sort']}</td>
 								<td>{$vo['update_time']}</td>
-								<td>{$vo['status']|showStatus=$vo[getModelPk(MODULE_NAME)],'',getModelPk(MODULE_NAME)}</td>
+								<td>{$vo['status']|showStatus=$vo[getModelPk(MODULE_NAME)],'',getModelPk(MODULE_NAME),'',1,'setTimeout("reloadeDialog()",200);'}</td>
 							</tr>
 							</volist>
 							</if>
@@ -88,4 +88,11 @@
 	</div>
 
 </div>
+
+<script type="text/javascript">
+
+function reloadeDialog(){
+	$.pdialog.open('__GROUP__/SitePlateContent/index?spid={$_REQUEST['spid']}&sid={$_REQUEST['sid']}&spgid={$_REQUEST['spgid']}&row_position={$_REQUEST['row_position']}', 'SitePlateContent', '查看内容',{mask:true});
+}
+</script>
 

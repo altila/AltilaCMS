@@ -53,9 +53,9 @@ return array(
 	/* 路由配置 */
 	'URL_ROUTER_ON'         => true,   // 是否开启URL路由
 	'URL_ROUTE_RULES'       => array(  // 默认路由规则，注：分组配置无法替代
-		'/^ArticleInfo\/(\d+)$/' => 'Home/ArticleInfo/index?aiid=:1',
+		'/^ArticleInfo\/(\d+)$/' => 'Home/ArticleInfo/index?aiid=:1&iid=:1',
 		'/^ArticleCategory\/(\d+)_(\d*)$/' => 'Home/ArticleCategory/index?smid=:1&cp=:2',
-		'/^Blog\/BlogInfo\/(\d+)$/' => 'Blog/BlogInfo/index?biid=:1',
+		'/^Blog\/BlogInfo\/(\d+)$/' => 'Blog/BlogInfo/index?biid=:1&iid=:1',
 		'/^Blog\/BlogCategory\/(\d+)_(\d*)$/' => 'Blog/BlogCategory/index?smid=:1&cp=:2',
 	),
 

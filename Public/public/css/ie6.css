@@ -1,0 +1,10 @@
+/* global.css */
+* html {background-image:url(about:blank);background-attachment:fixed;} /*解决ie6下悬浮窗抖动问题*/
+html, body {
+	height: 100%;
+}
+#over_layer {
+    position: absolute;
+    height: expression(document.body.scrollHeight > document.body.offsetHeight ? document.body.scrollHeight : document.body.offsetHeight + 'px');
+	width: expression(document.body.scrollWidth > document.body.offsetWidth ? document.body.scrollWidth : document.body.offsetWidth + 'px');
+}

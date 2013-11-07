@@ -1,0 +1,64 @@
+﻿.select_box {
+	float: left;
+	margin-right: 10px;
+	position: relative;
+	z-index: 10;
+}
+.tag_select{
+	display:block;
+	float: left;
+	/*width:40px;*/
+	height:26px;
+	background:transparent url("../images/arrow_down.jpg") no-repeat right center;
+	padding:0 18px 0 0;
+	line-height:26px; 
+	color:#333; 
+	font-size:12px; 
+	cursor:pointer;
+	/*border: 1px solid #000;*/
+} 
+.tag_select_hover{ 
+	color:#f0ad4e;
+	background:transparent url("../images/arrow_down_hover.jpg") no-repeat right center;
+} 
+.tag_select_open{ 
+	color:#f0ad4e; 
+	background:transparent url("../images/arrow_down_hover.jpg") no-repeat right center;
+} 
+ul.tag_options{
+	position:absolute;
+	left: 0;
+	top: 26px;
+	margin:0;
+	list-style:none;
+	background:#fff;
+	padding:0 0 1px;
+	margin:0;
+	width:60px; 
+	font-size:12px; 
+	cursor:pointer; 
+	z-index:20;
+	border: 1px solid #ccc;
+} 
+ul.tag_options li{
+	background:#fff; 
+	display:block;
+	padding:0 10px;
+	height:20px;
+	text-decoration:none;
+	line-height:20px;
+	color:#333; 
+	font-weight:normal; 
+	font-size:12px;
+} 
+ul.tag_options li.open_hover{
+	background:#f5f5f5;
+	color:#333; 
+	font-weight:normal; 
+	font-size:12px;
+} 
+ul.tag_options li.open_selected{
+	background:#eee; 
+	font-size:12px;
+	font-weight:bold; 
+} 

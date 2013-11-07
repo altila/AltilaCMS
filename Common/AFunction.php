@@ -118,23 +118,23 @@ function searchList( $search, $list ){
 * @example {$vo['status']|showStatus=$vo['id'],''}
 +----------------------------------------------------------
 */
-function showStatus( $status, $id, $callback = '', $field = 'id', $condition = '', $isA = 1 ) {
+function showStatus( $status, $id, $callback = '', $field = 'id', $condition = '', $isA = 1, $onclick = "" ) {
 	switch ( $status ) {
 		case 0 :
 			$img = "<img src='__PUBLIC__/dwz/images/statusImg/locked.gif' alt='禁用'>";
-			$info = ( $isA == 1 ) ? "<a href='__URL__/resume?{$field}={$id}&navTabId=".MODULE_NAME."&{$condition}' target='ajaxTodo' callback='{$callback}'>{$img}</a>" : $img;
+			$info = ( $isA == 1 ) ? "<a href='__URL__/resume?{$field}={$id}&navTabId=".MODULE_NAME."&{$condition}' target='ajaxTodo' onclick='{$onclick}' callback='{$callback}'>{$img}</a>" : $img;
 			break;
 		case 2 :
 			$img = "<img src='__PUBLIC__/dwz/images/statusImg/prected.gif' alt='待审'>";
-			$info = ( $isA == 1 ) ? "<a href='__URL__/checkPass?{$field}={$id}&navTabId=".MODULE_NAME."&{$condition}' target='ajaxTodo' callback='{$callback}'>{$img}</a>" : $img;
+			$info = ( $isA == 1 ) ? "<a href='__URL__/checkPass?{$field}={$id}&navTabId=".MODULE_NAME."&{$condition}' target='ajaxTodo' onclick='{$onclick}' callback='{$callback}'>{$img}</a>" : $img;
 			break;
 		case 1 :
 			$img = "<img src='__PUBLIC__/dwz/images/statusImg/ok.gif' alt='正常'>";
-			$info = ( $isA == 1 ) ? "<a href='__URL__/forbid?{$field}={$id}&navTabId=".MODULE_NAME."&{$condition}' target='ajaxTodo' callback='{$callback}'>{$img}</a>" : $img;
+			$info = ( $isA == 1 ) ? "<a href='__URL__/forbid?{$field}={$id}&navTabId=".MODULE_NAME."&{$condition}' target='ajaxTodo' onclick='{$onclick}' callback='{$callback}'>{$img}</a>" : $img;
 			break;
 		case -1 :
 			$img = "<img src='__PUBLIC__/dwz/images/statusImg/del.gif' alt='删除'>";
-			$info = ( $isA == 1 ) ? "<a href='__URL__/recycle?{$field}={$id}&navTabId=".MODULE_NAME."&{$condition}' target='ajaxTodo' callback='{$callback}'>{$img}</a>" : $img;
+			$info = ( $isA == 1 ) ? "<a href='__URL__/recycle?{$field}={$id}&navTabId=".MODULE_NAME."&{$condition}' target='ajaxTodo' onclick='{$onclick}' callback='{$callback}'>{$img}</a>" : $img;
 			break;
 	}
 	return $info;

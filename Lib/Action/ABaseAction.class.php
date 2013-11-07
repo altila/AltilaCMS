@@ -116,6 +116,7 @@ class ABaseAction extends BaseAction {
 		$order = !empty( $_REQUEST['orderField'] ) ? $_REQUEST['orderField'] : ( !empty( $sortBy ) ? $sortBy : ( $model->isExistField( 'sort' ) ? 'sort' : $model->getPk() ) );
 		//排序方式默认按照倒序排列, 接受 sost参数 0 表示倒序 非0都 表示正序
 		$sort = !empty( $_REQUEST['orderDirection'] ) ? ( ( $_REQUEST['orderDirection'] == 'asc' ) ? 'asc' : 'desc' ) : ( $asc || $order == 'sort' ? 'asc' : 'desc' );
+		$orderSort = ( $order == $model->getPk() ) ? "`{$order}` {$sort}" : "`{$order}` {$sort}, {$model->getPk()} desc";
 		//归组
 		$group = !empty( $_REQUEST['_group'] ) ? $_REQUEST['_group'] : '';
 		//字段
@@ -134,7 +135,7 @@ class ABaseAction extends BaseAction {
 			$listRows = !empty( $_REQUEST['listRows'] ) ? $_REQUEST['listRows'] : '';
 			$p = new Page ( $count, $listRows );
 			//分页查询数据
-			$voList = $model->where ( $map )->field ( $field )->order ( "`{$order}` {$sort}" )->limit ( "{$p->firstRow},{$p->listRows}" )->group ( $group )->select ();
+			$voList = $model->where ( $map )->field ( $field )->order ( $orderSort )->limit ( "{$p->firstRow},{$p->listRows}" )->group ( $group )->select ();
 			//分页跳转的时候保证查询条件
 			foreach ( $map as $key => $val ) {
 				if ( !is_array($val) ) $p->parameter .= "$key=" . urlencode ( $val ) . "&";

@@ -33,7 +33,7 @@ class PlateModel extends HBaseModel {
 		//查询数据
 		$date = date('Y-m-d H:i');
 		$timeCondition = "( spc.start_time < '{$date}' AND  spc.end_time > '{$date}' ) OR ( spc.start_time = '1970-01-01 08:00:00' AND spc.end_time > '{$date}' ) OR ( spc.start_time < '{$date}' AND spc.end_time = '1970-01-01 08:00:00' ) OR ( spc.start_time = '1970-01-01 08:00:00' AND spc.end_time = '1970-01-01 08:00:00' )";
-		$sql = "SELECT spc.name AS spcName,spc.row_position,spc.type,spc.model,spc.model_value,spc.class AS spcClass,spc.sort AS spcSort,spc.list_opt
+		$sql = "SELECT spc.name AS spcName,spc.row_position,spc.type,spc.model,spc.model_value,spc.class AS spcClass,spc.sort AS spcSort,spc.list_opt,spc.list_num
 			,sp.spid,sp.name AS spName,sp.row,sp.class AS spClass,sp.sort AS spSort
 			,spg.spgid,spg.name AS spgName,spg.code 
 			FROM site_plate_content AS spc

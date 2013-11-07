@@ -1,11 +1,10 @@
 <require file="Home,Public/global_header" />
 
-<include  file="leftMenu" />
-
-<include  file="BlogCategory:breadCrumbs" />
-
-{$info['content']|htmlspecialchars_decode=ENT_QUOTES}
-
+<div id="content">
+	<div class="container">
+		<require file="Home,Plate/index" />
+	</div>
+</div>
 
 <require file="Home,Public/global_footer" />
 

@@ -1,4 +1,6 @@
-﻿OUTPUT_ENCODE - 页面压缩需要开启
+﻿lookupGroup
+
+OUTPUT_ENCODE - 页面压缩需要开启
 
 菜单管理中需要加入模板类型
 

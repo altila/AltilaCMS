@@ -78,10 +78,6 @@
 			<div>
 				<div class="pageFormContent" layoutH="188">
 					<div class="unit">
-						<label>每页显示数量：</label>
-						<input type="text" name="list_num" value="<empty name="vo[getModelPk(MODULE_NAME)]">20<else />{$vo['list_num']}</empty>">
-					</div>
-					<div class="unit">
 						<label>是否隐藏：</label>
 						<select name="is_hide" >
 							<option <eq name="vo['is_hide']" value="0">selected</eq> value="0">否</option>
@@ -101,18 +97,6 @@
 							<option <eq name="vo['is_highlight']" value="0">selected</eq> value="0">否</option>
 							<option <eq name="vo['is_highlight']" value="1">selected</eq> value="1">是</option>
 						</select>
-					</div>
-					<div class="unit">
-						<label>列表显示项：</label>
-						<input type="checkbox" name="list_opt[]" <if condition=" ($vo['list_opt']&1) == 1 ">checked</if> value="1">名称
-						<input type="checkbox" name="list_opt[]" <if condition=" ($vo['list_opt']&2) == 2 ">checked</if> value="2">添加时间
-						<input type="checkbox" name="list_opt[]" <if condition=" ($vo['list_opt']&4) == 4 ">checked</if> value="4">用户名
-						<input type="checkbox" name="list_opt[]" <if condition=" ($vo['list_opt']&8) == 8 ">checked</if> value="8">分页
-						<input type="checkbox" name="list_opt[]" <if condition=" ($vo['list_opt']&16) == 16 ">checked</if> value="16">更多
-						<input type="checkbox" name="list_opt[]" <if condition=" ($vo['list_opt']&32) == 32 ">checked</if> value="32">缩略图
-						<input type="checkbox" name="list_opt[]" <if condition=" ($vo['list_opt']&64) == 64 ">checked</if> value="64">简介
-						<input type="checkbox" name="list_opt[]" <if condition=" ($vo['list_opt']&128) == 128 ">checked</if> value="128">图片
-						<input type="checkbox" name="list_opt[]" <if condition=" ($vo['list_opt']&256) == 256 ">checked</if> value="256">标签
 					</div>
 				</div>
 			</div>

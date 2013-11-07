@@ -22,7 +22,11 @@
 					<require file="Admin,Public/pagerForm" />
 
 					<div class="pageHeader">
+						<eq name="_REQUEST['returnRequire']" value="1">
+						<form onsubmit="return dialogSearch(this);" action="__URL__" method="post">
+						<else />
 						<form onsubmit="return navTabSearch(this);" action="__URL__" method="post">
+						</eq>
 							<div class="searchBar">
 								<ul class="searchContent">
 									<neq name="_REQUEST['returnRequire']" value="1">
@@ -39,6 +43,7 @@
 
 									<input type="hidden" name="sid" value="{$_REQUEST['sid']}" >
 									<input type="hidden" name="smid" value="{$_REQUEST['smid']}" >
+									<input type="hidden" name="returnRequire" value="{$_REQUEST['returnRequire']}" >
 									<div class="subBar">
 										<div class="buttonActive"><div class="buttonContent"><button type="submit">查询</button></div></div>
 									</div>
@@ -59,7 +64,11 @@
 					</div>
 					</if>
 
+					<eq name="_REQUEST['returnRequire']" value="1">
+					<table class="table" width="100%" layoutH="95">
+					<else />
 					<table class="table" width="100%" layoutH="143">
+					</eq>
 						<thead>
 							<tr>
 								<eq name="_REQUEST['returnRequire']" value="1">

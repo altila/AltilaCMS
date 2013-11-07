@@ -1,0 +1,242 @@
+#video_player_panel {
+	.title {
+		background: url("@{img-url}bg_play_title.png") no-repeat;
+		width: 685px;
+		height: 47px;
+		border: none;
+		h1 {
+			margin: 18px 0 0 130px;
+			font-size: 16px;
+		}
+	}
+	.content {
+		background: #000;
+		width: 685px;
+		height: 360px;
+		position: relative;
+		border: none;
+		margin-top: 15px;
+		.player_button {
+			background: url("@{img-url}bg_play.png") no-repeat;
+			width: 60px;
+			height: 60px;
+			position: absolute;
+			left: 50%;
+			top: 50%;
+			margin-left: -30px;
+			margin-top: -30px;
+			cursor: pointer;
+			opacity: 0.5;
+			filter: alpha(opacity=50);
+			&:hover {
+				opacity: 0.8;
+				filter: alpha(opacity=80);
+			}
+		}
+	}
+}
+
+#comment_and_work {
+	.title {
+		.tab {
+			float: none;
+			margin-left: 5px;
+			li {
+				font-size: 14px;
+			}
+		}
+	}
+	.content {
+		overflow: hidden;
+		zoom: 1;
+		dl.com_list {
+			overflow: hidden;
+			zoom: 1;
+			margin: 20px 20px 0;
+			border-bottom: 1px solid lighten(@grayLighter, 10%);
+			padding-bottom: 15px;
+			dt {
+				background: url("@{img-url}icon_num.png") no-repeat;
+				width: 33px;
+				height: 27px;
+				float: left;
+				text-align: center;
+				line-height: 22px;
+				color: @white;
+				font-weight: bold;
+			}
+			dd {
+				overflow: hidden;
+				zoom: 1;
+				.student_say {
+					color: @grayLight;
+					float: left;
+				}
+				.reply {
+					float: right;
+					a {
+						color: @green;
+						&:hover {
+							color: lighten(@green, 10%);
+						}
+					}
+				}
+				.comment_con {
+					padding-top: 10px;
+					clear: left;
+					color: @grayDark;
+					.top {
+						background: url("@{img-url}bg_comment_text_top.jpg") no-repeat;
+						height: 20px;
+					}
+					.middle {
+						background: url("@{img-url}bg_comment_text_middle.jpg") repeat-y;
+						padding: 5px 10px;
+					}
+					.bottom {
+						background: url("@{img-url}bg_comment_text_bottom.jpg") no-repeat;
+						height: 20px;
+					}
+				}
+				.reply_con {
+					padding: 5px 10px;
+					color: @red;
+				}
+				.teacher_say {
+					text-align: right;
+					color: @grayLight;
+				}
+			}
+		}
+		dl.work_list {
+			font-size: 14px;
+			margin: 20px 20px 0;
+			border-bottom: 1px solid lighten(@grayLighter, 10%);
+			padding-bottom: 20px;
+			dt {
+				padding: 10px;
+				font-weight: bold;
+			}
+			dd {
+				margin: 10px 0 0 10px;
+			}
+		}
+		.finish_work {
+			overflow: hidden;
+			zoom: 1;
+			padding: 10px;
+			margin: 20px;
+			.use_time {
+				float: left;
+				font-size: 14px;
+			}
+			.finish_button {
+				float: right;
+			}
+		}
+	}
+}
+
+#video_intro {
+	.intro {
+		margin: 0 15px;
+		padding-bottom: 10px;
+		line-height: 25px;
+	}
+}
+
+#sider_search {
+	.content {
+		padding: 10px 15px;
+		border: 1px solid @grayLighter;
+		.sider_border_top;
+		.select_group {
+			.clearfix;
+			z-index: 1;
+			li {
+				line-height: 20px;
+			}
+		}
+		input.default {
+			width: 215px;
+		}
+	}
+}
+
+#sider_comment {
+	.title {
+		padding: 0 15px;
+		height: auto;
+	}
+	.content {
+		padding: 5px 15px 10px;
+		textarea {
+			width: 215px;
+		}
+	}
+}
+
+.main_m {
+	#article_view {
+		.border_gray;
+		background: @white;
+		margin-bottom: 20px;
+		.breadcrumb {
+			background: lighten(@grayLighter, 15%);
+			line-height: 30px;
+			padding-left: 10px;
+			color: @gray;
+		}
+		.title {
+			h1 {
+				height: 80px;
+				line-height: 80px;
+				.tac;
+				color: @grayDark;
+			}
+			p {
+				border-top: 1px solid lighten(@grayLighter, 10%);
+				text-align: center;
+				margin: 0;
+				padding: 10px 0;
+				color: @gray;
+				font-size: 14px;
+			}
+		}
+		.content {
+			line-height: 25px;
+			padding: 0 30px 30px;
+			font-size: 14px;
+			min-height: 760px;
+			_height: 760px;	
+			p {
+				margin: 15px 0 0;				
+			}
+		}
+		.other {
+			overflow: hidden;
+			zoom: 1;
+			height: 50px;
+			line-height: 50px;
+			border-top: 1px solid lighten(@grayLighter, 10%);
+			color: @gray;
+			.prev_article {
+				float: left;
+				width: 320px;
+				padding-left: 20px;
+				overflow: hidden;
+				text-overflow: ellipsis;
+				white-space: nowrap;
+			}
+			.next_article {
+				float: right;
+				width: 320px;
+				text-align: right;
+				padding-right: 20px;
+				overflow: hidden;
+				text-overflow: ellipsis;
+				white-space: nowrap;
+			}
+		}
+	}
+}

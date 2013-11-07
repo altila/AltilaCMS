@@ -10,19 +10,14 @@
 	<meta name="keywords" content="{$head['keywords']|htmlspecialchars}"/>
 	<meta name="Copyright" content="{$head['name']|htmlspecialchars}" />
 	<link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
-	<php>echo get_static_file(array('bootstrap.css'),'public');</php>
-	<php>echo get_static_file(array($css.'.css'),'default');</php>
-	<style type="text/css">
-		.nav-header {
-			font-size: 16px;
-			padding: 0;
-		}
-	</style>
-	<php>echo get_static_file(array('jquery-1.9.1.min.js', 'bootstrap.js', 'jquery.cookie.js','jquery.lazyload.js','common.js','a.js'),'public');</php>
-	<!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
-    <!--[if lt IE 9]>
-      <php>echo get_static_file(array('html5shiv.js'),'public');</php>
-    <![endif]-->
+	<php>echo get_static_file(array('global.css',$css.'.css'),'default');</php>
+	<php>echo get_static_file(array('jquery-1.4.2.min.js', 'jquery.cookie.js','jquery.lazyload.js','common.js','a.js'),'public');</php>
+	<php>echo get_static_file(array('global.js'),'default');</php>
+	<!--[if IE 6]>    
+		<php>echo get_static_file(array('ie6.css'),'public');</php>
+		<php>echo get_static_file(array('DD_belatedPNG.js'),'public');</php>
+		<script>DD_belatedPNG.fix("");</script>
+	<![endif]-->
 	<require file="Admin,Public/consts_js" />
 </head>
 <body>

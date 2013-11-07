@@ -1,14 +1,8 @@
 <require file="Home,Public/global_header" />
 
-<div class="container">
-	<div class="row">
-		<div class="span3">
-			<include  file="leftMenu" />
-		</div>
-		<div class="span9">
-			<include  file="ArticleCategory:breadCrumbs" />
-			{$info['content']|htmlspecialchars_decode=ENT_QUOTES}
-		</div>
+<div id="content">
+	<div class="container">
+		<require file="Home,Plate/index" />
 	</div>
 </div>
 

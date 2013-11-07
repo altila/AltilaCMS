@@ -1,6 +1,7 @@
 <?php
 $condition = 'spgCode=' . ( !empty($spgCode) ? $spgCode :  GROUP_NAME . '_' . MODULE_NAME . '_' . ACTION_NAME );
 $menuType = C('MENU_TYPE');
+$_info = $info;
 ?>
 
 <model model="Plate" app="Home" fun="getPlate" condition="$condition" order="" limit="" key="i">
@@ -26,31 +27,76 @@ $menuType = C('MENU_TYPE');
 			<require file="Home,Ad/index" />
 			{//广告 结束}
 
-			{//单篇内容 开始}
-			<elseif condition=" $vo['model'] == 1 && $vo['type'] == 3 " />
-			<?php $plateCondition = 'status=1&' . getModelPk($infoModel) . '='.$vo['model_value']; ?>
-			<model model="$infoModel" app="$appName" fun="getInfo" condition="$plateCondition" order="" limit="" key="i" result="info">
-			<h2>{$info['name']}</h2>
-			<p>{$info['description']}</p>
-			</model>
-			{//单篇内容 结束}
-
 			{//列表 开始}
 			<elseif condition=" in_array($vo['model'],array(1,4)) &&  $vo['type'] == 1 " />
-			<?php $plateCondition = 'status=1&' . getModelPk($cateModel) . '='.$vo['model_value']; $listType = $vo['list_opt']; ?>
+			<?php 
+			$plateCondition = 'status=1&' . getModelPk($cateModel) . '=' . ( ( $vo['model_value'] == 0 ) ? $_REQUEST['smid'] : $vo['model_value'] ) ;
+			$listType = $vo['list_opt'];$limit = $vo['list_num'];
+			?>
 			<model model="$cateModel" app="$appName" fun="getInfo" condition="$plateCondition" order="" limit="" key="i" result="info">
 			<h2>{$info['name']}</h2>
-			<require file="Home,Public/list" />
+			<require file="Home,Block/list" />
 			</model>
 			{//列表 结束}
 
 			{//分类 开始}
 			<elseif condition=" in_array($vo['model'],array(1,4)) &&  $vo['type'] == 2 " />
-			<?php $plateCondition = 'status=1&parent_id='.$vo['model_value']; ?>
+			<?php $plateCondition = 'status=1&parent_id='.$vo['model_value']."&sid=" . getLang(); ?>
 			<model model="$cateModel" app="$appName" fun="getInfo" condition="$plateCondition" order="" limit="" key="i" result="info">
 			<a target="_blank" href="{:getUrl( $cateModel, $info )}" title="{$info['name']}">{$info['name']}</a>
 			</model>
 			{//分类 结束}
+
+			{//单篇内容 开始}
+			<elseif condition=" in_array($vo['model'],array(1,4)) && $vo['type'] == 3 " />
+			<?php 
+			$plateCondition = 'status=1&' . getModelPk($infoModel) . '=' . ( empty($vo['model_value']) ? $_REQUEST['iid'] : $vo['model_value'] );
+			$listType = $vo['list_opt'];
+			?>
+			<model model="$infoModel" app="$appName" fun="getInfo" condition="$plateCondition" order="" limit="" key="i" result="info">
+			<if condition=" ($listType&1) == 1 ">
+			<h2>{$info['name']}</h2>
+			</if>
+			<if condition=" ($listType&64) == 64 ">
+			<p>{$info['description']}</p>
+			</if>
+			<if condition=" ($listType&512) == 512 ">
+			<p>{$info['content']|htmlspecialchars_decode=ENT_QUOTES}</p>
+			</if>
+			</model>
+			{//单篇内容 结束}
+
+			{//面包屑 开始}
+			<elseif condition=" in_array($vo['model'],array(1,4)) &&  $vo['type'] == 4 " />
+			<?php
+			$modelName = $cateModel;
+			$appName = "Home";
+			$condition = getModelPk($modelName) . "=" . $_info[getModelPk($modelName)];
+			?>
+			<require file="Home,Block/breadCrumbs" />
+			{//面包屑 结束}
+
+			{//侧栏菜单 开始}
+			<elseif condition=" in_array($vo['model'],array(1,4)) &&  $vo['type'] == 5 " />
+			<?php
+			$modelName = $cateModel;
+			$categoryName = $cateModel;
+			$functionName = 'leftMenuCategory';
+			$condition = getModelPk($modelName) . "=" . $_info[getModelPk($modelName)] . "&parent_id=" . $_info['parent_id'];
+			?>
+			<require file="Home,Menu/leftMenu" />
+			{//侧栏菜单 结束}
+
+			{//侧栏列表 开始}
+			<elseif condition=" in_array($vo['model'],array(1,4)) &&  $vo['type'] == 6 " />
+			<?php
+			$modelName = $infoModel;
+			$categoryName = $cateModel;
+			$functionName = 'leftMenuInfo';
+			$condition = "categoryName=" . $categoryName . "&" . getModelPk($categoryName) . "=" . $_info[getModelPk($categoryName)]. "&" . getModelPk($modelName) . "=" . $_info[getModelPk($modelName)];
+			?>
+			<require file="Home,Menu/leftMenu" />
+			{//侧栏列表 结束}
 
 			</if>
 		</div>

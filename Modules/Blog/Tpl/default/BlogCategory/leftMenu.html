@@ -1,8 +1,0 @@
-<?php
-$name = 'Blog';
-$modelName = $name . 'Category';
-$categoryName = $name . 'Category';
-$functionName = 'leftMenuCategory';
-$condition = getModelPk($modelName) . "=" . $info[getModelPk($modelName)] . "&parent_id=" . $info['parent_id'];
-?>
-<require file="Home,Menu/leftMenu" />

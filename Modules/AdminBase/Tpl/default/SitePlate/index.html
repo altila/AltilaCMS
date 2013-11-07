@@ -39,9 +39,9 @@
 					<if condition=" !empty($_REQUEST['spgid']) ">
 					<div class="panelBar">
 						<ul class="toolBar">
-							<li><a class="add" href="__URL__/add?sid={$_REQUEST['sid']}&spgid={$_REQUEST['spgid']}" target="dialog" mask="true"><span>新增</span></a></li>
+							<li><a class="add" rel="{:MODULE_NAME}_add" href="__URL__/add?sid={$_REQUEST['sid']}&spgid={$_REQUEST['spgid']}" target="dialog" mask="true"><span>新增</span></a></li>
 							<li><a class="delete" href="__URL__/delete?{:getModelPk(MODULE_NAME)}={_id}" target="ajaxTodo" title="你确定要删除吗？" warn="请选择数据"><span>删除</span></a></li>
-							<li><a class="edit" href="__URL__/edit?{:getModelPk(MODULE_NAME)}={_id}" target="dialog" mask="true" warn="请选择数据"><span>修改</span></a></li>
+							<li><a class="edit" rel="{:MODULE_NAME}_edit" href="__URL__/edit?{:getModelPk(MODULE_NAME)}={_id}" target="dialog" mask="true" warn="请选择数据"><span>修改</span></a></li>
 							<li><a class="edit" href="__URL__/sort?sid={$_REQUEST['sid']}&spgid={$_REQUEST['spgid']}" target="dialog" mask="true" width="600" height="400" ><span>排序</span></a></li>
 						</ul>
 					</div>
@@ -73,7 +73,7 @@
 								<td>{$vo['status']|showStatus=$vo[getModelPk(MODULE_NAME)],'',getModelPk(MODULE_NAME)}</td>
 								<td>
 									<for start="1" end="$vo['row']+1">
-									<a href="__GROUP__/SitePlateContent/index?{:getModelPk(MODULE_NAME)}={$vo[getModelPk(MODULE_NAME)]}&sid={$vo['sid']}&spgid={$vo['spgid']}&row_position={$i}" rel="SitePlateContent" target="navTab">查看内容{$i}({:getCount('SitePlateContent',array(getModelPk(MODULE_NAME)=>$vo[getModelPk(MODULE_NAME)], 'row_position'=>$i ))})</a>&nbsp;&nbsp;
+									<a href="__GROUP__/SitePlateContent/index?{:getModelPk(MODULE_NAME)}={$vo[getModelPk(MODULE_NAME)]}&sid={$vo['sid']}&spgid={$vo['spgid']}&row_position={$i}" rel="SitePlateContent" target="dialog" mask="true" width="600" height="400" >查看内容{$i}({:getCount('SitePlateContent',array(getModelPk(MODULE_NAME)=>$vo[getModelPk(MODULE_NAME)], 'row_position'=>$i ))})</a>&nbsp;&nbsp;
 									</for>
 									总内容({:getCount('SitePlateContent',array(getModelPk(MODULE_NAME)=>$vo[getModelPk(MODULE_NAME)]))})
 								</td>
