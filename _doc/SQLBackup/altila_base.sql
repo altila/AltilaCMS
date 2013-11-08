@@ -1,16 +1,16 @@
 /*
 Navicat MySQL Data Transfer
 
-Source Server         : localhost
-Source Server Version : 50136
+Source Server         : 本地
+Source Server Version : 50508
 Source Host           : localhost:3306
 Source Database       : altila_base
 
 Target Server Type    : MYSQL
-Target Server Version : 50136
+Target Server Version : 50508
 File Encoding         : 65001
 
-Date: 2013-11-07 09:29:58
+Date: 2013-11-08 14:37:02
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -99,7 +99,7 @@ CREATE TABLE `ad_position` (
 -- ----------------------------
 -- Records of ad_position
 -- ----------------------------
-INSERT INTO `ad_position` VALUES ('1', '1', '1', 'logo', 'Logo', '', '250', '80', '1', '1', '1', '1', '2013-03-09 10:33:43', '2013-03-17 19:22:32');
+INSERT INTO `ad_position` VALUES ('1', '1', '1', 'logo', 'Logo', '', '250', '80', '1', '1', '1', '0', '2013-03-09 10:33:43', '2013-03-17 19:22:32');
 INSERT INTO `ad_position` VALUES ('2', '1', '1', 'topAd', '头部通栏广告', '', '980', '50', '1', '1', '2', '1', '2013-03-09 15:20:10', '2013-03-09 15:20:10');
 INSERT INTO `ad_position` VALUES ('3', '1', '1', 'bottomAd', '底部通栏广告', '', '980', '50', '1', '1', '4', '1', '2013-03-09 15:21:08', '2013-03-09 15:21:08');
 INSERT INTO `ad_position` VALUES ('4', '1', '2', 'Home_Index_index', '首页广告', 'aa', '980', '392', '1', '1', '3', '1', '2013-03-09 21:30:13', '2013-03-24 11:07:09');
@@ -353,13 +353,13 @@ INSERT INTO `site_plate` VALUES ('1', '1', '1', '默认面板', '2', 'panel-1,pa
 INSERT INTO `site_plate` VALUES ('2', '1', '2', '默认面板', '3', '', '0', '1', '2013-03-24 15:56:22', '2013-03-24 15:56:22');
 INSERT INTO `site_plate` VALUES ('3', '1', '1', '广告', '1', '', '2', '1', '2013-03-25 14:45:03', '2013-03-25 14:45:03');
 INSERT INTO `site_plate` VALUES ('4', '1', '3', '默认面板', '2', '', '2', '1', '2013-11-06 13:59:04', '2013-11-06 13:59:04');
-INSERT INTO `site_plate` VALUES ('5', '1', '4', '默认面板', '2', '', '2', '1', '2013-11-06 14:52:45', '2013-11-06 14:52:45');
+INSERT INTO `site_plate` VALUES ('5', '1', '4', '默认面板', '2', 'span9,span3', '2', '1', '2013-11-06 14:52:45', '2013-11-07 16:29:15');
 INSERT INTO `site_plate` VALUES ('6', '1', '3', '面包屑', '1', '', '1', '1', '2013-11-06 17:14:25', '2013-11-06 17:14:25');
-INSERT INTO `site_plate` VALUES ('7', '1', '4', '面包屑', '1', '', '1', '1', '2013-11-06 17:23:18', '2013-11-06 17:23:18');
+INSERT INTO `site_plate` VALUES ('7', '1', '4', '面包屑', '1', 'span12', '1', '1', '2013-11-06 17:23:18', '2013-11-07 16:32:07');
 INSERT INTO `site_plate` VALUES ('8', '1', '5', '面包屑', '1', '', '1', '1', '2013-11-06 20:23:01', '2013-11-06 20:23:01');
 INSERT INTO `site_plate` VALUES ('9', '1', '5', '默认面板', '2', '', '2', '1', '2013-11-06 20:23:44', '2013-11-06 20:23:44');
-INSERT INTO `site_plate` VALUES ('10', '1', '6', '面包屑', '1', '', '1', '1', '2013-11-06 20:24:12', '2013-11-06 20:24:12');
-INSERT INTO `site_plate` VALUES ('11', '1', '6', '默认面板', '2', '', '2', '1', '2013-11-06 20:24:21', '2013-11-06 20:24:21');
+INSERT INTO `site_plate` VALUES ('10', '1', '6', '面包屑', '1', 'span12', '1', '1', '2013-11-06 20:24:12', '2013-11-07 16:50:43');
+INSERT INTO `site_plate` VALUES ('11', '1', '6', '默认面板', '2', 'span9,span3', '2', '1', '2013-11-06 20:24:21', '2013-11-07 16:50:50');
 
 -- ----------------------------
 -- Table structure for `site_plate_content`
