@@ -11,7 +11,7 @@
 // $Id$
 class SitePlateGroupModel extends ABaseModel {
 
-	protected $trueTableName = 'site_plate_group';
+	protected $trueTableName = 'base_site_plate_group';
 
 }
 

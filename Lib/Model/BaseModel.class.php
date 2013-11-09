@@ -1,7 +1,7 @@
 <?php
 class BaseModel extends Model {
 
-	protected $trueTableName = 'site_web';
+	protected $trueTableName = 'admin_site_web';
 
 	public $mc_session;
 	public $vdeport;
@@ -66,7 +66,7 @@ class BaseModel extends Model {
 	*/
 	public function siteInfo() {
 		$key = C("SiteWeb");
-		$sql = " SELECT * FROM site_web WHERE domain = '{$this->siteMark}' ";
+		$sql = " SELECT * FROM admin_site_web WHERE domain = '{$this->siteMark}' ";
 		$siteInfo = $this->getCacheData( $key, $sql, 'blcode' );
 		return $siteInfo;
 	}

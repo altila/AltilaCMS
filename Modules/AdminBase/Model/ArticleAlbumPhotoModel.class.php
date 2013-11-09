@@ -11,7 +11,7 @@
 // $Id$
 class ArticleAlbumPhotoModel extends ABaseModel {
 
-	protected $trueTableName = 'article_album_photo';
+	protected $trueTableName = 'base_article_album_photo';
 
 }
 

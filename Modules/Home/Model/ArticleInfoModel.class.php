@@ -11,7 +11,7 @@
 // $Id$
 class ArticleInfoModel extends HBaseModel {
 
-	protected $trueTableName = 'article_info';
+	protected $trueTableName = 'base_article_info';
 
 }
 

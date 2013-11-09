@@ -11,7 +11,7 @@
 // $Id$
 class AdModel extends HBaseModel {
 
-	protected $trueTableName = 'ad_info';
+	protected $trueTableName = 'base_ad_info';
 
 	/**
 	+----------------------------------------------------------
@@ -36,9 +36,9 @@ class AdModel extends HBaseModel {
 		$sql = "SELECT ai.adid,ai.name,ai.type,ai.link,ai.content,ai.sort,ai.style AS aiStyle
 			,ap.apid,ap.width,ap.height,ap.sum,ap.row,ap.code AS apCode,ap.style AS apStyle
 			,af.code AS afCode
-			FROM ad_info AS ai
-			LEFT JOIN ad_position AS ap ON ap.apid = ai.apid
-			LEFT JOIN ad_function AS af ON af.afid = ap.afid
+			FROM base_ad_info AS ai
+			LEFT JOIN base_ad_position AS ap ON ap.apid = ai.apid
+			LEFT JOIN base_ad_function AS af ON af.afid = ap.afid
 			WHERE ai.status = 1 AND ap.status = 1 AND ( {$timeCondition} ) AND ap.sid = " . getLang() . " {$where}
 			ORDER BY ap.apid,ai.sort,ai.add_time DESC ";
 		$list = $this->getCacheData( C("AdPosition") . "{$condition['apCode']}_" . getLang(), $sql );
@@ -103,7 +103,7 @@ class AdModel extends HBaseModel {
 		$startTime = date('Y-m-d H:i',strtotime("+1 day"));
 		//查询数据
 		$sql = "SELECT adid,apid,sort,start_time,end_time 
-			FROM ad_schedule 
+			FROM base_ad_schedule 
 			WHERE status = 1 AND apid = '{$apid}' AND end_time >= '{$endTime}' AND start_time <= '{$startTime}' ";
 		$result = $this->query( $sql );//print_r($sql);
 		return $result;

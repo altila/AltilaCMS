@@ -11,7 +11,7 @@
 // $Id$
 class AdPositionModel extends ABaseModel {
 
-	protected $trueTableName = 'ad_position';
+	protected $trueTableName = 'base_ad_position';
 
 }
 

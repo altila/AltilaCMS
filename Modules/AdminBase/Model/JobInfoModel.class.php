@@ -11,7 +11,7 @@
 // $Id$
 class JobInfoModel extends ABaseModel {
 
-	protected $trueTableName = 'job_info';
+	protected $trueTableName = 'base_job_info';
 
 }
 

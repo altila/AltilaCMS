@@ -12,7 +12,7 @@
 class BaseProductCategoryModel extends ABaseModel {
 
 	protected $connection = 'DB_ADMIN_CON';
-	protected $trueTableName = 'base_product_category';
+	protected $trueTableName = 'admin_base_product_category';
 
 }
 

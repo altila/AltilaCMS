@@ -13,7 +13,7 @@ return array(
 	/* 默认数据库设置 */
 	'DB_TYPE'               => 'mysql',     // 数据库类型
 	'DB_HOST'               => '127.0.0.1', // 服务器地址
-	'DB_NAME'               => 'altila_base', // 数据库名
+	'DB_NAME'               => 'altilacms', // 数据库名
 	'DB_USER'               => 'root',      // 用户名
 	'DB_PWD'                => '',          // 密码
 	'DB_PORT'               => '3306',      // 端口
@@ -25,7 +25,7 @@ return array(
 	'DB_ADMIN_CON' => array(
 		'DB_TYPE'               => 'mysql',     // 数据库类型
 		'DB_HOST'               => '127.0.0.1', // 服务器地址
-		'DB_NAME'               => 'altila_admin', // 数据库名
+		'DB_NAME'               => 'altilacms', // 数据库名
 		'DB_USER'               => 'root',      // 用户名
 		'DB_PWD'                => '',          // 密码
 		'DB_PORT'               => '3306',      // 端口
@@ -38,7 +38,7 @@ return array(
 	'DB_BLOG_CON' => array(
 		'DB_TYPE'               => 'mysql',     // 数据库类型
 		'DB_HOST'               => '127.0.0.1', // 服务器地址
-		'DB_NAME'               => 'altila_blog', // 数据库名
+		'DB_NAME'               => 'altilacms', // 数据库名
 		'DB_USER'               => 'root',      // 用户名
 		'DB_PWD'                => '',          // 密码
 		'DB_PORT'               => '3306',      // 端口
@@ -52,7 +52,7 @@ return array(
 	'DB_PRODUCT_CON' => array(
 		'DB_TYPE'               => 'mysql',     // 数据库类型
 		'DB_HOST'               => '127.0.0.1', // 服务器地址
-		'DB_NAME'               => 'altila_product', // 数据库名
+		'DB_NAME'               => 'altilacms', // 数据库名
 		'DB_USER'               => 'root',      // 用户名
 		'DB_PWD'                => '',          // 密码
 		'DB_PORT'               => '3306',      // 端口
@@ -65,7 +65,7 @@ return array(
 	'DB_USER_CON' => array(
 		'DB_TYPE'               => 'mysql',     // 数据库类型
 		'DB_HOST'               => '127.0.0.1', // 服务器地址
-		'DB_NAME'               => 'altila_user', // 数据库名
+		'DB_NAME'               => 'altilacms', // 数据库名
 		'DB_USER'               => 'root',      // 用户名
 		'DB_PWD'                => '',          // 密码
 		'DB_PORT'               => '3306',      // 端口

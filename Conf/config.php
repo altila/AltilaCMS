@@ -76,6 +76,7 @@ return array(
 	'DOMAIN'                => ltrim( strchr($_SERVER['HTTP_HOST'],'.'), '.' ), // 域名,前不带'.'
 	'DEFAULT_IMG'           => '__PUBLIC__/public/images/grey.gif', // 默认图片
 	'DATA_CACHE_TYPE_ARRAY' => 'File,Apachenote,Apc,Eaccelerator,Memcache,Shmop,Sqlite,Db,Redis,Xcache',// 数据缓存类型
+
 	// 导航类型
 	'MENU_TYPE'             => array(
 		'1' => array( 'appName'=>'Home', 'name'=>'Article', 'cateModel'=>'Category', 'infoModel'=>'Info' ),

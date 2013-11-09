@@ -11,7 +11,7 @@
 // $Id$
 class MenuModel extends HBaseModel {
 
-	protected $trueTableName = 'site_menu';
+	protected $trueTableName = 'base_site_menu';
 
 }
 

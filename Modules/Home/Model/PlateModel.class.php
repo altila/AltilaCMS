@@ -11,7 +11,7 @@
 // $Id$
 class PlateModel extends HBaseModel {
 
-	protected $trueTableName = 'site_plate_content';
+	protected $trueTableName = 'base_site_plate_content';
 
 	/**
 	+----------------------------------------------------------
@@ -36,9 +36,9 @@ class PlateModel extends HBaseModel {
 		$sql = "SELECT spc.name AS spcName,spc.row_position,spc.type,spc.model,spc.model_value,spc.class AS spcClass,spc.sort AS spcSort,spc.list_opt,spc.list_num
 			,sp.spid,sp.name AS spName,sp.row,sp.class AS spClass,sp.sort AS spSort
 			,spg.spgid,spg.name AS spgName,spg.code 
-			FROM site_plate_content AS spc
-			LEFT JOIN site_plate AS sp ON sp.spid = spc.spid
-			LEFT JOIN site_plate_group AS spg ON spg.spgid = sp.spgid
+			FROM base_site_plate_content AS spc
+			LEFT JOIN base_site_plate AS sp ON sp.spid = spc.spid
+			LEFT JOIN base_site_plate_group AS spg ON spg.spgid = sp.spgid
 			WHERE spc.status = 1 AND sp.status = 1 AND spg.status = 1 AND ( {$timeCondition} ) AND spg.sid = " . getLang() . " {$where}
 			ORDER BY sp.sort,spc.row_position,spc.sort,spc.add_time DESC";
 		$list = $this->getCacheData( C("SitePlateGroup") . "{$condition['spgCode']}_" . getLang(), $sql );

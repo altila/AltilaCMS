@@ -11,7 +11,7 @@
 // $Id$
 class AdFunctionModel extends ABaseModel {
 
-	protected $trueTableName = 'ad_function';
+	protected $trueTableName = 'base_ad_function';
 
 }
 

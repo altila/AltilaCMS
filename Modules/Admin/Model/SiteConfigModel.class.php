@@ -12,7 +12,7 @@
 class SiteConfigModel extends ABaseModel {
 
 	protected $connection = 'DB_ADMIN_CON';
-	protected $trueTableName = 'site_config';
+	protected $trueTableName = 'admin_site_config';
 
 }
 

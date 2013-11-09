@@ -11,7 +11,7 @@
 // $Id$
 class SiteMenuModel extends ABaseModel {
 
-	protected $trueTableName = 'site_menu';
+	protected $trueTableName = 'base_site_menu';
 
 }
 

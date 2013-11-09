@@ -12,7 +12,7 @@
 class BaseLangModel extends ABaseModel {
 
 	protected $connection = 'DB_ADMIN_CON';
-	protected $trueTableName = 'base_lang';
+	protected $trueTableName = 'admin_base_lang';
 
 }
 

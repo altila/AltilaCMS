@@ -12,7 +12,7 @@
 class BaseAppDeviceModel extends ABaseModel {
 
 	protected $connection = 'DB_ADMIN_CON';
-	protected $trueTableName = 'base_app_device';
+	protected $trueTableName = 'admin_base_app_device';
 
 }
 

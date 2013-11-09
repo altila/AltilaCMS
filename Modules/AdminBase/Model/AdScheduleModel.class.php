@@ -11,7 +11,7 @@
 // $Id$
 class AdScheduleModel extends ABaseModel {
 
-	protected $trueTableName = 'ad_schedule';
+	protected $trueTableName = 'base_ad_schedule';
 
 }
 

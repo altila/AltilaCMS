@@ -13,7 +13,7 @@
 
 
 
-Apache开启模块：rewrite_module,php_curl
+Apache开启模块：rewrite_module
 PHP开启模块：php_curl
 根目录下增加.htaccess文件
 

@@ -12,7 +12,7 @@
 class BaseBrandModel extends ABaseModel {
 
 	protected $connection = 'DB_ADMIN_CON';
-	protected $trueTableName = 'base_brand';
+	protected $trueTableName = 'admin_base_brand';
 
 }
 

@@ -12,7 +12,7 @@
 class SiteCronModel extends ABaseModel {
 
 	protected $connection = 'DB_ADMIN_CON';
-	protected $trueTableName = 'site_cron';
+	protected $trueTableName = 'admin_site_cron';
 
 }
 

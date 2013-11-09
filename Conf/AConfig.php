@@ -19,10 +19,10 @@ return array(
 	'REQUIRE_AUTH_MODULE'       => '',         // 默认需要认证模块
 	'NOT_AUTH_ACTION'           => '',    // 默认无需认证操作
 	'REQUIRE_AUTH_ACTION'       => '',         // 默认需要认证操作
-	'RBAC_ROLE_TABLE'           => 'site_role',//角色表名称
-	'RBAC_USER_TABLE'           => 'site_role_user',//用户表名称
-	'RBAC_ACCESS_TABLE'         => 'site_access',//权限表名称
-	'RBAC_NODE_TABLE'           => 'site_node',//节点表名称
+	'RBAC_ROLE_TABLE'           => 'admin_site_role',//角色表名称
+	'RBAC_USER_TABLE'           => 'admin_site_role_user',//用户表名称
+	'RBAC_ACCESS_TABLE'         => 'admin_site_access',//权限表名称
+	'RBAC_NODE_TABLE'           => 'admin_site_node',//节点表名称
 
 
 
