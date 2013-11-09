@@ -12,12 +12,17 @@
 
 // 主入口文件
 //phpinfo();
+
 //定义项目名称和路径
 //define('APP_NAME', 'App');
 //define('APP_PATH', './App/');
+define('THINK_PATH','./ThinkPHP/');
+define('ENGINE_NAME','cluster');
+
 //定义项目DEBUG状态
 define('APP_DEBUG',true);
 define('PREVIEW',false);
 // 加载框架入口文件
-require('./ThinkPHP/ThinkPHP.php');
+require(THINK_PATH.'ThinkPHP.php');
+
 ?>
