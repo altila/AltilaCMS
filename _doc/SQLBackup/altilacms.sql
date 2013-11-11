@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50136
 File Encoding         : 65001
 
-Date: 2013-11-09 21:57:36
+Date: 2013-11-11 18:37:04
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -5901,10 +5901,10 @@ CREATE TABLE `admin_site_web` (
 -- ----------------------------
 -- Records of admin_site_web
 -- ----------------------------
-INSERT INTO `admin_site_web` VALUES ('1', 'zh-cn', 'altilacms', 'altilaCMS网', 'altila,陈强,个人网站,IT,PHP,Jquery,JS', 'altila(陈强)个人网站,记录关于IT中PHP、JS、Jquer等技术方面咨询', 'default', '沪ICP备10000732号', '', '1', '1', '2012-12-11 13:58:09', '2013-04-24 10:19:54');
-INSERT INTO `admin_site_web` VALUES ('2', 'en-us', 'altilacms', 'altilaCMSWeb', 'altila', 'altila', 'default', '', '', '2', '1', '2012-12-11 13:58:09', '2013-04-28 21:40:12');
-INSERT INTO `admin_site_web` VALUES ('3', 'en-us', 'altila', 'Altila Web', '', '', 'default', '', null, '0', '1', '2013-01-01 11:29:26', '2013-01-04 16:21:12');
-INSERT INTO `admin_site_web` VALUES ('4', 'zh-cn', 'altila', 'Altila网', '', '', 'default', '', null, '0', '1', '2013-01-04 16:20:42', '2013-01-04 16:21:51');
+INSERT INTO `admin_site_web` VALUES ('1', 'zh-cn', 'altila', 'altila网', 'altila,陈强,个人网站,IT,PHP,Jquery,JS', 'altila(陈强)个人网站,记录关于IT中PHP、JS、Jquer等技术方面咨询', 'default', '沪ICP备10000732号', '', '1', '1', '2012-12-11 13:58:09', '2013-04-24 10:19:54');
+INSERT INTO `admin_site_web` VALUES ('2', 'en-us', 'altila', 'altilaWeb', 'altila', 'altila', 'default', '', '', '2', '1', '2012-12-11 13:58:09', '2013-04-28 21:40:12');
+INSERT INTO `admin_site_web` VALUES ('3', 'en-us', 'altilacms', 'Altila Web', '', '', 'default', '', null, '0', '1', '2013-01-01 11:29:26', '2013-01-04 16:21:12');
+INSERT INTO `admin_site_web` VALUES ('4', 'zh-cn', 'altilacms', 'Altila网', '', '', 'default', '', null, '0', '1', '2013-01-04 16:20:42', '2013-01-04 16:21:51');
 INSERT INTO `admin_site_web` VALUES ('5', 'zh-cn', 'zhuoao', 'aaaa', '', '', 'default', '', null, '0', '2', '2013-01-04 16:22:27', '2013-01-04 17:27:41');
 
 -- ----------------------------

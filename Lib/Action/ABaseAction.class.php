@@ -17,7 +17,7 @@ class ABaseAction extends BaseAction {
 		cookie('think_language',C('DEFAULT_LANG'),3600);
 		//父类构造函数
 		parent::_initialize();
-		//import("@.ORG.Util.RBAC");
+		import("ORG.Util.RBAC",LIB_PATH);
 		if ( !RBAC::AccessDecision() ) {
 			// 没有权限 抛出错误
 			if ( C('RBAC_ERROR_PAGE') ) {
@@ -131,7 +131,7 @@ class ABaseAction extends BaseAction {
 		}
 		if( $count > 0 ) {
 			//创建分页对象
-			import("ORG.Util.Page");
+			import("ORG.Util.Page",LIB_PATH);
 			$listRows = !empty( $_REQUEST['listRows'] ) ? $_REQUEST['listRows'] : '';
 			$p = new Page ( $count, $listRows );
 			//分页查询数据

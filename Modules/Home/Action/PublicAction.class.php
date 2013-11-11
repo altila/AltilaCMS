@@ -24,7 +24,7 @@ class PublicAction extends HBaseAction {
 	*/
 	public function verify() {
 		ob_clean();
-		import("ORG.Util.Image");
+		import("ORG.Util.Image",LIB_PATH);
 		$length = C('VERIFY_CODE_LENGTH');
 		if( strpos($length,',') ){
 			$rand = explode(',',$length);

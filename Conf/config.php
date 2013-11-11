@@ -4,7 +4,7 @@ return array(
 	//'配置项'=>'配置值'
 
 	/* 模式切换 */
-	//'APP_STATUS'            => 'debug',           // 应用调试模式状态,将自动加载对应的配置文件,如:debug、test、deploy,默认为debug
+    //'APP_STATUS'            => 'debug',           // 应用调试模式状态,将自动加载对应的配置文件,如:debug、test、deploy,默认为debug
 
 	/* 分组设置 */
 	// 项目分组设定,多个组之间用逗号分隔,例如'Home,Admin'
@@ -50,6 +50,70 @@ return array(
 	'TAGLIB_BUILD_IN'       => 'cx,model',  // 内置标签库名称(标签使用不必指定标签库名称),以逗号分隔 注意解析顺序
 	//'TAGLIB_PRE_LOAD'       =>  'model',   // 需要额外加载的标签库(须指定标签库名称)，多个以逗号分隔
 
+	/* 默认数据库设置 */
+	'DB_TYPE'               => 'mysql',     // 数据库类型
+	'DB_HOST'               => '127.0.0.1', // 服务器地址
+	'DB_NAME'               => 'altilacms', // 数据库名
+	'DB_USER'               => 'root',      // 用户名
+	'DB_PWD'                => '',          // 密码
+	'DB_PORT'               => '3306',      // 端口
+	'DB_PREFIX'             => '',          // 数据库表前缀
+	'DB_FIELDTYPE_CHECK'    => false,       // 是否进行字段类型检查
+	'DB_FIELDS_CACHE'       => false,       // 启用字段缓存
+
+	/* admin数据库设置 */
+	'DB_ADMIN_CON' => array(
+		'DB_TYPE'               => 'mysql',     // 数据库类型
+		'DB_HOST'               => '127.0.0.1', // 服务器地址
+		'DB_NAME'               => 'altilacms', // 数据库名
+		'DB_USER'               => 'root',      // 用户名
+		'DB_PWD'                => '',          // 密码
+		'DB_PORT'               => '3306',      // 端口
+		'DB_PREFIX'             => '',          // 数据库表前缀
+		'DB_FIELDTYPE_CHECK'    => false,       // 是否进行字段类型检查
+		'DB_FIELDS_CACHE'       => false,       // 启用字段缓存
+	),
+
+	/* blog数据库设置*/
+	'DB_BLOG_CON' => array(
+		'DB_TYPE'               => 'mysql',     // 数据库类型
+		'DB_HOST'               => '127.0.0.1', // 服务器地址
+		'DB_NAME'               => 'altilacms', // 数据库名
+		'DB_USER'               => 'root',      // 用户名
+		'DB_PWD'                => '',          // 密码
+		'DB_PORT'               => '3306',      // 端口
+		'DB_PREFIX'             => '',          // 数据库表前缀
+		'DB_FIELDTYPE_CHECK'    => false,       // 是否进行字段类型检查
+		'DB_FIELDS_CACHE'       => false,       // 启用字段缓存
+	), 
+	//'DB_BLOG_CON' => 'mysql://root:@127.0.0.1:3306/altila_blog',
+
+	/* product数据库设置 */
+	'DB_PRODUCT_CON' => array(
+		'DB_TYPE'               => 'mysql',     // 数据库类型
+		'DB_HOST'               => '127.0.0.1', // 服务器地址
+		'DB_NAME'               => 'altilacms', // 数据库名
+		'DB_USER'               => 'root',      // 用户名
+		'DB_PWD'                => '',          // 密码
+		'DB_PORT'               => '3306',      // 端口
+		'DB_PREFIX'             => '',          // 数据库表前缀
+		'DB_FIELDTYPE_CHECK'    => false,       // 是否进行字段类型检查
+		'DB_FIELDS_CACHE'       => false,       // 启用字段缓存
+	),
+
+	/* user数据库设置 */
+	'DB_USER_CON' => array(
+		'DB_TYPE'               => 'mysql',     // 数据库类型
+		'DB_HOST'               => '127.0.0.1', // 服务器地址
+		'DB_NAME'               => 'altilacms', // 数据库名
+		'DB_USER'               => 'root',      // 用户名
+		'DB_PWD'                => '',          // 密码
+		'DB_PORT'               => '3306',      // 端口
+		'DB_PREFIX'             => '',          // 数据库表前缀
+		'DB_FIELDTYPE_CHECK'    => false,       // 是否进行字段类型检查
+		'DB_FIELDS_CACHE'       => false,       // 启用字段缓存
+	),
+
 	/* 路由配置 */
 	'URL_ROUTER_ON'         => true,   // 是否开启URL路由
 	'URL_ROUTE_RULES'       => array(  // 默认路由规则，注：分组配置无法替代
@@ -61,17 +125,19 @@ return array(
 
 	/* 其他配置 */
 	'OUTPUT_ENCODE'         => false,       // 页面压缩输出
-	'LOAD_EXT_CONFIG'       => 'staticFile,AConfig,cacheKey,debug',// 加载自定义的动态配置文件,多个文件之间用逗号分隔
+	'LOAD_EXT_CONFIG'       => 'staticFile,AConfig,cacheKey',// 加载自定义的动态配置文件,多个文件之间用逗号分隔
 	'LOAD_EXT_FILE'         => 'AFunction',  // 加载自定义的动态配置文件,多个文件之间用逗号分隔
 	//'APP_AUTOLOAD_PATH'     => '',     // 自动加载机制的自动搜索路径,注意搜索顺序
 
-	/* 自定义变量 */
+	/* 路径自定义变量 */
 	'TMPL_PARSE_STRING'     => array(
 		'__UPLOAD__'            => '/Uploads',     // 文件上传路径
 		'__BRANDLOGO__'         => '/Public/brandLogo', // 品牌图片路径
 	),
 	'__UPLOAD__'            => APP_PATH.'Uploads', // 文件上传路径
 	'__BRANDLOGO__'         => APP_PATH.'Public/brandLogo', // 品牌图片路径
+
+	/* 自定义变量 */
 	'USER_AUTH_KEY'         => 'loginUser',    // 存储在SESSION中的用户登陆信息
 	'DOMAIN'                => ltrim( strchr($_SERVER['HTTP_HOST'],'.'), '.' ), // 域名,前不带'.'
 	'DEFAULT_IMG'           => '__PUBLIC__/public/images/grey.gif', // 默认图片

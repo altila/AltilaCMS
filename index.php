@@ -11,7 +11,9 @@
 // $Id$
 
 // 主入口文件
+
 //phpinfo();
+//print_r($_SERVER);
 
 //定义项目名称和路径
 //define('APP_NAME', 'App');
@@ -25,4 +27,6 @@ define('PREVIEW',false);
 // 加载框架入口文件
 require(THINK_PATH.'ThinkPHP.php');
 
+
 ?>
+
