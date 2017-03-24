@@ -12,7 +12,7 @@
 
 // 主入口文件
 
-//phpinfo();
+//phpinfo();exit;
 //print_r($_SERVER);
 
 //定义项目名称和路径
@@ -20,6 +20,7 @@
 //define('APP_PATH', './App/');
 define('THINK_PATH','./ThinkPHP/');
 define('ENGINE_NAME','cluster');
+//define('IO_NAME','bae');
 
 //定义项目DEBUG状态
 define('APP_DEBUG',true);

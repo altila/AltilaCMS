@@ -1,0 +1,21 @@
+<div class="unit">
+	<label>机构：</label>
+	<php>$vo['foidType'] = findById('FinanceAdmin/FinanceOrganization',$vo['foid'],'type');</php>
+	<select style="display:none" class="combox" name="foidType" ref="foid" refUrl="__APP__/FinanceAdmin/FinanceOrganization/selectOrganization.html?type={value}">
+		<option <eq name="vo['foidType']" value="" >selected</eq> value="">请选择</option>
+		<option <eq name="vo['foidType']" value="1" >selected</eq> value="1">银行</option>
+		<option <eq name="vo['foidType']" value="2" >selected</eq> value="2">保险</option>
+		<option <eq name="vo['foidType']" value="3" >selected</eq> value="3">基金</option>
+		<option <eq name="vo['foidType']" value="4" >selected</eq> value="4">证券</option>
+		<option <eq name="vo['foidType']" value="5" >selected</eq> value="5">期货</option>
+		<option <eq name="vo['foidType']" value="6" >selected</eq> value="6">第三方储值</option>
+	</select>
+	<select style="display:none" class="combox" name="foid" id="foid">
+		<option <eq name="vo['foid']" value="" >selected</eq> value="">请选择</option>
+		<notempty name="vo['foidType']">
+		<php> $_condition = "type=".$vo['foidType'];</php>
+		<require file="FinanceAdmin,FinanceOrganization/treeSelectOption" />
+		</notempty>
+	</select>
+</div>
+

@@ -9,7 +9,7 @@
 // | Author: dizzthxl <dizzt@topthink.com>
 // +----------------------------------------------------------------------
 // $Id$
-class BlogInfoModel extends HBaseModel {
+class BlogInfoModel extends HInfoBaseModel {
 
 	protected $connection = 'DB_BLOG_CON';
 	protected $trueTableName = 'blog_info';

@@ -1,0 +1,19 @@
+<if condition=" ($vo['list_opt']&1) == 1 ">
+<div class="about-content">
+	<section id="news">
+	<div class="page-header">
+		<h1>
+			<if condition=" ($vo['list_opt']&1) == 1 ">
+			<empty name="info['name']">{$vo['data']['name']}<else/>{$info['name']}</empty>
+			</if>
+			<if condition=" ($vo['list_opt']&2) == 2 "><small>({$vo['data']['create_time']})</small></if>
+		</h1>
+	</div>
+	<div class="right-space">
+		<if condition=" ($vo['list_opt']&512) == 512 ">
+		<p>{$vo['data']['content']|htmlspecialchars_decode=ENT_QUOTES}</p>
+		</if>
+	</div>
+	</section>
+</div>
+

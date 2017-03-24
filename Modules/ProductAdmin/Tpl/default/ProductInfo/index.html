@@ -1,0 +1,150 @@
+<if condition=" $_REQUEST['isAjaxBox'] neq 1 ">
+<div class="pageContent">
+
+	<div class="tabs">
+
+		<neq name="_REQUEST['returnRequire']" value="1">
+		<require file="Admin,BaseLang/selectLang" />
+		</neq>
+
+		<div class="tabsContent">
+
+			<div>
+				
+				<neq name="_REQUEST['returnRequire']" value="1">
+				<div style="float:left; width:270px; border:1px solid rgb(204, 204, 204); background: none repeat scroll 0% 0% rgb(255, 255, 255);" layouth="35">
+					<?php $condition = 'model=3&';?>
+					<require file="BaseAdmin,SiteMenu/treeListShow" />
+				</div>
+				</neq>
+
+				<div class="unitBox" id="{:MODULE_NAME}AjaxBox" <neq name="_REQUEST['returnRequire']" value="1">style="margin-left:276px;"</neq>>
+</if>
+					<require file="Admin,Public/pagerForm" />
+
+					<div class="pageHeader">
+						<form onsubmit="return <neq name="_REQUEST['returnRequire']" value="1">navTabSearch(this);<else />dwzSearch(this, 'dialog');</neq>" action="__URL__" method="post">
+							<div class="searchBar">
+								<ul class="searchContent">
+									<li>
+										<label>商品编码：</label>
+										<input type="text" name="code" value="{$_REQUEST['code']}" >
+									</li>
+									<li>
+										<label>商品名称：</label>
+										<input type="text" name="name" value="{$_REQUEST['name']}" >
+									</li>
+									<li>
+										<label>渠道ID：</label>
+										<select name="pcid">
+											<option <if condition=" $vo['pcid'] == '' || $_REQUEST['pcid'] == '' " >selected</if> value="">请选择</option>
+											<require file="ProductAdmin,ProductChannel/treeSelectOption" />
+										</select>
+									</li>
+									<li>
+										<label>群组ID：</label>
+										<select name="pgid">
+											<option <if condition=" $vo['pgid'] == '' || $_REQUEST['pgid'] == '' " >selected</if> value="">请选择</option>
+											<require file="ProductAdmin,ProductGroup/treeSelectOption" />
+										</select>
+									</li>
+									<require file="Admin,BaseAppDevice/treeSelectOption" />
+
+									<input type="hidden" name="sid" value="{$_REQUEST['sid']}" >
+									<input type="hidden" name="smid" value="{$_REQUEST['smid']}" >
+									<input type="hidden" name="returnRequire" value="{$_REQUEST['returnRequire']}" >
+									<div class="subBar">
+										<div class="buttonActive"><div class="buttonContent"><button type="submit">查询</button></div></div>
+									</div>
+
+								</ul>
+							</div>
+						</form>
+					</div>
+
+					<if condition=" !empty($_REQUEST['smid']) ">
+					<div class="panelBar">
+						<ul class="toolBar">
+							<li><a class="add" href="__URL__/add?sid={$_REQUEST['sid']}&smid={$_REQUEST['smid']}" target="dialog" max="true" mask="true"><span>新增</span></a></li>
+							<li><a class="delete" href="__URL__/delete?{:getModelPk(MODULE_NAME)}={_id}" target="ajaxTodo" title="你确定要删除吗？" warn="请选择数据"><span>删除</span></a></li>
+							<li><a class="edit foreverDelete" href="__URL__/delete/isForever/1/{:getModelPk(MODULE_NAME)}/{_id}" target="ajaxTodo" title="你确定要彻底删除吗？" warn="请选择数据"><span>彻底删除</span></a></li>
+							<li><a class="edit" href="__URL__/edit/sid/{$_REQUEST['sid']}/smid/{$_REQUEST['smid']}/{:getModelPk(MODULE_NAME)}/{_id}" target="dialog" max="true" mask="true" warn="请选择数据"><span>修改</span></a></li>
+							<li><a class="edit" href="/ProductAdmin/ProductAttrKeyValue/sort/{:getModelPk(MODULE_NAME)}/{_id}" target="dialog" mask="true" width="600" height="400" ><span>属性排序</span></a></li>
+							<li><a class="edit" href="__URL__/edit/sid/{$_REQUEST['sid']}/smid/{$_REQUEST['smid']}/editType/desc/{:getModelPk(MODULE_NAME)}/{_id}" target="dialog" max="true" mask="true" warn="请选择数据"><span>详细描述</span></a></li>
+							<li><a class="edit" href="__URL__/edit/sid/{$_REQUEST['sid']}/smid/{$_REQUEST['smid']}/editType/colorSize/{:getModelPk(MODULE_NAME)}/{_id}" target="dialog" max="true" mask="true" warn="请选择数据"><span>颜色尺寸</span></a></li>
+							<li><a class="edit" rel="{:MODULE_NAME}_edit" href="__URL__/edit/sid/{$_REQUEST['sid']}/smid/{$_REQUEST['smid']}/editType/thumbnail/{:getModelPk(MODULE_NAME)}/{_id}" target="dialog" mask="true" width="600" height="500" warn="请选择数据"><span>缩略图</span></a></li>
+						</ul>
+					</div>
+					</if>
+
+					<table class="table" width="100%" layoutH="<eq name="_REQUEST['returnRequire']" value="1">95<else />143</eq>">
+						<thead>
+							<tr>
+								<eq name="_REQUEST['returnRequire']" value="1">
+								<th width="30">带回</th>
+								</eq>
+								<th width="">编号</th>
+								<th width="">商品主图</th>
+								<th width="">渠道ID</th>
+								<th width="">群组ID</th>
+								<th width="">设备类型</th>
+								<th width="">商品编码</th>
+								<th width="">商品名称</th>
+								<th width="">细节图片</th>
+								<th width="">商品成本价</th>
+								<th width="">商品市场价</th>
+								<th width="130">更新时间</th>
+								<th width="35" orderField="status" <if condition="$_REQUEST['orderField'] eq 'status'">class="{$_REQUEST['orderDirection']}"</if> >状态</th>
+							</tr>
+						</thead>
+						<tbody>
+							<if condition=" !empty($_REQUEST['smid']) || $_REQUEST['returnRequire'] == 1 ">
+							<volist id="vo" name="list">
+							<tr target="_id" rel="{$vo[getModelPk(MODULE_NAME)]}">
+								<eq name="_REQUEST['returnRequire']" value="1">
+								<td><a class="btnSelect" href="javascript:$.bringBack({<?php echo getModelPk(MODULE_NAME).":'".$vo[getModelPk(MODULE_NAME)]."'"; ?>})" title="查找带回">选择</a></td>
+								</eq>
+								<td>{$vo[getModelPk(MODULE_NAME)]}</td>
+								<td class="imgurl" onmouseover="bigImgShow($(this))" onmouseout="bigImgHide($(this))"><img height="35" src="{$vo['thumbnail']}"></td>
+								<td><require file="ProductAdmin,ProductChannel/treeTextShow" /></td>
+								<td><require file="ProductAdmin,ProductGroup/treeTextShow" /></td>
+								<td><require file="Admin,BaseAppDevice/treeTextShow" /></td>
+								<td>{$vo['code']}</td>
+								<td>{$vo['name']}</td>
+								<td>
+									<notempty name="vo['gallery1']"><img height="35" src="{$vo['gallery1']}"></notempty>
+									<notempty name="vo['gallery2']"><img height="35" src="{$vo['gallery2']}"></notempty>
+									<notempty name="vo['gallery3']"><img height="35" src="{$vo['gallery3']}"></notempty>
+									<notempty name="vo['gallery4']"><img height="35" src="{$vo['gallery4']}"></notempty>
+								</td>
+								<td>{$vo['cost_price']}</td>
+								<td>{$vo['market_price']}</td>
+								<td>{$vo['update_time']}</td>
+								<td>{$vo['status']|showStatus=$vo[getModelPk(MODULE_NAME)],'',getModelPk(MODULE_NAME)}</td>
+							</tr>
+							</volist>
+							</if>
+						</tbody>
+					</table>
+
+					<div class="panelBar">
+						<div class="pages">
+							<span>共<if condition=" !empty($_REQUEST['sid']) ">{$totalCount}<else/>0</if>条</span>
+						</div>
+						<require file="Admin,Public/pagerHtml" />
+					</div>
+
+<if condition=" $_REQUEST['isAjaxBox'] neq 1 ">
+				</div>
+
+			</div>
+
+		</div>
+	</div>
+
+</div>
+</if>
+
+<?php $params = 'smid='.$_REQUEST['smid']; ?>
+<require file="Admin,Block/reloadeAjaxHtml" />
+

@@ -1,0 +1,9 @@
+<?php 
+$_condition = "isHtmlModelUser=1&model=3&sid=" . $_REQUEST['sid'];
+$moduleName = 'BaseAdmin/SiteMenu';
+$field = getModelPk($moduleName);
+$ids = findById( MODULE_NAME, array( 'pakid'=>$_REQUEST['pakid'] ), $field, 'arr' );
+$condition = array( 'field'=>$field, 'class'=>' treeCheck expand', 'ids'=>$ids, 'isCheck'=>1 );
+?>
+<require file="Admin,Block/treeSelectCkbox" />
+

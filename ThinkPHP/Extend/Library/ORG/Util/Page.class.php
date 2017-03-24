@@ -23,11 +23,11 @@ class Page {
     // 起始行数
     public $firstRow    ;
     // 分页总页面数
-    public $totalPages  ;
+    protected $totalPages  ;
     // 总行数
-    public $totalRows  ;
+    protected $totalRows  ;
     // 当前页数
-    public $nowPage    ;
+    protected $nowPage    ;
     // 分页的栏的总页数
     protected $coolPages   ;
     // 分页显示定制
@@ -51,13 +51,14 @@ class Page {
         }
         $this->totalPages   =   ceil($this->totalRows/$this->listRows);     //总页数
         $this->coolPages    =   ceil($this->totalPages/$this->rollPage);
-        $this->nowPage      =   !empty($_REQUEST[$this->varPage])?intval($_REQUEST[$this->varPage]):1;
+        $this->nowPage      =   !empty($_GET[$this->varPage])?intval($_GET[$this->varPage]):1;
         if($this->nowPage<1){
             $this->nowPage  =   1;
         }elseif(!empty($this->totalPages) && $this->nowPage>$this->totalPages) {
             $this->nowPage  =   $this->totalPages;
         }
         $this->firstRow     =   $this->listRows*($this->nowPage-1);
+        if(!empty($url))    $this->url  =   $url; 
     }
 
     public function setConfig($name,$value) {
@@ -134,13 +135,13 @@ class Page {
             $page       =   ($nowCoolPage-1)*$this->rollPage+$i;
             if($page!=$this->nowPage){
                 if($page<=$this->totalPages){
-                    $linkPage .= "&nbsp;<a href='".str_replace('__PAGE__',$page,$url)."'>&nbsp;".$page."&nbsp;</a>";
+                    $linkPage .= "<a href='".str_replace('__PAGE__',$page,$url)."'>".$page."</a>";
                 }else{
                     break;
                 }
             }else{
                 if($this->totalPages != 1){
-                    $linkPage .= "&nbsp;<span class='current'>".$page."</span>";
+                    $linkPage .= "<span class='current'>".$page."</span>";
                 }
             }
         }

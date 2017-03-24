@@ -19,7 +19,7 @@ class AreaAction extends HBaseAction {
 		//设置脚本最大执行时间
 		set_time_limit(0);
 		//载入接口方法
-		vendor('Snoopy#class');
+		import("ORG.Vendor.Snoopy",LIB_PATH);
 		//实例化采集类
 		$this->snoopy = new Snoopy;
 	}
@@ -27,7 +27,7 @@ class AreaAction extends HBaseAction {
 	/**
 	+----------------------------------------------------------
 	* 地区行政代码采集
-	* www.altilacms.com/Collect/Area/administrative
+	* www.altila.com/Collect/Area/administrative
 	+----------------------------------------------------------
 	*/
 	public function administrative() {
@@ -66,7 +66,7 @@ class AreaAction extends HBaseAction {
 	/**
 	+----------------------------------------------------------
 	* 区号邮编采集
-	* www.altilacms.com/Collect/Area/call_zip
+	* www.altila.com/Collect/Area/call_zip
 	* 百科验证：http://baike.baidu.com/search/word?word=%E7%9F%B3%E6%8B%90%E5%8C%BA&pic=1&sug=1&enc=utf8
 	+----------------------------------------------------------
 	*/

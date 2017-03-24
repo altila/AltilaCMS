@@ -1,0 +1,46 @@
+<?php
+$dateType = !empty($dateType) ? $dateType : 'Y-m-d H:i';
+$thumbWidth = !empty($thumbWidth) ? $thumbWidth : 65;
+$imgWidth = !empty($imgWidth) ? $imgWidth : 195;
+$listType = !empty($listType) ? $listType : 3;
+?>
+<div class="about-content">
+	<section id="news">
+	<div class="page-header">
+		<h1><empty name="info['name']">{$vo['name']}<else/>{$info['name']}</empty></h1>
+	</div>
+	<div class="right-space">
+		<ul class="list-unstyled links">
+			<volist name="list[data]" id="vo">
+			<li>
+				<a class="about-links" href="{:getUrl( $modelName."_info", $vo )}" title="{$vo['name']}">
+				<span class="circle-dot"></span>
+				<p class="txt">
+					<span>
+				{//标题 开始}
+				<if condition=" ($listType&1) == 1 ">{$vo['name']}</if>
+				{//标题 结束}
+				{//添加时间 开始}
+				<if condition=" ($listType&2) == 2 ">({$vo['create_time']|strtotime|date=$dateType,###})</if>
+				{//添加时间 结束}
+					</span>
+				</p>
+			</a>
+			</li>
+			</volist>
+		</ul>
+	
+		{//分页 开始}
+		<if condition=" ($listType&8) == 8 ">
+		<div class="text-center">
+			<ul class="pagination pagination-lg">
+				{$list['page']}
+			</ul>
+		</div>
+		</if>
+		{//分页 结束}
+	
+	</div>
+	</section>
+</div>
+

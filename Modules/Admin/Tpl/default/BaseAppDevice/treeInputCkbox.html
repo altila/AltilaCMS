@@ -1,5 +1,4 @@
-<?php $isEnableAppDevice = explode( ',', findById ( 'Admin/SiteConfig', array('key'=>'isEnableAppDevice','status'=>'1'), 'sids' ) ); ?>
-<if condition="( isset($vo['sid']) and in_array( $vo['sid'], $isEnableAppDevice ) ) or ( isset($_REQUEST['sid']) and in_array( $_REQUEST['sid'], $isEnableAppDevice ) ) ">
+<if condition=" $siteInfo[C('DEFAULT_LANG')]['enable_app_device'] eq 1 ">
 
 <?php 
 $optionType = 2;

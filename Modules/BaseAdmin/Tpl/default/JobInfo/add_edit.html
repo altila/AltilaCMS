@@ -1,0 +1,66 @@
+<php>echo get_static_file(array('ueditor.all.min.js','ueditor.config.article.js'),'ueditor');</php>
+
+<div class="pageContent">
+	<form method="post" action="__URL__/<empty name="vo[getModelPk(MODULE_NAME)]">insert<else />update</empty>/navTabId/{:MODULE_NAME}" class="pageForm required-validate" onsubmit="return validateCallback(this,dialogAjaxDone);">
+		<input type="hidden" name="{:getModelPk(MODULE_NAME)}" value="{$vo[getModelPk(MODULE_NAME)]}" >
+		<input type="hidden" name="sid" value="<empty name="vo[getModelPk(MODULE_NAME)]">{$_REQUEST['sid']}<else />{$vo['sid']}</empty>" >
+		<input type="hidden" name="smid" value="<empty name="vo[getModelPk(MODULE_NAME)]">{$_REQUEST['smid']}<else />{$vo['smid']}</empty>" >
+		<div class="pageFormContent" layoutH="58">
+			<div class="unit">
+				<label>招聘名称：</label>
+				<input type="text" class="required"  name="name" value="{$vo['name']}">
+			</div>
+			<div class="unit">
+				<label>招聘人数：</label>
+				<input type="text" name="num" value="{$vo['num']}">
+			</div>
+			<require file="Admin,BaseArea/selectArea" />
+			<div class="unit">
+				<label>开始时间：</label>
+				<input type="text" name="start_time"  value="<notempty name="vo[getModelPk(MODULE_NAME)]">{$vo['start_time']|substr=0,16}</notempty>" class="date required" format="yyyy-MM-dd HH:mm"/>
+			</div>
+			<div class="unit">
+				<label>结束时间：</label>
+				<input type="text" name="end_time"  value="<notempty name="vo[getModelPk(MODULE_NAME)]">{$vo['end_time']|substr=0,16}</notempty>" class="date required" format="yyyy-MM-dd HH:mm"/>
+			</div>
+			<div class="unit">
+				<label>工作年限：</label>
+				<select name="work_year">
+					<?php $workYear = L('WorkYear');?>
+					<volist name="workYear" id="val">
+					<option <eq name="vo['work_year']" value="$key" >selected</eq> value="{$key}">{$val}</option>
+					</volist>
+				</select>
+			</div>
+			<div class="unit">
+				<label>月薪范围：</label>
+				<select name="provide_salary">
+					<?php $provideSalary = L('PeovideSalary');?>
+					<volist name="provideSalary" id="val">
+					<option <eq name="vo['provide_salary']" value="$key" >selected</eq> value="{$key}">{$val}</option>
+					</volist>
+				</select>
+			</div>
+			<div class="unit">
+				<label>学历要求：</label>
+				<select name="degree_from">
+					<?php $degreeFrom = L('DegreeFrom');?>
+					<volist name="degreeFrom" id="val">
+					<option <eq name="vo['degree_from']" value="$key" >selected</eq> value="{$key}">{$val}</option>
+					</volist>
+				</select>
+			</div>
+			<div class="unit">
+				<label>招聘内容：</label>
+				<require file="Admin,Block/formEditor" />
+			</div>
+		</div>
+		<div class="formBar">
+			<ul>
+				<li><div class="buttonActive"><div class="buttonContent"><button type="submit" onclick="setTimeout('reloadeAjax()',2000);">保存</button></div></div></li>
+				<li><div class="button"><div class="buttonContent"><button type="button" class="close">取消</button></div></div></li>
+			</ul>
+		</div>
+	</form>
+</div>
+

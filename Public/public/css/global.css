@@ -1,0 +1,12 @@
+body { padding-top: 50px;}
+.errorinfo { color: #999;}
+.red { color: #c00;}
+.green { color: #0c0;}
+.blue { color: #00c;}
+.gray { color: #999;}
+.grayLighter { color: #ccc;}
+.grayDarker { color: #666;}
+
+input.red { border: 1px solid #c30; color: #c30;}
+input[type="text"].red,
+input[type="password"].red { border: 1px solid #c30;}

@@ -19,6 +19,9 @@ if(function_exists('saeAutoLoader')){
 	if(is_file(APP_PATH.'Common/common_local.php')){
 		require APP_PATH.'Common/common_local.php';
 	}
+    function file_domain($domain=''){
+        return __ROOT__.'/'.$domain;
+    }
 	//本地上传文件的IO操作
 	function file_upload($src_file,$dest_file){
 		$pdir=dirname($dest_file);
@@ -28,7 +31,9 @@ if(function_exists('saeAutoLoader')){
 	function file_delete($filename){
 		return unlink($filename);
 	}
-
+	function file_get($filename){
+		return file_get_contents($filename);
+	}
 	if(!APP_DEBUG && is_file(RUNTIME_FILE)) {
 	    // 部署模式直接载入运行缓存
 	    require RUNTIME_FILE;

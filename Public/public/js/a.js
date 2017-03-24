@@ -1,4 +1,4 @@
-/*三层机构使用太繁琐，logic作为文件名*/
+/*广告显示*/
 
 /**
 +----------------------------------------------------------
@@ -68,7 +68,7 @@ var logic = {
 		+----------------------------------------------------------
 		*/
 		handleData : function(data){
-			switch( data['conf']['afCode'] ){
+			switch( data['afCode'] ){
 				case 'adCarousel':
 					return this.accordSchedule(data);
 					break;
@@ -92,7 +92,7 @@ var logic = {
 			}
 			for( x in data['schedule'] ){
 				if( nowTime >= data['schedule'][x]['start_time'] && nowTime <= data['schedule'][x]['end_time'] ){
-					var i = data['schedule'][x]['sort'] - data['conf']['sum'];
+					var i = data['schedule'][x]['sort'] - data['sum'];
 					if( typeof(_data[data['schedule'][x]['adid']]) != 'undefined' )
 						list[i] = _data[data['schedule'][x]['adid']];
 				}
@@ -110,7 +110,7 @@ var logic = {
 		accordPriority : function(data){
 			var list = new Array,i = 0;
 			for( x in data['list'] ){
-				if( i < data['conf']['sum'] ){
+				if( i < data['sum'] ){
 					list[x] = data['list'][x];
 					i++;
 				}
@@ -248,7 +248,7 @@ var htmlStr = {
 		adCarousel : function(html,data){
 			var shtml= '';
 			html = html.replace(/src="/g,'src="' + defaultImg + '" rel="');
-			return '<div class="adCarousel_' + data[0]['apCode'] + '">' + html + '</div>' ;
+			return '<div class="adCarousel_' + data['apCode'] + '">' + html + '</div>' ;
 		}
 
 
@@ -351,7 +351,7 @@ function adShow( adposid ){
 	if( typeof(adList) == 'undefined' ) return;
 	var params = {adposid:adposid},i = 0,adArr,_adArr,id_array = adposid.split(",");
 	$(id_array).each(function(){
-		if( typeof(adList) == 'undefined' || typeof(adList[id_array[i]]) == 'undefined' ) return true;
+		if( adList == null || typeof(adList) == 'undefined' || typeof(adList[id_array[i]]) == 'undefined' ) return true;
 		_adArr = logic.handle.handleData(adList[id_array[i]]);
 		adArr = ( typeof(_adArr) != 'undefined' ) ? _adArr : adList['178']['list'];
 		if( typeof(adArr['0']) == 'undefined' ) return true;
@@ -371,10 +371,10 @@ function adShow( adposid ){
 			}
 			_i++;
 		}
-		$('#ad_'+id_array[i]).html(htmlStr.ad[adList[id_array[i]]['conf']['afCode']]( html,adArr ) );
+		$('#ad_'+id_array[i]).html(htmlStr.ad[adList[id_array[i]]['afCode']]( html,adList[id_array[i]] ) );
 	});
-	if( typeof(adList[id_array[i]]) != 'undefined' && adList[id_array[i]]['conf']['afCode'] == 'adCarousel' ) 
-		$('#adInterfaceScroll_' + adList[id_array[i]]['list'][0]['position']).slide();
+	if( typeof(adList[id_array[i]]) != 'undefined' && adList[id_array[i]]['afCode'] == 'adCarousel' ) 
+		$('.adCarousel_' + adList[id_array[i]]['apCode']).slide();
 }
 
 
@@ -382,7 +382,9 @@ function adShow( adposid ){
 $(document).ready(function(){
 	$("div[ap^='ad_']").each(function(){
 		var adPosId = $(this).attr("ap").substr(3);
-		adShow(adPosId);
+		if( adPosId != '' ) {
+			adShow(adPosId);
+		}
 	});
 });
 

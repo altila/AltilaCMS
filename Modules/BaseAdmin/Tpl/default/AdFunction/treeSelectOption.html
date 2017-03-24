@@ -1,0 +1,7 @@
+<?php 
+$moduleName = 'AdFunction';
+$_condition = "status=1";
+$field = empty($field) ? array('id'=>getModelPk($moduleName)) : $field;
+?>
+
+<require file="Admin,Block/treeSelectOption" />

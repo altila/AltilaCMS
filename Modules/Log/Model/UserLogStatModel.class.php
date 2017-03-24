@@ -31,7 +31,7 @@ class UserLogStatModel extends ABaseModel {
 		$map['uid'] = $this->userInfo['Uid'];
 		$map['sid'] = A('Base')->siteInfo[C('DEFAULT_LANG')]['sid'];
 		$map['log_ip'] = get_client_ip();
-		$map['add_time'] = date("Y-m-d H:i:s");
+		$map['create_time'] = date("Y-m-d H:i:s");
 		$map['update_time'] = date("Y-m-d H:i:s");
 		$this->add($map);
 	}

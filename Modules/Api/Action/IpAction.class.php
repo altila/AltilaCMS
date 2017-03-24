@@ -11,19 +11,12 @@
 // $Id$
 
 
-class IpAction extends HBaseAction {
-
-	function _initialize() {
-		//父类构造函数
-		parent::_initialize();
-		//设置脚本最大执行时间
-		set_time_limit(0);
-	}
+class IpAction extends BaseAction {
 
 	/**
 	+----------------------------------------------------------
 	* 获取ip信息 - 新浪接口
-	* www.altilacms.com/Api/Ip?ip=222.66.83.44
+	* www.altila.com/Api/Ip?ip=222.66.83.44
 	+----------------------------------------------------------
 	*/
 	public function index() {

@@ -1,0 +1,20 @@
+﻿<virtualHost 127.0.0.3:80>
+    <Directory D:/wamp/www/BaiduOpen/Altila>
+    Options FollowSymLinks
+    AllowOverride All
+    Order allow,deny
+    Allow from all
+    FileETag None
+    </Directory>
+    DocumentRoot D:/wamp/www/BaiduOpen/Altila
+    ServerName www.altila.com
+    ServerAlias *.altila.com
+</VirtualHost>
+
+
+
+Apache开启模块：rewrite_module
+PHP开启模块：php_curl
+根目录下增加.htaccess文件
+
+php.ini中magic_quotes_gpc设置为On 

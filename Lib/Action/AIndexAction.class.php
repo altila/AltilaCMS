@@ -19,7 +19,7 @@ class AIndexAction extends ABaseAction {
 	+----------------------------------------------------------
 	*/
 	public function index(){
-		$this->display ('Admin@Index:index');
+		$this->display('Admin@Index:index');
 	}
 
 	/**
@@ -28,7 +28,7 @@ class AIndexAction extends ABaseAction {
 	+----------------------------------------------------------
 	*/
 	public function leftMenu(){
-		$this->display ('Admin@Index:leftMenu');
+		$this->display('Admin@Index:leftMenu');
 	}
 
 }

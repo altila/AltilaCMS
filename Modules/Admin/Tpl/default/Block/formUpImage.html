@@ -1,9 +1,23 @@
 <img height="100" src="{$vo['thumbnail']}" />
 <input type="hidden" name="thumbnail" value="{$vo['thumbnail']}" id="ueditor_thumbnail" />
-<a href="javascript:void(0);" onclick="ueditorThumbnail.getDialog('insertimage').open();">上传图片</a>
+<a href="javascript:void(0);" onclick="openInsertImage()">上传图片</a>
+
+<require file="Admin,Public/ueditorJs" />
+
+<php> $imageMenu = $imageMenu ? $imageMenu : "upload"; </php>
 
 <script type="text/javascript">
-	var ueditorThumbnail = UE.getEditor('ueditor_thumbnail');
+	var imageMenu = '{$imageMenu}';
+	var ueditorThumbnail = UE.getEditor('ueditor_thumbnail',{
+		toolbars: toolbars
+		,initialFrameWidth: initialFrameWidth
+		,initialFrameHeight: initialFrameHeight
+		,autoFloatEnabled: autoFloatEnabled
+		,allowDivTransToP: allowDivTransToP
+		,serverUrl: serverUrl
+		,imageMenu: imageMenu // 二次开发，自定义变量，remote,upload,online,search
+	});
+
 	ueditorThumbnail.ready(function () {
 		//设置编辑器不可用
 		this.setDisabled();
@@ -11,11 +25,23 @@
 		this.hide();
 		//侦听图片上传
 		this.addListener('beforeInsertImage', function (t, arg) {
+			var src = arg.src || arg[0].src, title = arg.title || arg[0].title;
 			//将地址赋值给相应的input,只去第一张图片的路径
-			$("#ueditor_thumbnail").val(arg[0].src);
+			$("#ueditor_thumbnail").val(src);
 			//图片预览
-			$("#ueditor_thumbnail").prev("img").attr("src", arg[0].src);
+			$("#ueditor_thumbnail").prev("img").attr("src", src);
+			//返回主键ID
+			//if( typeof($("#ueditorThumbnailPkId")) != 'undefined' ){
+				//$("#ueditorThumbnailPkId").val(arg[0].extra.idVal);
+				//$("#name").val(title);
+			//}
 		});
 	});
+
+	/* 打开图片上传弹层 */
+	function openInsertImage() {
+		ueditorThumbnail.getDialog('insertimage').open();
+	}
+//http://www.tuicool.com/articles/V7VfMb
 </script>
 

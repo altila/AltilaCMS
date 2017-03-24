@@ -31,9 +31,9 @@ class PublicModel extends ABaseModel {
 	*/
 	public function getMenu( $condition = array(), $field = '', $order = '', $limit = '' ) {
 		$nodeModel = D( "Admin/SiteNode" );
-		if( C('ADMIN_AUTH_KEY') == $_SESSION[C('USER_AUTH_KEY')][C('USER_AUTH_KEY_ID')] )
+		if( C('ADMIN_AUTH_KEY') == $this->userInfo[C('USER_AUTH_KEY_ID')] )
 			return $nodeModel->getTree( array('menu_show'=>1,'status'=>1) );
-		$node = $nodeModel->getCacheData( C('SiteNode'), $condition, 'nid' );
+		$node = $nodeModel->getCacheData( C('SiteNode'), $condition, '*', 'nid' );
 		$search = $nodeModel->getRoleNode();
 		$_result = searchList( $search, $node );
 		foreach( $_result as $key=>$value ){

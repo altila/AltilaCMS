@@ -1,4 +1,4 @@
-﻿@charset "utf-8";
+@charset "utf-8";
 
 /* Core Code */
 html, body, div, span, applet, object, iframe,
@@ -495,7 +495,7 @@ body { overflow:hidden;}
 .searchBar {}
 .searchBar ul.searchContent { display:block; overflow:hidden; height:25px;}
 .searchBar ul.searchContent li { float:left; display:block; overflow:hidden; height:21px; padding:2px 15px 2px 0;}
-.searchBar label { float:left; width:60px; padding:0 5px; line-height:23px;}
+.searchBar label { float:left; width:60px; padding:0px; line-height:23px;}
 .searchBar .searchContent td{padding-right:10px; white-space:nowrap; height:25px}
 .searchBar .subBar { height:25px;}
 .searchBar .subBar ul { float:right;}
@@ -509,7 +509,7 @@ body { overflow:hidden;}
 .pageFormContent p { float:left; display:block; width:380px; height:21px; margin:0; padding:5px 0; position:relative;}
 .pageFormContent p.nowrap { height:auto;}
 .pageFormContent .radioGroup { float:left; display:block; overflow:hidden;}
-.pageFormContent label { float:left; width:120px; padding:0 5px; line-height:21px;}
+.pageFormContent label { float:left; width:70px; padding:0 5px; line-height:21px;}
 .pageFormContent label.radioButton { float:left; width:auto; padding:0 10px 0 0; line-height:21px;}
 .pageFormContent .textInput,.floatLft{ float:left; padding:2px 4px} 
 .pageFormContent select { float:left;}

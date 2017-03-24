@@ -1,0 +1,139 @@
+<div class="pageContent">
+	<form method="post" action="__URL__/<empty name="vo[getModelPk(MODULE_NAME)]">insert<else />update</empty>/navTabId/{:MODULE_NAME}" class="pageForm required-validate" onsubmit="return validateCallback(this,dialogAjaxDone);">
+	<div class="tabs">
+		<input type="hidden" name="{:getModelPk(MODULE_NAME)}" value="{$vo[getModelPk(MODULE_NAME)]}" >
+		<input type="hidden" name="sid" value="<empty name="vo[getModelPk(MODULE_NAME)]">{$_REQUEST['sid']}<else />{$vo['sid']}</empty>" >
+		<input type="hidden" name="smid" value="<empty name="vo[getModelPk(MODULE_NAME)]">{$_REQUEST['smid']}<else />{$vo['smid']}</empty>" >
+		<!--<input type="hidden" name="status" value="1">-->
+		<div class="tabsHeader">
+			<div class="tabsHeaderContent">
+				<ul>
+					<if condition=" $_REQUEST['editType'] == 'desc' ">
+					<li class="selected"><span>描述设置</span></a></li>
+					<elseif condition=" $_REQUEST['editType'] == 'colorSize' "/>
+					<li class="selected"><span>颜色尺码设置</span></a></li>
+					<elseif condition=" $_REQUEST['editType'] == 'thumbnail' "/>
+					<li class="selected"><span>相册设置</span></a></li>
+					<else/>
+					<li class="selected"><a href="#"><span>基础设置</span></a></li>
+					<li><a href="#"><span>属性设置</span></a></li>
+					</if>
+				</ul>
+			</div>
+		</div>
+		<div class="tabsContent" layouth="88">
+			<if condition=" $_REQUEST['editType'] == 'desc' ">
+			<div>
+				<div class="pageFormContent" layoutH="88">
+					<volist name="descList" id="voList">
+					<div class="unit">
+						<label>{$voList['name']}：</label>
+						<input type="hidden" name="descList[{$voList['pdcid']}][id]" value="{$descContent[$voList['pdcid']]['id']}">
+						<textarea  id="ueditor_content_{$voList['pdcid']}" class="huge bLeft" name="descList[{$voList['pdcid']}][content]" ROWS="5" COLS="57">{$descContent[$voList['pdcid']]['content']}</textarea>
+					</div>
+					<script type="text/javascript">
+						var editor{$voList['pdcid']} = UE.getEditor('ueditor_content_{$voList['pdcid']}');
+						editor{$voList['pdcid']}.setOpt('allowDivTransToP',false);
+					</script>
+					</volist>
+				</div>
+			</div>
+			<elseif condition=" $_REQUEST['editType'] == 'colorSize' "/>
+			<div >
+				<div class="pageFormContent" layoutH="88">
+				<require file="Admin,BaseAppDevice/treeInputCkbox" />
+				</div>
+			</div>
+			<elseif condition=" $_REQUEST['editType'] == 'thumbnail' "/>
+			<php>
+			$gallery = json_decode($vo['gallery'],true);
+			$gallery1 = $gallery[0]; 
+			$gallery2 = $gallery[1]; 
+			$gallery3 = $gallery[2]; 
+			$gallery4 = $gallery[3]; 
+			</php>
+			<div >
+				<div class="pageFormContent" layoutH="88">
+					<div class="unit">
+						<label>细节图1：</label>
+						<input type="text" name="dwz.org1.thumbnail" value="{$gallery1}">
+						<a class="btnLook" href="__GROUP__/ProductPicture/index?sid=<empty name="vo[getModelPk(MODULE_NAME)]">{$_REQUEST['sid']}<else />{$vo['sid']}</empty>&returnRequire=1" rel="ProductPictureSelect" mask="true" width="600" height="400" lookupGroup="org1" >选择图片</a>
+					</div>
+					<div class="unit">
+						<label>细节图2：</label>
+						<input type="text" name="dwz.org2.thumbnail" value="{$gallery2}">
+						<a class="btnLook" href="__GROUP__/ProductPicture/index?sid=<empty name="vo[getModelPk(MODULE_NAME)]">{$_REQUEST['sid']}<else />{$vo['sid']}</empty>&returnRequire=1" rel="ProductPictureSelect" mask="true" width="600" height="400" lookupGroup="org2" >选择图片</a>
+					</div>
+					<div class="unit">
+						<label>细节图3：</label>
+						<input type="text" name="dwz.org3.thumbnail" value="{$gallery3}">
+						<a class="btnLook" href="__GROUP__/ProductPicture/index?sid=<empty name="vo[getModelPk(MODULE_NAME)]">{$_REQUEST['sid']}<else />{$vo['sid']}</empty>&returnRequire=1" rel="ProductPictureSelect" mask="true" width="600" height="400" lookupGroup="org3" >选择图片</a>
+					</div>
+					<div class="unit">
+						<label>细节图4：</label>
+						<input type="text" name="dwz.org4.thumbnail" value="{$gallery4}">
+						<a class="btnLook" href="__GROUP__/ProductPicture/index?sid=<empty name="vo[getModelPk(MODULE_NAME)]">{$_REQUEST['sid']}<else />{$vo['sid']}</empty>&returnRequire=1" rel="ProductPictureSelect" mask="true" width="600" height="400" lookupGroup="org4" >选择图片</a>
+					</div>
+				</div>
+			</div>
+			<else/>
+			<div >
+				<div class="pageFormContent" layoutH="88">
+					<div class="unit">
+						<label>商品主图：</label>
+						<php> $imageMenu = "remote,upload,online,search"; </php>
+						<require file="Admin,Block/formUpImage" />
+					</div>
+					<require file="Admin,BaseAppDevice/treeInputCkbox" />
+					<div class="unit">
+						<label>渠道ID：</label>
+						<require file="ProductAdmin,ProductChannel/treeInputCkbox" />
+					</div>
+					<div class="unit">
+						<label>群组ID：</label>
+						<select name="pgid">
+							<option <if condition=" $vo['pgid'] == '' || $_REQUEST['pgid'] == '' " >selected</if> value="">请选择</option>
+							<require file="ProductAdmin,ProductGroup/treeSelectOption" />
+						</select>
+					</div>
+					<div class="unit">
+						<label>商品编码：</label>
+						<input type="text" class="required alphanumeric"  name="code" value="{$vo['code']}" <notempty name="vo[getModelPk(MODULE_NAME)]">disabled</notempty> >
+					</div>
+					<div class="unit">
+						<label>商品名称：</label>
+						<input type="text" class="required"  name="name" value="{$vo['name']}">
+					</div>
+					<div class="unit">
+						<label>商品成本价：</label>
+						<input type="text" name="cost_price" value="{$vo['cost_price']}" <notempty name="vo[getModelPk(MODULE_NAME)]">disabled</notempty>>
+					</div>
+					<div class="unit">
+						<label>商品市场价：</label>
+						<input type="text" name="market_price" value="{$vo['market_price']}" <notempty name="vo[getModelPk(MODULE_NAME)]">disabled</notempty>>
+					</div>
+					<div class="unit">
+						<label>商品销售价：</label>
+						<input type="text" name="sell_price" value="{$vo['sell_price']}">
+					</div>
+					<div class="unit">
+						<label>商品保护价：</label>
+						<input type="text" name="protect_price" value="{$vo['protect_price']}">
+					</div>
+				</div>
+			</div>
+			<div>
+				<div class="pageFormContent" layoutH="88">
+					<require file="ProductAdmin,ProductAttrKey/attrList" />
+				</div>
+			</div>
+			</if>
+		</div>
+		<div class="formBar">
+			<ul>
+				<li><div class="buttonActive"><div class="buttonContent"><button type="submit" onclick="setTimeout('reloadeAjax()',2000);">保存</button></div></div></li>
+				<li><div class="button"><div class="buttonContent"><button type="button" class="close">取消</button></div></div></li>
+			</ul>
+		</div>
+	</div>
+</form>

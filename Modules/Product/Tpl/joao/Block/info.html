@@ -1,0 +1,195 @@
+<style>
+	#img_View figure{
+		width: 480px;
+		height: 480px;
+		box-sizing: border-box;
+		border: 1px solid #ccc;
+		float: left;
+		overflow: hidden;
+		position: relative;
+	}
+	#img_View>div{
+		float: right;
+	}
+	#imglist{
+		width: 2400px;
+		height: 480px;
+		margin: 0;
+		padding: 0;
+		position: absolute;
+	}
+	#imglist li{
+		float: left;
+		list-style: none;
+	}
+	#imglist li img{
+		width: 480px;
+		height: 480px;
+	}
+	#img_preview{
+		height: 480px;
+		width: 80px;
+		margin: 0;
+		margin-left: 20px;
+		padding: 0;
+	}
+	#img_preview li{
+		width: 80px;
+		height: 80px;
+		box-sizing: border-box;
+		border: 1px solid #ccc;
+		margin-top: 20px;
+		list-style: none;
+		cursor: pointer;
+	}
+	#img_preview li.on{
+		border: 1px solid #1B509C
+	}
+	#img_preview li:first-child{
+		margin-top: 0;
+	}
+	#img_preview li img{
+		width: 78px;
+		height: 78px;
+	}
+	.goods_detail{
+		margin-top: 50px;
+	}
+	.goods_detail_left{
+		width: 580px;
+		float: left;
+		margin-right: 50px;
+		overflow: hidden;
+	}
+	.goods_detail_right{
+		width: 570px;
+		float: left;
+		overflow: hidden;
+	}
+	.goods_detail_right .goods_title{
+		margin: 0;
+		text-align: left;
+	}
+	.goods_detail_right li{
+		list-style: none;
+		height: 32px;
+		margin-top: 12px;
+	}
+	.goods_detail_right li a{
+		list-style: none;
+		height: 30px;
+		line-height: 30px;
+		text-align: center;
+		padding: 0 5px;
+		border: 1px solid #ccc;
+		display: inline-block;
+		cursor: pointer;
+	}
+	.goods_detail_right li a:hover,.goods_detail_right li a:focus{
+		text-decoration: none;
+	}
+	.goods_detail_right li a.select{
+		border: 1px solid #1B509C;
+	}
+	.goods_argument{
+		width: 1200px;
+		margin-top: 50px;
+		margin-left: -15px;
+	}
+	.goods_argument>h1{
+		border-bottom: 1px solid #1B509C;
+		padding-bottom: 10px;
+	}
+	.goods_argument>.goods_info li{
+		width: 1200px;
+		margin-right: 12px;
+		padding: 0px;
+		background-color: #fff;
+	}
+	.goods_argument>.goods_info li span{
+		display: inline-block;
+		padding: 16px;
+		background-color: #f4f4f4;
+	}
+	.goods_argument>.goods_info li span:first-child{
+		width: 350px;
+		text-align: left;
+		margin-right: 8px;
+	}
+	.goods_argument>.goods_info li span:last-child{
+		width: 842px;
+	}
+</style>
+<div class="view-page">
+	<div class="container">
+		<div class="row goods_detail">
+			<div class="goods_detail_left">
+				<div class=""  id="img_View">
+					<figure >
+						<ul id="imglist">
+							<li>
+								<img src="{$productInfo['thumbnail']}" alt="{$productInfo['name']}">
+							</li>
+						</ul>
+					</figure>
+					<!--相册-->
+					<div>
+						<ul id="img_preview">
+							<li index="1" class="on">
+								<img src="{$productInfo['thumbnail']}" alt="{$productInfo['name']}">
+							</li>
+							<php>$gallery = json_decode($productInfo['gallery'],true)</php>
+							<volist name="gallery" id="vo">
+							<notempty name="vo">
+							<li index="{$i+1}" >
+								<img src="{$vo}" alt="{$productInfo['name']}">
+							</li>
+							</notempty>
+							</volist>
+						</ul>
+					</div>
+
+				</div>
+			</div>
+			<div class="goods_detail_right">
+				<div class="">
+					<h1 class="goods_title text-center goods-title">{$productInfo['groupInfo']['name']}</h1>
+				</div>
+				<volist name="productInfo['group']" id="vo">
+					<li>
+						<a href="{:getUrl( "ProductInfo", $vo )}" <eq name="productInfo['piid']" value="$vo['piid']">class="select"</eq>>
+							<span>{$vo['name']}</span>
+						</a>
+					</li>
+				</volist>
+			</div>
+		</div>
+		<div class="goods_argument">
+			<h1 class="goods_title goods-title">Description of goods:</h1>
+			<ul class="goods_info">
+				<notempty name="$productInfo['RAL']['content']">
+					<li>{$productInfo['RAL']['content']}</li>
+				</notempty>
+				<volist name="productInfo['attr']" id="vo">
+					<if condition=" $key neq 'PDFUrl' and !empty($vo)">
+						<li><span>{$key}:</span><span>{$vo}</span></li>
+					</if>
+				</volist>
+			</ul>
+		</div>
+	</div><!-- /.container -->
+</div>
+<script type="text/javascript">
+	//相册预览
+	$(function () {
+		var list = $('#imglist');
+		var buttons = $('#img_preview li');
+		buttons.each(function () {
+			$(this).bind('click', function () {
+				list.find("img").attr('src',$(this).find('img').attr('src'));
+				$(this).addClass('on').siblings().removeClass('on');
+			})
+		});
+	});
+
+</script>

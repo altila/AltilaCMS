@@ -1,0 +1,118 @@
+<div class="pageContent">
+
+	<div class="tabs">
+
+		<require file="Admin,BaseLang/selectLang" />
+
+		<div class="tabsContent">
+
+			<div>
+
+				<div class="unitBox" >
+
+					<require file="Admin,Public/pagerForm" />
+
+					<div class="pageHeader">
+						<form onsubmit="return navTabSearch(this);" action="__URL__" method="post">
+							<div class="searchBar">
+								<ul class="searchContent">
+									<li>
+										<label>广告位ID：</label>
+										<input type="text" name="{:getModelPk(MODULE_NAME)}" value="{$_REQUEST[getModelPk(MODULE_NAME)]}" >
+									</li>
+									<li>
+										<label>广告位名：</label>
+										<input type="text" name="name" value="{$_REQUEST['name']}" >
+									</li>
+									<li>
+										<label>广告方法：</label>
+										<select name="afid">
+											<option <eq name="_REQUEST['afid']" value="" >selected</eq> value="">请选择</option>
+											<require file="BaseAdmin,AdFunction/treeSelectOption" />
+										</select>
+									</li>
+									<li>
+										<label>广告位位置：</label>
+										<select name="position" >
+											<option <eq name="_REQUEST['position']" value="" >selected</eq> value="">请选择</option>
+											<option <eq name="_REQUEST['position']" value="-1" >selected</eq> value="-1">其他</option>
+											<option <eq name="_REQUEST['position']" value="0" >selected</eq> value="0">公共</option>
+										</select>
+									</li>
+
+									<input type="hidden" name="sid" value="{$_REQUEST['sid']}" >
+									<div class="subBar">
+										<div class="buttonActive"><div class="buttonContent"><button type="submit">查询</button></div></div>
+									</div>
+
+								</ul>
+							</div>
+						</form>
+					</div>
+
+					<if condition=" !empty($_REQUEST['sid']) ">
+					<div class="panelBar">
+						<ul class="toolBar">
+							<li><a class="add" href="__URL__/add?sid={$_REQUEST['sid']}" target="dialog" mask="true"><span>新增</span></a></li>
+							<li><a class="delete" href="__URL__/delete?{:getModelPk(MODULE_NAME)}={_id}" target="ajaxTodo" title="你确定要删除吗？" warn="请选择数据"><span>删除</span></a></li>
+							<li><a class="edit" href="__URL__/edit?{:getModelPk(MODULE_NAME)}={_id}" target="dialog" mask="true" warn="请选择数据"><span>修改</span></a></li>
+							<li><a class="edit" href="__URL__/sort?sid={$_REQUEST['sid']}" target="dialog" mask="true" width="600" height="400" ><span>排序</span></a></li>
+						</ul>
+					</div>
+					</if>
+
+					<table class="table" width="100%" layoutH="143">
+						<thead>
+							<tr>
+								<th width="50">编号</th>
+								<th width="">广告位名称</th>
+								<th width="">广告位编码</th>
+								<th width="">广告位位置</th>
+								<th width="">广告位方法</th>
+								<th width="">宽 * 高</th>
+								<th width="">广告数 / 列数</th>
+								<th width="" orderField="sort" <if condition="$_REQUEST['orderField'] eq 'sort'">class="{$_REQUEST['orderDirection']}"</if> >排序</th>
+								<th width="35" orderField="status" <if condition="$_REQUEST['orderField'] eq 'status'">class="{$_REQUEST['orderDirection']}"</if> >状态</th>
+								<th width="220">更多操作</th>
+							</tr>
+						</thead>
+						<tbody>
+							<if condition=" !empty($_REQUEST['sid']) ">
+							<volist id="vo" name="list">
+							<tr target="_id" rel="{$vo[getModelPk(MODULE_NAME)]}">
+								<td>{$vo[getModelPk(MODULE_NAME)]}</td>
+								<td>{$vo['name']}</td>
+								<td>{$vo['code']}</td>
+								<td><eq name="vo['position']" value="0">公共<else/>其他</eq></td>
+								<td>{:findById('BaseAdmin/AdFunction',$vo['afid'],'name')}({:findById('BaseAdmin/AdFunction',$vo['afid'],'code')})</td>
+								<td>{$vo['width']}*{$vo['height']}</td>
+								<td>{$vo['sum']}*{$vo['row']}</td>
+								<td>{$vo['sort']}</td>
+								<td>{$vo['status']|showStatus=$vo[getModelPk(MODULE_NAME)],'',getModelPk(MODULE_NAME)}</td>
+								<td>
+									<a href="__URL__/clearCache?cacheKey={:C(MODULE_NAME)}{$vo['code']}_{$vo['sid']}" target="ajaxTodo" title="你确定要删除吗？" >清楚缓存</a>&nbsp;&nbsp;
+									<a href="__GROUP__/AdInfo/index?{:getModelPk(MODULE_NAME)}={$vo[getModelPk(MODULE_NAME)]}&sid={$vo['sid']}" rel="AdInfo" target="navTab">查看广告({:getCount('AdInfo',array(getModelPk(MODULE_NAME)=>$vo[getModelPk(MODULE_NAME)]))})</a>&nbsp;&nbsp;
+									<a href="__GROUP__/AdSchedule/index?{:getModelPk(MODULE_NAME)}={$vo[getModelPk(MODULE_NAME)]}&sid={$vo['sid']}" rel="AdSchedule" target="navTab">查看排期({:getCount('AdSchedule',array(getModelPk(MODULE_NAME)=>$vo[getModelPk(MODULE_NAME)]))})</a>&nbsp;&nbsp;
+								</td>
+							</tr>
+							</volist>
+							</if>
+						</tbody>
+					</table>
+
+					<div class="panelBar">
+						<div class="pages">
+							<span>共<if condition=" !empty($_REQUEST['sid']) ">{$totalCount}<else/>0</if>条</span>
+						</div>
+						<require file="Admin,Public/pagerHtml" />
+					</div>
+
+				</div>
+
+			</div>
+
+		</div>
+	</div>
+
+</div>
+

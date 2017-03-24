@@ -8,7 +8,10 @@
 	$.fn.extend({
 		slide:function(options){
 			var defaults = {
-					times: 5000
+					times: 5000,
+					height: auto,
+					resize: true,
+					customize: false
 			}
 			var options = $.extend(defaults, options);
 			var auto = null;
@@ -17,15 +20,34 @@
 			var count = obj.children("div").length;
 			var n = 0;
 
+
 			var ulcontent = '<ul>';
 			for(var i=1; i<=count; i++){
 				ulcontent += "<li>"+i+"</li>";
 			}
 			ulcontent = ulcontent+"</ul>";
+
+			// 如果设置了轮播区域的高度，则设置的高度
+			if (options.height) {
+				$(".ui_slide").css({
+					"height": options.height,
+					"overflow": "hidden"
+				});
+			}
+
+			// 如果没有自定义高度，系统会自动设置高度
+			if (!options.customize) {
+				window.onload = function() {
+					$(".ui_slide").css({
+						"height": obj.children("div").eq(0).find("img").height()
+					});
+				}
+			}
+
 			//大于1张广告图片时，显示数字按钮
-			// if (count > 1) {
-			// 	obj.append(ulcontent);
-			// }
+			if (count > 1) {
+				obj.append(ulcontent);
+			}
 			
 			var ul = obj.children("ul");
 
@@ -35,10 +57,21 @@
 			});
 
 			obj.children("div").eq(0).find("img").each(function(){
-				$(this).attr("src",$(this).attr("rel"));
+				$(this).attr("src",$(this).attr("original"));
+
+				
 			});
+
+			// 是否在改变窗口大小的时候调整轮播区域高度
+			if (options.resize) {
+	            window.onresize = function Oresize() {
+		            $(".ui_slide").css({
+						"height": obj.children("div").eq(0).find("img").height()
+					});
+	            }
+            }
 			
-			
+			// 改变透明度和层高
 			obj.children("div").css({
 				"opacity": 0,
 				"z-index": 0
@@ -72,8 +105,8 @@
 
 					//解析图片背景
 					obj.children("div").eq(n).find("img").each(function(){
-						if($(li).attr("src") != $(li).attr("rel")){
-							$(li).attr("src", $(li).attr("rel"));
+						if($(this).attr("src") != $(this).attr("original")){
+							$(this).attr("src", $(this).attr("original"));
 						}
 					});
 
@@ -84,11 +117,11 @@
 			
 			//大于1张广告图片时，执行自动轮播
 			if (count > 1) {
-				// obj.mouseover(function() {
-				// 	clearInterval(auto);
-				// }).mouseout(function() {
-				// 	auto = setInterval(showAuto, options.times);
-				// });
+				obj.mouseover(function() {
+					clearInterval(auto);
+				}).mouseout(function() {
+					auto = setInterval(showAuto, options.times);
+				});
 			
 				auto = setInterval(showAuto, options.times);
 			}
@@ -126,8 +159,8 @@
 				}
 
 				obj.children("div").eq(n).find("img").each(function(){					
-                    if($(this).attr("src") != $(this).attr("rel")){
-						$(this).attr("src", $(this).attr("rel"));
+                    if($(this).attr("src") != $(this).attr("original")){
+						$(this).attr("src", $(this).attr("original"));
 					}
                 });
 				

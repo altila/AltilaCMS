@@ -9,7 +9,7 @@
 // | Author: dizzthxl <dizzt@topthink.com>
 // +----------------------------------------------------------------------
 // $Id$
-class BlogCategoryModel extends HBaseModel {
+class BlogCategoryModel extends HCategoryBaseModel {
 
 	protected $trueTableName = 'base_site_menu';
 

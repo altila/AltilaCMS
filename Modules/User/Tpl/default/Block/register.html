@@ -1,0 +1,167 @@
+
+<div id="login">
+	<form id="frmLogin">
+		<?php $regInfo = explode(',',$siteInfo[C('DEFAULT_LANG')]['reg_info']); ?>
+		<if condition=" in_array(1,$regInfo) ">
+		<div class="form_row">
+			<span>用户名：</span>
+			<input type="text" title="用户名" name="user_id" class="user_id" tips="5-20个字符，一个汉字为两个字符，注册成功后将不能修改" />
+			<div class="errorinfo">&nbsp;</div>
+		</div>
+		</if>
+		<if condition=" in_array(2,$regInfo) ">
+		<div class="form_row">
+			<span>手机号：</span>
+			<input type="text" title="手机号" name="mobile" class="mobile" tips="请输入您的手机号" />
+			<div class="errorinfo">&nbsp;</div>
+		</div>
+		</if>
+		<if condition=" in_array(3,$regInfo) ">
+		<div class="form_row">
+			<span>邮箱：</span>
+			<input type="text" title="邮箱" name="email" class="email" tips="请输入您的邮箱" />
+			<div class="errorinfo">&nbsp;</div>
+		</div>
+		</if>
+		<div class="form_row">
+			<span>密码：</span>
+			<input type="password" name="password" class="password" tips="6-16个字符，请使用字母、数字组成的密码" />
+			<div class="errorinfo">&nbsp;</div>
+		</div>
+		<if condition=" in_array(4,$regInfo) ">
+		<div class="form_row">
+			<span>确认密码：</span>
+			<input type="password" name="repassword" class="repassword" tips="请再次输入密码" />
+			<div class="errorinfo">&nbsp;</div>
+		</div>
+		</if>
+		<if condition=" in_array(5,$regInfo) ">
+		<div class="form_row">
+			<span>性别：</span>
+			<input class="sex" name="sex" type="radio" value="1"/>男
+			<input class="sex" name="sex" type="radio" value="2"/>女
+			<div class="errorinfo">&nbsp;</div>
+		</div>
+		</if>
+		<if condition=" in_array(6,$regInfo) ">
+		<php>echo get_static_file(array('WdatePicker.js'),'My97DatePicker');</php>
+		<div class="form_row">
+			<span>出生日期：</span>
+			<div class="">
+				<input class="Wdate" type="text" name="birthday" onClick="WdatePicker({dateFmt:'yyyy-MM-dd'})">
+				<div class="errorinfo">&nbsp;</div>
+			</div>
+		</div>
+		</if>
+		<if condition=" in_array(9,$regInfo) ">
+		<php>echo get_static_file(array('region.js'),'public');</php>
+		<div class="form_row">
+			<span>现居地：</span>
+			<div class="">
+				<select id="province" name="province" class="province" tips="请选择省份" onChange="region.changed(this, 'city')">
+					<option value="" >请选择</option>
+				</select>
+				省
+				<div class="errorinfo">&nbsp;</div>
+			</div>
+			<if condition=" in_array(10,$regInfo) ">
+			<div class="">
+				<select id="city" name="city" class="city" tips="请选择城市" onChange="region.changed(this, 'district')">
+					<option value="" >请选择</option>
+				</select>
+				市
+				<div class="errorinfo">&nbsp;</div>
+			</div>
+			</if>
+			<if condition=" in_array(11,$regInfo) ">
+			<div class="">
+				<select id="district" name="district" class="district" tips="请选择区域">
+					<option value="" >请选择</option>
+				</select>
+				区
+				<div class="errorinfo">&nbsp;</div>
+			</div>
+			</if>
+			<div class="errorinfo">&nbsp;</div>
+		</div>
+		<script type="text/javascript">region.loadProvinces(156, 'province');</script>
+		</if>
+		<div class="form_row">
+			<span>验证码：</span>
+			<input type="text" name="verify" class="verify" tips="请输入验证码，不区分大小写"/>
+			<img alt="点击更换验证码" id="verifyImg" name="verifyImg" src="" onclick="common.validPic( $('#verifyImg') )" />
+			<div class="errorinfo">&nbsp;</div>
+		</div>
+		<div class="form_row">
+			<input type="hidden" name="return_url" id="return_url" value="<empty name="_REQUEST['return_url']">{:domain("www")}<else/>{$_REQUEST['return_url']}</empty>">
+			<input type="hidden" id="joint_login_type" name="joint_login_type" value="{$_REQUEST['joint_login_type']}">
+			<input type="hidden" id="openid" name="openid" value="{$_REQUEST['openid']}">
+			<input type="hidden" id="access_token" name="access_token" value="{$_REQUEST['access_token']}">
+			<input type="hidden" id="expires_in" name="expires_in" value="{$_REQUEST['expires_in']}">
+			<input type="hidden" id="refresh_token" name="refresh_token" value="{$_REQUEST['refresh_token']}">
+		</div>
+		<div class="form_row">
+			<input type="submit" name="submit" id="btnLogin" value="<eq name="ACTION_NAME" value="ajaxIndex">绑 定<else/>注 册</eq>" />
+		</div>
+	</form>
+</div>
+<require file="User,Block/joint_login_type" />
+
+<script type="text/javascript">
+	$(function(){
+		//初始化验证码图片
+		common.validPic( $("#verifyImg") );
+	});
+
+	//扩展规则
+	var expand = {
+		rules : {
+			user_id : {required : true,useridCheck : true,rangelength : [ 5, 20 ],remote : {type : "GET",dataType : "json",url : consts('User') + "/Check/user_id?time="+Math.random()+"&callback=?"}},
+			mobile : {required : true,isMobile : true,remote : {type : "GET",dataType : "json",url : consts('User') + "/Check/mobile?time="+Math.random()+"&callback=?"}},
+			email : {required : true,email : true,remote : {type : "GET",dataType : "json",url : consts('User') + "/Check/email?time="+Math.random()+"&callback=?"}},
+			password : {required : true,isPassword:true,rangelength : [ 6, 16 ]},
+			repassword : {required : true,equalTo : ".password"},
+			sex : {required : true},
+			birthday_y : {required : true},
+			birthday_m : {required : true},
+			birthday_d : {required : true},
+			province : {required : true},
+			city : {required : true},
+			district : {required : true},
+			verify : {required : true},
+		},messages : {
+			user_id : {required : "用户名不能为空",useridCheck : "以中、英文开头，与数字、下划线组成",rangelength : "用户名长度只能为5-20个字节",remote : "用户名已存在"},
+			mobile : {required : "手机号不能为空",isMobile : "请正确填写您的手机号码",remote : "手机号已存在"},
+			email : {required : "邮箱不能为空",email : "请正确填写您的邮箱地址",remote : "邮箱已存在"},
+			password : {required : "密码不能为空",isPassword : "只能为数字、字母",rangelength : "密码长度只能为6-16个字节"},
+			repassword : {required : "确认密码不能为空",equalTo : "两次输入密码不一致"},
+			sex : {required : "性别不能为空"},
+			birthday_y : {required : "年份不能为空"},
+			birthday_m : {required : "月份不能为空"},
+			birthday_d : {required : "日期不能为空"},
+			province : {required : "省份不能为空"},
+			city : {required : "城市不能为空"},
+			district : {required : "区域不能为空"},
+			verify : {required : "验证码不能为空"},
+		}
+	}
+	//表单提交回调函数
+	function frmLoginResponse(responseText, statusText) {
+		if (responseText.substr) responseText = eval('(' + responseText + ')');
+		switch (responseText.status) {
+			case 1:
+				location.href= $("#return_url").val();
+				break;
+			default:
+				$("." + responseText.field).nextAll(".errorinfo").html('<font color="red">'+responseText.msg+'</font>');
+				break;
+		}
+		//初始化验证码图片
+		common.validPic( $("#verifyImg") );
+	}
+	//表单验证、AJAX提交等
+	fromvalidate($("#frmLogin"),consts('User')+'/{:MODULE_NAME}/register',Request,frmLoginResponse,".errorinfo",expand);
+
+</script>
+
+

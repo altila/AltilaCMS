@@ -1,0 +1,9 @@
+<div class="sidebar-nav">
+	<h2>{$vo['name']}</h2>
+	<ul class="nav nav-list">
+		<volist name="leftList" id="list">
+		<li><a class="{$list['class']}" title="{$list['name']}" href="{:getUrl( $modelName."_info", $list )}">{$list['name']}</a></li>
+		</volist>
+	</ul>
+</div>
+

@@ -1,0 +1,26 @@
+<?php 
+$moduleName = 'ProductAttrValue';
+$appName = 'ProductAdmin';
+$pkId = !empty($vo[getModelPk(MODULE_NAME)]) ? $vo[getModelPk(MODULE_NAME)] : 0;
+$_condition = getModelPk(MODULE_NAME) . "=" . $pkId . "&status=1";
+$field = array('id'=>getModelPk("$appName/$moduleName"));
+$valueName = 'value';
+?>
+
+<input type="hidden" name="pkField" value="{$field['id']}">
+<input type="hidden" name="field" value="{$valueName}">
+<div class="" id="formInputAdd">
+	<a class="add inputAdd"><span>新增</span></a>
+	<model model="$moduleName" app="$appName" fun="getData" condition="$_condition" order="$order" limit="" key="i" result="oResult">
+	<input type="hidden" name="_{$field['id']}[]" value="{$oResult[$field['id']]}">
+	<input type="text" name="_{$valueName}[]" value="{$oResult[$valueName]}">
+	</model>
+</div>
+
+<div id="formInputAddHtml">
+	<input type="hidden" name="_{$field['id']}[]" value="">
+	<input type="text" name="_{$valueName}[]" value="">
+</div>
+
+<require file="Admin,Block/formInputAdd" />
+

@@ -11,19 +11,12 @@
 // $Id$
 
 
-class IdentityCardAction extends HBaseAction {
-
-	function _initialize() {
-		//父类构造函数
-		parent::_initialize();
-		//设置脚本最大执行时间
-		set_time_limit(0);
-	}
+class IdentityCardAction extends BaseAction {
 
 	/**
 	+----------------------------------------------------------
-	* 获取身份证信息 - 有道接口
-	* www.altilacms.com/Api/IdentityCard?idCard=
+	* 获取身份证信息
+	* www.altila.com/Api/IdentityCard?idCard=
 	+----------------------------------------------------------
 	*/
 	public function index() {

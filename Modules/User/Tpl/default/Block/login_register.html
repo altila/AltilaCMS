@@ -1,0 +1,8 @@
+<neq name="isCheckLogin" value="1">
+<a class="user_login" <eq name="siteInfo[C('DEFAULT_LANG')]['is_ajax_login']" value="0">href="{:domain('User')}/Login?return_url={:getReturnUrl()}"<else/>href="#" onclick="common.openPopWindow( '登陆' );loginRegister.ajaxIndex( '#pop_content .pop_content_inner', 'Login' );"</eq>>登录</a>
+<a class="user_register" <eq name="siteInfo[C('DEFAULT_LANG')]['is_ajax_reg']" value="0">href="{:domain('User')}/Register?return_url={:getReturnUrl()}"<else/>href="#" onclick="common.openPopWindow( '注册' );loginRegister.ajaxIndex( '#pop_content .pop_content_inner', 'Register' );"</eq>>注册</a>
+<else />
+
+<a class="user_name" title="点击进入用户中心" href="{:domain('Member')}">{$userInfo['UserId']}</a>
+<a class="user_logout" title="点击退出登录" href="{:domain('User')}/Logout">退出</a>
+</neq>

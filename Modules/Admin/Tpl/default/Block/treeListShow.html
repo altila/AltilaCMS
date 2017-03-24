@@ -2,7 +2,18 @@
 <ul class="tree treeFolder collapse">
 </if>
 
-<model model="$moduleName" app="$appName" fun="getTree" condition="$condition" order="$order" limit="" key="i">
+
+<if condition=" MODULE_NAME == 'ArticleInfo' ">
+<ul class=" tree treeFolder expand">
+	<li><a rel="{:MODULE_NAME}AjaxBox" target="ajax" href="__GROUP__/{:MODULE_NAME}/index?isAjaxBox=1&sid={$_REQUEST['sid']}&smid=0">单篇内容</a></li>
+</ul>
+<elseif condition=" MODULE_NAME == 'PictureInfo' "/>
+<ul class=" tree treeFolder expand">
+	<li><a rel="{:MODULE_NAME}AjaxBox" target="ajax" href="__GROUP__/{:MODULE_NAME}/index?isAjaxBox=1&sid={$_REQUEST['sid']}&smid=0">贴图相册</a></li>
+</ul>
+</if>
+
+<model model="$moduleName" app="$appName" fun="getTree" condition="$condition" order="$order" field="$_field" limit="" key="i">
 <if condition="$treeListShowType == 1">
 
 <li><a rel="{:MODULE_NAME}AjaxBox" target="ajax" href="__GROUP__/{:MODULE_NAME}/index?{$field['id']}={$result[$field['id']]}&isAjaxBox=1">{$result[$field['name']]}</a></li>

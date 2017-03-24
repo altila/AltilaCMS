@@ -18,6 +18,8 @@ class BaseAction extends Action {
 	+----------------------------------------------------------
 	*/
 	public function _initialize() {
+		//设置页面编码
+		header("Content-type: text/html; charset=utf-8");
 		//_REQUEST参数过滤
 		filter_param();
 		//设定来源COOKIE
@@ -32,7 +34,7 @@ class BaseAction extends Action {
 		$this->secondDomain = $domainArr[0];
 		//站点标示
 		$this->siteMark = $domainArr[1];
-		$model = D( 'Admin/SiteWeb' );
+		$model = D( 'Base' );
 		//用户身份验证设置
 		$this->userInfo = $model->userAuthSet();
 		//站点信息
@@ -44,7 +46,12 @@ class BaseAction extends Action {
 		//css样式
 		$this->css = strtolower( $this->getActionName() );
 		//设定当前时间
-		$this->nowTime = array('time'=>time(),'date'=>date("Y-m-d H:i:s"));
+		$this->nowTime = time();
+		$this->nowDate = date("Y-m-d H:i:s");
+		//设置默认语言
+		$langList = array_keys($this->siteInfo);
+		$lang = $langList[0] !== C('DEFAULT_LANG') ? $langList[0] : C('DEFAULT_LANG');
+		cookie('think_language',$lang,3600);
 	}
 
 	/**
@@ -63,6 +70,7 @@ class BaseAction extends Action {
 		$head['keywords']  =  $this->siteInfo[$lang]['keywords'];
 		$head['description']  =  $this->siteInfo[$lang]['description'];
 		$head['record_no']  =  $this->siteInfo[$lang]['record_no'];
+		$head['bottom_info']  =  $this->siteInfo[$lang]['bottom_info'];
 		return $head;
 	}
 
@@ -120,7 +128,7 @@ class BaseAction extends Action {
 	+----------------------------------------------------------
 	* 模板显示  - 【重写底层方法Think/Lib/Core/Action.class.php】
 	+----------------------------------------------------------
-	* @access  public
+	* @access  protected
 	* @param string $templateFile 指定要调用的模板文件
 	* 默认为空 由系统自动定位模板文件
 	* @param string $charset 输出编码
@@ -134,13 +142,30 @@ class BaseAction extends Action {
 	+----------------------------------------------------------
 	*/
 	protected function display($templateFile='',$charset='',$contentType='',$content='',$prefix='') {
-		if( strpos( $templateFile, "@" ) !== false ) {
-			$tpl = explode("@",$templateFile);
-			$templateFile = switch_tpl( $tpl[0], str_replace(":", "/", $tpl[1]) );
-		}
+		$templateFile = switch_tpl( 1, $templateFile );
+		//print_r($templateFile);
 		parent::display($templateFile,$charset,$contentType,$content,$prefix);
 	}
 
+	/**
+	+----------------------------------------------------------
+	* 解析和获取模板内容 用于输出  - 【重写底层方法Think/Lib/Core/Action.class.php】
+	+----------------------------------------------------------
+	* @access protected
+	* @param string $templateFile 模板文件名
+	* @param string $content 模板输出内容
+	* @param string $prefix 模板缓存前缀
+	+----------------------------------------------------------
+	* @return  string
+	+----------------------------------------------------------
+	* @example fetch( '分组名@主题名:模块名:操作名' )
+	+----------------------------------------------------------
+	*/
+	protected function fetch($templateFile='',$content='',$prefix='') {
+		$templateFile = switch_tpl( 1, $templateFile );
+		//print_r($templateFile);
+		return  $this->view->fetch($templateFile,$content,$prefix);;
+	}
 
 }
 ?>

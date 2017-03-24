@@ -1,0 +1,44 @@
+{//头部}
+<require file="Base,Public/global_header"/>
+
+
+{//全屏封面图}
+<div class="page_banner">
+    <div class="item">
+        <img src="{$info['thumbnail']}"/>
+    </div>
+</div>
+
+{//二级导航}
+<div class="container">
+    <div class="row">
+        <div class="span12">
+            <ul class="article_menu">
+                <volist name="menuList" id="volist">
+                <eq name="volist['smid']" value="$breadCrumbsList[0]['smid']">
+                <volist name="volist['_child']" id="vol">
+                <eq name="vol['smid']" value="$breadCrumbsList[1]['smid']">
+                <volist name="vol['_child']" id="vo">
+                <li><a href="{:getUrl($volist['model'].'_info',$vo)}">{$vo['name']}</li>  
+                </volist>
+                </eq>
+                </volist>
+                </eq>
+                </volist>
+            </ul>
+        </div>
+    </div>
+</div>
+
+
+{//全屏插图}
+<div class="bg_gradient">
+    <div class="container">
+        <img src="{$info['img_url']}"/>
+    </div>
+</div>
+
+<div>{$info['content']|htmlspecialchars_decode=ENT_QUOTES}</div>
+
+{//底部}
+<require file="Base,Public/global_footer"/>

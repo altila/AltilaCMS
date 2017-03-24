@@ -1,0 +1,97 @@
+<div class="pageContent">
+
+	<div class="tabs">
+
+		<div class="tabsContent">
+
+			<div>
+
+				<div class="unitBox">
+
+					<require file="Admin,Public/pagerForm" />
+
+					<div class="pageHeader">
+						<form onsubmit="return dialogSearch(this);" action="__URL__" method="post">
+							<div class="searchBar">
+								<ul class="searchContent">
+									<li>
+										<label>内容名称：</label>
+										<input type="text" name="name" value="{$_REQUEST['name']}" >
+									</li>
+
+									<input type="hidden" name="sid" value="{$_REQUEST['sid']}" >
+									<input type="hidden" name="spid" value="{$_REQUEST['spid']}" >
+									<input type="hidden" name="row_position" value="{$_REQUEST['row_position']}" >
+									<div class="subBar">
+										<div class="buttonActive"><div class="buttonContent"><button type="submit">查询</button></div></div>
+									</div>
+
+								</ul>
+							</div>
+						</form>
+					</div>
+
+					<if condition=" !empty($_REQUEST['row_position']) ">
+					<div class="panelBar reloadeDialog">
+						<ul class="toolBar">
+							<li><a class="add" rel="{:MODULE_NAME}_add" href="__URL__/add?sid={$_REQUEST['sid']}&spid={$_REQUEST['spid']}&row_position={$_REQUEST['row_position']}" target="dialog" mask="true" width="800" height="600"><span>新增</span></a></li>
+							<li><a class="delete" href="__URL__/delete?{:getModelPk(MODULE_NAME)}={_id}" target="ajaxTodo" onclick="setTimeout('reloadeDialog()',200);" ><span>删除</span></a></li>
+							<li><a class="edit" rel="{:MODULE_NAME}_edit" href="__URL__/edit?{:getModelPk(MODULE_NAME)}={_id}&sid={$_REQUEST['sid']}" target="dialog" mask="true" warn="请选择数据" width="800" height="600"><span>修改</span></a></li>
+							<li><a class="edit" href="__URL__/sort?sid={$_REQUEST['sid']}&spid={$_REQUEST['spid']}&row_position={$_REQUEST['row_position']}" target="dialog" mask="true" width="800" height="600" ><span>排序</span></a></li>
+						</ul>
+					</div>
+					</if>
+
+					<table class="table reloadeDialog" width="100%" layoutH="115">
+						<thead>
+							<tr>
+								<th width="50">编号</th>
+								<th width="">内容名称</th>
+								<th width="">内容模型</th>
+								<th width="">内容类型</th>
+								<th width="55" orderField="sort" <if condition="$_REQUEST['orderField'] eq 'sort'">class="{$_REQUEST['orderDirection']}"</if> >面板排序</th>
+								<th width="130">更新时间</th>
+								<th width="35" orderField="status" <if condition="$_REQUEST['orderField'] eq 'status'">class="{$_REQUEST['orderDirection']}"</if> >状态</th>
+							</tr>
+						</thead>
+						<tbody>
+							<if condition=" !empty($_REQUEST['row_position']) ">
+							<volist id="vo" name="list">
+							<tr target="_id" rel="{$vo[getModelPk(MODULE_NAME)]}">
+								<td>{$vo[getModelPk(MODULE_NAME)]}</td>
+								<td>{$vo['name']}</td>
+								<?php $modelArr = array( '-1'=>'通用','广告','文章','图片','产品','博文','小说','招聘','表单' );?>
+								<td>{$modelArr[$vo['model']]}</td>
+								<?php $typeArr = array( '','列表','分类','单篇内容','面包屑','侧栏菜单','侧栏列表','指定列表' );?>
+								<td>{$typeArr[$vo['type']]}</td>
+								<td>{$vo['sort']}</td>
+								<td>{$vo['update_time']}</td>
+								<td>{$vo['status']|showStatus=$vo[getModelPk(MODULE_NAME)],'',getModelPk(MODULE_NAME),'',1,'setTimeout("reloadeDialog()",200);'}</td>
+							</tr>
+							</volist>
+							</if>
+						</tbody>
+					</table>
+
+					<div class="panelBar">
+						<div class="pages">
+							<span>共<if condition=" !empty($_REQUEST['row_position']) ">{$totalCount}<else/>0</if>条</span>
+						</div>
+						<require file="Admin,Public/pagerHtml" />
+					</div>
+
+				</div>
+
+			</div>
+
+		</div>
+	</div>
+
+</div>
+
+<script type="text/javascript">
+function reloadeDialog(){
+	$.pdialog.open('__GROUP__/SitePlateContent/index?spid={$_REQUEST['spid']}&sid={$_REQUEST['sid']}&spgid={$_REQUEST['spgid']}&row_position={$_REQUEST['row_position']}', 'SitePlateContent', '查看内容',{mask:true});
+}
+</script>
+

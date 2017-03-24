@@ -1,0 +1,10 @@
+<div class="sidebar-nav affix">
+	<div class="sibebar-nav-sub">
+		<ul class="nav nav-stacked nav-pills">
+			<volist name="leftGlobalMenu" id="list">
+			<li class="<eq name="_REQUEST[getModelPk(MODULE_NAME)]" value="$list[getModelPk(MODULE_NAME)]">active</eq>"><a title="{$list['name']}" href="{:getUrl( $list['model'], $list )}">{$list['name']}</a></li>
+			</volist>
+		</ul>
+	</div>
+</div>
+

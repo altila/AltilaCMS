@@ -1,14 +1,7 @@
 <?php
-// +----------------------------------------------------------------------
-// | ThinkPHP
-// +----------------------------------------------------------------------
-// | Copyright (c) 2007 http://thinkphp.cn All rights reserved.
-// +----------------------------------------------------------------------
-// | Licensed ( http://www.apache.org/licenses/LICENSE-2.0 )
-// +----------------------------------------------------------------------
-// | Author: liu21st <liu21st@gmail.com>
-// +----------------------------------------------------------------------
-// $Id$
+//+---------------------------------------
+//|  项目公共函数库【后台管理】
+//+---------------------------------------
 
 /**
 +----------------------------------------------------------
@@ -26,26 +19,26 @@
 */
 function drawTree( $list, $condition, $level = 0 ){
 	if( empty($list) ) return;
-	$res = "<ul class='" . ( $level == 0 ? ' tree ' : '' ) . " treeFolder {$condition['class']}'>";
+	$res = ( $level == 0 ) ? "<ul class='" . ( $level == 0 ? ' tree ' : '' ) . " treeFolder {$condition['class']}'>\n" : "<ul>\n";
 	foreach( $list as $key=>$value ){
 		if( $value['status'] != 1 && $condition['isAll'] != 1 ) continue;
 		$check = ( !empty($condition['ids']) && in_array($value[$condition['field']],$condition['ids']) ) ? "true" : "false";
 		$href = !empty($condition['href']) ? "{$condition['href']}{$value[$condition['field']]}" : "{$value['code']}/index". ( !in_array(GROUP_NAME,array('Admin')) && !in_array($value['code'],array('SiteWeb')) ? "?sid=".getLang() : '');
 		$rel = !empty($condition['rel']) ? $condition['rel'] : $value['code'];
 		//a标签
-		if( $value['type'] == 1 && empty($condition['isShowStatus']) ) $a = "<a href='#'>";
-		else $a = "<a href='__GROUP__/{$href}' target='{$condition['target']}' rel='{$rel}' callback='{$condition['callback']}' pkid='{$value[$condition['field']]}'>";
-		if( !empty($condition['isCheck']) ) $a = "<a tname='{$condition['field']}' tvalue='{$value[$condition['field']]}' checked='{$check}'>";
-		$res .= "<li>";
+		if( $value['type'] == 1 && empty($condition['isShowStatus']) ) $a = "<a href='#'>\n";
+		else $a = "<a href='__GROUP__/{$href}' target='{$condition['target']}' rel='{$rel}' callback='{$condition['callback']}' pkid='{$value[$condition['field']]}'>\n";
+		if( !empty($condition['isCheck']) ) $a = "<a tname='{$condition['field']}' tvalue='{$value[$condition['field']]}' " . ( $check == "true" ? " checked='{$check}' " : "" ) . ">";
+		$res .= "<li>\n";
 		$res .= $a;
 		$res .= "{$value['sort']}.{$value['name']}";
 		//状态显示
-		$res .= ( !empty($condition['isShowStatus']) ) ? "<span status='{$value['status']}' style='float:right'>" . showStatus( $value['status'],'','','','',0 ) . "</span>" : '';
-		$res .= "</a>";
+		$res .= ( !empty($condition['isShowStatus']) ) ? "<span status='{$value['status']}' style='float:right'>" . showStatus( $value['status'],'','','','',0 ) . "</span>\n" : '';
+		$res .= "</a>\n";
 		if( !empty($value['_child']) ) $res .= drawTree( $value['_child'], $condition, ++$level );
-		$res .= "</li>";
+		$res .= "</li>\n";
 	}
-	$res .= "</ul>";
+	$res .= "</ul>\n";
 	return $res;
 }
 
@@ -140,173 +133,6 @@ function showStatus( $status, $id, $callback = '', $field = 'id', $condition = '
 	return $info;
 }
 
-/**
- +----------------------------------------------------------
- * 产生随机字串，可用来自动生成密码
- * 默认长度6位 字母和数字混合 支持中文
- +----------------------------------------------------------
- * @param string $len 长度
- * @param string $type 字串类型
- * 0 字母 1 数字 其它 混合
- * @param string $addChars 额外字符
- +----------------------------------------------------------
- * @return string
- +----------------------------------------------------------
- */
-function rand_string($len = 6, $type = '', $addChars = '') {
-	$str = '';
-	switch ($type) {
-		case 0 :
-			$chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz' . $addChars;
-			break;
-		case 1 :
-			$chars = str_repeat ( '0123456789', 3 );
-			break;
-		case 2 :
-			$chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ' . $addChars;
-			break;
-		case 3 :
-			$chars = 'abcdefghijklmnopqrstuvwxyz' . $addChars;
-			break;
-		default :
-			// 默认去掉了容易混淆的字符oOLl和数字01，要添加请使用addChars参数
-			$chars = 'ABCDEFGHIJKMNPQRSTUVWXYZabcdefghijkmnpqrstuvwxyz23456789' . $addChars;
-			break;
-	}
-	if ($len > 10) { //位数过长重复字符串一定次数
-		$chars = $type == 1 ? str_repeat ( $chars, $len ) : str_repeat ( $chars, 5 );
-	}
-	if ($type != 4) {
-		$chars = str_shuffle ( $chars );
-		$str = substr ( $chars, 0, $len );
-	} else {
-		// 中文随机字
-		for($i = 0; $i < $len; $i ++) {
-			$str .= msubstr ( $chars, floor ( mt_rand ( 0, mb_strlen ( $chars, 'utf-8' ) - 1 ) ), 1 );
-		}
-	}
-	return $str;
-}
-
-/* zhanghuihua */
-function percent_format($number, $decimals=0) {
-	return number_format($number*100, $decimals).'%';
-}
-
-/**
-+----------------------------------------------------------
-* 在数据列表中搜索
-+----------------------------------------------------------
-* @access public
-+----------------------------------------------------------
-* @param mixed $condition 查询条件
-* 支持 array('name'=>$value) 或者 name=$value
-* @param array $list 数据列表
-+----------------------------------------------------------
-* @return array
-+----------------------------------------------------------
-*/
-function search($list,$condition) {
-	if(is_string($condition))
-	parse_str($condition,$condition);
-	// 返回的结果集合
-	$resultSet = array();
-	foreach ($list as $key=>$data){
-		$find   =   false;
-		foreach ($condition as $field=>$value){
-			if(isset($data[$field])) {
-				if(is_array($value)) {
-					switch($value[0]) {
-						case '>':if($data[$field]>$value[1]) $find = true;break;
-						case '<':if($data[$field]<$value[1]) $find = true;break;
-						case '>=':if($data[$field]>=$value[1]) $find = true;break;
-						case '<=':if($data[$field]<=$value[1]) $find = true;break;
-						case 'in':if($data[$field]>=$value[1] && $data[$field]<=$value[2]) $find = true;break;
-					}
-				}else{
-					if(0 === strpos($value,'/')) {
-						$find   =   preg_match($value,$data[$field]);
-					}elseif($data[$field]==$value){
-						$find = true;
-					}
-				}
-			}
-		}
-		if( $find ) $resultSet[$key] = &$list[$key];
-	}
-	return $resultSet;
-}
-
-/**
- +----------------------------------------------------------
- * 检测位运算方法
- +----------------------------------------------------------
- * @access public
- +----------------------------------------------------------
- * @param int	$num 要检查的值
- * @param Array $arr 要检查包含的值列表
- * checkBitwise(7,array('1'=>'全站','2'=>'品牌','4'=>'分类'))
- +----------------------------------------------------------
- * @return array
- +----------------------------------------------------------
- */
-function checkBitwise( $num,$arr ){
-	if(!$num || EMPTY($arr)) return array();
-	$result = array();
-	foreach($arr as $k => $v)
-	if($num & $k) $result[$k] = $v;
-	return $result;
-}
-
-//两个时间相差
-function dtime($t1, $t2) {
-	if($t1>$t2){
-		return '<b style=" color: #999999">已过期</b>';
-	}
-	$t1 = strtotime($t1);
-	$t2 = strtotime($t2);
-	$t12 = abs($t1-$t2);
-	$start = 0;
-	//$string = "两个时间相差：";
-	$y = floor($t12/(3600*24*360));
-	if($start || $y ){
-		$start = 1;
-		$t12 -= $y*3600*24*360;
-		$string .= $y."年";
-	}
-	$m = floor($t12/(3600*24*31));
-	if($start || $m){
-		$start = 1;
-		$t12 -= $m*3600*24*31;
-		$string .= $m."月";
-	}
-	$d = floor($t12/(3600*24));
-	if($start || $d){
-		$start = 1;
-		$t12 -= $d*3600*24;
-		$string .= $d."天";
-	}
-	$h = floor($t12/(3600));
-	if($start || $h){
-		$start = 1;
-		$t12 -= $h*3600;
-		$string .= $h."小时";
-	}
-	$s = floor($t12/(60));
-	if($start || $s){
-		$start = 1;
-		$t12 -= $s*60;
-		$string .= $s."分钟";
-	}
-	$string .= "{$t12}秒";
-
-	if($t2-$t1<2*3600*24){
-		return '<b style=" color: #FF0000">'.$string.'</b>';
-	}else{
-		//return $string;
-	}
-}
-
 /*      //////////////////////////////////////////////公告方法 - 开始//////////////////////////////////////////////      */
 
 /**
@@ -375,7 +201,28 @@ function getModelPk ( $name = '' ) {
 */
 function getCount ( $name, $map ) {
 	if( empty($name) ) return;
-	return D( $name )->where( $map )->count();
+	$result = D( $name )->where( $map )->count();
+	return $result;
+}
+
+/**
++----------------------------------------------------------
+* 根据条件,统计总和
++----------------------------------------------------------
+* @access  public
+* @param   str             $name      模块名称
+* @param   arr             $map       查询条件
+* @param   str             $field     字段名称
++----------------------------------------------------------
+* @return  str
++----------------------------------------------------------
+* @example {:getCount(MODULE_NAME)}
++----------------------------------------------------------
+*/
+function getSum ( $name, $map, $field ) {
+	if( empty($name) ) return;
+	$result = D( $name )->where( $map )->sum($field);
+	return $result;
 }
 
 /**
@@ -388,25 +235,27 @@ function getCount ( $name, $map ) {
 * @param   str             $attr      字段名称
 * @param   str             $type      返回类型:one[默认]\arr\str
 * @param   str             $sper      连接符
+* @param   str             $order     排序方式
 +----------------------------------------------------------
 * @return  str or arr
 +----------------------------------------------------------
 * @example {:findById(MODULE_NAME)}
 +----------------------------------------------------------
 */
-function findById ( $name, $map, $attr = "", $type = "one", $sper = "," ) {
+function findById ( $name, $map, $attr = "", $type = "one", $sper = ",", $order = '' ) {
 	if( empty($name) || empty($map) ) return;
 	$_attr = explode(',',$attr);
 	$model = D( $name );
 	$where = ( !is_array($map) ) ? "{$model->getPk()}={$map}" : $map;
 	if( $type == 'one' ){
-		$_result = $model->where( $where )->getField( $attr );
+		$_result = $model->where( $where )->order( $order )->getField( $attr );
 	} else {
-		$result = $model->where( $where )->field( $attr )->select();
+		$result = $model->where( $where )->field( $attr )->order( $order )->select();
 		foreach( $result as $key=>$value ){
 			( !empty($_attr[1]) ) ? $_result[$value[$_attr[1]]] = $value[$_attr[0]] : $_result[] = $value[$_attr[0]];
 		}
 	}
+	//print_r($model->getLastsql());
 	return ( $type == 'str' ) ? implode($sper,$_result) : $_result ;
 }
 

@@ -1,0 +1,70 @@
+<div class="pageContent">
+	<form method="post" action="__URL__/<empty name="vo[getModelPk(MODULE_NAME)]">insert<else />update</empty>/navTabId/{:MODULE_NAME}" class="pageForm required-validate" onsubmit="return validateCallback(this,dialogAjaxDone);">
+		<input type="hidden" name="{:getModelPk(MODULE_NAME)}" value="{$vo[getModelPk(MODULE_NAME)]}" >
+		<input type="hidden" name="sid" value="<empty name="vo[getModelPk(MODULE_NAME)]">{$_REQUEST['sid']}<else />{$vo['sid']}</empty>" >
+		<input type="hidden" name="apid" value="<empty name="vo[getModelPk(MODULE_NAME)]">{$_REQUEST['apid']}<else />{$vo['apid']}</empty>" >
+		<div class="pageFormContent" layoutH="58">
+			<div class="unit">
+				<label>广告名称：</label>
+				<input type="text" class="required"  name="name" value="{$vo['name']}">
+			</div>
+			<require file="Admin,BaseAppDevice/treeInputCkbox" />
+			<div class="unit">
+				<label>广告类型：</label>
+				<select name="type" id="type" class='required'>
+					<option <eq name="vo['type']" value="" >selected</eq> value="">请选择</option>
+					<option <eq name="vo['type']" value="0" >selected</eq> value="0">图片</option>
+					<option <eq name="vo['type']" value="1" >selected</eq> value="1">flash</option>
+					<option <eq name="vo['type']" value="2" >selected</eq> value="2">html</option>
+					<option <eq name="vo['type']" value="3" >selected</eq> value="3">魔方</option>
+				</select>
+			</div>
+			<div class="unit">
+				<label>广告样式：</label>
+				<input type="text" name="style" value="{$vo['style']}">
+			</div>
+			<div class="unit">
+				<label>开始时间：</label>
+				<input type="text" name="start_time"  value="<empty name="vo[getModelPk(MODULE_NAME)]">1970-01-01 08:00<else />{$vo['start_time']|substr=0,16}</empty>" class="date" format="yyyy-MM-dd HH:mm"/>
+			</div>
+			<div class="unit">
+				<label>结束时间：</label>
+				<input type="text" name="end_time"  value="<empty name="vo[getModelPk(MODULE_NAME)]">1970-01-01 08:00<else />{$vo['end_time']|substr=0,16}</empty>" class="date" format="yyyy-MM-dd HH:mm"/>
+			</div>
+			<div class="type0 type1 unit" style="display:none" >
+				<label>链接地址：</label>
+				<input type="text" style="width:400px" name="link" value="{$vo['link']}">
+			</div>
+			<div class="type0 type1 unit" style="display:none" >
+				<label>图片、flash地址：</label>
+				<input type="text" style="width:400px" name="imgUrl" value="{$vo['content']}">
+			</div>
+			<div class="type2 unit" style="display:none">
+				<label>广告内容：</label>
+				<require file="Admin,Block/formEditor" />
+			</div>
+			<div class="type3 unit" style="display:none">
+				<label>广告魔方：</label>
+				<textarea name="rubikCube" rows="5" cols="57" class="rubikCube">{$vo['content']}</textarea>
+				<a id="rubikCubeOpe" class="btnLook" href="__URL__/rubikCube?{:getModelPk(MODULE_NAME)}={$vo[getModelPk(MODULE_NAME)]}" target="dialog" rel="rubikCube" mask="true" max=true>广告魔方</a>
+			</div>
+		</div>
+		<div class="formBar">
+			<ul>
+				<li><div class="buttonActive"><div class="buttonContent"><button type="submit" onclick="setTimeout('reloadeAjax()',2000);">保存</button></div></div></li>
+				<li><div class="button"><div class="buttonContent"><button type="button" class="close">取消</button></div></div></li>
+			</ul>
+		</div>
+	</form>
+</div>
+
+<script type="text/javascript">
+$("#type").change(function(){changeHref();});
+$(document).ready(function(){changeHref();});
+function changeHref(){
+	var type = $("#type").val();
+	$("[class^='type']").hide();
+	$(".type"+type).show();
+}
+</script>
+

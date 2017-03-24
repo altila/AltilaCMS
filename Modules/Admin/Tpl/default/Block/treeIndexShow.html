@@ -5,12 +5,14 @@
 		var pk = '{:getModelPk(MODULE_NAME)}';
 		$(".add").click(function(){
 			$("#{:MODULE_NAME}Operate .delete").attr( "href", $("#{:MODULE_NAME}Operate .delete").attr( "_href") + '0' );
+			$("#{:MODULE_NAME}Operate .foreverDelete").attr( "href", $("#{:MODULE_NAME}Operate .foreverDelete").attr( "_href") + '0' );
 			$("#{:MODULE_NAME}Operate .sort").attr( "href", $("#{:MODULE_NAME}Operate .sort").attr( "_href") + '0' );
 		})
 		$("#{:MODULE_NAME}Tree a").each(function(){
 			var aTag = $(this);
 			aTag.click(function(){
 				$("#{:MODULE_NAME}Operate .delete").attr( "href", $("#{:MODULE_NAME}Operate .delete").attr( "_href") + aTag.attr("pkid") );
+				$("#{:MODULE_NAME}Operate .foreverDelete").attr( "href", $("#{:MODULE_NAME}Operate .foreverDelete").attr( "_href") + aTag.attr("pkid") );
 				$("#{:MODULE_NAME}Operate .sort").attr( "href", $("#{:MODULE_NAME}Operate .sort").attr( "_href") + aTag.attr("pkid") );
 			}).find("span").click(function(){
 				var href = '';

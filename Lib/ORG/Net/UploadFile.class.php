@@ -24,7 +24,7 @@ class UploadFile {//类定义开始
         'allowExts'         =>  array(),    // 允许上传的文件后缀 留空不作后缀检查
         'allowTypes'        =>  array(),    // 允许上传的文件类型 留空不做检查
         'thumb'             =>  false,    // 使用对上传图片进行缩略图处理
-        'imageClassPath'    =>  '@.ORG.Image',    // 图库类包路径
+        'imageClassPath'    =>  '@.ORG.Util.Image',    // 图库类包路径
         'thumbMaxWidth'     =>  '',// 缩略图最大宽度
         'thumbMaxHeight'    =>  '',// 缩略图最大高度
         'thumbPrefix'       =>  'thumb_',// 缩略图前缀
@@ -33,6 +33,7 @@ class UploadFile {//类定义开始
         'thumbFile'         =>  '',// 缩略图文件名
         'thumbExt'          =>  '',// 缩略图扩展名        
         'thumbRemoveOrigin' =>  false,// 是否移除原图
+        'thumbType'         =>  1, // 缩略图生成方式 1 按设置大小截取 0 按原图等比例缩略
         'zipImages'         =>  false,// 压缩图片文件上传
         'autoSub'           =>  false,// 启用子目录保存文件
         'subType'           =>  'hash',// 子目录创建方式 可以使用hash date custom
@@ -88,8 +89,11 @@ class UploadFile {//类定义开始
      */
     private function save($file) {
         $filename = $file['savepath'].$file['savename'];
-		//[cluster] 去掉不覆盖判断
-
+        if(!$this->uploadReplace && is_file($filename)) {
+            // 不覆盖同名文件
+            $this->error	=	'文件已经存在！'.$filename;
+            return false;
+        }
         // 如果是图像文件 检测文件格式
         if( in_array(strtolower($file['extension']),array('gif','jpg','jpeg','bmp','png','swf'))) {
             $info   = getimagesize($file['tmp_name']);
@@ -98,13 +102,12 @@ class UploadFile {//类定义开始
                 return false;                
             }
         }
-		//[cluster] 上传文件
-        if(!$this->thumbRemoveOrigin && !file_upload($file['tmp_name'], $this->autoCharset($filename,'utf-8','gbk'))) {
+        if(!move_uploaded_file($file['tmp_name'], $this->autoCharset($filename,'utf-8','gbk'))) {
             $this->error = '文件上传保存错误！';
             return false;
         }
         if($this->thumb && in_array(strtolower($file['extension']),array('gif','jpg','jpeg','bmp','png'))) {
-            $image =  getimagesize($file['tmp_name']);
+            $image =  getimagesize($filename);
             if(false !== $image) {
                 //是图像文件生成缩略图
                 $thumbWidth		=	explode(',',$this->thumbMaxWidth);
@@ -123,12 +126,17 @@ class UploadFile {//类定义开始
                         $prefix     =   isset($thumbPrefix[$i])?$thumbPrefix[$i]:$thumbPrefix[0];
                         $suffix     =   isset($thumbSuffix[$i])?$thumbSuffix[$i]:$thumbSuffix[0];
                         $thumbname  =   $prefix.basename($filename,'.'.$file['extension']).$suffix;
-					}
-					//[cluster] 缩略图用临时文件实现
-					$tmp_file=sys_get_temp_dir().'/'.$thumbname.'.'.$thumbExt;
-                    $ret=Image::thumb($file['tmp_name'],$tmp_file,'',$thumbWidth[$i],$thumbHeight[$i],true);                    
-					if(false!==$ret) file_upload($tmp_file,$thumbPath.$thumbname.'.'.$thumbExt);
-					if(file_exists($tmp_file)) unlink($tmp_file);
+                    }
+                    if(1 == $this->thumbType){
+                        Image::thumb2($filename,$thumbPath.$thumbname.'.'.$thumbExt,'',$thumbWidth[$i],$thumbHeight[$i],true);
+                    }else{
+                        Image::thumb($filename,$thumbPath.$thumbname.'.'.$thumbExt,'',$thumbWidth[$i],$thumbHeight[$i],true);                        
+                    }
+                    
+                }
+                if($this->thumbRemoveOrigin) {
+                    // 生成缩略图之后删除原图
+                    unlink($filename);
                 }
             }
         }
@@ -149,8 +157,24 @@ class UploadFile {//类定义开始
         //如果不指定保存文件名，则由系统默认
         if(empty($savePath))
             $savePath = $this->savePath;
-        //[cluster] 去掉 检查上传目录
-   
+        // 检查上传目录
+        if(!is_dir($savePath)) {
+            // 检查目录是否编码后的
+            if(is_dir(base64_decode($savePath))) {
+                $savePath	=	base64_decode($savePath);
+            }else{
+                // 尝试创建目录
+                if(!mkdir($savePath,0777,true)){
+                    $this->error  =  '上传目录'.$savePath.'不存在';
+                    return false;
+                }
+            }
+        }else {
+            if(!is_writeable($savePath)) {
+                $this->error  =  '上传目录'.$savePath.'不可写';
+                return false;
+            }
+        }
         $fileInfo   = array();
         $isUpload   = false;
 
@@ -175,9 +199,8 @@ class UploadFile {//类定义开始
                 //保存上传文件
                 if(!$this->save($file)) return false;
                 if(function_exists($this->hashType)) {
-					$fun =  $this->hashType;
-					//[cluster] 改为tmp_name
-                    $file['hash']   =  $fun($this->autoCharset($file['tmp_name'],'utf-8','gbk'));
+                    $fun =  $this->hashType;
+                    $file['hash']   =  $fun($this->autoCharset($file['savepath'].$file['savename'],'utf-8','gbk'));
                 }
                 //上传成功后保存文件信息，供其他地方调用
                 unset($file['tmp_name'],$file['error']);
@@ -205,8 +228,19 @@ class UploadFile {//类定义开始
         //如果不指定保存文件名，则由系统默认
         if(empty($savePath))
             $savePath = $this->savePath;
-        //[cluster] 去掉 检查上传目录
-    
+        // 检查上传目录
+        if(!is_dir($savePath)) {
+            // 尝试创建目录
+            if(!mkdir($savePath,0777,true)){
+                $this->error  =  '上传目录'.$savePath.'不存在';
+                return false;
+            }
+        }else {
+            if(!is_writeable($savePath)) {
+                $this->error  =  '上传目录'.$savePath.'不可写';
+                return false;
+            }
+        }
         //过滤无效的上传
         if(!empty($file['name'])) {
             $fileArray = array();
@@ -234,9 +268,8 @@ class UploadFile {//类定义开始
                 //保存上传文件
                 if(!$this->save($file)) return false;
                 if(function_exists($this->hashType)) {
-					$fun =  $this->hashType;
-					//[cluster] 使用 tmp_name
-                    $file['hash']   =  $fun($this->autoCharset($file['tmp_name'],'utf-8','gbk'));
+                    $fun =  $this->hashType;
+                    $file['hash']   =  $fun($this->autoCharset($file['savepath'].$file['savename'],'utf-8','gbk'));
                 }
                 unset($file['tmp_name'],$file['error']);
                 $info[] = $file;
@@ -358,7 +391,9 @@ class UploadFile {//类定义开始
                 }
                 break;
         }
-		//[cluster] 去掉建立子文件夹
+        if(!is_dir($file['savepath'].$dir)) {
+            mkdir($file['savepath'].$dir,0777,true);
+        }
         return $dir;
     }
 

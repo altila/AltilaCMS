@@ -1,0 +1,10 @@
+<if condition=" ($vo['list_opt']&1) == 1 ">
+<h2><empty name="info['name']">{$vo['name']}<else/>{$info['name']}</empty></h2>
+</if>
+<if condition=" ($vo['list_opt']&64) == 64 ">
+<p>{$vo['data']['description']}</p>
+</if>
+<if condition=" ($vo['list_opt']&512) == 512 ">
+<p>{$vo['data']['content']|htmlspecialchars_decode=ENT_QUOTES}</p>
+</if>
+

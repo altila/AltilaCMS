@@ -1,0 +1,19 @@
+<notempty name="list[data]">
+<ul class="list-unstyled">
+	<volist name="list[data]" id="vo">
+	<li>
+	<a target="_blank" href="{:getUrl( $modelName."_info", $vo )}"  title="{$vo['name']}">
+		<img original="{$vo['thumbnail']}" src="{:C('DEFAULT_IMG')}" alt="{$vo['name']}" class="lazy" />
+	</a>
+	<h4><a href="{:getUrl( $modelName."_info", $vo )}">{$vo['name']}</a></h4>
+	</li>
+	</volist>
+</ul>
+</notempty>
+
+{//分页 开始}
+<if condition=" ($listType&8) == 8 ">
+<div class="bottom-pager">{$list['page']}</div>
+</if>
+{//分页 结束}
+

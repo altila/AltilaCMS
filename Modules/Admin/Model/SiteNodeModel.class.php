@@ -34,7 +34,7 @@ class SiteNodeModel extends ABaseModel {
 			INNER JOIN admin_site_node AS sn ON sn.nid = sa.nid
 			WHERE sru.uid = '{$this->userInfo['Uid']}' AND sru.status = 1 AND sr.status = 1 AND sn.status = 1
 			";
-		$result = $this->getCacheData( $key, $sql, 'nid' );
+		$result = $this->getCacheData( $key, $sql, '', 'nid' );
 		return $result;
 	}
 

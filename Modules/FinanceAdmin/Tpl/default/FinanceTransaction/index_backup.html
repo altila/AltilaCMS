@@ -1,0 +1,90 @@
+					<if condition=" $_REQUEST[$keyPk] != null">
+					<div class="accountInfo" style="height: 30px;">
+						<p>流入：<span>{$income|intval}</span>，&nbsp;&nbsp;&nbsp;&nbsp;流出：<span>{$expenses|intval}</span></p>
+					</div>
+
+					<require file="Admin,Public/pagerForm" />
+
+					<div class="pageHeader">
+						<form onsubmit="return navTabSearch(this);" action="__URL__" method="post">
+							<div class="searchBar">
+								<ul class="searchContent">
+									<li>
+										<label>开始时间：</label>
+										<input class="Wdate" type="text" name="start_time" value="{$_REQUEST['start_time']|substr=0,11}" onClick="WdatePicker({dateFmt:'yyyy-MM-dd'})">
+									</li>
+									<li>
+										<label>结束时间：</label>
+										<input class="Wdate" type="text" name="end_time" value="{$_REQUEST['end_time']|substr=0,11}" onClick="WdatePicker({dateFmt:'yyyy-MM-dd'})">
+									</li>
+									<!--<li>
+										<label>时间：</label>
+										<input class="Wdate" type="text" name="transaction_time" value="<notempty name="_REQUEST['transaction_time']">{$_REQUEST['transaction_time']|substr=0,10}<else/>{:date("Y-m")}</notempty>" onClick="WdatePicker({dateFmt:'yyyy-MM'})">
+									</li>-->
+
+									<input type="hidden" name="{$keyPk}" value="{$_REQUEST[$keyPk]}" >
+									<input type="hidden" name="type" value="{$_REQUEST['type']}" >
+									<div class="subBar">
+										<div class="buttonActive"><div class="buttonContent"><button type="submit">查询</button></div></div>
+									</div>
+
+								</ul>
+							</div>
+						</form>
+					</div>
+
+					<div class="panelBar">
+						<ul class="toolBar">
+							<li><a class="edit" href="__URL__/showStatistics/keypk/{$keyPk}/{$keyPk}/{$_REQUEST[$keyPk]}" target="dialog" width="900" height="550"><span>展示走势图</span></a></li>
+						</ul>
+					</div>
+					</if>
+					
+					<table class="table" width="100%" layoutH="<eq name="keyPk" value="fcid">175<else/>147</eq>">
+						<thead>
+							<tr>
+								<th width="100">时间</th>
+								<th width="">活动类型</th>
+								<th width="">金额</th>
+								<th width="">标签</th>
+								<th width="">成员</th>
+								<th width="">备注</th>
+								<th width="">余额</th>
+							</tr>
+						</thead>
+						<tbody>
+							<if condition=" $_REQUEST[$keyPk] != null ">
+							<volist id="vo" name="list">
+							<tr target="_id" rel="{$vo[getModelPk(MODULE_NAME)]}">
+								<td>{$vo['transaction_time']|substr=0,10}</td>
+								<php>$typeArr = array('','支出','收入','借出','借入','返还','收回','调余','转账','取款','申购','赎回','分红','买入','卖出','送股','红利')</php>
+								<td>
+									{$typeArr[$vo['type']]}&nbsp;&nbsp;|&nbsp;&nbsp;
+									<if condition=" in_array($vo['type'],array('3','4','5','6','8','9')) ">
+									{:findById('FinanceAdmin/FinanceAccount',$vo['fcid'],'name')}
+									<elseif condition=" in_array($vo['type'],array('10','11','12')) "/>
+									{:findById('FinanceAdmin/FinanceProductsBank',$vo['fprid'],'name')}
+									<elseif condition=" in_array($vo['type'],array('13','14','15','16')) "/>
+									{:findById('FinanceAdmin/FinanceProductsStock',$vo['fprid'],'name')}
+									<else/>
+									{:findById('FinanceAdmin/FinanceCategory',$vo['fcid'],'name')}
+									</if>
+								</td>
+								<td <lt name="vo['money']" value="0">style="color:red"</lt> >{$vo['money']}</td>
+								<td>{:findById('FinanceAdmin/FinanceTag',$vo['ftid'],'name')}</td>
+								<td>{:findById('FinanceAdmin/FinancePersonnel',$vo['fpid'],'name')}</td>
+								<td>{$vo['description']|mb_substr=0,10,utf8}</td>
+								<td <lt name="vo['balance']" value="0">style="color:red"</lt> >{$vo['balance']}</td>
+							</tr>
+							</volist>
+							</if>
+						</tbody>
+					</table>
+
+					<div class="panelBar">
+						<div class="pages">
+							<span>共{$totalCount|intval}条</span>
+						</div>
+						<require file="Admin,Public/pagerHtml" />
+					</div>
+

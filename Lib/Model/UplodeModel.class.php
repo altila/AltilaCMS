@@ -11,7 +11,8 @@
 // $Id$
 class UplodeModel extends ABaseModel {
 
-	protected $trueTableName = 'user_base';
+	protected $connection = 'DB_ADMIN_CON';
+	protected $trueTableName = 'admin_site_web';
 
 	public $UploadPath;
 
@@ -39,7 +40,9 @@ class UplodeModel extends ABaseModel {
 	*/
 	public function imageUp( $condition ) {
 		// 图片上传方法实例化
-		import("ORG.Net.UploadFile");
+		if( IS_BAE ) import("ORG.Net.UploadFile_bae",LIB_PATH);
+		else import("ORG.Net.UploadFile",LIB_PATH);
+
 		$uploadImg = new UploadFile();
 		// 设置附件上传大小
 		$uploadImg->maxSize = !empty($condition['maxSize']) ? $condition['maxSize'] : 512000;
@@ -47,6 +50,8 @@ class UplodeModel extends ABaseModel {
 		$uploadImg->allowExts = !empty($condition['allowExts']) ? $condition['allowExts'] : array( 'jpg', 'gif', 'png', 'jpeg' );
 		// 设置附件上传类型
 		$uploadImg->allowTypes = !empty($condition['allowTypes']) ? $condition['allowTypes'] : array( 'image/pjpeg', 'image/jpeg', 'image/jpg', 'image/gif', 'image/png', 'image/x-png', 'image/bmp' );
+		// 缩略图生成方式 1 按设置大小截取 0 按原图等比例缩略
+		$uploadImg->thumbType = !empty($condition['thumbType']) ? $condition['thumbType'] : 0;
 		// 设置附件上传目录
 		$uploadImg->savePath = $condition['savePath'];
 		// 删除原图

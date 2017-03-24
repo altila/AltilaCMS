@@ -1,0 +1,23 @@
+<?php
+$ad = $adList['logo'];
+?>
+
+<notempty name="ad['apCode']">
+<div ap="ad_{$ad['apCode']}" class="{$ad['afCode']}_{$ad['apCode']}" <neq name="ad['apStyle']" value="">style="{$ad['apStyle']}"</neq>>
+	<volist name="ad['list']" id="vo" offset="0" length="$ad['sum']">
+	{//图片 开始}
+	<div class="item" ad="{$vo['adid']}" <neq name="vo['aiStyle']" value="">style="{$vo['aiStyle']}"</neq>>
+		<notempty name="vo['link']">
+		<a title="{$vo['name']}" href="{$vo['link']}" target="_blank" class="navbar-brand">
+		</notempty>
+			<img border="0" alt="{$vo['name']}" original="{$vo['content']}" src="{:C('DEFAULT_IMG')}"/>
+		<notempty name="vo['link']">
+		</a>
+		</notempty>
+	</div>
+	{//图片 结束}
+	</volist>
+</div>
+</notempty>
+
+

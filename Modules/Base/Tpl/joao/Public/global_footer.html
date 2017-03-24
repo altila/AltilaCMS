@@ -1,0 +1,99 @@
+<footer>
+<div class="container">
+	<div class="row">
+		<div class="col-md-4">
+			<form>
+				<div class="form-group">
+					<h3>Register online</h3>
+					<p>For the latest updates and news from JOAO, enter your email address below:</p>
+					<div class="input-group">
+						<input type="text" class="form-control" placeholder="Email address">
+						<span class="input-group-btn">
+							<button class="btn btn-default" type="button">Register</button>
+						</span>
+					</div><!-- /input-group -->
+				</div>
+
+			</form>
+		</div>
+		<div class="col-md-8 text-right">
+			<require file="Base,Menu/bottomMenu" />
+
+			<!--<div class="dropdown footer_language">
+				<a href="#"  class="dropdown-toggle footer_language_link" data-toggle="dropdown">Select a language</a>
+				<ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
+					<li role="presentation" class="active"><a role="menuitem" tabindex="-1" href="javascript:;">English</a></li>
+					<li role="presentation"><a role="menuitem" tabindex="-1" href="javascript:;">简体中文</a></li>
+				</ul>
+			</div>-->
+
+		</div>
+		<div class="col-md-12 text-center">
+			&copy; Copyright &copy; 2000-<span id="copyrightTime"></span> Shanghai Joao International Trading Co.,Ltd.
+		</div>
+	</div>
+</div>
+</footer>
+
+
+
+<div class="scrollToTop" style="display: block;"><i class="glyphicon glyphicon-menu-up"></i></div>
+
+<div class="customerService">
+	<a title="sky11086@hotmail.com" href="msnim:add?contact=sky11086@hotmail.com">
+		<img src="__PUBLIC__/joao/images/cs_skype.png" alt="skype">
+	</a>
+	<a href="tencent://message/?uin=87429019&amp;Site=&amp;Menu=yes">
+		<img src="__PUBLIC__/joao/images/cs_qq.png" alt="QQ">
+	</a>
+</div>
+
+	</body>
+</html>
+
+<script type="text/javascript">
+	//版权时间
+	$("#copyrightTime").html(new Date().getFullYear());
+	
+	//图片延迟加载;
+	$("img.lazy").lazyload({
+		placeholder : defaultImg,
+		effect : "fadeIn"
+		//failurelimit : 20,
+		//threshold : 300
+	});
+
+<!--//--><![CDATA[//><!--
+	$(document).ready(function($) { 
+		$(window).scroll(function() {
+			if( $(this).scrollTop() != 0 ) {
+				$(".scrollToTop").fadeIn(); 
+			} else {
+				$(".scrollToTop").fadeOut();
+			}
+		});
+
+		$(".scrollToTop").click(function() {
+			$("body,html").animate({scrollTop:0},800);
+		});
+	});
+//--><!]]>
+
+$('body').scrollspy({ 
+	target: '#sideFloor',
+	offset: 170
+});
+
+$("#sideFloor a").click(function(e) {
+	e.preventDefault();
+	var top = $($(this).attr("href")).offset().top - 150;
+	$("html, body").animate({scrollTop: top}, 1000);
+});
+</script>
+
+<style>
+  .tab-pane {
+    min-height: 200px;
+  }
+</style>
+

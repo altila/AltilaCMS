@@ -1,0 +1,49 @@
+<?php 
+$moduleName = 'ProductAttrKey';
+$appName = 'ProductAdmin';
+$_condition = "sid=" . $_REQUEST['sid'] . "&smid=" . $_REQUEST['smid'];
+?>
+<model model="$moduleName" app="$appName" fun="getAttrList" condition="$_condition" order="$order" limit="" key="i" result="oResult">
+
+<?php
+$_acondition = "sid=" . $_REQUEST['sid'] . "&smid=" . $_REQUEST['smid'] . "&pakid=" . $oResult['pakid'];
+$value = findById('ProductAdmin/ProductAttrKeyValue',array('pakid'=>$oResult['pakid'],'piid'=>$_REQUEST['piid']),'value');
+?>
+
+
+<div class="unit">
+	<label>{$oResult['key']}：</label>
+	<input type="hidden" name="attrList[{$oResult['pakid']}][key]" value="{$oResult['key']}">
+	<input type="hidden" name="attrList[{$oResult['pakid']}][id]" value="{:findById('ProductAdmin/ProductAttrKeyValue',array('pakid'=>$oResult['pakid'],'piid'=>$_REQUEST['piid']),'id')}">
+	<switch name="oResult.input_type">
+	<case value="1">
+	<input type="text" name="attrList[{$oResult['pakid']}][value]" value="{$value}">
+	</case>
+
+	<case value="2">
+	<select name="attrList[{$oResult['pakid']}][value]" >
+		<eq name="oResult['is_required']" value="0">
+		<option <eq name="value" value="">selected</eq> value="">请选择</option>
+		</eq>
+		<model model="ProductAttrValue" app="ProductAdmin" fun="getData" condition="$_acondition" order="sort" limit="" key="i" result="aResult">
+		<option <eq name="value" value="$aResult['pavid']">selected</eq> value="{$aResult['pavid']}">{$aResult['value']}</option>
+		</model>
+	</select>
+	</case>
+
+	<case value="3">
+	<model model="ProductAttrValue" app="ProductAdmin" fun="getData" condition="$_acondition" order="sort" limit="" key="i" result="aResult">
+	<input type="checkbox" <in name="aResult['pavid']" value="$value" >checked="checked"</in> name="attrList[{$oResult['pakid']}][value][]" value="{$aResult['pavid']}" >{$aResult['value']}
+	</model>
+	</case>
+
+	<case value="4">
+	<textarea class="huge bLeft" name="attrList[{$oResult['pakid']}][value]" ROWS="5" COLS="57">{$value}</textarea>
+	</case>
+
+	<default />
+	</switch>
+</div>
+
+</model>
+<?php unset($field,$moduleName,$appName,$_condition,$order,$valueName,$pakid,$inputType,$value); ?>

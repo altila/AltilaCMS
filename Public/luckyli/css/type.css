@@ -1,0 +1,45 @@
+.green {
+  color: #22ac38;
+}
+.light_green {
+  color: #90d59b;
+}
+.blue {
+  color: #036eb8;
+}
+.lh {
+  line-height: 30px;
+}
+.mb_large {
+  margin-bottom: 60px;
+}
+.mb10 {
+  margin-bottom: 10px;
+}
+.mb20 {
+  margin-bottom: 10px;
+}
+.mb30 {
+  margin-bottom: 30px;
+}
+.mb40 {
+  margin-bottom: 40px;
+}
+.mb50 {
+  margin-bottom: 50px;
+}
+.mb60 {
+  margin-bottom: 60px;
+}
+.fz14 {
+  font-size: 14px;
+}
+.fz16 {
+  font-size: 16px;
+}
+.fz18 {
+  font-size: 18px;
+}
+.fz20 {
+  font-size: 20px;
+}

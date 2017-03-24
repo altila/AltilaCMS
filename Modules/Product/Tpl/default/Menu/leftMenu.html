@@ -1,0 +1,30 @@
+<div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+	<h2 class="panel-group-headline">{$leftCategory[0]['name']}</h2>
+	<volist name="leftCategory[0]['_child']" id="list">
+	<div class="panel panel-default">
+		<div class="panel-heading" role="tab" id="heading-{$i}">
+			<h4 class="panel-title">
+				<notempty name="list['_child']">
+				<a data-toggle="collapse" data-parent="#accordion" href="#collapse-{$i}{:getUrl( $modelName, $list )}" aria-expanded="true" aria-controls="collapse-{$i}">
+					{$list['name']}
+				</a>
+				<else/>
+				<a class="{$list['class']} <eq name="_REQUEST[getModelPk(MODULE_NAME)]" value="$vo[getModelPk(MODULE_NAME)]">active</eq>" title="{$list['name']}" href="{:getUrl( $modelName, $list )}">{$list['name']}</a></li>
+				</notempty>
+			</h4>
+		</div>
+		<notempty name="list['_child']">
+		<div id="collapse-{$i}" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="heading-{$i}">
+			<div class="panel-body">
+				<ul class="list-unstyled text-left">
+					<volist name="list['_child']" id="vo">
+					<li><a class="{$vo['class']} <eq name="_REQUEST[getModelPk(MODULE_NAME)]" value="$vo[getModelPk(MODULE_NAME)]">active</eq>" title="{$vo['name']}" href="{:getUrl( $modelName, $vo )}">{$vo['name']}</a></li>
+					</volist>
+				</ul>
+			</div>
+		</div>
+		</notempty>
+	</div>
+	</volist>
+</div>
+

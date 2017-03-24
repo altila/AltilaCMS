@@ -1,8 +1,15 @@
 <div class="pageContent">
+
+	<eq name="vo['tleaf']" value="2">
+	<div class="panelBar">
+		<ul class="toolBar" id="{:MODULE_NAME}Operate">
+			<li><a class="add" href="__GROUP__/BaseProductCategoryBrand/add_edit?{:getModelPk(MODULE_NAME)}={$vo[getModelPk(MODULE_NAME)]}" target="dialog" rel="SitePlateContentAjaxBox" target="dialog" mask="true" width="700" height="500" ><span>查看相关品牌</span></a></li>
+		</ul>
+	</div>
+	</eq>
+
 	<form method="post" action="__URL__/<empty name="vo[getModelPk(MODULE_NAME)]">insert<else />update</empty>/navTabId/{:MODULE_NAME}" class="pageForm required-validate" onsubmit="return validateCallback(this,navTabAjaxDone);">
 		<input type="hidden" name="{:getModelPk(MODULE_NAME)}" value="{$vo[getModelPk(MODULE_NAME)]}" >
-		<input type="hidden" name="update_time" value="{:date("Y-m-d H:i:s")}">
-		<empty name="vo[getModelPk(MODULE_NAME)]"><input type="hidden" name="add_time" value="{:date("Y-m-d H:i:s")}"></empty>
 		<div class="pageFormContent" layoutH="128">
 			<div class="unit">
 				<label>分类编码：</label>
@@ -16,7 +23,7 @@
 				<label>父级名称：</label>
 				<select name="parent_id">
 					<option <eq name="vo['parent_id']" value="0" >selected</eq> value="0">顶级</option>
-					<include file="treeSelectOption" />
+					<require file="Admin,BaseProductCategory/treeSelectOption" />
 				</select>
 			</div>
 			<div class="unit">

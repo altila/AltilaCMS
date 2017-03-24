@@ -1,4 +1,4 @@
-﻿/*
+/*
  * jquery select beauty 1.0
  */
 (function($) {

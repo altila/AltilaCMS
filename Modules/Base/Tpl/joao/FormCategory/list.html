@@ -1,0 +1,89 @@
+<div class="about-content">
+	<section id="contact">
+	<div class="page-header">
+		<h1>{$vo['name']}</h1>
+	</div>
+	<div>
+		<form id="{:MODULE_NAME}{$_REQUEST['smid']}">
+			<div>
+				<volist name="list[data]" id="vo">
+				<div class="form-item webform-component webform-component-textfield webform-component--{$vo['fiid']}">
+					<label for="edit-submitted-name">
+						{$vo['name']}
+						<eq name="vo['is_required']" value="1"><span class="form-required" title="This field is required.">*</span></eq>
+					</label>
+					<switch name="vo['input_type']" >
+	
+					<case value="2">
+					<select name="content[{$vo['fiid']}]">
+						<option value="">请选择</option>
+						<volist name="vo['value']" id="val">
+						<option value="{$val}">{$val}</option>
+						</volist>
+					</select>
+					</case>
+	
+					<case value="3">
+					<volist name="vo['value']" id="val">
+					<input type="checkbox" name="content[{$vo['fiid']}][]" value="{$val}">{$val}
+					</volist>
+					</case>
+	
+					<case value="4">
+					<div class="form-textarea-wrapper resizable textarea-processed resizable-textarea">
+						<textarea id="edit-submitted-{$vo['fiid']}" name="content[{$vo['fiid']}]" cols="60" rows="5" class="form-textarea {$vo['fiid']} <eq name="vo['is_required']" value="1">required</eq>"></textarea>
+						<div class="grippie"></div>
+					</div>
+					</case>
+	
+					<default /><input type="text" id="edit-submitted-{$vo['fiid']}" name="content[{$vo['fiid']}]" value="" size="60" maxlength="128" class="form-text {$vo['fiid']} <eq name="vo['is_required']" value="1">required</eq>">
+	
+					</switch>
+					<div class="errorinfo">&nbsp;</div>
+				</div>
+				</volist>
+	
+				<input type="hidden" name="smid" value="{$_REQUEST['smid']}" >
+				<div class="form_row">
+					<span>验证码：</span>
+					<input type="text" name="verify" class="verify" tips="请输入验证码，不区分大小写"/>
+					<img alt="点击更换验证码" id="verifyImg" name="verifyImg" src="" onclick="common.validPic( $('#verifyImg') )" />
+					<div class="errorinfo">&nbsp;</div>
+				</div>
+				<div class="form-actions">
+					<input class="btn btn-primary" type="submit" value="Submit">
+				</div>
+			</div>
+		</form>
+	</div>
+	
+	</section>
+</div>
+
+<script type="text/javascript">
+	$(function(){
+		//初始化验证码图片
+		common.validPic( $("#verifyImg") );
+	});
+	
+	var formId = '#{:MODULE_NAME}{$_REQUEST['smid']}';
+	//扩展规则
+	var expand = {};
+	//表单提交回调函数
+	function frmContentResponse(responseText, statusText) {
+		if (responseText.substr) responseText = eval('(' + responseText + ')');
+		switch (responseText.status) {
+			case 1:
+				alert("提交成功");
+				break;
+			default:
+				$("." + responseText.field).nextAll(".errorinfo").html('<font color="red">'+responseText.msg+'</font>');
+				break;
+		}
+		//初始化验证码图片
+		common.validPic( $("#verifyImg") );
+	}
+	//表单验证、AJAX提交等
+	fromvalidate($(formId),consts('www')+'/FormContent/setValue',Request,frmContentResponse,".errorinfo",expand);
+</script>
+

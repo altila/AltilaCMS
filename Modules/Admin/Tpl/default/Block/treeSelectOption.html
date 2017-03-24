@@ -2,6 +2,7 @@
 $code = empty($vo[$field['id']]) ? $_REQUEST[$field['id']] : $vo[$field['id']];
 $valueName = empty($valueName) ? getModelPk($moduleName) : $valueName;
 $optionType = empty($optionType) ? 0 : $optionType;
+$isDisableParent = $isDisableParent ? $isDisableParent : 0;
 ?>
 <model model="$moduleName" app="$appName" fun="getTreeLine" condition="$_condition" order="$order" limit="" key="i" result="oResult">
 
@@ -10,9 +11,13 @@ $optionType = empty($optionType) ? 0 : $optionType;
 <option <if condition=" $code == $oResult[$valueName] || $_REQUEST[$valueName] == $oResult[$valueName] " >selected</if> value="{$oResult[$valueName]}">{$oResult['childStr']}{$oResult['sort']}.{$oResult['name']}<notempty name="oResult['code']">({$oResult['code']})</notempty></option>
 </case>
 <default />
+<if condition=" $isDisableParent == 1 and $oResult['parent_id'] == 0 ">
+<option value="">{$oResult['childStr']}{$oResult['sort']}.{$oResult['name']}<notempty name="oResult['code']">({$oResult['code']})</notempty></option>
+<else/>
 <option <eq name="code" value="$oResult[$valueName]" >selected</eq> value="{$oResult[$valueName]}">{$oResult['childStr']}{$oResult['sort']}.{$oResult['name']}<notempty name="oResult['code']">({$oResult['code']})</notempty></option>
+</if>
 </switch>
 
 </model>
 
-<?php unset($field,$order,$moduleName,$appName,$_condition,$valueName,$code,$optionType); ?>
+<?php unset($field,$order,$moduleName,$appName,$_condition,$valueName,$code,$optionType,$isDisableParent); ?>

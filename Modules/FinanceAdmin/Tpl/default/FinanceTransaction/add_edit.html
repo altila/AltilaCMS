@@ -1,0 +1,171 @@
+<php>
+$type = ( !empty($vo['type']) && !empty($vo[getModelPk(MODULE_NAME)]) ) ? $vo['type'] : $_REQUEST['type'];
+$facidValue = findById('FinanceAdmin/FinanceAccount',$vo['faid'],'facid');
+$description = json_decode($vo['description'],true);
+</php>
+
+<div class="pageContent">
+	<form method="post" action="__URL__/<empty name="vo[getModelPk(MODULE_NAME)]">insert<else />update</empty>/navTabId/{:MODULE_NAME}" class="pageForm required-validate" onsubmit="return validateCallback(this,dialogAjaxDone);">
+		<input type="hidden" name="{:getModelPk(MODULE_NAME)}" value="{$vo[getModelPk(MODULE_NAME)]}" >
+		<input type="hidden" name="type" value="<notempty name="vo['type']">{$vo['type']}<else/>{$_REQUEST['type']}</notempty>" >
+		<input type="hidden" name="status" value="1">
+		<input type="hidden" name="uid" value="{$userInfo['Uid']}">
+		<input type="hidden" name="relation_ftaid" value="{$vo['relation_ftaid']}">
+		<div class="pageFormContent" layoutH="58">
+
+			<span style="color:red">* 只支持依次记账，只支持单账户后续记录值修改，不支持转账等关联账户后续记录值修改</span>
+
+			<div class="unit">
+				<label>时间：</label>
+				<input class="Wdate" type="text" name="transaction_time" value="<notempty name="vo['transaction_time']">{$vo['transaction_time']|substr=0,10}<else/>{:date("Y-m-d")}</notempty>" onClick="WdatePicker({dateFmt:'yyyy-MM-dd'})">
+			</div>
+
+			<notin name="type" value="7,13,14,15,16">
+			<php>
+			$money = ( $vo['money'] < 0 ) ? $vo['money']*(-1) : $vo['money'];
+			$relationMoney = ( $vo['relation_money'] < 0 ) ? $vo['relation_money']*(-1) : $vo['relation_money'];
+			if( !in_array($facidValue,array('8')) && in_array($type,array('11'))  ){ $_money = $money; $money = $relationMoney; $relationMoney = $_money; }
+			</php>
+			<div class="unit">
+				<label><in name="type" value="11">赎回</in>金额：</label>
+				<input type="text" class="required"  name="money" value="{$money}">
+				<in name="type" value="9,11">
+				<php>$relationMoneyName = array('9'=>'手续费','11'=>'实赎本金');</php>
+				<span class="floatLft">&nbsp;&nbsp;&nbsp;&nbsp;{$relationMoneyName[$type]}：</span>
+				<input type="text" class="required"  name="relation_money" value="{$relationMoney}">
+				</in>
+			</div>
+			</notin>
+
+			<in name="type" value="7">
+			<div class="unit">
+				<label>余额：</label>
+				<input type="text" class="required"  name="balance" value="{$vo['balance']}">
+			</div>
+			</in>
+
+			<in name="type" value="1,2">
+			<div class="unit">
+				<label>项目：</label>
+				<php>$vo['fcidType'] = findById('FinanceAdmin/FinanceCategory',$vo['fcid'],'parent_id');</php>
+				<select style="display:none" class="combox" name="fcidType" ref="fcid" refUrl="__APP__/FinanceAdmin/FinanceCategory/selectCategory.html?parent_id={value}">
+					<option <eq name="vo['fcidType']" value="" >selected</eq> value="">请选择</option>
+					<php>$_condition = '&parent_id=0'; $field = array('id'=>'fcidType');</php>
+					<require file="FinanceAdmin,FinanceCategory/treeSelectOption" />
+				</select>
+				<select style="display:none" class="combox" name="fcid" id="fcid" class="required">
+					<option <eq name="vo['fcid']" value="" >selected</eq> value="">请选择</option>
+					<notempty name="vo['fcidType']">
+					<php>$_condition = '&isListTree=1&parent_id='.$vo['fcidType'];</php>
+					<require file="FinanceAdmin,FinanceCategory/treeSelectOption" />
+					</notempty>
+				</select>
+				<span style="color:red">* 不能选择父级</span>
+			</div>
+			</in>
+
+			<div class="unit">
+				<label>账户：</label>
+				<if condition=" ( in_array($vo['type'],array('3','4','5','6','8','9','10','11')) AND $vo['money'] gt 0 ) OR ( in_array($vo['type'],array('12')) AND !in_array($facidValue,array('8')) ) ">
+				<php>$mid = $vo['faid']; $vo['faid'] = $vo['fcid']; $vo['fcid'] = $mid;</php>
+				<input type="hidden" name="{:getModelPk(MODULE_NAME)}" value="{$vo['relation_ftaid']}" >
+				<input type="hidden" name="relation_ftaid" value="{$vo[getModelPk(MODULE_NAME)]}">
+				</if>
+				<select name="faid" class="required">
+					<option <eq name="vo['faid']" value="" >selected</eq> value="">请选择</option>
+					<php>
+					$optionType = 1; $_condition = "&isShowList=1";
+					</php>
+					<require file="FinanceAdmin,FinanceAccount/treeSelectOption" />
+				</select>
+				<in name="type" value="3,4,5,6,8,9,10,11,12">
+				<php>$typeArr = array('','支出','收入','借出','借入','返还','收回','调余','转入','取款','申购','赎回','分红','买入','卖出','送股','红利')</php>
+				<span class="floatLft">{$typeArr[$type]}</span>
+				<select name="fcid" class="required">
+					<option <eq name="vo['fcid']" value="" >selected</eq> value="">请选择</option>
+					<php>
+					$_condition = "&isShowList=1"; $field = array('id'=>"fcid");
+					if( $_REQUEST['type'] == 10 ) { $field = array('id'=>"faid"); $optionType = 1; }
+					</php>
+					<require file="FinanceAdmin,FinanceAccount/treeSelectOption" />
+				</select>
+				</in>
+			</div>
+
+			<in name="type" value="10,11,12">
+			<div class="unit">
+				<label>产品：</label>
+				<select name="fprid" class="required">
+					<option <eq name="vo['fprid']" value="" >selected</eq> value="">请选择</option>
+					<php> $optionType = 1; $_condition = "&isShowList=1"</php>
+					<require file="FinanceAdmin,FinanceProductsBank/treeSelectOption" />
+				</select>
+			</div>
+			</in>
+
+			<in name="type" value="13,14,15,16">
+			<div class="unit">
+				<label>股票：</label>
+				<select name="fprid" class="required">
+					<option <eq name="vo['fprid']" value="" >selected</eq> value="">请选择</option>
+					<php> $optionType = 1; $_condition = "&isShowList=1"; $field = array('id'=>"fprid");</php>
+					<require file="FinanceAdmin,FinanceProductsStock/treeSelectOption" />
+				</select>
+			</div>
+			</in>
+			<in name="type" value="13,14,15,16">
+			<div class="unit">
+				<label>股数：</label>
+				<input type="text" class="required" name="relation_money" value="{$vo['relation_money']}">
+			</div>
+			</in>
+			<in name="type" value="13,14,16">
+			<div class="unit">
+				<label>价格：</label>
+				<input type="text" class="required" name="description[price]" value="{$description['price']}">
+			</div>
+			</in>
+			<in name="type" value="13,14">
+			<div class="unit">
+				<label>佣金：</label>
+				<input type="text" class="required" name="description[brokerage]" value="{$description['brokerage']}">
+			</div>
+			</in>
+
+			<in name="type" value="1,2">
+			<div class="unit">
+				<label>成员：</label>
+				<select name="fpid">
+					<option <eq name="vo['fpid']" value="" >selected</eq> value="">请选择</option>
+					<require file="FinanceAdmin,FinancePersonnel/treeSelectOption" />
+				</select>
+			</div>
+			</in>
+
+			<notin name="type" value="10,11,12,13,14,15,16">
+			<div class="unit">
+				<label>标签：</label>
+				<select name="ftid">
+					<option <eq name="vo['ftid']" value="" >selected</eq> value="">请选择</option>
+					<require file="FinanceAdmin,FinanceTag/treeSelectOption" />
+				</select>
+			</div>
+
+			<div class="unit">
+				<label>备注：</label>
+				<textarea rows="5" cols="40" name="description">{$vo['description']}</textarea>
+			</div>
+			</notin>
+
+		</div>
+		<div class="formBar">
+			<ul>
+				<li><div class="buttonActive"><div class="buttonContent"><button type="submit" onclick="setTimeout('reloadeAjax()',3000);">保存</button></div></div></li>
+				<!--<li><div class="button"><div class="buttonContent"><button type="button" class="close">取消</button></div></div></li>-->
+			</ul>
+		</div>
+	</form>
+</div>
+
+
+

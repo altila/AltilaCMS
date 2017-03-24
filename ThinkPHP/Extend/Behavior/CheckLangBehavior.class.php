@@ -53,7 +53,7 @@ class CheckLangBehavior extends Behavior {
             }elseif(cookie('think_language')){// 获取上次用户的选择
                 $langSet = cookie('think_language');
             }elseif(isset($_SERVER['HTTP_ACCEPT_LANGUAGE'])){// 自动侦测浏览器语言
-                preg_match('/^([a-z\-]+)/i', $_SERVER['HTTP_ACCEPT_LANGUAGE'], $matches);
+                preg_match('/^([a-z\d\-]+)/i', $_SERVER['HTTP_ACCEPT_LANGUAGE'], $matches);
                 $langSet = $matches[1];
                 cookie('think_language',$langSet,3600);
             }
@@ -63,19 +63,25 @@ class CheckLangBehavior extends Behavior {
         }
         // 定义当前语言
         define('LANG_SET',strtolower($langSet));
-        // 读取项目公共语言包
-        if (is_file(LANG_PATH.LANG_SET.'/common.php'))
-            L(include LANG_PATH.LANG_SET.'/common.php');
+
         $group = '';
-        $lang_path    =   C('APP_GROUP_MODE')==1 ? BASE_LIB_PATH.'Lang/'.LANG_SET.'/' : LANG_PATH.LANG_SET.'/';        
-        // 读取当前分组公共语言包
-        if (defined('GROUP_NAME')){
-            if (is_file($lang_path.GROUP_NAME.'.php'))
-                L(include $lang_path.GROUP_NAME.'.php');
-            $group = GROUP_NAME.C('TMPL_FILE_DEPR');
+        $path    =   (defined('GROUP_NAME') && C('APP_GROUP_MODE')==1) ? BASE_LIB_PATH.'Lang/'.LANG_SET.'/' : LANG_PATH.LANG_SET.'/';
+        // 读取项目公共语言包
+        if(is_file(LANG_PATH.LANG_SET.'/common.php'))
+            L(include LANG_PATH.LANG_SET.'/common.php');     
+        // 读取分组公共语言包
+        if(defined('GROUP_NAME')){
+            if(C('APP_GROUP_MODE')==1){ // 独立分组
+                $file = $path.'common.php';
+            }else{ // 普通分组
+                $file = $path.GROUP_NAME.'.php';
+                $group = GROUP_NAME.C('TMPL_FILE_DEPR');
+            }
+            if(is_file($file))
+                L(include $file);
         }
         // 读取当前模块语言包
-        if (is_file($lang_path.$group.strtolower(MODULE_NAME).'.php'))
-            L(include $lang_path.$group.strtolower(MODULE_NAME).'.php');
+        if (is_file($path.$group.strtolower(MODULE_NAME).'.php'))
+            L(include $path.$group.strtolower(MODULE_NAME).'.php');
     }
 }

@@ -1,61 +1,236 @@
-<div class="pageContent">
+<div class="<if condition=" !empty($_REQUEST['domain']) ">tabs<else/>pageContent</if>">
 	<form method="post" action="__URL__/<empty name="vo[getModelPk(MODULE_NAME)]">insert<else />update</empty>/navTabId/{:MODULE_NAME}" class="pageForm required-validate" onsubmit="return validateCallback(this,dialogAjaxDone);">
 		<input type="hidden" name="{:getModelPk(MODULE_NAME)}" value="{$vo[getModelPk(MODULE_NAME)]}" >
-		<input type="hidden" name="update_time" value="{:date("Y-m-d H:i:s")}">
-		<empty name="vo[getModelPk(MODULE_NAME)]"><input type="hidden" name="add_time" value="{:date("Y-m-d H:i:s")}"></empty>
-		<div class="pageFormContent" layoutH="58">
-			<if condition=" empty($_REQUEST['domain']) ">
-			<div class="unit">
-				<label>网站域名：</label>
-				<input type="text" class="required"  name="domain" value="{$vo['domain']}">
+		
+		<if condition=" !empty($_REQUEST['domain']) ">
+		<div class="tabsHeader">
+			<div class="tabsHeaderContent">
+				<ul>
+					<li class="selected"><a href="#"><span>基础设置</span></a></li>
+					<li><a href="#"><span>描述设置</span></a></li>
+					<li><a href="#"><span>登陆注册设置</span></a></li>
+					<li><a href="#"><span>系统设置</span></a></li>
+				</ul>
 			</div>
-			<else />
-			<input type="hidden" name="domain" value="{$_REQUEST['domain']}">
-			</if>
-			<div class="unit">
-				<label>网站名称：</label>
-				<input type="text" class="required"  name="name" value="{$vo['name']}">
-			</div>
+		</div>
+		<div class="tabsContent" layouth="69">
+			<div>
+		</if>
+				<div class="pageFormContent" layoutH="58">
+					<if condition=" empty($_REQUEST['domain']) ">
+					<div class="unit">
+						<label>网站域名：</label>
+						<input type="text" class="required"  name="domain" value="{$vo['domain']}">
+					</div>
+					<else />
+					<input type="hidden" name="domain" value="{$_REQUEST['domain']}">
+					</if>
+					<div class="unit">
+						<label>网站名称：</label>
+						<input type="text" class="required"  name="name" value="{$vo['name']}">
+					</div>
 			<if condition=" !empty($_REQUEST['domain']) ">
-			<div class="unit">
-				<label>网站语言：</label>
-				<empty name="vo[getModelPk(MODULE_NAME)]">
-				<select name="blcode">
-					<require file="Admin,BaseLang/treeSelectOption" />
-				</select>
-				<else />
-				<input type="text" class="required"  name="blcode" value="{:findById('Admin/BaseLang',array('code'=>$vo['blcode']),'name')}" disabled="true" >
-				<input type="hidden" name="blcode" value="{$vo['blcode']}" >
-				</empty>
+					<div class="unit">
+						<label>网站语言：</label>
+						<empty name="vo[getModelPk(MODULE_NAME)]">
+						<select name="blcode">
+							<require file="Admin,BaseLang/treeSelectOption" />
+						</select>
+						<else />
+						<input type="text" class="required"  name="blcode" value="{:findById('Admin/BaseLang',array('code'=>$vo['blcode']),'name')}" disabled="true" >
+						<input type="hidden" name="blcode" value="{$vo['blcode']}" >
+						</empty>
+					</div>
+					<div class="unit">
+						<label>网站模板：</label>
+						<input type="text" class="huge bLeft"  name="template" value="<empty name="vo['template']">default<else />{$vo['template']}</empty>">
+					</div>
+					<div class="unit">
+						<label>网站备案号：</label>
+						<input type="text" name="record_no" value="{$vo['record_no']}">
+					</div>
+					<div class="unit">
+						<label>网站底部信息：</label>
+						<textarea class="huge bLeft" name="bottom_info" ROWS="5" COLS="57">{$vo['bottom_info']}</textarea>
+					</div>
+				</div>
 			</div>
-			<div class="unit">
-				<label>网站模板：</label>
-				<input type="text" class="huge bLeft"  name="template" value="<empty name="vo['template']">default<else />{$vo['template']}</empty>">
+			<div>
+				<div class="pageFormContent" layoutH="58">
+					<div class="unit">
+						<label>网站关键字：</label>
+						<textarea class="huge bLeft" name="keywords" ROWS="5" COLS="57">{$vo['keywords']}</textarea>
+					</div>
+					<div class="unit">
+						<label>网站描述：</label>
+						<textarea class="huge bLeft" name="description" ROWS="5" COLS="57">{$vo['description']}</textarea>
+					</div>
+				</div>
 			</div>
-			<div class="unit">
-				<label>网站备案号：</label>
-				<input type="text" name="record_no" value="{$vo['record_no']}">
+			<div>
+				<div class="pageFormContent" layoutH="58">
+					<div class="unit">
+						<label>启用独立用户：</label>
+						<input type="radio" name="enable_alone_user" <eq name="vo['enable_alone_user']" value="0">checked</eq> value="0">不启用
+						<input type="radio" name="enable_alone_user" <eq name="vo['enable_alone_user']" value="1">checked</eq> value="1">启用
+					</div>
+					<div class="unit">
+						<label>启用登陆日志：</label>
+						<input type="radio" name="enable_login_log" <eq name="vo['enable_login_log']" value="0">checked</eq> value="0">不启用
+						<input type="radio" name="enable_login_log" <eq name="vo['enable_login_log']" value="1">checked</eq> value="1">启用
+					</div>
+					<div class="unit">
+						<label>启用ajax注册：</label>
+						<input type="radio" name="is_ajax_reg" <eq name="vo['is_ajax_reg']" value="0">checked</eq> value="0">不启用
+						<input type="radio" name="is_ajax_reg" <eq name="vo['is_ajax_reg']" value="1">checked</eq> value="1">启用
+					</div>
+					<div class="unit">
+						<label>启用ajax登陆：</label>
+						<input type="radio" name="is_ajax_login" <eq name="vo['is_ajax_login']" value="0">checked</eq> value="0">不启用
+						<input type="radio" name="is_ajax_login" <eq name="vo['is_ajax_login']" value="1">checked</eq> value="1">启用
+					</div>
+					<div class="unit">
+						<label>注册信息：</label>
+						<?php $regInfo = explode(',',$vo['reg_info']);?>
+						<input type="checkbox" name="reg_info[]" <if condition=" in_array(1,$regInfo) ">checked</if> value="1">用户名
+						<input type="checkbox" name="reg_info[]" <if condition=" in_array(2,$regInfo) ">checked</if> value="2">手机号
+						<input type="checkbox" name="reg_info[]" <if condition=" in_array(3,$regInfo) ">checked</if> value="3">邮箱
+						<input type="checkbox" name="reg_info[]" <if condition=" in_array(4,$regInfo) ">checked</if> value="4">确认密码
+						<input type="checkbox" name="reg_info[]" <if condition=" in_array(5,$regInfo) ">checked</if> value="5">性别
+						<input type="checkbox" name="reg_info[]" <if condition=" in_array(6,$regInfo) ">checked</if> value="6">出生日期-年
+						<input type="checkbox" name="reg_info[]" <if condition=" in_array(7,$regInfo) ">checked</if> value="7">出生日期-月
+						<br/>
+						<input type="checkbox" name="reg_info[]" <if condition=" in_array(8,$regInfo) ">checked</if> value="8">出生日期-日
+						<input type="checkbox" name="reg_info[]" <if condition=" in_array(9,$regInfo) ">checked</if> value="9">居住地区-省
+						<input type="checkbox" name="reg_info[]" <if condition=" in_array(10,$regInfo) ">checked</if> value="10">居住地区-市
+						<input type="checkbox" name="reg_info[]" <if condition=" in_array(11,$regInfo) ">checked</if> value="11">居住地区-区
+					</div>
+					<div class="unit">
+						<label>登陆方式：</label>
+						<?php $loginType = explode(',',$vo['login_type']);?>
+						<input type="checkbox" name="login_type[]" <if condition=" in_array(1,$loginType) ">checked</if> value="1">用户名
+						<input type="checkbox" name="login_type[]" <if condition=" in_array(2,$loginType) ">checked</if> value="2">手机号
+						<input type="checkbox" name="login_type[]" <if condition=" in_array(3,$loginType) ">checked</if> value="3">邮箱
+						<input type="checkbox" name="login_type[]" <if condition=" in_array(4,$loginType) ">checked</if> value="4">uid
+					</div>
+					<div class="unit">
+						<label>联合登陆使用地方：</label>
+						<?php $jointLoginShow = explode(',',$vo['joint_login_show']);?>
+						<input type="checkbox" name="joint_login_show[]" <if condition=" in_array(1,$jointLoginShow) ">checked</if> value="1">登陆页
+						<input type="checkbox" name="joint_login_show[]" <if condition=" in_array(2,$jointLoginShow) ">checked</if> value="2">注册页
+					</div>
+					<div class="unit">
+						<label>联合登陆方式：</label>
+						<?php $jointLoginType = explode(',',$vo['joint_login_type']);?>
+						<input type="checkbox" name="joint_login_type[]" <if condition=" in_array('qq',$jointLoginType) ">checked</if> value="qq">QQ
+						<input type="checkbox" name="joint_login_type[]" <if condition=" in_array('weixin',$jointLoginType) ">checked</if> value="weixin">微信
+						<input type="checkbox" name="joint_login_type[]" <if condition=" in_array('tencent',$jointLoginType) ">checked</if> value="tencent">腾讯微博
+						<input type="checkbox" name="joint_login_type[]" <if condition=" in_array('sina',$jointLoginType) ">checked</if> value="sina">新浪微博
+						<input type="checkbox" name="joint_login_type[]" <if condition=" in_array('t163',$jointLoginType) ">checked</if> value="t163">网易微博
+						<input type="checkbox" name="joint_login_type[]" <if condition=" in_array('sohu',$jointLoginType) ">checked</if> value="sohu">搜狐微博
+						<input type="checkbox" name="joint_login_type[]" <if condition=" in_array('alipay',$jointLoginType) ">checked</if> value="alipay">支付宝
+						<br/>
+						<input type="checkbox" name="joint_login_type[]" <if condition=" in_array('taobao',$jointLoginType) ">checked</if> value="taobao">淘宝网
+						<input type="checkbox" name="joint_login_type[]" <if condition=" in_array('renren',$jointLoginType) ">checked</if> value="renren">人人网
+						<input type="checkbox" name="joint_login_type[]" <if condition=" in_array('kaixin',$jointLoginType) ">checked</if> value="kaixin">开心网
+						<input type="checkbox" name="joint_login_type[]" <if condition=" in_array('x360',$jointLoginType) ">checked</if> value="x360">360
+						<input type="checkbox" name="joint_login_type[]" <if condition=" in_array('douban',$jointLoginType) ">checked</if> value="douban">豆瓣
+						<input type="checkbox" name="joint_login_type[]" <if condition=" in_array('github',$jointLoginType) ">checked</if> value="github">Github
+						<input type="checkbox" name="joint_login_type[]" <if condition=" in_array('google',$jointLoginType) ">checked</if> value="google">Google
+						<input type="checkbox" name="joint_login_type[]" <if condition=" in_array('msn',$jointLoginType) ">checked</if> value="msn">MSN
+						<br/>
+						<input type="checkbox" name="joint_login_type[]" <if condition=" in_array('diandian',$jointLoginType) ">checked</if> value="diandian">点点
+						<input type="checkbox" name="joint_login_type[]" <if condition=" in_array('baidu',$jointLoginType) ">checked</if> value="baidu">百度
+					</div>
+				</div>
 			</div>
-			<div class="unit">
-				<label>网站关键字：</label>
-				<textarea class="huge bLeft" name="keywords" ROWS="5" COLS="57">{$vo['keywords']}</textarea>
-			</div>
-			<div class="unit">
-				<label>网站描述：</label>
-				<textarea class="huge bLeft" name="description" ROWS="5" COLS="57">{$vo['description']}</textarea>
-			</div>
-			<div class="unit">
-				<label>网站底部信息：</label>
-				<textarea class="huge bLeft" name="bottom_info" ROWS="5" COLS="57">{$vo['bottom_info']}</textarea>
+			<div>
+				<div class="pageFormContent" layoutH="58">
+					<?php $moduleList = C('MODULE_LIST');?>
+					<div class="unit">
+						<label>启用模块：</label>
+						<?php $enableModule = explode(',',$vo['enable_module']);?>
+						<volist name="moduleList" id="module" >
+						<input type="checkbox" name="enable_module[]" <if condition=" in_array($key,$enableModule) ">checked</if> value="{$key}">{$module['name']}
+						</volist>
+					</div>
+					<div class="unit">
+						<label>启用独立菜单：</label>
+						<?php $enableAloneMenu = explode(',',$vo['enable_alone_menu']);?>
+						<volist name="moduleList" id="module" >
+						<input type="checkbox" name="enable_alone_menu[]" <if condition=" in_array($key,$enableAloneMenu) ">checked</if> value="{$key}">{$module['name']}
+						</volist>
+					</div>
+					<div class="unit">
+						<label>启用区域：</label>
+						<?php $enableArea = explode(',',$vo['enable_area']);?>
+						<input type="checkbox" name="enable_area[]" <if condition=" in_array(1,$enableArea) ">checked</if> value="1">国家
+						<input type="checkbox" name="enable_area[]" <if condition=" in_array(2,$enableArea) ">checked</if> value="2">省市
+						<input type="checkbox" name="enable_area[]" <if condition=" in_array(3,$enableArea) ">checked</if> value="3">城市
+						<input type="checkbox" name="enable_area[]" <if condition=" in_array(4,$enableArea) ">checked</if> value="4">区县
+					</div>
+					<div class="unit">
+						<label>启用广告js：</label>
+						<input type="radio" name="enable_ad_js" <eq name="vo['enable_ad_js']" value="0">checked</eq> value="0">不启用
+						<input type="radio" name="enable_ad_js" <eq name="vo['enable_ad_js']" value="1">checked</eq> value="1">启用
+					</div>
+					<div class="unit">
+						<label>启用多应用设备：</label>
+						<input type="radio" name="enable_app_device" <eq name="vo['enable_app_device']" value="0">checked</eq> value="0">不启用
+						<input type="radio" name="enable_app_device" <eq name="vo['enable_app_device']" value="1">checked</eq> value="1">启用
+					</div>
+					<div class="unit">
+						<label>启用接口独立域名：</label>
+						<input type="radio" name="enable_interface_alone_domain" <eq name="vo['enable_interface_alone_domain']" value="0">checked</eq> value="0">不启用
+						<input type="radio" name="enable_interface_alone_domain" <eq name="vo['enable_interface_alone_domain']" value="1">checked</eq> value="1">启用
+					</div>
+					<div class="unit">
+						<label>启用接口调用：</label>
+						<?php $enableInterface = explode(',',$vo['enable_interface']);?>
+						<input type="checkbox" name="enable_interface[]" <if condition=" in_array('BaseService',$enableInterface) ">checked</if> value="BaseService">基础服务
+						<input type="checkbox" name="enable_interface[]" <if condition=" in_array('BlogService',$enableInterface) ">checked</if> value="BlogService">博客服务
+						<input type="checkbox" name="enable_interface[]" <if condition=" in_array('ProductService',$enableInterface) ">checked</if> value="ProductService">产品服务
+						<input type="checkbox" name="enable_interface[]" <if condition=" in_array('SearchService',$enableInterface) ">checked</if> value="SearchService">搜索服务
+						<input type="checkbox" name="enable_interface[]" <if condition=" in_array('SystemService',$enableInterface) ">checked</if> value="SystemService">系统服务
+						<input type="checkbox" name="enable_interface[]" <if condition=" in_array('UserService',$enableInterface) ">checked</if> value="UserService">用户服务
+					</div>
+					<div class="unit">
+						<label>启用二级域名：</label>
+						<?php $enableTwoTomain = explode(',',$vo['enable_two_domain']);?>
+						<input type="checkbox" name="enable_two_domain[]" <if condition=" in_array('admin',$enableTwoTomain) ">checked</if> value="admin">管理
+						<input type="checkbox" name="enable_two_domain[]" <if condition=" in_array('service',$enableTwoTomain) ">checked</if> value="service">服务
+						<input type="checkbox" name="enable_two_domain[]" <if condition=" in_array('Admin',$enableTwoTomain) ">checked</if> value="Admin">配置管理
+						<input type="checkbox" name="enable_two_domain[]" <if condition=" in_array('BaseAdmin',$enableTwoTomain) ">checked</if> value="BaseAdmin">基础管理
+						<input type="checkbox" name="enable_two_domain[]" <if condition=" in_array('BaseService',$enableTwoTomain) ">checked</if> value="BaseService">基础服务
+						<br/>
+						<input type="checkbox" name="enable_two_domain[]" <if condition=" in_array('Blog',$enableTwoTomain) ">checked</if> value="Blog">博客
+						<input type="checkbox" name="enable_two_domain[]" <if condition=" in_array('BlogAdmin',$enableTwoTomain) ">checked</if> value="BlogAdmin">博客管理
+						<input type="checkbox" name="enable_two_domain[]" <if condition=" in_array('BlogService',$enableTwoTomain) ">checked</if> value="BlogService">博客服务
+						<input type="checkbox" name="enable_two_domain[]" <if condition=" in_array('Product',$enableTwoTomain) ">checked</if> value="Product">产品
+						<input type="checkbox" name="enable_two_domain[]" <if condition=" in_array('ProductAdmin',$enableTwoTomain) ">checked</if> value="ProductAdmin">产品管理
+						<input type="checkbox" name="enable_two_domain[]" <if condition=" in_array('ProductService',$enableTwoTomain) ">checked</if> value="ProductService">产品服务
+						<br/>
+						<input type="checkbox" name="enable_two_domain[]" <if condition=" in_array('Search',$enableTwoTomain) ">checked</if> value="Search">搜索
+						<input type="checkbox" name="enable_two_domain[]" <if condition=" in_array('SearchAdmin',$enableTwoTomain) ">checked</if> value="SearchAdmin">搜索管理
+						<input type="checkbox" name="enable_two_domain[]" <if condition=" in_array('SearchService',$enableTwoTomain) ">checked</if> value="SearchService">搜索服务
+						<input type="checkbox" name="enable_two_domain[]" <if condition=" in_array('System',$enableTwoTomain) ">checked</if> value="System">系统
+						<input type="checkbox" name="enable_two_domain[]" <if condition=" in_array('SystemAdmin',$enableTwoTomain) ">checked</if> value="SystemAdmin">系统管理
+						<input type="checkbox" name="enable_two_domain[]" <if condition=" in_array('SystemService',$enableTwoTomain) ">checked</if> value="SystemService">系统服务
+						<input type="checkbox" name="enable_two_domain[]" <if condition=" in_array('User',$enableTwoTomain) ">checked</if> value="User">用户
+						<input type="checkbox" name="enable_two_domain[]" <if condition=" in_array('UserAdmin',$enableTwoTomain) ">checked</if> value="UserAdmin">用户管理
+						<input type="checkbox" name="enable_two_domain[]" <if condition=" in_array('UserService',$enableTwoTomain) ">checked</if> value="UserService">用户服务
+					</div>
+				</div>
 			</div>
 			</if>
 		</div>
 		<div class="formBar">
 			<ul>
-				<li><div class="buttonActive"><div class="buttonContent"><button type="submit">保存</button></div></div></li>
+				<li><div class="buttonActive"><div class="buttonContent"><button type="submit" onclick="setTimeout('reloadeAjax()',2000);">保存</button></div></div></li>
 				<li><div class="button"><div class="buttonContent"><button type="button" class="close">取消</button></div></div></li>
 			</ul>
 		</div>
 	</form>
 </div>
+
 

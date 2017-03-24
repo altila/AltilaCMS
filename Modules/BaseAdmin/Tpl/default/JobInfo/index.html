@@ -1,0 +1,127 @@
+<if condition=" $_REQUEST['isAjaxBox'] neq 1 ">
+<div class="pageContent">
+
+	<div class="tabs">
+
+		<neq name="_REQUEST['returnRequire']" value="1">
+		<require file="Admin,BaseLang/selectLang" />
+		</neq>
+
+		<div class="tabsContent">
+
+			<div>
+
+				<neq name="_REQUEST['returnRequire']" value="1">
+				<div style="float:left; width:170px; border:1px solid rgb(204, 204, 204); background: none repeat scroll 0% 0% rgb(255, 255, 255);" layouth="35">
+					<?php $condition = 'model=6&';?>
+					<require file="BaseAdmin,SiteMenu/treeListShow" />
+				</div>
+				</neq>
+
+				<div class="unitBox" id="{:MODULE_NAME}AjaxBox" <neq name="_REQUEST['returnRequire']" value="1">style="margin-left:176px;"</neq>>
+</if>
+
+					<require file="Admin,Public/pagerForm" />
+
+					<div class="pageHeader">
+						<form onsubmit="return navTabSearch(this);" action="__URL__" method="post">
+							<div class="searchBar">
+								<ul class="searchContent">
+									<li>
+										<label>招聘名称：</label>
+										<input type="text" name="name" value="{$_REQUEST['name']}" >
+									</li>
+									<require file="Admin,Block/validDateInput" />
+									<require file="Admin,Block/statusOption" />
+
+									<input type="hidden" name="sid" value="{$_REQUEST['sid']}" >
+									<input type="hidden" name="smid" value="{$_REQUEST['smid']}" >
+									<div class="subBar">
+										<div class="buttonActive"><div class="buttonContent"><button type="submit">查询</button></div></div>
+									</div>
+
+								</ul>
+							</div>
+						</form>
+					</div>
+
+					<if condition="  $_REQUEST['smid'] != null and $_REQUEST['returnRequire'] != 1">
+					<div class="panelBar">
+						<ul class="toolBar">
+							<li><a class="add" href="__URL__/add?sid={$_REQUEST['sid']}&smid={$_REQUEST['smid']}" target="dialog" max="true" mask="true"><span>新增</span></a></li>
+							<li><a class="delete" href="__URL__/delete?{:getModelPk(MODULE_NAME)}={_id}" target="ajaxTodo" title="你确定要删除吗？" warn="请选择数据" onclick="setTimeout('reloadeAjax()',2000);"><span>删除</span></a></li>
+							<li><a class="edit" href="__URL__/edit?{:getModelPk(MODULE_NAME)}={_id}" target="dialog" max="true" mask="true" warn="请选择数据"><span>修改</span></a></li>
+							<li><a class="edit" href="__URL__/sort?sid={$_REQUEST['sid']}&smid={$_REQUEST['smid']}" target="dialog" mask="true" width="600" height="400" ><span>排序</span></a></li>
+						</ul>
+					</div>
+					</if>
+
+					<table class="table" width="100%" layoutH="143">
+						<thead>
+							<tr>
+								<eq name="_REQUEST['returnRequire']" value="1">
+								<th width="30">带回</th>
+								</eq>
+								<th width="50">编号</th>
+								<th width="">招聘名称</th>
+								<th width="">招聘人数</th>
+								<th width="">招聘地区</th>
+								<th width="">工作年限</th>
+								<th width="">月薪范围</th>
+								<th width="">学历要求</th>
+								<th width="" orderField="sort" <if condition="$_REQUEST['orderField'] eq 'sort'">class="{$_REQUEST['orderDirection']}"</if> >排序</th>
+								<th width="95">开始时间</th>
+								<th width="95">结束时间</th>
+								<th width="95">更新时间</th>
+								<th width="35" orderField="status" <if condition="$_REQUEST['orderField'] eq 'status'">class="{$_REQUEST['orderDirection']}"</if> >状态</th>
+							</tr>
+						</thead>
+						<tbody>
+							<if condition=" $_REQUEST['smid'] != null || $_REQUEST['returnRequire'] == 1 ">
+							<volist id="vo" name="list">
+							<tr target="_id" rel="{$vo[getModelPk(MODULE_NAME)]}">
+								<eq name="_REQUEST['returnRequire']" value="1">
+								<td><a class="btnSelect" href="javascript:$.bringBack({<?php echo getModelPk(MODULE_NAME).":'".$vo[getModelPk(MODULE_NAME)]."'"; ?>})" title="查找带回">选择</a></td>
+								</eq>
+								<td>{$vo[getModelPk(MODULE_NAME)]}</td>
+								<td>{$vo['name']}</td>
+								<td>{$vo['num']}</td>
+								<td>{:findById('Admin/BaseArea',$vo['province'],'name')}-{:findById('Admin/BaseArea',$vo['city'],'name')}-{:findById('Admin/BaseArea',$vo['area'],'name')}</td>
+								<?php $workYear = L('WorkYear');?>
+								<td>{$workYear[$vo['work_year']]}</td>
+								<?php $provideSalary = L('PeovideSalary');?>
+								<td>{$provideSalary[$vo['provide_salary']]}</td>
+								<?php $degreeFrom = L('DegreeFrom');?>
+								<td>{$degreeFrom[$vo['degree_from']]}</td>
+								<td>{$vo['sort']}</td>
+								<td>{$vo['start_time']|substr=2,14}</td>
+								<td>{$vo['end_time']|substr=2,14}</td>
+								<td>{$vo['update_time']|substr=2,14}</td>
+								<td>{$vo['status']|showStatus=$vo[getModelPk(MODULE_NAME)],'',getModelPk(MODULE_NAME),'',1,'setTimeout("reloadeAjax()",1300);'}</td>
+							</tr>
+							</volist>
+							</if>
+						</tbody>
+					</table>
+
+					<div class="panelBar">
+						<div class="pages">
+							<span>共<if condition=" !empty($totalCount) ">{$totalCount}<else/>0</if>条</span>
+						</div>
+						<require file="Admin,Public/pagerHtml" />
+					</div>
+
+<if condition=" $_REQUEST['isAjaxBox'] neq 1 ">
+				</div>
+
+			</div>
+
+		</div>
+	</div>
+
+</div>
+</if>
+
+<?php $params = 'smid='.$_REQUEST['smid']; ?>
+<require file="Admin,Block/reloadeAjaxHtml" />
+

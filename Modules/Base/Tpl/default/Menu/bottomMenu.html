@@ -1,0 +1,9 @@
+<div class="bottomMenu">
+	<volist name="menuList" id="menu" >
+	<if condition=" ($menu['show_position']&4) == 4 ">
+	<a target="_blank" href="{:getUrl( $menu['model'], $menu )}" title="{$menu['name']}">{$menu['name']}</a>
+	</if>
+	</volist>
+	<a target="_blank" href="{:getUrl( 'SiteMap' )}" title="{:L('SiteMap_index')}">{:L('SiteMap_index')}</a>
+</div>
+

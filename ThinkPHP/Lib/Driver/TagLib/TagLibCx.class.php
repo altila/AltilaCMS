@@ -23,26 +23,26 @@ class TagLibCx extends TagLib {
     protected $tags   =  array(
         // 标签定义： attr 属性列表 close 是否闭合（0 或者1 默认1） alias 标签别名 level 嵌套层次
         'php'       =>  array(),
-        'volist'    =>  array('attr'=>'name,id,offset,length,key,mod','level'=>3,'alias'=>'iterate'),
-        'foreach'   =>  array('attr'=>'name,item,key','level'=>3),
-        'if'        =>  array('attr'=>'condition','level'=>2),
+        'volist'    =>  array('attr'=>'name,id,offset,length,key,mod','level'=>6,'alias'=>'iterate'),
+        'foreach'   =>  array('attr'=>'name,item,key','level'=>6),
+        'if'        =>  array('attr'=>'condition','level'=>5),
         'elseif'    =>  array('attr'=>'condition','close'=>0),
         'else'      =>  array('attr'=>'','close'=>0),
-        'switch'    =>  array('attr'=>'name','level'=>2),
+        'switch'    =>  array('attr'=>'name','level'=>5),
         'case'      =>  array('attr'=>'value,break'),
         'default'   =>  array('attr'=>'','close'=>0),
-        'compare'   =>  array('attr'=>'name,value,type','level'=>3,'alias'=>'eq,equal,notequal,neq,gt,lt,egt,elt,heq,nheq'),
-        'range'     =>  array('attr'=>'name,value,type','level'=>3,'alias'=>'in,notin,between,notbetween'),
-        'empty'     =>  array('attr'=>'name','level'=>3),
-        'notempty'  =>  array('attr'=>'name','level'=>3),
-        'present'   =>  array('attr'=>'name','level'=>3),
-        'notpresent'=>  array('attr'=>'name','level'=>3),
-        'defined'   =>  array('attr'=>'name','level'=>3),
-        'notdefined'=>  array('attr'=>'name','level'=>3),
+        'compare'   =>  array('attr'=>'name,value,type','level'=>6,'alias'=>'eq,equal,notequal,neq,gt,lt,egt,elt,heq,nheq'),
+        'range'     =>  array('attr'=>'name,value,type','level'=>6,'alias'=>'in,notin,between,notbetween'),
+        'empty'     =>  array('attr'=>'name','level'=>6),
+        'notempty'  =>  array('attr'=>'name','level'=>6),
+        'present'   =>  array('attr'=>'name','level'=>6),
+        'notpresent'=>  array('attr'=>'name','level'=>6),
+        'defined'   =>  array('attr'=>'name','level'=>6),
+        'notdefined'=>  array('attr'=>'name','level'=>6),
         'import'    =>  array('attr'=>'file,href,type,value,basepath','close'=>0,'alias'=>'load,css,js'),
         'assign'    =>  array('attr'=>'name,value','close'=>0),
         'define'    =>  array('attr'=>'name,value','close'=>0),
-    	'for'       =>  array('attr'=>'start,end,name,comparison,step', 'level'=>3),
+    	'for'       =>  array('attr'=>'start,end,name,comparison,step', 'level'=>6),
         );
 
     /**
@@ -360,7 +360,7 @@ class TagLibCx extends TagLib {
         if($type=='between') {
             $parseStr = '<?php $_RANGE_VAR_='.$str.';if('.$name.'>= $_RANGE_VAR_[0] && '.$name.'<= $_RANGE_VAR_[1]):?>'.$content.'<?php endif; ?>';
         }elseif($type=='notbetween'){
-            $parseStr = '<?php $_RANGE_VAR_='.$str.';if('.$name.'<$_RANGE_VAR_[0] && '.$name.'>$_RANGE_VAR_[1]):?>'.$content.'<?php endif; ?>';
+            $parseStr = '<?php $_RANGE_VAR_='.$str.';if('.$name.'<$_RANGE_VAR_[0] || '.$name.'>$_RANGE_VAR_[1]):?>'.$content.'<?php endif; ?>';
         }else{
             $fun        =  ($type == 'in')? 'in_array'    :   '!in_array';
             $parseStr   = '<?php if('.$fun.'(('.$name.'), '.$str.')): ?>'.$content.'<?php endif; ?>';

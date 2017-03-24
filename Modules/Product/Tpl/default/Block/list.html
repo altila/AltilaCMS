@@ -1,0 +1,14 @@
+<div class="container">
+    <div class="row">
+		<ul>
+			<volist name="list[data]" id="vo">
+            <li class="span3">
+                <a target="_blank" href="{:getUrl( $modelName."_info", $vo )}"  title="{$vo['name']}">
+					<img original="{$vo['thumbnail']}" src="{:C('DEFAULT_IMG')}" alt="{$vo['name']}"/>
+                    <h4>{$vo['name']}</h4>
+                </a>
+			</li>
+			</volist>
+        </ul>
+    </div>
+</div>

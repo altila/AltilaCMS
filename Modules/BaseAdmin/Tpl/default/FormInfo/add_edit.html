@@ -1,0 +1,61 @@
+<div class="pageContent">
+	<form method="post" action="__URL__/<empty name="vo[getModelPk(MODULE_NAME)]">insert<else />update</empty>/navTabId/{:MODULE_NAME}" class="pageForm required-validate" onsubmit="return validateCallback(this,dialogAjaxDone);">
+		<input type="hidden" name="{:getModelPk(MODULE_NAME)}" value="{$vo[getModelPk(MODULE_NAME)]}" >
+		<input type="hidden" name="sid" value="<empty name="vo[getModelPk(MODULE_NAME)]">{$_REQUEST['sid']}<else />{$vo['sid']}</empty>" >
+		<input type="hidden" name="smid" value="<empty name="vo[getModelPk(MODULE_NAME)]">{$_REQUEST['smid']}<else />{$vo['smid']}</empty>" >
+		<div class="pageFormContent" layoutH="58">
+			<div class="unit">
+				<label>字段名称：</label>
+				<input type="text" class="required"  name="name" value="{$vo['name']}">
+			</div>
+			<div class="unit">
+				<label>字段键名：</label>
+				<input type="text" class="required"  name="key" value="{$vo['key']}">
+			</div>
+			<require file="Admin,BaseAppDevice/treeInputCkbox" />
+			<div class="unit">
+				<label>表单类型：</label>
+				<select name="input_type" id="input_type">
+					<option <eq name="vo['input_type']" value="1" >selected</eq> value="1">手录</option>
+					<option <eq name="vo['input_type']" value="2" >selected</eq> value="2">单选</option>
+					<option <eq name="vo['input_type']" value="3" >selected</eq> value="3">多选</option>
+					<option <eq name="vo['input_type']" value="4" >selected</eq> value="4">多行</option>
+				</select>
+			</div>
+			<div class="unit input_type">
+				<label>字段键值：</label>
+				<textarea name="value" rows="5" cols="57">{$vo[value]}</textarea>
+			</div>
+			<div class="unit">
+				<label>字段长度：</label>
+				<input type="text" name="input_length" value="<empty name="vo['input_length']">255<else/>{$vo['input_length']}</empty>">
+			</div>
+			<div class="unit">
+				<label>是否必填：</label>
+				<select name="is_required">
+					<option <eq name="vo['is_required']" value="0" >selected</eq> value="0">否</option>
+					<option <eq name="vo['is_required']" value="1" >selected</eq> value="1">是</option>
+				</select>
+			</div>
+		</div>
+		<div class="formBar">
+			<ul>
+				<li><div class="buttonActive"><div class="buttonContent"><button type="submit" onclick="setTimeout('reloadeAjax()',2000);">保存</button></div></div></li>
+				<li><div class="button"><div class="buttonContent"><button type="button" class="close">取消</button></div></div></li>
+			</ul>
+		</div>
+	</form>
+</div>
+
+<script type="text/javascript">
+$("#input_type").change(function(){changeHref();});
+$(document).ready(function(){changeHref();});
+function changeHref(){
+	var type = $("#input_type").val();
+	if( type != 1 && type != 4 && type != 5 )
+		$(".input_type").show();
+	else
+		$(".input_type").hide();
+}
+</script>
+

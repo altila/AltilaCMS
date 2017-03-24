@@ -1,0 +1,105 @@
+<div class="pageContent">
+
+	<div class="tabs">
+
+		<div class="tabsContent">
+
+			<div>
+
+				<div class="unitBox" >
+
+					<require file="Admin,Public/pagerForm" />
+
+					<div class="pageHeader">
+						<form onsubmit="return <neq name="_REQUEST['returnRequire']" value="1">navTabSearch(this);<else />dwzSearch(this, 'dialog');</neq>" action="__URL__" method="post">
+							<div class="searchBar">
+								<ul class="searchContent">
+									<li>
+										<label>用户ID：</label>
+										<input type="text" name="uid" value="{$_REQUEST['uid']}" >
+									</li>
+									<li>
+										<label>用户名称：</label>
+										<input type="text" name="user_id" value="{$_REQUEST['user_id']}" >
+									</li>
+
+									<input type="hidden" name="sid" value="{$_REQUEST['sid']}" >
+									<input type="hidden" name="returnRequire" value="{$_REQUEST['returnRequire']}" >
+									<div class="subBar">
+										<div class="buttonActive"><div class="buttonContent"><button type="submit">查询</button></div></div>
+									</div>
+
+								</ul>
+							</div>
+						</form>
+					</div>
+
+					<div class="panelBar">
+						<ul class="toolBar">
+							<li><a class="add" href="__URL__/add" target="dialog" mask="true"><span>新增</span></a></li>
+							<li><a class="delete" href="__URL__/delete?{:getModelPk(MODULE_NAME)}={_id}" target="ajaxTodo" title="你确定要删除吗？" warn="请选择数据"><span>删除</span></a></li>
+							<li><a class="edit" href="__URL__/edit?{:getModelPk(MODULE_NAME)}={_id}" target="dialog" mask="true" warn="请选择数据"><span>修改</span></a></li>
+						</ul>
+					</div>
+
+					<table class="table" width="100%" layoutH="117">
+						<thead>
+							<tr>
+								<eq name="_REQUEST['returnRequire']" value="1">
+								<th width="30">带回</th>
+								</eq>
+								<th width="50">编号</th>
+								<th width="">用户名称</th>
+								<neq name="_REQUEST['returnRequire']" value="1">
+								<th width="">用户手机</th>
+								<th width="">用户邮箱</th>
+								<th width="">用户来源</th>
+								<th width="">注册IP</th>
+								<th width="130">更新时间</th>
+								<th width="35" orderField="status" <if condition="$_REQUEST['orderField'] eq 'status'">class="{$_REQUEST['orderDirection']}"</if> >状态</th>
+								<th width="160">更多操作</th>
+								</neq>
+							</tr>
+						</thead>
+						<tbody>
+							<volist id="vo" name="list">
+							<tr target="_id" rel="{$vo[getModelPk(MODULE_NAME)]}">
+								<eq name="_REQUEST['returnRequire']" value="1">
+								<td><a class="btnSelect" href="javascript:$.bringBack({uid:'<?php echo $vo[getModelPk(MODULE_NAME)]; ?>'})" title="查找带回">选择</a></td>
+								</eq>
+								<td>{$vo[getModelPk(MODULE_NAME)]}</td>
+								<td>{$vo['user_id']}</td>
+								<neq name="_REQUEST['returnRequire']" value="1">
+								<td>{$vo['mobile']}({$vo['check_mobile']})</td>
+								<td>{$vo['email']}({$vo['check_email']})</td>
+								<td>{$vo['source_code']}</td>
+								<td>{$vo['reg_ip']}</td>
+								<td>{$vo['update_time']}</td>
+								<td>{$vo['status']|showStatus=$vo[getModelPk(MODULE_NAME)],'',getModelPk(MODULE_NAME)}</td>
+								<td>
+									<a href="__GROUP__/UserInfo/index?{:getModelPk(MODULE_NAME)}={$vo[getModelPk(MODULE_NAME)]}" rel="UserInfo" target="navTab">查看详细</a>&nbsp;&nbsp;
+								</td>
+								</neq>
+							</tr>
+							</volist>
+						</tbody>
+					</table>
+
+					<div class="panelBar">
+						<div class="pages">
+							<span>共<if condition=" !empty($totalCount) ">{$totalCount}<else/>0</if>条</span>
+						</div>
+						<require file="Admin,Public/pagerHtml" />
+					</div>
+
+				</div>
+
+			</div>
+
+		</div>
+	</div>
+
+</div>
+
+
+

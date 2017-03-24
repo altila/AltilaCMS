@@ -1,0 +1,40 @@
+<notempty name="ad['apCode']">
+<div ap="ad_{$ad['apCode']}" class="{$ad['afCode']}_{$ad['apCode']}" <neq name="ad['apStyle']" value="">style="{$ad['apStyle']}"</neq>>
+
+<!-- Carousel
+    ================================================== -->
+    <div id="myCarousel" class="carousel slide" data-ride="carousel">
+      <!-- Indicators -->
+      <ol class="carousel-indicators">
+      	<volist name="ad['list']" id="vo" offset="0" length="$ad['sum']">
+        <li data-target="#myCarousel" data-slide-to="{$vo["sort"]-1}" <eq name='vo["sort"]' value='1'>class="active"</eq>></li>
+        </volist>
+      </ol>
+      <div class="carousel-inner" role="listbox">
+		<volist name="ad['list']" id="vo" offset="0" length="$ad['sum']">
+		{//图片 开始}
+		<div class="item <eq name='vo["sort"]' value='1'>active</eq>" ad="{$vo['adid']}" <neq name="vo['aiStyle']" value="">style="{$vo['aiStyle']}"</neq>>
+			<notempty name="vo['link']"><a title="{$vo['name']}" href="{$vo['link']}" target="_blank"></notempty>
+				<img border="0" alt="{$vo['name']}" src="{$vo['content']}" />
+			<notempty name="vo['link']"></a></notempty>
+		</div>
+		{//图片 结束}
+		</volist>
+      </div>
+      <a class="left carousel-control" href="#myCarousel" role="button" data-slide="prev">
+        <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+        <span class="sr-only">Previous</span>
+      </a>
+      <a class="right carousel-control" href="#myCarousel" role="button" data-slide="next">
+        <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+        <span class="sr-only">Next</span>
+      </a>
+    </div><!-- /.carousel -->
+
+
+
+
+	
+</div>
+</notempty>
+

@@ -13,10 +13,9 @@
 class ABaseAction extends BaseAction {
     // 初始化
 	function _initialize() {
-		//设置默认语言
-		cookie('think_language',C('DEFAULT_LANG'),3600);
 		//父类构造函数
 		parent::_initialize();
+		//设置权限
 		import("ORG.Util.RBAC",LIB_PATH);
 		if ( !RBAC::AccessDecision() ) {
 			// 没有权限 抛出错误
@@ -28,19 +27,6 @@ class ABaseAction extends BaseAction {
 				$this->error(L('_VALID_ACCESS_'));
 			}
 		}
-	}
-
-	/**
-	+----------------------------------------------------------
-	* 操作成功后要返回的URL地址 - 默认为当前模块
-	+----------------------------------------------------------
-	* @access  public
-	+----------------------------------------------------------
-	* @return  str
-	+----------------------------------------------------------
-	*/
-	public function getReturnUrl() {
-		return "http://{$_SERVER[HTTP_HOST]}" . daddslashes(__SELF__);
 	}
 
 	/**
@@ -92,7 +78,7 @@ class ABaseAction extends BaseAction {
 		$map = array ();
 		foreach ( $model->getDbFields() as $key => $val ) {
 			if ( isset($_REQUEST[$val]) && $_REQUEST[$val] !== null && $_REQUEST[$val] !== '' )
-				$map[$val] = ( in_array($val,array('name','title','code')) ) ? array( 'like', "%{$_REQUEST[$val]}%" ) : $_REQUEST[$val];
+				$map[$val] = ( in_array($val,array('name','title','code','key')) ) ? array( 'like', "%{$_REQUEST[$val]}%" ) : $_REQUEST[$val];
 		}
 		return $map;
 	}
@@ -136,6 +122,7 @@ class ABaseAction extends BaseAction {
 			$p = new Page ( $count, $listRows );
 			//分页查询数据
 			$voList = $model->where ( $map )->field ( $field )->order ( $orderSort )->limit ( "{$p->firstRow},{$p->listRows}" )->group ( $group )->select ();
+			//print_r($model->getLastsql());
 			//分页跳转的时候保证查询条件
 			foreach ( $map as $key => $val ) {
 				if ( !is_array($val) ) $p->parameter .= "$key=" . urlencode ( $val ) . "&";
@@ -150,10 +137,23 @@ class ABaseAction extends BaseAction {
 			$this->assign ( "id", $model->getpk() );
 		}
 		$this->assign ( 'totalCount', $p->totalRows );
-		$this->assign ( 'numPerPage', $p->totalPages );
+		$this->assign ( 'numPerPage', $p->listRows );
 		$this->assign ( 'currentPage', $p->nowPage );
+		//后置操作
+		$this->_after_list($map);
 		return;
 	}
+
+	/**
+	+----------------------------------------------------------
+	* 列表后置操作
+	+----------------------------------------------------------
+	* @access  public
+	+----------------------------------------------------------
+	* @return  str
+	+----------------------------------------------------------
+	*/
+	public function _after_list() {}
 
 	/**
 	+----------------------------------------------------------
@@ -243,7 +243,7 @@ class ABaseAction extends BaseAction {
 		//后置操作
 		$this->_after_insert();
 		//新增成功
-		$this->assign ( 'jumpUrl', $this->getReturnUrl() );
+		$this->assign ( 'jumpUrl', getReturnUrl() );
 		$this->ajaxReturn( '', "新增成功!", 1 );
 	}
 
@@ -310,7 +310,7 @@ class ABaseAction extends BaseAction {
 		if( false === $model->editForeach() )
 			$this->ajaxReturn( '', "修改失败!", 0 );
 		//新增成功
-		$this->assign ( 'jumpUrl', $this->getReturnUrl() );
+		$this->assign ( 'jumpUrl', getReturnUrl() );
 		$this->ajaxReturn( '', "修改成功!", 1 );
 	}
 
@@ -336,7 +336,7 @@ class ABaseAction extends BaseAction {
 		//后置操作
 		$this->_after_update();
 		//编辑成功
-		$this->assign( 'jumpUrl', $this->getReturnUrl() );
+		$this->assign( 'jumpUrl', getReturnUrl() );
 		$this->ajaxReturn( '', "编辑成功!", 1 );
 	}
 
@@ -402,13 +402,15 @@ class ABaseAction extends BaseAction {
 		$id = $_REQUEST[$pk];
 		if( empty($id) ) $this->ajaxReturn( '', "非法操作!", 0 );
 		$condition = array( $pk => array('in',explode(',',$id) ) );
+		//永久删除 或 逻辑删除[默认]
+		$result = ( $_REQUEST['isForever'] == 1 ) ? $model->foreverDelete( $condition ) : $model->logicDelete( $condition );
 		//删除失败
-		if( false === $model->logicDelete( $condition ) )
+		if( false === $result )
 			$this->ajaxReturn( '', "删除失败!", 0 );
 		//后置操作
 		$this->_after_delete();
 		//删除成功
-		$this->assign( "jumpUrl", $this->getReturnUrl() );
+		$this->assign( "jumpUrl", getReturnUrl() );
 		$this->ajaxReturn( '', "删除成功!", 1 );
 	}
 
@@ -446,7 +448,7 @@ class ABaseAction extends BaseAction {
 		//后置操作
 		$this->_after_forbid();
 		//禁用成功
-		$this->assign( "jumpUrl", $this->getReturnUrl() );
+		$this->assign( "jumpUrl", getReturnUrl() );
 		$this->ajaxReturn( '', "禁用成功!", 1 );
 	}
 
@@ -484,7 +486,7 @@ class ABaseAction extends BaseAction {
 		//后置操作
 		$this->_after_checkPass();
 		//批准成功
-		$this->assign( "jumpUrl", $this->getReturnUrl() );
+		$this->assign( "jumpUrl", getReturnUrl() );
 		$this->ajaxReturn( '', "批准成功!", 1 );
 	}
 
@@ -522,7 +524,7 @@ class ABaseAction extends BaseAction {
 		//后置操作
 		$this->_after_resume();
 		//恢复成功
-		$this->assign( "jumpUrl", $this->getReturnUrl() );
+		$this->assign( "jumpUrl", getReturnUrl() );
 		$this->ajaxReturn( '', "恢复成功!", 1 );
 	}
 
@@ -560,7 +562,7 @@ class ABaseAction extends BaseAction {
 		//后置操作
 		$this->_after_recycle();
 		//恢复成功
-		$this->assign( "jumpUrl", $this->getReturnUrl() );
+		$this->assign( "jumpUrl", getReturnUrl() );
 		$this->ajaxReturn( '', "还原成功!", 1 );
 	}
 
@@ -586,11 +588,11 @@ class ABaseAction extends BaseAction {
 	+----------------------------------------------------------
 	*/
 	public function sort() {
-		$_REQUEST['orderField'] = 'sort';
-		$_REQUEST['orderDirection'] = 'asc';
-		$_REQUEST['status'] = 1;
+		$_REQUEST['orderField'] = $_REQUEST['orderField'] ? $_REQUEST['orderField'] : 'sort';
+		$_REQUEST['orderDirection'] = $_REQUEST['orderDirection'] ? $_REQUEST['orderDirection'] : 'asc';
 		//列表过滤器，生成查询Map对象
 		$map = $this->_search();
+		$map['status'] = 1;
 		if( method_exists( $this, '_filter' ) )
 			$this->_filter( $map );
 		$model = D( $this->getActionName() );
@@ -610,6 +612,7 @@ class ABaseAction extends BaseAction {
 	*/
 	public function saveSort() {
 		$seqNoList = $_POST['seqNoList'];
+		$order = $_REQUEST['orderField'] ? $_REQUEST['orderField'] : 'sort';
 		if ( empty($seqNoList) ) return;
 		//更新数据对象
 		$model = D( $this->getActionName() );
@@ -618,7 +621,7 @@ class ABaseAction extends BaseAction {
 		$model->startTrans();
 		foreach ( $col as $val ) {
 			$val = explode( ':', $val );
-			$model->sort = $val[1];
+			$model->$order = $val[1];
 			$result = $model->where( "{$model->getPk()}={$val[0]}" )->save();
 			if( false === $result ) break;
 		}
@@ -647,23 +650,22 @@ class ABaseAction extends BaseAction {
 		if( empty($key) ) $this->ajaxReturn( '', "非法操作!", 0 );
 		$model->clearCache( $key, $_REQUEST['type'] );
 		//清楚成功
-		$this->assign( "jumpUrl", $this->getReturnUrl() );
+		$this->assign( "jumpUrl", getReturnUrl() );
 		$this->ajaxReturn( '', "清楚成功!", 1 );
 	}
 
 	/**
 	+----------------------------------------------------------
-	* 获取节点树
+	* 导出Excel
 	+----------------------------------------------------------
 	* @access  public
-	* @param   arr      $condition      条件
 	+----------------------------------------------------------
 	* @return  arr
 	+----------------------------------------------------------
 	*/
-	public function getTree( $condition ) {
-		$model = D( $this->getActionName() );
-		return $model->getTree( $condition );
+	public function exportExcel( $condition ) {
+		import("ORG.Vendor.BaseExcel",LIB_PATH);
+		BaseExcel::write( $condition );
 	}
 
 }

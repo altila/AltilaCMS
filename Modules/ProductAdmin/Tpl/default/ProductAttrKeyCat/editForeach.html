@@ -1,0 +1,12 @@
+<div class="pageContent">
+	<form method="post" action="__URL__/updateForeach/navTabId/{:MODULE_NAME}" class="pageForm required-validate" onsubmit="return validateCallback(this,dialogAjaxDone);">
+		<input type="hidden" name="pakid" value="{$_REQUEST['pakid']}">
+		<input type="hidden" name="status" value="1">
+		<input type="hidden" name="pkField" value="pakid">
+		<input type="hidden" name="field" value="smid">
+		<require file="ProductAdmin,ProductAttrKeyCat/treeSelectCkbox" />
+		<input type="hidden" name="smid" id="smid" value="">
+		<input type="hidden" name="appName" value="ProductAdmin">
+	</form>
+</div>
+

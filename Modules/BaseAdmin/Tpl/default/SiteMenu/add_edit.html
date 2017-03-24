@@ -1,0 +1,134 @@
+<form method="post" action="__URL__/<empty name="vo[getModelPk(MODULE_NAME)]">insert<else />update</empty>/navTabId/{:MODULE_NAME}" class="pageForm required-validate" onsubmit="return validateCallback(this,navTabAjaxDone);">
+	<div class="tabs">
+		<input type="hidden" name="{:getModelPk(MODULE_NAME)}" value="{$vo[getModelPk(MODULE_NAME)]}" >
+		<input type="hidden" name="sid" value="<empty name="vo[getModelPk(MODULE_NAME)]">{$_REQUEST['sid']}<else />{$vo['sid']}</empty>" >
+
+		<div class="tabsHeader">
+			<div class="tabsHeaderContent">
+				<ul>
+					<li class="selected"><a href="#"><span>基础设置</span></a></li>
+					<li><a href="#"><span>高级设置</span></a></li>
+				</ul>
+			</div>
+		</div>
+		<div class="tabsContent" layouth="168">
+			<div>
+				<div class="pageFormContent" layoutH="188">
+					<div class="unit">
+						<label>菜单编码：</label>
+						<input type="text" class="required alphanumeric"  name="code" value="{$vo['code']}" <notempty name="vo[getModelPk(MODULE_NAME)]">disabled</notempty> >
+					</div>
+					<div class="unit">
+						<label>菜单名称：</label>
+						<input type="text" class="required"  name="name" value="{$vo['name']}">
+					</div>
+					<div class="unit">
+						<label>父级名称：</label>
+						<select name="parent_id">
+							<option <eq name="vo['parent_id']" value="0" >selected</eq> value="0">顶级</option>
+							<?php $_condition = "sid=" . ( !empty($_REQUEST['sid']) ? $_REQUEST['sid'] : $vo['sid'] ); ?>
+							<model model="SiteMenu" fun="getTreeLine" condition="$_condition" order="" limit="" key="i" result="acResult">
+							<option <eq name="vo['parent_id']" value="$acResult[getModelPk(MODULE_NAME)]" >selected</eq> value="{$acResult[getModelPk(MODULE_NAME)]}">{$acResult['childStr']}{$acResult['sort']}.{$acResult['name']}({$acResult['code']})</option>
+							</model>
+						</select>
+					</div>
+					<div class="unit">
+						<label>菜单模型：</label>
+						<select name="model" id="model">
+							<if condition=" in_array( '1', explode(',',$siteInfo[$_COOKIE['think_language']]['enable_module']) ) ">
+							<option <eq name="vo['model']" value="0" >selected</eq> value="0">单篇</option>
+							</if>
+							<require file="BaseAdmin,SiteMenu/modelSelect" />
+						</select>
+					</div>
+					<div class="unit">
+						<label>菜单类型：</label>
+						<select name="type" id="type">
+							<option <eq name="vo['type']" value="0" >selected</eq> value="0">列表制</option>
+							<option <eq name="vo['type']" value="1" >selected</eq> value="1">引导栏目(不能发布内容,只作显示)</option>
+							<option <eq name="vo['type']" value="2" >selected</eq> value="2">外部链接</option>
+						</select>
+					</div>
+					<div class="unit model0" style="display:none">
+						<label class="model0">内容ID：</label>
+						<input class="model0" type="text" class="large bLeftRequire"  name="dwz.orgId.aiid" value="{$vo['type']}">
+						<a class="model0 btnLook" href="__GROUP__/ArticleInfo/index?sid=<empty name="vo[getModelPk(MODULE_NAME)]">{$_REQUEST['sid']}<else />{$vo['sid']}</empty>&returnRequire=1&smid=0" rel="{:MODULE_NAME}Select" mask="true" lookupGroup="orgId" >选择文章ID</a>
+					</div>
+					
+					<div class="unit type2" style="display:none">
+						<label class="type2">外部链接：</label>
+						<input class="type2" type="text" name="link" value="{$vo['link']}">
+					</div>
+					<div class="unit">
+						<label>显示位置：</label>
+						<input type="checkbox" name="show_position[]" <if condition=" ($vo['show_position']&1) == 1 ">checked</if> value="1">顶部
+						<input type="checkbox" name="show_position[]" <if condition=" ($vo['show_position']&2) == 2 ">checked</if> value="2">中部
+						<input type="checkbox" name="show_position[]" <if condition=" ($vo['show_position']&4) == 4 ">checked</if> value="4">底部
+					</div>
+				</div>
+			</div>
+			<div>
+				<div class="pageFormContent" layoutH="188">
+					<div class="unit">
+						<label>菜单样式：</label>
+						<input type="text" name="class" value="{$vo['class']}">
+					</div>
+					<div class="unit">
+						<label>列表模板名称：</label>
+						<input type="text" name="template_list" value="<empty name="vo['template_list']">index<else/>{$vo['template_list']}</empty>">
+					</div>
+					<div class="unit">
+						<label>内容模板名称：</label>
+						<input type="text" name="template_info" value="<empty name="vo['template_info']">index<else/>{$vo['template_info']}</empty>">
+					</div>
+					<div class="unit">
+						<label>是否显示子集：</label>
+						<select name="is_show_child" >
+							<option <eq name="vo['is_show_child']" value="0">selected</eq> value="0">否</option>
+							<option <eq name="vo['is_show_child']" value="1">selected</eq> value="1">是</option>
+						</select>
+					</div>
+					<div class="unit">
+						<label>是否隐藏：</label>
+						<select name="is_hide" >
+							<option <eq name="vo['is_hide']" value="0">selected</eq> value="0">否</option>
+							<option <eq name="vo['is_hide']" value="1">selected</eq> value="1">是</option>
+						</select>
+					</div>
+					<div class="unit">
+						<label>是否新开页：</label>
+						<select name="is_open" >
+							<option <eq name="vo['is_open']" value="0">selected</eq> value="0">否</option>
+							<option <eq name="vo['is_open']" value="1">selected</eq> value="1">是</option>
+						</select>
+					</div>
+					<div class="unit">
+						<label>是否高亮：</label>
+						<select name="is_highlight" >
+							<option <eq name="vo['is_highlight']" value="0">selected</eq> value="0">否</option>
+							<option <eq name="vo['is_highlight']" value="1">selected</eq> value="1">是</option>
+						</select>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="formBar">
+			<ul>
+				<li><div class="buttonActive"><div class="buttonContent"><button type="submit">保存</button></div></div></li>
+				<!--<li><div class="button"><div class="buttonContent"><button type="button" class="close">取消</button></div></div></li>-->
+			</ul>
+		</div>
+	</div>
+</form>
+
+<script type="text/javascript">
+$("#type").change(function(){changeHref();});
+$("#model").change(function(){changeHref();$("[class^='type']").hide();});
+$(document).ready(function(){changeHref();});
+function changeHref(){
+	var type = $("#type").val(), model = $("#model").val();
+	$("[class^='type']").hide();  $(".type"+type).show();
+	$("[class^='model']").hide(); $(".model"+model).show();
+}
+</script>
+

@@ -1,0 +1,33 @@
+<div class="pageContent">
+	<form method="post" action="__URL__/<empty name="vo[getModelPk(MODULE_NAME)]">insert<else />update</empty>/navTabId/{:MODULE_NAME}" class="pageForm required-validate" onsubmit="return validateCallback(this,dialogAjaxDone);">
+		<input type="hidden" name="{:getModelPk(MODULE_NAME)}" value="{$vo[getModelPk(MODULE_NAME)]}" >
+		<input type="hidden" name="sid" value="<empty name="vo[getModelPk(MODULE_NAME)]">{$_REQUEST['sid']}<else />{$vo['sid']}</empty>" >
+		<input type="hidden" name="apid" value="<empty name="vo[getModelPk(MODULE_NAME)]">{$_REQUEST['apid']}<else />{$vo['apid']}</empty>" >
+		<div class="pageFormContent" layoutH="58">
+			<div class="unit">
+				<label>广告ID：</label>
+				<input type="text" class="required"  name="dwz.orgId.adid" value="{$vo['adid']}">
+				<a class="btnLook" href="__GROUP__/AdInfo/index?sid=<empty name="vo[getModelPk(MODULE_NAME)]">{$_REQUEST['sid']}<else />{$vo['sid']}</empty>&apid=<empty name="vo[getModelPk(MODULE_NAME)]">{$_REQUEST['apid']}<else />{$vo['apid']}</empty>&returnRequire=1" class="btnLook" rel="{:MODULE_NAME}Select" mask="true" lookupGroup="orgId" >选择广告ID</a>
+			</div>
+			<div class="unit">
+				<label>开始时间：</label>
+				<input type="text" name="start_time"  value="<empty name="vo[getModelPk(MODULE_NAME)]">1970-01-01 08:00<else />{$vo['start_time']|substr=0,16}</empty>" class="date required" format="yyyy-MM-dd HH:mm" readonly="true"/>
+			</div>
+			<div class="unit">
+				<label>结束时间：</label>
+				<input type="text" name="end_time"  value="<empty name="vo[getModelPk(MODULE_NAME)]">1970-01-01 08:00<else />{$vo['end_time']|substr=0,16}</empty>" class="date required" format="yyyy-MM-dd HH:mm" readonly="true"/>
+			</div>
+			<div class="unit">
+				<label>顺序：</label>
+				<input type="text" name="sort" value="{$vo['sort']}">
+			</div>
+		</div>
+		<div class="formBar">
+			<ul>
+				<li><div class="buttonActive"><div class="buttonContent"><button type="submit" onclick="setTimeout('reloadeAjax()',2000);">保存</button></div></div></li>
+				<li><div class="button"><div class="buttonContent"><button type="button" class="close">取消</button></div></div></li>
+			</ul>
+		</div>
+	</form>
+</div>
+

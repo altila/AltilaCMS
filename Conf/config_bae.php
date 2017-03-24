@@ -2,12 +2,9 @@
 //BAE下固定mysql配置
 return array(
 
-	'URL_MODEL'=>3,
-	'BUCKET_PREFIX'=>'altila-',
-
 	/* 路径自定义变量 */
 	'TMPL_PARSE_STRING'     => array(
-		'__UPLOAD__'            => file_domain('altila-uploads'),     // 文件上传路径
+		'__UPLOAD__'        => file_domain('altila-uploads'), // 文件上传路径
 	),
 	'__UPLOAD__'            => file_domain('altila-uploads'), // 文件上传路径
 

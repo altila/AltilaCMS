@@ -1,0 +1,14 @@
+<?php
+$stimeName = $stimeName ? $stimeName : 'start_time';
+$etimeName = $etimeName ? $etimeName : 'end_time';
+?>
+
+<li>
+	<label>开始时间：</label>
+	<input type="text" name="{$stimeName}" value="{$_REQUEST[$stimeName]}" class="date" format="yyyy-MM-dd HH:mm" >
+</li>
+<li>
+	<label>结束时间：</label>
+	<input type="text" name="{$etimeName}" value="{$_REQUEST[$etimeName]}" class="date" format="yyyy-MM-dd HH:mm" >
+</li>
+

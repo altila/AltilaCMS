@@ -2,12 +2,10 @@
 	<form method="post" action="__URL__/updateForeach/navTabId/{:MODULE_NAME}" class="pageForm required-validate" onsubmit="return validateCallback(this,dialogAjaxDone);">
 		<input type="hidden" name="sid" value="{$_REQUEST['sid']}" >
 		<input type="hidden" name="rid" value="{$_REQUEST['rid']}">
-		<input type="hidden" name="update_time" value="{:date("Y-m-d H:i:s")}">
-		<input type="hidden" name="add_time" value="{:date("Y-m-d H:i:s")}">
 		<input type="hidden" name="status" value="1">
 		<input type="hidden" name="pkField" value="rid">
 		<input type="hidden" name="field" value="nid">
-		<include file="treeSelectCkbox" />
+		<require file="Admin,SiteAccess/treeSelectCkbox" />
 		<input type="hidden" name="nid" id="nid" value="">
 		<input type="hidden" name="appName" value="Admin">
 	</form>

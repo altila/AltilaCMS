@@ -1,0 +1,93 @@
+<div class="pageContent">
+	<div class="accountInfo">
+		<p>总资产：<span>{$balanceSum+$investment}</span>，&nbsp;&nbsp;&nbsp;&nbsp;净资产：<span>{$balanceSum-$debtSum}</span></p>
+		<p>债务：<span>{$debtSum}</span>，&nbsp;&nbsp;&nbsp;&nbsp;投资：<span>{$investment}</span></p>
+	</div>
+
+	<div class="tabs">
+
+		<div class="tabsContent">
+
+			<div>
+
+				<div class="unitBox" >
+
+					<require file="Admin,Public/pagerForm" />
+
+					<div class="pageHeader">
+						<form onsubmit="return navTabSearch(this);" action="__URL__" method="post">
+							<div class="searchBar">
+								<ul class="searchContent">
+									<li>
+										<label>开始时间：</label>
+										<input class="Wdate" type="text" name="start_time" value="{$_REQUEST['start_time']|substr=0,7}" onClick="WdatePicker({dateFmt:'yyyy'})">
+									</li>
+									<li>
+										<label>结束时间：</label>
+										<input class="Wdate" type="text" name="end_time" value="{$_REQUEST['end_time']|substr=0,7}" onClick="WdatePicker({dateFmt:'yyyy'})">
+									</li>
+
+									<div class="subBar">
+										<div class="buttonActive"><div class="buttonContent"><button type="submit">查询</button></div></div>
+									</div>
+
+								</ul>
+							</div>
+						</form>
+					</div>
+
+					<div class="panelBar">
+						<ul class="toolBar">
+							<li><a class="edit" href="__URL__/showStatistics/type/1" target="dialog" width="900" height="550"><span>展示存款图</span></a></li>
+							<li><a class="edit" href="__URL__/showStatistics/type/2" target="dialog" width="900" height="550"><span>展示支出图</span></a></li>
+							<li><a class="edit" href="__URL__/showStatistics/type/3" target="dialog" width="900" height="550"><span>展示收入图</span></a></li>
+							<li><a class="edit" href="__URL__/showStatistics/type/4" target="dialog" width="900" height="550"><span>展示债务图</span></a></li>
+						</ul>
+					</div>
+
+					<table class="table" width="100%" layoutH="178">
+						<thead>
+							<tr>
+								<th width="">时间</th>
+								<th width="">用户</th>
+								<th width="">收入</th>
+								<th width="">支出</th>
+								<th width="">债务</th>
+								<th width="">投资证券</th>
+								<th width="130">更新时间</th>
+								<th width="130">添加时间</th>
+							</tr>
+						</thead>
+						<tbody>
+							<volist id="vo" name="list">
+							<tr target="_id" rel="{$vo[getModelPk(MODULE_NAME)]}">
+								<td>{$vo['transaction_time']|substr=0,7}</td>
+								<td>{:findById('UserAdmin/UserBase',$vo['uid'],'user_id')}({$vo['uid']})</td>
+								<td>{$vo['income']}</td>
+								<td>{$vo['expenses']}</td>
+								<td>{$vo['debt']}</td>
+								<td>{$vo['investment_stock']}</td>
+								<td>{$vo['update_time']}</td>
+								<td>{$vo['create_time']}</td>
+							</tr>
+							</volist>
+						</tbody>
+					</table>
+
+					<div class="panelBar">
+						<div class="pages">
+							<span>共<if condition=" !empty($totalCount) ">{$totalCount}<else/>0</if>条</span>
+						</div>
+						<require file="Admin,Public/pagerHtml" />
+					</div>
+
+				</div>
+
+			</div>
+
+		</div>
+	</div>
+
+</div>
+
+

@@ -1,0 +1,31 @@
+<if condition=" $_REQUEST['isAjaxBox'] neq 1 ">
+<div class="pageContent">
+
+
+	<div class="tabs">
+
+		<div class="tabsContent">
+
+			<div>
+
+				<div style="float:left; width:225px; border:1px solid rgb(204, 204, 204); background: none repeat scroll 0% 0% rgb(255, 255, 255);" layouth="15">
+					<require file="FinanceAdmin,FinanceTag/treeListShow" />
+				</div>
+
+				<div class="unitBox" id="{:MODULE_NAME}AjaxBox" style="margin-left:231px;">
+</if>
+
+					<php>$keyPk = 'ftid';</php>
+					<require file="FinanceAdmin,FinanceTransaction/index_backup" />
+
+<if condition=" $_REQUEST['isAjaxBox'] neq 1 ">
+				</div>
+
+			</div>
+
+		</div>
+	</div>
+
+</div>
+</if>
+

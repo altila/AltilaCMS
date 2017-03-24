@@ -1,0 +1,9 @@
+<?php 
+$moduleName = 'AdPosition';
+$appName = 'BaseAdmin';
+$_condition = "sid=" . ( !empty($_REQUEST['sid']) ? $_REQUEST['sid'] : $vo['sid'] );
+$valueName = 'code';
+$field = empty($field) ? array('id'=>'model_value') : $field;
+?>
+
+<require file="Admin,Block/treeSelectOption" />

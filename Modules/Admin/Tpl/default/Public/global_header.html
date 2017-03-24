@@ -4,10 +4,11 @@
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF8">
 		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
 		<title>CMS管理系统</title>
+		<php>echo get_static_file(array('global.css'),'public');</php>
 		<php>echo get_static_file(array('global.css',$css.'.css'),'admin');</php>
 	</head>
 	<body>
-	<php>echo get_static_file(array('jquery-1.4.3.min.js','jquery.cookie.js','common.js'),'public');</php>
+	<php>echo get_static_file(array('jquery-1.7.2.min.js','jquery.cookie.js','jquery.validate.js','jquery.form.js','form.js','common.js'),'public');</php>
 	
 	<require file="Admin,Public/consts_js" />
 

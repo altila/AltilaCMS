@@ -1,0 +1,9 @@
+<?php
+$enableModule = explode(',',$siteInfo[$_COOKIE['think_language']]['enable_module']);
+$moduleList = C('MODULE_LIST');
+?>
+<volist name="moduleList" id="module" >
+<if condition=" !in_array( $key, array('0') ) and in_array( $key, $enableModule ) ">
+<option <eq name="vo['model']" value="$key" >selected</eq> value="{$key}">{$module['name']}</option>
+</if>
+</volist>

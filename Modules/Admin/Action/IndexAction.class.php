@@ -19,7 +19,7 @@ class IndexAction extends AIndexAction {
 	+----------------------------------------------------------
 	*/
 	public function index(){
-		redirect( domain("AdminBase") );
+		redirect( domain("BaseAdmin") );
 	}
 
 	/**
@@ -28,7 +28,7 @@ class IndexAction extends AIndexAction {
 	+----------------------------------------------------------
 	*/
 	public function indexExt(){
-		$this->display ();
+		$this->display();
 	}
 
 

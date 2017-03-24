@@ -6,11 +6,17 @@
 				<label>地区编码：</label>
 				<input type="text" class="required"  name="baid" value="{$vo['baid']}" <notempty name="vo[getModelPk(MODULE_NAME)]">disabled</notempty> >
 			</div>
+			<neq name="vo['new_baid']" value="0">
+			<div class="unit">
+				<label>新地区编码：</label>
+				<input type="text" name="new_baid" value="{$vo['new_baid']}" >
+			</div>
+			</neq>
 			<div class="unit">
 				<label>父级名称：</label>
 				<select name="parent_id">
 					<option <eq name="vo['parent_id']" value="0" >selected</eq> value="0">顶级</option>
-					<include file="treeSelectOption" />
+					<require file="Admin,BaseArea/treeSelectOption" />
 				</select>
 			</div>
 			<div class="unit">

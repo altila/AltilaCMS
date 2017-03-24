@@ -1,0 +1,75 @@
+<h2><empty name="info['name']">{$vo['name']}<else/>{$info['name']}</empty></h2>
+<div class="">
+	<form id="{:MODULE_NAME}{$_REQUEST['smid']}">
+		<input type="hidden" name="smid" value="{$_REQUEST['smid']}" >
+		<volist name="list[data]" id="vo">
+		<div class="form_row">
+			<span class="">
+				<eq name="vo['is_required']" value="1"><span class="">*</span></eq>
+				{$vo['name']}：
+			</span>
+			<switch name="vo['input_type']" >
+
+			<case value="2">
+			<select name="content[{$vo['fiid']}]">
+				<option value="">请选择</option>
+				<volist name="vo['value']" id="val">
+				<option value="{$val}">{$val}</option>
+				</volist>
+			</select>
+			</case>
+
+			<case value="3">
+			<volist name="vo['value']" id="val">
+			<input type="checkbox" name="content[{$vo['fiid']}][]" value="{$val}">{$val}
+			</volist>
+			</case>
+
+			<case value="4"><textarea name="content[{$vo['fiid']}]" class="{$vo['fiid']}" rows="5" cols="57"></textarea></case>
+
+			<default /><input type="text" name="content[{$vo['fiid']}]" class="{$vo['fiid']}"/>
+
+			</switch>
+			<div class="errorinfo">&nbsp;</div>
+		</div>
+		</volist>
+		<div class="form_row">
+			<span>验证码：</span>
+			<input type="text" name="verify" class="verify" tips="请输入验证码，不区分大小写"/>
+			<img alt="点击更换验证码" id="verifyImg" name="verifyImg" src="" onclick="common.validPic( $('#verifyImg') )" />
+			<div class="errorinfo">&nbsp;</div>
+		</div>
+		<div class="form_row">
+			<input type="submit" name="submit" class="btn" value="提交" />
+		</div>
+	</form>
+</div>
+
+
+<script type="text/javascript">
+	$(function(){
+		//初始化验证码图片
+		common.validPic( $("#verifyImg") );
+	});
+	
+	var formId = '#{:MODULE_NAME}{$_REQUEST['smid']}';
+	//扩展规则
+	var expand = {};
+	//表单提交回调函数
+	function frmContentResponse(responseText, statusText) {
+		if (responseText.substr) responseText = eval('(' + responseText + ')');
+		switch (responseText.status) {
+			case 1:
+				alert("提交成功");
+				break;
+			default:
+				$("." + responseText.field).nextAll(".errorinfo").html('<font color="red">'+responseText.msg+'</font>');
+				break;
+		}
+		//初始化验证码图片
+		common.validPic( $("#verifyImg") );
+	}
+	//表单验证、AJAX提交等
+	fromvalidate($(formId),consts('www')+'/FormContent/setValue',Request,frmContentResponse,".errorinfo",expand);
+</script>
+

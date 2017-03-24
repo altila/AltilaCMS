@@ -18,7 +18,9 @@ class AArticleInfoAction extends ABaseAction {
 	+----------------------------------------------------------
 	*/
 	public function _filter( &$map ) {
-		if(!empty($_REQUEST['appdcode'])) $map['_string'] = "appdcode&{$_REQUEST['appdcode']}={$_REQUEST['appdcode']}";
+		if( !empty($_REQUEST['start_time']) ) $map['start_time'] = array( 'lt',$_REQUEST['start_time'] );
+		if( !empty($_REQUEST['end_time']) ) $map['end_time'] = array( 'gt',$_REQUEST['start_time'] );
+		if( !empty($_REQUEST['appdcode']) ) $map['_string'] = "appdcode&{$_REQUEST['appdcode']}={$_REQUEST['appdcode']}";
 		unset($map['appdcode']);
 	}
 
@@ -42,7 +44,7 @@ class AArticleInfoAction extends ABaseAction {
 
 	/**
 	+----------------------------------------------------------
-	* 前置操作
+	* 操作
 	+----------------------------------------------------------
 	*/
 	public function beforeOperate() {
@@ -51,6 +53,7 @@ class AArticleInfoAction extends ABaseAction {
 		$content = htmlspecialchars_decode( $_POST['content'] );
 		//文章标签
 		if( !empty($_POST['tags_name']) ) $_POST['tags_name'] = str_replace( '，', ',', $_POST['tags_name'] );
+		if( !empty($_POST['source_url']) ) $_POST['source_url'] = str_replace( '，', ',', $_POST['source_url'] );
 		//文章简述
 		$_POST['description'] = !empty($description) ? msubstr( strip_tags($description), 0, 100 ) : msubstr( strip_tags($content), 0, 100 );
 		//替换图片路径

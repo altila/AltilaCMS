@@ -1,0 +1,42 @@
+<div class="pageContent">
+	<form method="post" action="__URL__/<empty name="vo[getModelPk(MODULE_NAME)]">insert<else />update</empty>/navTabId/{:MODULE_NAME}" class="pageForm required-validate" onsubmit="return validateCallback(this,dialogAjaxDone);">
+		<input type="hidden" name="{:getModelPk(MODULE_NAME)}" value="{$vo[getModelPk(MODULE_NAME)]}" >
+		<input type="hidden" name="sid" value="<empty name="vo[getModelPk(MODULE_NAME)]">{$_REQUEST['sid']}<else />{$vo['sid']}</empty>" >
+		<input type="hidden" name="smid" value="<empty name="vo[getModelPk(MODULE_NAME)]">{$_REQUEST['smid']}<else />{$vo['smid']}</empty>" >
+		<input type="hidden" name="uid" value="{$userInfo['Uid']}">
+		<div class="pageFormContent" layoutH="58">
+			<div class="unit">
+				<label>文章名称：</label>
+				<input type="text" class="required"  name="name" value="{$vo['name']}">
+			</div>
+			<require file="Admin,BaseAppDevice/treeInputCkbox" />
+			<div class="unit">
+				<label>标题样式：</label>
+				<input type="text" name="class" value="{$vo['class']}">
+			</div>
+			<!--<div class="unit">
+				<label>文章缩略图：</label>
+				<require file="Admin,Block/formUpImage" />
+			</div>-->
+			<div class="unit">
+				<label>文章来源：</label>
+				<input type="text" style="width:400px"  name="source_url" value="{$vo['source_url']}">
+			</div>
+			<div class="unit">
+				<label>文章简述：</label>
+				<textarea name="description" rows="5" cols="57">{$vo['description']}</textarea>
+			</div>
+			<div class="unit">
+				<label>文章内容：</label>
+				<require file="Admin,Block/formEditor" />
+			</div>
+		</div>
+		<div class="formBar">
+			<ul>
+				<li><div class="buttonActive"><div class="buttonContent"><button type="submit" onclick="setTimeout('reloadeAjax()',2000);">保存</button></div></div></li>
+				<li><div class="button"><div class="buttonContent"><button type="button" class="close">取消</button></div></div></li>
+			</ul>
+		</div>
+	</form>
+</div>
+

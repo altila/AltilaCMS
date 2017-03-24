@@ -19,7 +19,7 @@ defined('THINK_PATH') or exit();
 if(version_compare(PHP_VERSION,'5.2.0','<'))  die('require PHP > 5.2.0 !');
 
 //  版本信息
-define('THINK_VERSION', '3.1.2');
+define('THINK_VERSION', '3.1.3');
 
 //   系统信息
 if(version_compare(PHP_VERSION,'5.4.0','<')) {
@@ -219,7 +219,7 @@ function build_first_action() {
 }
 
 // 生成目录安全文件
-function build_dir_secure($dirs='') {
+function build_dir_secure($dirs=array()) {
     // 目录安全写入
     if(defined('BUILD_DIR_SECURE') && BUILD_DIR_SECURE) {
         defined('DIR_SECURE_FILENAME')  or define('DIR_SECURE_FILENAME',    'index.html');

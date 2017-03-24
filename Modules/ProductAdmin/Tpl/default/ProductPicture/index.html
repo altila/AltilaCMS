@@ -1,0 +1,106 @@
+<if condition=" $_REQUEST['isAjaxBox'] neq 1 ">
+<div class="pageContent">
+
+	<div class="tabs">
+
+		<neq name="_REQUEST['returnRequire']" value="1">
+		<require file="Admin,BaseLang/selectLang" />
+		</neq>
+
+		<div class="tabsContent">
+
+			<div>
+
+				<div class="unitBox">
+
+</if>
+					<require file="Admin,Public/pagerForm" />
+
+					<div class="pageHeader">
+						<form onsubmit="return <neq name="_REQUEST['returnRequire']" value="1">navTabSearch(this);<else />dwzSearch(this, 'dialog');</neq>" action="__URL__" method="post">
+							<div class="searchBar">
+								<ul class="searchContent">
+									<li>
+										<label>图片名称：</label>
+										<input type="text" name="name" value="{$_REQUEST['name']}" >
+									</li>
+									<input type="hidden" name="piid" value="{$_REQUEST['piid']}" >
+									<input type="hidden" name="sid" value="{$_REQUEST['sid']}" >
+									<div class="subBar">
+										<div class="buttonActive"><div class="buttonContent"><button type="submit">查询</button></div></div>
+									</div>
+
+								</ul>
+							</div>
+						</form>
+					</div>
+
+					<if condition=" !empty($_REQUEST['sid']) && $_REQUEST['returnRequire'] != 1">
+					<div class="panelBar">
+						<ul class="toolBar">
+							<!--<li><a class="add" href="__URL__/add?sid={$_REQUEST['sid']}&aaid={$_REQUEST['aaid']}" target="dialog" mask="true"><span>新增</span></a></li>-->
+							<li><a class="delete" href="__URL__/delete?{:getModelPk(MODULE_NAME)}={_id}" target="ajaxTodo" title="你确定要删除吗？" warn="请选择数据"><span>删除</span></a></li>
+							<li><a class="edit" href="__URL__/edit/sid/{$_REQUEST['sid']}/{:getModelPk(MODULE_NAME)}/{_id}" target="dialog" mask="true" warn="请选择数据"><span>修改</span></a></li>
+						</ul>
+					</div>
+					</if>
+
+					<table class="table" width="100%" layoutH="<eq name="_REQUEST['returnRequire']" value="1">95<else />143</eq>">
+						<thead>
+							<tr>
+								<eq name="_REQUEST['returnRequire']" value="1">
+								<th width="30">带回</th>
+								</eq>
+								<th width="50">编号</th>
+								<th width="">图片名称</th>
+								<th width="">商品编码</th>
+								<th width="">颜色编码</th>
+								<th width="">图片类型</th>
+								<th width="">图片</th>
+								<th width="52">图片大小</th>
+								<th width="130">更新时间</th>
+							</tr>
+						</thead>
+						<tbody>
+							<if condition=" !empty($_REQUEST['sid']) || $_REQUEST['returnRequire'] == 1 ">
+							<volist id="vo" name="list">
+							<tr target="_id" rel="{$vo[getModelPk(MODULE_NAME)]}">
+								<eq name="_REQUEST['returnRequire']" value="1">
+								<td><a class="btnSelect" href="javascript:$.bringBack({<?php echo getModelPk(MODULE_NAME).":'".$vo[getModelPk(MODULE_NAME)]."',thumbnail:'".$vo['thumbnail']."'"; ?>})" title="查找带回">选择</a></td>
+								</eq>
+								<td>{$vo[getModelPk(MODULE_NAME)]}</td>
+								<td><a target="_blank" href="{$vo['thumbnail']}">{$vo['name']}</a></td>
+								<td>{$vo['piid']}</td>
+								<td>{$vo['color_code']}</td>
+								<?php $typeArr = array( '','主图','模特图','颜色图','细节图');?>
+								<td>{$typeArr[$vo['type']]}</td>
+								<td class="imgurl" onmouseover="bigImgShow($(this))" onmouseout="bigImgHide($(this))"><img height="35" src="{$vo['thumbnail']}"></td>
+								<td>{:round( $vo['size']/1024, 0 ) }k</td>
+								<td>{$vo['update_time']}</td>
+							</tr>
+							</volist>
+							</if>
+						</tbody>
+					</table>
+
+					<div class="panelBar">
+						<div class="pages">
+							<span>共<if condition=" !empty($_REQUEST['sid']) ">{$totalCount}<else/>0</if>条</span>
+						</div>
+						<require file="Admin,Public/pagerHtml" />
+					</div>
+
+<if condition=" $_REQUEST['isAjaxBox'] neq 1 ">
+				</div>
+
+			</div>
+
+		</div>
+	</div>
+
+</div>
+</if>
+
+<?php $params = 'sid='.$_REQUEST['sid']; ?>
+<require file="Admin,Block/reloadeAjaxHtml" />
+

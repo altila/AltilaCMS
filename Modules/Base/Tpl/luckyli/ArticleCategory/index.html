@@ -1,0 +1,49 @@
+{//头部}
+<require file="Base,Public/global_header"/>
+
+{//侧栏}
+<div class="container">
+	<div class="row">
+		<div class="span12 gradient_border sidemenu">
+			<div class="gradient_border_inner">
+				<require file="Base,Block/sidenav"/>
+			</div>
+		</div>
+	</div>
+</div>
+
+{//封面图}
+<div class="page_cover">
+	<div class="container">
+		<div class="row">
+			<div class="span12"><img src="__CSS_IMG__/ad/a_01.jpg" alt=""></div>
+		</div>
+	</div>
+</div>
+
+{//文章列表}
+<div class="container">
+	<div class="row">
+		
+		<?php 
+			for ($i=0; $i < 10 ; $i++) { 
+		?>		
+		<div class="span6">
+			<require file="Base,Block/media"/>
+		</div>
+		<?php 
+			}
+		?>
+		
+		
+		{//分页}
+		<div class="span12">
+			<require file="Base,Block/pagination"/>
+		</div>
+
+	</div>
+</div>
+
+{//底部}
+<require file="Base,Public/global_footer"/>
+

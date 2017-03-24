@@ -14,7 +14,7 @@
 						</ul>
 					</div>
 					<?php $condition = "blcode=".C('DEFAULT_LANG'); $field = array( 'id'=>'domain','name'=>'domain' );?>
-					<include file="SiteWeb:treeListShow" />
+					<require file="Admin,SiteWeb/treeListShow" />
 				</div>
 
 				<div class="unitBox" id="{:MODULE_NAME}AjaxBox" style="margin-left:176px;">
@@ -33,7 +33,7 @@
 									<li>
 										<label>网站语言：</label>
 										<select name="blcode">
-											<option <eq name="$_REQUEST['blcode']" value="" >selected</eq> value="">请选择</option>
+											<option <eq name="_REQUEST['blcode']" value="" >selected</eq> value="">请选择</option>
 											<require file="Admin,BaseLang/treeSelectOption" />
 										</select>
 									</li>
@@ -54,9 +54,9 @@
 
 					<div class="panelBar">
 						<ul class="toolBar">
-							<li><a class="add" href="__URL__/add?addType=1&domain={$_REQUEST['domain']}" target="dialog" mask="true" height="400" ><span>新增</span></a></li>
-							<li><a class="delete" href="__URL__/delete?{:getModelPk(MODULE_NAME)}={_id}" target="ajaxTodo" title="你确定要删除吗？" warn="请选择数据"><span>删除</span></a></li>
-							<li><a class="edit" href="__URL__/edit?{:getModelPk(MODULE_NAME)}={_id}&domain={$_REQUEST['domain']}" target="dialog" mask="true" warn="请选择数据" height="400" ><span>修改</span></a></li>
+							<li><a class="add" href="__URL__/add?addType=1&domain={$_REQUEST['domain']}" target="dialog" mask="true" height="400" width="650" ><span>新增</span></a></li>
+							<li><a class="delete" href="__URL__/delete?{:getModelPk(MODULE_NAME)}={_id}" target="ajaxTodo" onclick="setTimeout('reloadeAjax()',2000);"><span>删除</span></a></li>
+							<li><a class="edit" href="__URL__/edit?{:getModelPk(MODULE_NAME)}={_id}&domain={$_REQUEST['domain']}" target="dialog" mask="true" warn="请选择数据" height="400" width="650" ><span>修改</span></a></li>
 							<li><a class="edit" href="__URL__/sort?domain={$_REQUEST['domain']}" target="dialog" mask="true" width="600" height="400" ><span>排序</span></a></li>
 							<li><a class="delete" href="__URL__/clearCache?cacheKey={:C(MODULE_NAME)}" target="ajaxTodo" title="你确定要删除吗？" ><span>清楚缓存</span></a></li>
 						</ul>
@@ -85,7 +85,7 @@
 								<td>{$vo['template']}</td>
 								<td>{$vo['sort']}</td>
 								<td>{$vo['update_time']}</td>
-								<td>{$vo['status']|showStatus=$vo[getModelPk(MODULE_NAME)],'',getModelPk(MODULE_NAME),"domain/".$_REQUEST['domain']}</td>
+								<td>{$vo['status']|showStatus=$vo[getModelPk(MODULE_NAME)],'',getModelPk(MODULE_NAME),"domain/".$_REQUEST['domain'],1,'setTimeout("reloadeAjax()",1300);'}</td>
 							</tr>
 							</volist>
 							</if>
@@ -96,7 +96,7 @@
 						<div class="pages">
 							<span>共<if condition=" !empty($_REQUEST['domain']) ">{$totalCount}<else/>0</if>条</span>
 						</div>
-						<div class="pagination" targetType="navTab" totalCount="{$totalCount}" numPerPage="{$numPerPage}" pageNumShown="10" currentPage="{$currentPage}"></div>
+						<require file="Admin,Public/pagerHtml" />
 					</div>
 
 <if condition=" $_REQUEST['isAjaxBox'] neq 1 ">
@@ -110,3 +110,7 @@
 
 </div>
 </if>
+
+<?php $params = 'domain='.$_REQUEST['domain']; ?>
+<require file="Admin,Block/reloadeAjaxHtml" />
+

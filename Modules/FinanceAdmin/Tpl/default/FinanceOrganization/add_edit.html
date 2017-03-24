@@ -1,0 +1,47 @@
+<div class="pageContent">
+	<form method="post" action="__URL__/<empty name="vo[getModelPk(MODULE_NAME)]">insert<else />update</empty>/navTabId/{:MODULE_NAME}" class="pageForm required-validate" onsubmit="return validateCallback(this,dialogAjaxDone);">
+		<input type="hidden" name="{:getModelPk(MODULE_NAME)}" value="{$vo[getModelPk(MODULE_NAME)]}" >
+		<input type="hidden" name="status" value="1">
+		<div class="pageFormContent" layoutH="58">
+			<div class="unit">
+				<label>名称：</label>
+				<input type="text" class="required"  name="name" value="{$vo['name']}">
+			</div>
+			<div class="unit">
+				<label>首字母：</label>
+				<input type="text" class="required"  name="initials" value="{$vo['initials']}">
+			</div>
+			<div class="unit">
+				<label>类型：</label>
+				<select name="type" class='required'>
+					<option <eq name="vo['type']" value="" >selected</eq> value="">请选择</option>
+					<option <eq name="vo['type']" value="1" >selected</eq> value="1">银行</option>
+					<option <eq name="vo['type']" value="2" >selected</eq> value="2">保险</option>
+					<option <eq name="vo['type']" value="3" >selected</eq> value="3">基金</option>
+					<option <eq name="vo['type']" value="4" >selected</eq> value="4">证券</option>
+					<option <eq name="vo['type']" value="5" >selected</eq> value="5">期货</option>
+					<option <eq name="vo['type']" value="6" >selected</eq> value="6">第三方储值</option>
+				</select>
+			</div>
+			<div class="unit">
+				<label>性质：</label>
+				<select name="nature" class='required'>
+					<option <eq name="vo['nature']" value="" >selected</eq> value="">请选择</option>
+					<option <eq name="vo['nature']" value="1" >selected</eq> value="1">中资</option>
+					<option <eq name="vo['nature']" value="2" >selected</eq> value="2">合资</option>
+					<option <eq name="vo['nature']" value="3" >selected</eq> value="3">外资</option>
+					<option <eq name="vo['nature']" value="4" >selected</eq> value="4">侨资</option>
+				</select>
+			</div>
+		</div>
+		<div class="formBar">
+			<ul>
+				<li><div class="buttonActive"><div class="buttonContent"><button type="submit">保存</button></div></div></li>
+				<!--<li><div class="button"><div class="buttonContent"><button type="button" class="close">取消</button></div></div></li>-->
+			</ul>
+		</div>
+	</form>
+</div>
+
+
+

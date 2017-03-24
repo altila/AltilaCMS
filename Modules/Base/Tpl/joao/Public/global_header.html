@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
+<head>
+    <meta charset="utf-8"/>
+	<title>{$head['title']|htmlspecialchars}</title>
+	<meta name="description" content="{$head['description']|htmlspecialchars}"/>
+	<meta name="keywords" content="{$head['keywords']|htmlspecialchars}"/>
+	<meta name="Copyright" content="{$head['name']|htmlspecialchars}" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+	<link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+
+	<php>echo get_static_file(array('bootstrap.min.css','main.css'),'joao');</php>
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <php>echo get_static_file(array('html5shiv.min.js','respond.min.js'),'joao');</php>
+    <![endif]-->
+
+</head>
+<body>
+
+<require file="Admin,Public/consts_js" />
+
+<php>echo get_static_file(array('jquery.min.js','bootstrap.min.js','ie10-viewport-bug-workaround.js'),'joao');</php>
+<php>echo get_static_file(array('jquery.cookie.js','jquery.lazyload.js','jquery.validate.js','jquery.form.js','form.js','common.js','a.js'),'public');</php>
+
+{//获取广告js数组 开始}
+<if condition=" in_array( '1', explode(',',$siteInfo[$_COOKIE['think_language']]['enable_module']) ) and $siteInfo[$_COOKIE['think_language']]['enable_ad_js'] eq 1 ">
+<script type='text/javascript' src='{:domain('www')}/Ad/getAdPosList?apCode={:GROUP_NAME}_{:MODULE_NAME}_{:ACTION_NAME}'></script>
+</if>
+{//获取广告js数组 结束}
+
+<require file="Base,Ad/topAd" />
+
+<!-- Navbar ================================================== -->
+<nav class="navbar navbar-inverse navbar-fixed-top">
+<div class="container">
+	<div class="navbar-header">
+		<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+			<span class="sr-only">Toggle navigation</span>
+			<span class="icon-bar"></span>
+			<span class="icon-bar"></span>
+			<span class="icon-bar"></span>
+		</button>
+		<require file="Base,Ad/logo" />
+	</div>
+	<div id="navbar" class="collapse navbar-collapse">
+		<!--<require file="Base,Public/search" />-->
+		<require file="Base,Menu/menu" />
+		</ul>
+	</div><!--/.nav-collapse -->
+</div>
+</nav>
+
+<require file="Base,Ad/default" />
+

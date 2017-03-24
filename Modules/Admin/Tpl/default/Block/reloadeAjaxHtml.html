@@ -1,0 +1,14 @@
+<?php
+$params = $params ? $params : '';
+?>
+
+<if condition=" $_REQUEST['isAjaxBox'] eq 1 ">
+<script type="text/javascript">
+function reloadeAjax(){
+	var $rel = $('#{:MODULE_NAME}AjaxBox');
+	$rel.loadUrl('__GROUP__/{:MODULE_NAME}/index?isAjaxBox=1&sid={$_REQUEST['sid']}&{$params}', {}, function(){
+		$rel.find("[layoutH]").layoutH();
+	});
+}
+</script>
+</if>

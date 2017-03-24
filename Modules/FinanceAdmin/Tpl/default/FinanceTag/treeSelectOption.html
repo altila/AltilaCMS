@@ -1,0 +1,8 @@
+<?php 
+$moduleName = 'FinanceTag';
+$appName = 'FinanceAdmin';
+$_condition = "status=1" . $_condition;
+$field = empty($field) ? array('id'=>getModelPk($moduleName)) : $field;
+?>
+
+<require file="Admin,Block/treeSelectOption" />

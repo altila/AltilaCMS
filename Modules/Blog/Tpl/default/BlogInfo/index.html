@@ -1,11 +1,18 @@
-<require file="Home,Public/global_header" />
+<require file="Base,Public/global_header" />
 
 <div id="content">
 	<div class="container">
-		<require file="Home,Plate/index" />
+		<require file="Base,Plate/index" />
 	</div>
 </div>
 
-<require file="Home,Public/global_footer" />
+<require file="Base,Public/global_footer" />
+
+<php>echo get_static_file(array('js/third-party/SyntaxHighlighter/shCore.js'),'ueditor');</php>
+<php>echo get_static_file(array('js/third-party/SyntaxHighlighter/shCoreDefault.css'),'ueditor');</php>
+<script type="text/javascript">
+    //为了在编辑器之外能展示高亮代码
+    SyntaxHighlighter.highlight();
+</script>
 
 

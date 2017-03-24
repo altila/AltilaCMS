@@ -1,0 +1,54 @@
+<?php
+$dateType = !empty($dateType) ? $dateType : 'Y-m-d H:i';
+$listType = !empty($listType) ? $listType : 3;
+?>
+
+<h2><empty name="info['name']">{$vo['name']}<else/>{$info['name']}</empty></h2>
+<volist name="list[data]" id="vo">
+<div class="media">
+
+	{//标题 开始}
+	<if condition=" ($listType&1) == 1 ">
+	<h4 class="media-heading">{$vo['name']}</h4>
+	</if>
+	{//标题 结束}
+
+	{//招聘地区 开始}
+	<span class="">招聘地区：{$vo['province']}-{$vo['city']}-{$vo['area']}</span>
+	{//招聘地区 结束}
+
+	{//工作年限 开始}
+	<span class="">工作年限：{$vo['work_year']}</span>
+	{//工作年限 结束}
+
+	{//月薪范围 开始}
+	<span class="">月薪范围：{$vo['provide_salary']}</span>
+	{//月薪范围 结束}
+
+	{//学历要求 开始}
+	<span class="">学历要求：{$vo['degree_from']}</span>
+	{//学历要求 结束}
+
+	{//添加时间 开始}
+	<if condition=" ($listType&2) == 2 ">
+	<span class="date">发布时间：{$vo['create_time']|strtotime|date=$dateType,###}</span>
+	</if>
+	{//添加时间 结束}
+
+	<div class="media-body">
+		{//全文 开始}
+		<if condition=" ($listType&512) == 512 ">
+		{$vo['content']|htmlspecialchars_decode=ENT_QUOTES}
+		</if>
+		{//全文 结束}
+	</div>
+
+</div>
+</volist>
+
+{//分页 开始}
+<if condition=" ($listType&8) == 8 ">
+<div class="bottom-pager">{$list['page']}</div>
+</if>
+{//分页 结束}
+

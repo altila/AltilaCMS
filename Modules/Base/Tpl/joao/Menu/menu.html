@@ -1,0 +1,50 @@
+<php>
+$crumbArr = explode('-',$info['crumb']);
+$crumbPid = $crumbArr[0];
+if( empty($info['crumb']) ) $crumbPid = $info['smid'];
+$enableAloneMenu = explode(',',$siteInfo[$_COOKIE['think_language']]['enable_alone_menu']);
+$moduleList = C('MODULE_LIST');
+foreach( $moduleList as $key=>$val ) {
+	if( $val['code'] == GROUP_NAME && in_array($key,$enableAloneMenu) ) {
+		$menuFirst = $menuList[$val['code']];
+		$menuList = $menuFirst['_child'];
+		$crumbPid = $crumbArr[1];
+	}
+}
+</php>
+
+<ul class="nav navbar-nav navbar-right">
+
+	<li class="<eq name="crumbPid" value="">active</eq>" >
+		<empty name="menuFirst">
+		<a href="/" title="{:L('Base_index')}"><span>Home</span></a>
+		<else/>
+		<a href="{$menuFirst['link']}" title="{$menuFirst['name']}"><span>{$menuFirst['name']}</span></a>
+		</empty>
+	</li>
+
+	<volist name="menuList" id="menu" >
+	<if condition=" ($menu['show_position']&2) == 2 ">
+		<li class="<if condition=" $menu['is_show_child'] == 1 and ( !empty($menu['_child']) or $menu['type'] == 0 ) ">dropdown</if> <eq name="crumbPid" value="$menu['smid']">active</eq>">
+			<a <eq name="menu['is_show_child']" value="1">data-toggle="dropdown"</eq> class="{$menu['class']} <if condition=" $menu['is_show_child'] == 1 and ( !empty($menu['_child']) or $menu['type'] == 0 ) ">dropdown-toggle</if> <eq name="menu['is_highlight']" value="1">red</eq> " href="<eq name="menu['type']" value="2">{$menu['link']}<else/>{:getUrl( $menu['model'], $menu )}</eq>" <eq name="menu['is_open']" value="1">target="_blank"</eq>>
+				{$menu['name']}
+				<if condition=" $menu['is_show_child'] == 1 and ( !empty($menu['_child']) or $menu['type'] == 0 ) "><span class="caret"></span></if>
+			</a>
+			<eq name="menu['is_show_child']" value="1">
+			{// 显示子集 开始}
+			<ul class="dropdown-menu">
+				<if condition=" !empty($menu['_child']) ">
+				<volist name="menu['_child']" id="vo">
+				<li <if condition=" ( !empty($vo['aiid']) and $_REQUEST['aiid'] == $vo['aiid'] ) or ( !empty($vo['smid']) and $info['smid'] == $vo['smid'] ) ">class="active"</if> >
+					<a <eq name="vo['is_open']" value="1">target="_blank"</eq> class="{$vo['class']} <eq name="vo['is_highlight']" value="1">red</eq>" href="<if condition=" !empty($vo['aiid']) ">{:getUrl( 'ArticleInfo', $vo )}<else/>{:getUrl( $vo['model'], $vo )}</if>" title="{$vo['name']}">{$vo['name']}</a>
+				</li>
+				</volist>
+				</if>
+			</ul>
+			{// 显示子集 结束}
+			</eq>
+		</li>
+	</if>
+	</volist>
+</ul>
+

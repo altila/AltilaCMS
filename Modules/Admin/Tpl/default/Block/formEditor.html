@@ -1,4 +1,21 @@
-<textarea name="content" rows="5" cols="57" id="ueditor_content_{:MODULE_NAME}">{$vo['content']}</textarea>
+<php>
+$name = !empty($name) ? $name : 'content';
+</php>
 
-<script type="text/javascript">UE.getEditor('ueditor_content_{:MODULE_NAME}');</script>
+<textarea name="{$name}" rows="5" cols="57" id="ueditor_content_{:MODULE_NAME}">{$vo[$name]}</textarea>
+
+<require file="Admin,Public/ueditorJs" />
+
+<script type="text/javascript">
+	var editor = UE.getEditor('ueditor_content_{:MODULE_NAME}', {
+		toolbars: toolbars
+		,initialFrameWidth: initialFrameWidth
+		,initialFrameHeight: initialFrameHeight
+		,autoFloatEnabled: autoFloatEnabled
+		,allowDivTransToP: allowDivTransToP
+		,serverUrl: serverUrl
+
+	});
+
+</script>
 

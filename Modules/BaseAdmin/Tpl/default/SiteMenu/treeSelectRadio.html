@@ -1,0 +1,8 @@
+<?php 
+$moduleName = 'SiteMenu';
+$appName = 'BaseAdmin';
+$_condition = "sid=" . ( !empty($_REQUEST['sid']) ? $_REQUEST['sid'] : $vo['sid'] ) . ( $modelType !== '' ? '&model=' . $modelType : '' ); 
+$field = empty($field) ? array('id'=>getModelPk($moduleName)) : $field;
+?>
+
+<require file="Admin,Block/treeSelectRadio" />

@@ -1,0 +1,11 @@
+<?php 
+$optionType = 2;
+$moduleName = 'ProductGroup';
+$appName = 'ProductAdmin';
+$_condition = "status=1";
+$order = getModelPk("$appName/$moduleName");
+$field = array('id'=>'pgid');
+$valueName = $field['id'];
+?>
+
+<require file="Admin,Block/treeTextShow" />

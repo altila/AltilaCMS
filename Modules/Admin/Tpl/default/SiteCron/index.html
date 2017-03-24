@@ -8,7 +8,7 @@
 			<div>
 
 				<div style="float:left; width:240px; border:1px solid rgb(204, 204, 204); background: none repeat scroll 0% 0% rgb(255, 255, 255);" layouth="6">
-					<include file="SiteWeb:treeListShow" />
+					<require file="Admin,SiteWeb/treeListShow" />
 				</div>
 
 				<div class="unitBox" id="{:MODULE_NAME}AjaxBox" style="margin-left:246px;">
@@ -42,7 +42,7 @@
 					<div class="panelBar">
 						<ul class="toolBar">
 							<li><a class="add" href="__URL__/add?sid={$_REQUEST['sid']}" target="dialog" mask="true"><span>新增</span></a></li>
-							<li><a class="delete" href="__URL__/delete?{:getModelPk(MODULE_NAME)}={_id}" target="ajaxTodo" title="你确定要删除吗？" warn="请选择数据"><span>删除</span></a></li>
+							<li><a class="delete" href="__URL__/delete?{:getModelPk(MODULE_NAME)}={_id}" target="ajaxTodo" onclick="setTimeout('reloadeAjax()',2000);"><span>删除</span></a></li>
 							<li><a class="edit" href="__URL__/edit?{:getModelPk(MODULE_NAME)}={_id}" target="dialog" mask="true" warn="请选择数据"><span>修改</span></a></li>
 						</ul>
 					</div>
@@ -66,7 +66,7 @@
 								<td>{$vo['name']}</td>
 								<td>{$vo['key']}</td>
 								<td>{$vo['update_time']}</td>
-								<td>{$vo['status']|showStatus=$vo[getModelPk(MODULE_NAME)],'',getModelPk(MODULE_NAME)}</td>
+								<td>{$vo['status']|showStatus=$vo[getModelPk(MODULE_NAME)],'',getModelPk(MODULE_NAME),'',1,'setTimeout("reloadeAjax()",1300);'}</td>
 							</tr>
 							</volist>
 							</if>
@@ -77,7 +77,7 @@
 						<div class="pages">
 							<span>共<if condition=" !empty($_REQUEST['sid']) ">{$totalCount}<else/>0</if>条</span>
 						</div>
-						<div class="pagination" targetType="navTab" totalCount="{$totalCount}" numPerPage="{$numPerPage}" pageNumShown="10" currentPage="{$currentPage}"></div>
+						<require file="Admin,Public/pagerHtml" />
 					</div>
 
 <if condition=" $_REQUEST['isAjaxBox'] neq 1 ">
@@ -90,4 +90,7 @@
 
 </div>
 </if>
+</if>
+
+<require file="Admin,Block/reloadeAjaxHtml" />
 

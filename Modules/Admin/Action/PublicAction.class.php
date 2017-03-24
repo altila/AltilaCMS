@@ -24,7 +24,7 @@ class PublicAction extends ABaseAction {
 	public function clearCache() {
 		delFile( C('DATA_CACHE_PATH') );
 		//清楚成功
-		$this->assign( "jumpUrl", $this->getReturnUrl() );
+		$this->assign( "jumpUrl", getReturnUrl() );
 		$this->ajaxReturn( '', "清楚成功!", 1 );
 	}
 

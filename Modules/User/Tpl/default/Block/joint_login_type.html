@@ -1,0 +1,63 @@
+<?php
+$jointLoginShow = explode(',',$siteInfo[C('DEFAULT_LANG')]['joint_login_show']);
+$jointLoginType = explode(',',$siteInfo[C('DEFAULT_LANG')]['joint_login_type']);
+$href = domain('User')."/JointLogin?type=";
+?>
+<if condition=" empty($_REQUEST['joint_login_type']) and !empty($jointLoginType) and ( ( MODULE_NAME == 'Login' and in_array(1,$jointLoginShow) ) or ( MODULE_NAME == 'Register' and in_array(2,$jointLoginShow) ) )">
+<div class="joint_login">
+	合作网站登录：
+	<p>
+		<if condition=" in_array('qq',$jointLoginType) ">
+		<a class="icon_qq" href="{$href}qq">QQ</a>
+		</if>
+		<if condition=" in_array('weixin',$jointLoginType) ">
+		<a class="icon_weixin" href="{$href}weixin">微信</a>
+		</if>
+		<if condition=" in_array('tencent',$jointLoginType) ">
+		<a class="icon_tencent" href="{$href}tencent">腾讯微博</a>
+		</if>
+		<if condition=" in_array('sina',$jointLoginType) ">
+		<a class="icon_sina" href="{$href}sina">新浪微博</a>
+		</if>
+		<if condition=" in_array('t163',$jointLoginType) ">
+		<a class="icon_t163" href="{$href}t163">网易微博</a>
+		</if>
+		<if condition=" in_array('sohu',$jointLoginType) ">
+		<a class="icon_sohu" href="{$href}sohu">搜狐微博</a>
+		</if>
+		<if condition=" in_array('alipay',$jointLoginType) ">
+		<a class="icon_alipay" href="{$href}alipay">支付宝</a>
+		</if>
+		<if condition=" in_array('taobao',$jointLoginType) ">
+		<a class="icon_taobao" href="{$href}taobao">淘宝网</a>
+		</if>
+		<if condition=" in_array('renren',$jointLoginType) ">
+		<a class="icon_renren" href="{$href}renren">人人网</a>
+		</if>
+		<if condition=" in_array('kaixin',$jointLoginType) ">
+		<a class="icon_kaixin" href="{$href}kaixin">开心网</a>
+		</if>
+		<if condition=" in_array('x360',$jointLoginType) ">
+		<a class="icon_x360" href="{$href}x360">360</a>
+		</if>
+		<if condition=" in_array('douban',$jointLoginType) ">
+		<a class="icon_douban" href="{$href}douban">豆瓣</a>
+		</if>
+		<if condition=" in_array('github',$jointLoginType) ">
+		<a class="icon_github" href="{$href}github">Github</a>
+		</if>
+		<if condition=" in_array('google',$jointLoginType) ">
+		<a class="icon_google" href="{$href}google">Google</a>
+		</if>
+		<if condition=" in_array('msn',$jointLoginType) ">
+		<a class="icon_msn" href="{$href}msn">MSN</a>
+		</if>
+		<if condition=" in_array('diandian',$jointLoginType) ">
+		<a class="icon_diandian" href="{$href}diandian">点点</a>
+		</if>
+		<if condition=" in_array('baidu',$jointLoginType) ">
+		<a class="icon_baidu" href="{$href}baidu">百度</a>
+		</if>
+	</p>
+</div>
+</if>

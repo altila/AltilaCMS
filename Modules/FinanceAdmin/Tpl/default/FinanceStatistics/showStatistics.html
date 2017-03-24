@@ -1,0 +1,82 @@
+<php>echo get_static_file(array('highcharts.js','/js/modules/exporting.js'),'Highcharts');</php>
+<div>
+	<if condition=" $_REQUEST['type'] eq 1 ">
+	<div id="lineChartBalance" style="height: 510px; width: 900px;"></div>
+	<elseif condition=" $_REQUEST['type'] eq 2 "/>
+	<div id="lineChartExpenses" style="height: 510px; width: 900px;"></div>
+	<elseif condition=" $_REQUEST['type'] eq 3 "/>
+	<div id="lineChartIncome" style="height: 510px; width: 900px;"></div>
+	<elseif condition=" $_REQUEST['type'] eq 4 "/>
+	<div id="lineChartDebt" style="height: 510px; width: 900px;"></div>
+	</if>
+</div>
+<script>
+	var type = '{$_REQUEST['type']}';
+
+	var dataBalance = {
+		title : '每月存款图',
+		datasets : {$balance}
+	}
+	var dataExpenses = {
+		title : '每月支出图',
+		datasets : {$expenses}
+	}
+	var dataIncome = {
+		title : '每月收入图',
+		datasets : {$income}
+	}
+	var dataDebt = {
+		title : '每月债务图',
+		datasets : {$debt}
+	}
+	
+	if( type == 1 ) $('#lineChartBalance').highcharts( retrunConfig(dataBalance) );
+	else if( type == 2 ) $('#lineChartExpenses').highcharts( retrunConfig(dataExpenses) );
+	else if( type == 3 ) $('#lineChartIncome').highcharts( retrunConfig(dataIncome) );
+	else if( type == 4 ) $('#lineChartDebt').highcharts( retrunConfig(dataDebt) );
+
+
+function retrunConfig( data ) {
+	var options = {
+		chart: {
+			type: 'spline'
+		},
+		title: {
+			text: data.title
+		},
+		subtitle: {
+			text: ''
+		},
+		xAxis: {
+			categories: ["1月","2月","3月","4月","5月","6月","7月","8月","9月","10月","11月","12月"]
+		},
+		yAxis: {
+			title: {
+				text: 'Temperature'
+			},
+			labels: {
+				formatter: function() {
+					return this.value
+				}
+			}
+		},
+		tooltip: {
+			crosshairs: true,
+			shared: true
+		},
+		plotOptions: {
+			spline: {
+				marker: {
+					radius: 4,
+					lineColor: '#666666',
+					lineWidth: 1
+				}
+			}
+		},
+		series: data.datasets
+	}
+	return options;
+}
+
+</script>
+

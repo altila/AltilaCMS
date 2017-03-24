@@ -72,6 +72,7 @@ class ACategoryAction extends ABaseAction {
 		if( $_REQUEST[getModelPk($modelName)] == $_REQUEST['parent_id'] ) $this->ajaxReturn( '', "请选正确选择父类!", 0 );
 		if( !empty($_POST['show_position']) ) $_POST['show_position'] = array_sum($_POST['show_position']);
 		$_POST['sids'] = ( !empty($_POST['sids']) ) ? implode(',',$_POST['sids']) : '';
+		if( $_POST['model'] == 0 && !empty($_POST['dwz_orgId_aiid']) ) $_POST['type'] = $_POST['dwz_orgId_aiid'];
 	}
 
 	/**
@@ -85,6 +86,8 @@ class ACategoryAction extends ABaseAction {
 		$map[getModelPk($modelName)] = $model->getLastInsID();
 		$crumb = findById ( $modelName, $_POST['parent_id'], 'crumb' );
 		$date['crumb'] = ( !empty($crumb) ? "{$crumb}" : "" ) . "{$map[getModelPk($modelName)]}-";
+		$level = findById ( $modelName, $_POST['parent_id'], 'level' );
+		$date['level'] = !empty($level) ? $level+1 : 1;
 		$model->where($map)->save($date);
 	}
 
@@ -98,8 +101,11 @@ class ACategoryAction extends ABaseAction {
 		if( $_REQUEST[getModelPk($modelName)] == $_REQUEST['parent_id'] ) $this->ajaxReturn( '', "请选正确选择父类!", 0 );
 		$crumb = findById ( $modelName, $_POST['parent_id'], 'crumb' );
 		$_POST['crumb'] = ( !empty($crumb) ? "{$crumb}" : "" ) . "{$_POST[getModelPk($modelName)]}-";
+		$level = findById ( $modelName, $_POST['parent_id'], 'level' );
+		$_POST['level'] = !empty($level) ? $level+1 : 1;
 		if( !empty($_POST['show_position']) ) $_POST['show_position'] = array_sum($_POST['show_position']);
 		$_POST['sids'] = ( !empty($_POST['sids']) ) ? implode(',',$_POST['sids']) : '';
+		if( $_POST['model'] == 0 && !empty($_POST['dwz_orgId_aiid']) ) $_POST['type'] = $_POST['dwz_orgId_aiid'];
 	}
 
 }

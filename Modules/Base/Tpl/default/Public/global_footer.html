@@ -1,0 +1,34 @@
+
+		<footer id="footer">
+			<div class="container">
+				<hr>
+				<require file="Base,Ad/bottomAd" />
+				
+				<hr>
+				<require file="Base,Menu/bottomMenu" />
+				
+				<div class="copyright">
+					Copyright &copy; {$head['name']|htmlspecialchars} 2000-<span id="copyrightTime"></span> | {$head['record_no']}
+				</div>
+			</div>
+		</footer>
+	
+		<php>echo get_static_file(array('slide.js'),'public');</php>
+		<php>echo get_static_file(array('global.js'),'default');</php>
+<script type="text/javascript">
+	//版权时间
+	$("#copyrightTime").html(new Date().getFullYear());
+
+	//图片延迟加载;
+	$("img").lazyload({
+		placeholder : defaultImg,
+		effect : "fadeIn"
+		//failurelimit : 20,
+		//threshold : 300
+	});
+</script>
+
+
+		<require file="Base,Public/global_footer_tongji" />
+	</body>
+</html>

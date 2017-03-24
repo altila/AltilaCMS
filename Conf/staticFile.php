@@ -31,12 +31,15 @@ function get_static_file( $files, $folder ){
 		$filetype = strtolower( $paras[count($paras) - 1] );
 		//若指定目录,则文件前加目录前缀
 		$keyValue = !empty($folder) ? "{$folder}-{$value}" : $value;
+		//后缀 - 版本号
+		$suffix = !empty($staticVision[$keyValue]) ? "?vsion={$staticVision[$keyValue]}" : '';
+		$path = ( ( strpos($value,'/') === false ) ? "{$filetype}/{$value}" : $value ) . $suffix;
 		switch( $filetype ){
 			case 'css' :
-				$result[] = "<link rel=\"stylesheet\" type=\"text/css\" href=\"__PUBLIC__/{$folder}/{$filetype}/{$value}" . ( !empty($staticVision[$keyValue]) ? "?vsion={$staticVision[$keyValue]}" : '' ) . "\"/>";
+				$result[] = "<link rel=\"stylesheet\" type=\"text/css\" href=\"__PUBLIC__/{$folder}/{$path}\"/>";
 			break;
 			case 'js' :
-				$result[] = "<script type=\"text/javascript\" src=\"__PUBLIC__/{$folder}/{$filetype}/{$value}" . ( !empty($staticVision[$keyValue]) ? "?vsion={$staticVision[$keyValue]}" : '' ) . "\"></script>";
+				$result[] = "<script type=\"text/javascript\" src=\"__PUBLIC__/{$folder}/{$path}\"></script>";
 			break;
 		}
 	}

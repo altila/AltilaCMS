@@ -1,0 +1,58 @@
+<notempty name="ad['apCode']">
+<div ap="ad_{$ad['apCode']}" class="{$ad['afCode']}_{$ad['apCode']}" <neq name="ad['apStyle']" value="">style="{$ad['apStyle']}"</neq>>
+	<volist name="ad['list']" id="vo" offset="0" length="$ad['sum']">
+	<if condition=" $vo['type'] == 0 ">
+	{//图片 开始}
+	<div class="item" ad="{$vo['adid']}" <neq name="vo['aiStyle']" value="">style="{$vo['aiStyle']}"</neq>>
+		<notempty name="vo['link']"><a title="{$vo['name']}" href="{$vo['link']}" target="_blank"></notempty>
+			<img border="0" alt="{$vo['name']}" original="{$vo['content']}" src="{:C('DEFAULT_IMG')}"/>
+		<notempty name="vo['link']"></a></notempty>
+	</div>
+	{//图片 结束}
+	<elseif condition=" $vo['type'] == 1 " />
+	{//FALSH 开始}
+	<div ad="{$vo['adid']}">
+		<object classid="clsid:d27cdb6e-ae6d-11cf-96b8-444553540000" width="{$vo['width']}" height="{$vo['height']}" id="{$vo['aiStyle']}" align="middle">
+			<param name="movie" value="{$vo['content']}" />
+			<param name="quality" value="high" />
+			<param name="bgcolor" value="#00a0ea" />
+			<param name="play" value="true" />
+			<param name="loop" value="true" />
+			<param name="wmode" value="opaque">
+			<param name="scale" value="showall" />
+			<param name="menu" value="true" />
+			<param name="devicefont" value="false" />
+			<param name="salign" value="" />
+			<param name="allowScriptAccess" value="sameDomain" />
+			<!--[if !IE]>-->
+			<object type="application/x-shockwave-flash" data="{$vo['content']}" width="760" height="418">
+				<param name="movie" value="{$vo['content']}" />
+				<param name="quality" value="high" />
+				<param name="bgcolor" value="#00a0ea" />
+				<param name="play" value="true" />
+				<param name="loop" value="true" />
+				<param name="wmode" value="opaque">
+				<param name="scale" value="showall" />
+				<param name="menu" value="true" />
+				<param name="devicefont" value="false" />
+				<param name="salign" value="" />
+				<param name="allowScriptAccess" value="sameDomain" />
+				<!--<![endif]-->
+				<a href="http://www.adobe.com/go/getflash">
+					<img src="http://www.adobe.com/images/shared/download_buttons/get_flash_player.gif" alt="获得 Adobe Flash Player" />
+				</a>
+				<!--[if !IE]>-->
+			</object>
+			<!--<![endif]-->
+		</object>
+	</div>
+	{//FALSH 结束}
+	<elseif condition=" in_array($vo['type'],array(2,3)) " />
+	<div ad="{$vo['adid']}" <neq name="vo['aiStyle']" value="">style="{$vo['aiStyle']}"</neq> >
+		{$vo['content']|htmlspecialchars_decode=ENT_QUOTES}
+	</div>
+	</if>
+	</volist>
+</div>
+</notempty>
+

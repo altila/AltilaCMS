@@ -1,0 +1,34 @@
+<div class="pageContent">
+	<form method="post" action="__URL__/<empty name="vo[getModelPk(MODULE_NAME)]">insert<else />update</empty>/navTabId/{:MODULE_NAME}" class="pageForm required-validate" onsubmit="return validateCallback(this,dialogAjaxDone);">
+		<input type="hidden" name="{:getModelPk(MODULE_NAME)}" value="{$vo[getModelPk(MODULE_NAME)]}" >
+		<input type="hidden" name="sid" value="<empty name="vo[getModelPk(MODULE_NAME)]">{$_REQUEST['sid']}<else />{$vo['sid']}</empty>" >
+		<div class="pageFormContent" layoutH="58">
+			<div class="unit">
+				<label>邮箱用户名：</label>
+				<input type="text" class="required"  name="name" value="{$vo['name']}">
+			</div>
+			<div class="unit">
+				<label>邮箱密码：</label>
+				<input type="text" name="password" value="{$vo['password']}">
+			</div>
+			<div class="unit">
+				<label>邮箱类型：</label>
+				<select name="type" class="required">
+					<option <eq name="vo['type']" value="" >selected</eq> value="">请选择</option>
+					<option <eq name="vo['type']" value="qq" >selected</eq> value="qq">qq</option>
+					<option <eq name="vo['type']" value="126" >selected</eq> value="126">126</option>
+					<option <eq name="vo['type']" value="163" >selected</eq> value="163">163</option>
+					<option <eq name="vo['type']" value="sina" >selected</eq> value="sina">sina</option>
+					<option <eq name="vo['type']" value="gmail" >selected</eq> value="gmail">gmail</option>
+				</select>
+			</div>
+		</div>
+		<div class="formBar">
+			<ul>
+				<li><div class="buttonActive"><div class="buttonContent"><button type="submit">保存</button></div></div></li>
+				<li><div class="button"><div class="buttonContent"><button type="button" class="close">取消</button></div></div></li>
+			</ul>
+		</div>
+	</form>
+</div>
+

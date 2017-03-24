@@ -1,0 +1,83 @@
+<div id="login">
+	<form id="frmLogin">	
+		<?php
+		$loginType = explode(',',$siteInfo[C('DEFAULT_LANG')]['login_type']);
+		$loginName = '';
+		if( in_array(1,$loginType) ) $loginName .= '用户名/';
+		if( in_array(2,$loginType) ) $loginName .= '手机/';
+		if( in_array(3,$loginType) ) $loginName .= '邮箱/';
+		if( in_array(4,$loginType) ) $loginName .= 'ID/';
+		$loginName = MODULE_NAME == 'LoginAdmin' ? '用户名' : trim($loginName,'/');
+		?>
+		<div class="form_row">
+			<span class="form_icon icon_user">{$loginName}：</span>
+			<input type="text" title="{$loginName}" name="user_id" class="user_id" tips="请输入{$loginName}" placeholder="{$loginName}" />
+			<div class="errorinfo">&nbsp;</div>
+		</div>
+		<div class="form_row">
+			<span class="form_icon icon_password">密码：</span>
+			<input type="password" name="password" class="password" tips="请输入密码" placeholder="密码" />
+			<div class="errorinfo">&nbsp;</div>
+		</div>
+		<div class="form_row">
+			<span class="form_verify">验证码：</span>
+			<input type="text" name="verify" class="verify" tips="请输入验证码，不区分大小写" placeholder="验证码"/>
+			<img alt="点击更换验证码" id="verifyImg" name="verifyImg" src="" onclick="common.validPic( $('#verifyImg') )" />
+			<a style="cursor: pointer;" onclick="common.validPic( $('#verifyImg') )">点击刷新验证码</a>
+			<div class="errorinfo">&nbsp;</div>
+		</div>
+		<div class="form_row">
+			<input type="hidden" name="return_url" id="return_url" value="<empty name="_REQUEST['return_url']">{:domain("www")}<else/>{$_REQUEST['return_url']}</empty>">
+			<input type="hidden" id="joint_login_type" name="joint_login_type" value="{$_REQUEST['joint_login_type']}">
+			<input type="hidden" id="openid" name="openid" value="{$_REQUEST['openid']}">
+			<input type="hidden" id="access_token" name="access_token" value="{$_REQUEST['access_token']}">
+			<input type="hidden" id="expires_in" name="expires_in" value="{$_REQUEST['expires_in']}">
+			<input type="hidden" id="refresh_token" name="refresh_token" value="{$_REQUEST['refresh_token']}">
+			<empty name="_REQUEST['joint_login_type']"><label for="remember-me"><input type="checkbox" name="remember-me" id="remember-me" /> 记住用户名</label></empty>
+		</div>
+		<div class="form_row">
+			<input type="submit" name="submit" class="btn btn-primary btn-large btn-block" id="btnLogin" value="<eq name="ACTION_NAME" value="ajaxIndex">绑 定<else/>登 录</eq>" />
+		</div>
+		<require file="User,Block/joint_login_type" />
+	</form>
+</div>
+
+<script type="text/javascript">
+	//初始化验证码图片
+	common.validPic( $("#verifyImg") );
+	//获取用户名
+	$.cookie('user_id') && $('#user_id').val($.cookie('user_id')) && $("#remember-me").attr("checked",true);
+
+	//扩展规则
+	var expand = {
+		rules : {
+			user_id : {required : true},
+			password : {required : true,isPassword:true,rangelength : [ 6, 16 ]},
+			verify : {required : true},
+		},messages : {
+			user_id : {required : "用户名不能为空"},
+			password : {required : "密码不能为空",isPassword : "只能为数字、字母",rangelength : "密码长度只能为6-16个字节"},
+			verify : {required : "验证码不能为空"},
+		}
+	}
+	//表单提交回调函数
+	function frmLoginResponse(responseText, statusText) {
+		if (responseText.substr) responseText = eval('(' + responseText + ')');
+		switch (responseText.status) {
+			case 1:
+				if( $("#remember-me").attr("checked") ) $.cookie('user_id',$('#user_id').val(),{ expires: 604800, path: '/' });
+				location.href= $("#return_url").val();
+				break;
+			default:
+				$("." + responseText.field).nextAll(".errorinfo").html('<font color="red">'+responseText.msg+'</font>');
+				break;
+		}
+		//初始化验证码图片
+		common.validPic( $("#verifyImg") );
+	}
+	//表单验证、AJAX提交等
+	fromvalidate($("#frmLogin"),consts('User')+'/{:MODULE_NAME}/login',Request,frmLoginResponse,".errorinfo",expand);
+
+</script>
+
+

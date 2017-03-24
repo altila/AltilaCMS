@@ -19,7 +19,7 @@ $global_mc=new BaeMemcache();
 //编译缓存文件创建方法
 function runtime_set($filename,$content){
 	global $global_mc;
-	$ret=$global_mc->set($filename,$content,MEMCACHE_COMPRESSED,0);
+	$ret=$global_mc->set($filename,$content,0,0);
 	if(2==$global_mc->errno()){
 		header('Content-Type:text/html;charset=utf-8');
 		exit('您没有初始化Cache服务，请在BAE的管理平台初始化Cache服务');
@@ -98,6 +98,29 @@ function file_delete($filename){
 		return $response->isOK()?true:false;
 	}catch(Exception $e){
 		return false;
+	}
+}
+//获得文件内容
+function file_get($filename){
+	if(IS_BAE){
+		$arr=explode('/',ltrim($filename,'./'));
+		$bucket=C('BUCKET_PREFIX').strtolower(array_shift($arr));
+		$file=implode('/',$arr);
+		try{
+			$bcs=new BaiduBCS();
+			$tmp_name=sys_get_temp_dir().'/'.uniqid();
+			$response=$bcs->get_object($bucket,'/'.$file,array('fileWriteTo'=>$tmp_name));
+			if($response->isOK()){
+				$content=file_get_contents($tmp_name);
+				unlink($tmp_name);
+				return $content;
+			}
+			return false;
+		}catch(Exception $e){
+			return false;
+		}
+	}else{
+		return file_get_contents($filename);
 	}
 }
 //获得文件的根地址

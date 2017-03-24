@@ -1,0 +1,216 @@
+.page_wrap {
+  background: #f8f8f8;
+  padding: 120px 0;
+  margin-top: -3px;
+  margin-bottom: -80px;
+  .line2 {
+  	height: 2px;
+  	margin-top: -120px;
+  }
+}
+.category_menu {
+	height: 240px;
+	padding: 70px 0 0;
+	margin: 0;
+	li {
+		background: -moz-linear-gradient(0deg, #8bc228 0%, #0195df 100%);/* FF3.6+ */
+		background: -webkit-gradient(linear, 0deg, color-stop(0%, #8bc228), color-stop(100%, #0195df));/* Chrome,Safari4+ */
+		background: -webkit-linear-gradient(0deg, #8bc228 0%, #0195df 100%);/* Chrome10+,Safari5.1+ */
+		background: -o-linear-gradient(0deg, #8bc228 0%, #0195df 100%);/* Opera 11.10+ */
+		background: -ms-linear-gradient(0deg, #8bc228 0%, #0195df 100%);/* IE10+ */
+		filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#8bc228', endColorstr='#0195df', GradientType='1'); /* for IE */
+		background: linear-gradient(90deg, #8bc228 0%, #0195df 100%);/* W3C */
+		padding: 1px;
+		width: 90px;
+		height: 90px;
+		float: left;
+		border-radius: 45px;
+		margin: 0 0 0 49px;
+		a {
+			display: block;
+			background-color: #fff;
+			height: 90px;
+			line-height: 90px;
+			text-align: center;
+			border-radius: 44px;
+			color: #fff;
+			font-size: 20px;	
+			em {
+				background: -moz-linear-gradient(0deg, #8bc228 0%, #0195df 100%);/* FF3.6+ */
+				background: -webkit-gradient(linear, 0deg, color-stop(0%, #8bc228), color-stop(100%, #0195df));/* Chrome,Safari4+ */
+				background: -webkit-linear-gradient(0deg, #8bc228 0%, #0195df 100%);/* Chrome10+,Safari5.1+ */
+				background: -o-linear-gradient(0deg, #8bc228 0%, #0195df 100%);/* Opera 11.10+ */
+				background: -ms-linear-gradient(0deg, #8bc228 0%, #0195df 100%);/* IE10+ */
+				filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#8bc228', endColorstr='#0195df', GradientType='1'); /* for IE */
+				background: linear-gradient(90deg, #8bc228 0%, #0195df 100%);/* W3C */
+				width: 90px;
+				height: 90px;
+				float: left;
+				border-radius: 45px;
+				display: block;
+				position: absolute;
+				z-index: 1;
+				opacity: 0.7;
+			}
+			span {
+				display: block;
+				width: 90px;
+				position: absolute;
+				z-index: 2;
+			}
+			&:hover,
+			&.active {
+				color: #22ac38;
+				em {
+					display: none;
+				}
+				span {
+					margin-top: -70px;
+				}
+			}
+		}
+		&:first-child {
+			margin: 0;
+			a {
+				line-height: 20px;
+				span {
+					margin-top: 25px;
+				}
+			}
+		}
+		.line6 {
+			height: 6px;
+			display: none;
+		}
+		&.active {
+			.line6 {
+				display: block;
+			}
+		}
+		ul {
+			margin: 0;
+			padding-top: 20px;
+			display: none;
+			li {
+				background: none;
+				border-radius: 0;
+				margin: 0;
+				line-height: 26px;
+				height: auto;
+				text-align: center;
+				a {
+					color: #0195df;
+					font-size: 16px;
+					border-radius: 0;
+					display: inline;
+					height: auto;
+					width: auto;
+					line-height: 26px;
+				}
+			}
+		}
+		&.hover,
+		&.active {
+			ul {
+				display: block;
+			}
+		}
+	}
+}
+
+.product_info {
+	.line {
+		margin: 10px 0;
+	}
+	.detail_intro {
+		h2 {
+			color: #22ac38;
+			font-size: 22px;
+		}
+		p {
+			color: #036eb8;
+			font-size: 16px;
+			margin: 10px 0 0;
+		}
+	}
+	.buy {
+		background: url(../images/bg_buy.png) left bottom no-repeat;
+		height: 22px;
+		margin: 50px 0;
+		a {
+			background: url(../images/btn_buy.png) no-repeat;
+			height: 22px;
+			width: 71px;
+			margin-left: 37px;
+			overflow: hidden;
+			display: inline-block;
+			span {
+				padding-top: 100px;
+				display: inline-block;
+			}
+		}
+	}
+}
+
+.goods_pic {
+	position: relative;
+	.goods_tag {
+		background: url(../images/bg_tag.png) no-repeat;
+		width: 81px;
+		height: 80px;
+		line-height: 80px;
+		text-align: center;
+		color: #fff;
+		font-size: 18px;
+		position: absolute;
+		right: 0;
+		top: 0;
+		margin: -40px -40px 0 0;
+	}
+}
+
+.td_t {
+	color: #999;
+	padding-right: 20px;
+}
+.td_c {
+	color: #036eb8;
+}
+
+.detail_box {
+	margin-top: 20px;
+	.box_title {
+		color: #22ac38;
+		font-size: 18px;
+		margin-top: 0;
+		.gradient_border {
+			padding: 0 0 1px;
+			.gradient_border_inner {
+				background: #f8f8f8;
+			}
+		}
+	}
+	.box_content {
+		color: #036eb8;
+	}
+	.article_share {
+		margin-top: 40px;
+		.bdsharebuttonbox {
+			display: inline-block;
+			vertical-align: middle;
+		}
+	}
+}
+
+.media-pic {
+	float: left;
+	margin-right: 20px;
+}
+.media-more {
+	.link-more {
+		background: url(../images/icon_detail.jpg) no-repeat;
+		width: 125px;
+		height: 19px;
+		display: inline-block;
+	}
+}

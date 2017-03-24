@@ -1,0 +1,56 @@
+<php>echo get_static_file(array('highcharts.js','/js/modules/exporting.js'),'Highcharts');</php>
+<div>
+	<div id="lineChartBalance" style="height: 510px; width: 900px;"></div>
+</div>
+<script>
+	var dataDifference = {
+		title : '每月走势图',
+		datasets : {$difference}
+	}
+	
+	$('#lineChartBalance').highcharts( retrunConfig(dataDifference) );
+
+function retrunConfig( data ) {
+	var options = {
+		chart: {
+			type: 'spline'
+		},
+		title: {
+			text: data.title
+		},
+		subtitle: {
+			text: ''
+		},
+		xAxis: {
+			categories: ["1月","2月","3月","4月","5月","6月","7月","8月","9月","10月","11月","12月"]
+		},
+		yAxis: {
+			title: {
+				text: 'Temperature'
+			},
+			labels: {
+				formatter: function() {
+					return this.value
+				}
+			}
+		},
+		tooltip: {
+			crosshairs: true,
+			shared: true
+		},
+		plotOptions: {
+			spline: {
+				marker: {
+					radius: 4,
+					lineColor: '#666666',
+					lineWidth: 1
+				}
+			}
+		},
+		series: data.datasets
+	}
+	return options;
+}
+
+</script>
+

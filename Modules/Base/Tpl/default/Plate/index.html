@@ -1,0 +1,94 @@
+<volist name="plateList['data']" id="list">
+<div class="row">
+	<?php $spClassArr = explode(',',strtr($list['class'],array('，'=>','))); ?>
+	<volist name="list['data']" id="row">
+	<div class="spjc <notempty name="spClassArr[$key-1]">{$spClassArr[$key-1]}</notempty>">
+		<volist name="row['data']" id="vo">
+		<div class="spcjc {$vo['class']}">
+
+			{//左侧通用导航 开始}
+			<if condition=" $vo['model'] == -1 ">
+			<?php $leftGlobalMenu = $vo['data']; ?>
+			<require file="Base,Menu/leftGlobalMenu" />
+			{//左侧通用导航 结束}
+
+			{//广告 开始}
+			<elseif condition=" $vo['model'] == 0 " />
+			<?php $ad = $vo['data']; ?>
+			<require file="Base,Ad/index" />
+			{//广告 结束}
+
+			{//列表     - 文章/博文}
+			<elseif condition=" in_array($vo['model'],array(1,4)) &&  $vo['type'] == 1 " />
+			<?php $listType = $vo['list_opt']; $modelName = $vo['model']; $list = $vo['data']; $list['smid'] = $vo['model_value'];?>
+			<require file="Base,Block/list" />
+
+			{//列表      - 图片}
+			<elseif condition=" in_array($vo['model'],array(2)) &&  $vo['type'] == 1 " />
+			<?php $listType = $vo['list_opt']; $modelName = $vo['model']; $list = $vo['data']; $list['smid'] = $vo['model_value'];?>
+			<require file="Base,Block/imgList" />
+			{//列表 结束}
+
+			{//列表      - 商品}
+			<elseif condition=" in_array($vo['model'],array(3)) &&  in_array($vo['type'],array(1,7)) " />
+			<?php $listType = $vo['list_opt']; $modelName = $vo['model']; $list = $vo['data']; $list['smid'] = $vo['model_value'];?>
+			<require file="Product,Block/list" />
+			{//列表 结束}
+
+			{//列表      - 招聘}
+			<elseif condition=" in_array($vo['model'],array(6)) &&  $vo['type'] == 1 " />
+			<?php $listType = $vo['list_opt']; $modelName = $vo['model']; $list = $vo['data']; $list['smid'] = $vo['model_value'];?>
+			<require file="Base,JobCategory/list" />
+			{//列表 结束}
+
+			{//列表      - 表单}
+			<elseif condition=" in_array($vo['model'],array(7)) &&  $vo['type'] == 1 " />
+			<?php $listType = $vo['list_opt']; $modelName = $vo['model']; $list = $vo['data']; $list['smid'] = $vo['model_value'];?>
+			<require file="Base,FormCategory/list" />
+			{//列表 结束}
+
+			{//分类 开始}
+			<elseif condition=" in_array($vo['model'],array(1,3,4)) &&  $vo['type'] == 2 " />
+			<volist name="vo['data']" id="cvo">
+			<a target="_blank" href="{:getUrl( $vo['model'], $cvo )}" title="{$cvo['name']}">{$cvo['name']}</a>
+			</volist>
+			{//分类 结束}
+
+			{//单篇内容 开始}
+			<elseif condition=" in_array($vo['model'],array(1,4)) && $vo['type'] == 3 " />
+			<require file="Base,Block/singlePage" />
+			{//单篇内容 结束}
+
+			{//商品详情 开始}
+			<elseif condition=" $vo['model'] == 3 && $vo['type'] == 3 " />
+			<?php $productInfo = $vo['data'];?>
+			<require file="Product,Block/info" />
+			{//商品详情 结束}
+
+			{//面包屑 开始}
+			<elseif condition=" $vo['type'] == 4 " />
+			<?php $modelName = $vo['model']; $breadCrumbs = $vo['data'];?>
+			<require file="Base,Block/breadCrumbs" />
+			{//面包屑 结束}
+
+			{//侧栏菜单 开始}
+			<elseif condition=" $vo['type'] == 5 " />
+			<?php $modelName = $vo['model']; $leftCategory = $vo['data'];?>
+			<require file="Base,Menu/leftMenu" />
+			{//侧栏菜单 结束}
+
+			{//侧栏列表 开始}
+			<elseif condition=" in_array($vo['model'],array(1,3,4)) &&  $vo['type'] == 6 " />
+			<?php $modelName = $vo['model']; $leftList = $vo['data'];?>
+			<require file="Base,Block/leftList" />
+			{//侧栏列表 结束}
+
+			</if>
+		</div>
+		</volist>
+	</div>
+	</volist>
+</div>
+</volist>
+
+<?php unset($vo);?>

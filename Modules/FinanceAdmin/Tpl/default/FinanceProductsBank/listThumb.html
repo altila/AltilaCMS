@@ -1,0 +1,23 @@
+<?php 
+$moduleName = 'FinanceProductsBank';
+?>
+<table class="table" width="100%" layoutH="505">
+	<thead>
+		<tr>
+			<th width="50">编号</th>
+			<th width="">名称</th>
+			<th width="">余额</th>
+		</tr>
+	</thead>
+	<tbody>
+		<volist id="vo" name="_result">
+		<tr target="_id" rel="{$vo[getModelPk($moduleName)]}">
+			<td>{$vo[getModelPk($moduleName)]}</td>
+			<td>{$vo['name']}</td>
+			<td>{:findById('FinanceAdmin/FinanceTransaction',array('fprid'=>$vo['fprid'],'faid'=>$_REQUEST['faid']),'balance','one','','transaction_time DESC,create_time DESC')}</td>
+		</tr>
+		</volist>
+	</tbody>
+</table>
+
+<php>unset($moduleName,$vo,$_result)</php>

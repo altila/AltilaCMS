@@ -1,0 +1,84 @@
+<div class="pageContent">
+
+	<div class="tabs">
+
+		<div class="tabsContent">
+
+			<div>
+
+				<div class="unitBox" >
+
+					<require file="Admin,Public/pagerForm" />
+
+					<div class="pageHeader">
+						<form onsubmit="return navTabSearch(this);" action="__URL__" method="post">
+							<div class="searchBar">
+								<ul class="searchContent">
+									<li>
+										<label>名称：</label>
+										<input type="text" name="name" value="{$_REQUEST['name']}" >
+									</li>
+									<li>
+										<label>编码：</label>
+										<input type="text" name="code" value="{$_REQUEST['code']}" >
+									</li>
+
+									<div class="subBar">
+										<div class="buttonActive"><div class="buttonContent"><button type="submit">查询</button></div></div>
+									</div>
+
+								</ul>
+							</div>
+						</form>
+					</div>
+
+					<div class="panelBar">
+						<ul class="toolBar">
+							<li><a class="add" href="__URL__/add" target="dialog" mask="true"><span>新增</span></a></li>
+							<li><a class="delete" href="__URL__/delete?{:getModelPk(MODULE_NAME)}={_id}" target="ajaxTodo" title="你确定要删除吗？" warn="请选择数据"><span>删除</span></a></li>
+							<li><a class="edit" href="__URL__/edit?{:getModelPk(MODULE_NAME)}={_id}" target="dialog" mask="true" warn="请选择数据"><span>修改</span></a></li>
+							<li><a class="edit" href="__URL__/sort" target="dialog" mask="true" width="600" height="400" ><span>排序</span></a></li>
+						</ul>
+					</div>
+
+					<table class="table" width="100%" layoutH="115">
+						<thead>
+							<tr>
+								<th width="50">编号</th>
+								<th width="">方法名称</th>
+								<th width="">方法编码</th>
+								<th width="" orderField="sort" <if condition="$_REQUEST['orderField'] eq 'sort'">class="{$_REQUEST['orderDirection']}"</if> >方法排序</th>
+								<th width="130">更新时间</th>
+								<th width="35" orderField="status" <if condition="$_REQUEST['orderField'] eq 'status'">class="{$_REQUEST['orderDirection']}"</if> >状态</th>
+							</tr>
+						</thead>
+						<tbody>
+							<volist id="vo" name="list">
+							<tr target="_id" rel="{$vo[getModelPk(MODULE_NAME)]}">
+								<td>{$vo[getModelPk(MODULE_NAME)]}</td>
+								<td>{$vo['name']}</td>
+								<td>{$vo['code']}</td>
+								<td>{$vo['sort']}</td>
+								<td>{$vo['update_time']}</td>
+								<td>{$vo['status']|showStatus=$vo[getModelPk(MODULE_NAME)],'',getModelPk(MODULE_NAME)}</td>
+							</tr>
+							</volist>
+						</tbody>
+					</table>
+
+					<div class="panelBar">
+						<div class="pages">
+							<span>共<if condition=" !empty($totalCount) ">{$totalCount}<else/>0</if>条</span>
+						</div>
+						<require file="Admin,Public/pagerHtml" />
+					</div>
+
+				</div>
+
+			</div>
+
+		</div>
+	</div>
+
+</div>
+

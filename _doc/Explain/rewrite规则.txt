@@ -1,0 +1,23 @@
+1、linux下apache的rewrite规则，在.htaccess文件中填写：
+<IfModule mod_rewrite.c>
+FileETag none
+RewriteEngine on
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteRule ^(.*)$ index.php/$1 [QSA,PT]
+</IfModule>
+
+
+在windows下IIS的rewrite规则，在httpd.ini文件中填写：
+[ISAPI_Rewrite]
+# 3600 = 1 hour
+CacheClockRate 3600
+RepeatLimit 32
+
+RewriteRule .*\.(?:gif|jpg|png|css|js|txt|jpeg|swf|flv) $0 [I,L]
+RewriteRule /httpd(?:\.ini|\.parse\.errors) / [F,I,O]
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule (.*)$ /index\.php/$1 [I]
+
+

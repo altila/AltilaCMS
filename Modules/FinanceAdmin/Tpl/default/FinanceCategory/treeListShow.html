@@ -1,0 +1,11 @@
+<?php 
+$moduleName = 'FinanceCategory';
+$appName = 'FinanceAdmin';
+$order = '';
+$_field = 'fcid,uid,parent_id,name,crumb,sort,status';
+$condition .= "isHtmlModelUser=1&isListTree=1&status=1&parent_id=0";
+
+$href = MODULE_NAME."/index?isAjaxBox=1&type=" . $_REQUEST['type'] . "&".getModelPk($moduleName)."=";
+?>
+<require file="Admin,Block/treeListShow" />
+

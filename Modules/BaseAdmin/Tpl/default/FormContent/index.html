@@ -1,0 +1,98 @@
+<if condition=" $_REQUEST['isAjaxBox'] neq 1 ">
+<div class="pageContent">
+
+	<div class="tabs">
+
+		<require file="Admin,BaseLang/selectLang" />
+
+		<div class="tabsContent">
+
+			<div>
+
+				<div style="float:left; width:170px; border:1px solid rgb(204, 204, 204); background: none repeat scroll 0% 0% rgb(255, 255, 255);" layouth="6">
+					<?php $condition = 'model=7&';?>
+					<require file="BaseAdmin,SiteMenu/treeListShow" />
+				</div>
+
+				<div class="unitBox" id="{:MODULE_NAME}AjaxBox" style="margin-left:176px;">
+</if>
+					<require file="Admin,Public/pagerForm" />
+
+					<div class="pageHeader">
+						<form onsubmit="return navTabSearch(this);" action="__URL__" method="post">
+							<div class="searchBar">
+								<ul class="searchContent">
+									<li>
+										<label>内容ID：</label>
+										<input type="text" name="id" value="{$_REQUEST['id']}" >
+									</li>
+									<?php $stimeName = 's_create_time'; $etimeName = 'e_create_time'; ?>
+									<require file="Admin,Block/validDateInput" />
+									<require file="Admin,Block/statusOption" />
+
+									<input type="hidden" name="sid" value="{$_REQUEST['sid']}" >
+									<input type="hidden" name="smid" value="{$_REQUEST['smid']}" >
+									<div class="subBar">
+										<div class="buttonActive"><div class="buttonContent"><button type="submit">查询</button></div></div>
+									</div>
+
+								</ul>
+							</div>
+						</form>
+					</div>
+
+					<if condition=" $_REQUEST['smid'] != null ">
+					<div class="panelBar">
+						<ul class="toolBar">
+							<li><a class="delete" href="__URL__/delete?{:getModelPk(MODULE_NAME)}={_id}" target="ajaxTodo" title="你确定要删除吗？" warn="请选择数据"  onclick="setTimeout('reloadeAjax()',2000);"><span>删除</span></a></li>
+							<li><a class="edit" href="__URL__/edit?{:getModelPk(MODULE_NAME)}={_id}" target="dialog" mask="true" width="600" height="500" warn="请选择数据"><span>查看</span></a></li>
+							<li><a class="icon" href="__URL__/exportExcel?smid={$_REQUEST['smid']}" target="dwzExport" targetType="navTab" title="实要导出这些记录吗?"><span>导出EXCEL</span></a></li>
+						</ul>
+					</div>
+					</if>
+
+					<table class="table" width="100%" layoutH="143">
+						<thead>
+							<tr>
+								<th width="50">编号</th>
+								<th width="80">IP地址</th>
+								<th width="130">添加时间</th>
+								<th width="35" orderField="status" <if condition="$_REQUEST['orderField'] eq 'status'">class="{$_REQUEST['orderDirection']}"</if> >状态</th>
+							</tr>
+						</thead>
+						<tbody>
+							<if condition=" $_REQUEST['smid'] != null || $_REQUEST['returnRequire'] == 1 ">
+							<volist id="vo" name="list">
+							<tr target="_id" rel="{$vo[getModelPk(MODULE_NAME)]}">
+								<td>{$vo[getModelPk(MODULE_NAME)]}</td>
+								<td>{$vo['ip']}</td>
+								<td>{$vo['create_time']}</td>
+								<td>{$vo['status']|showStatus=$vo[getModelPk(MODULE_NAME)],'',getModelPk(MODULE_NAME),'',1,'setTimeout("reloadeAjax()",1300);'}</td>
+							</tr>
+							</volist>
+							</if>
+						</tbody>
+					</table>
+
+					<div class="panelBar">
+						<div class="pages">
+							<span>共<if condition=" !empty($_REQUEST['smid']) ">{$totalCount}<else/>0</if>条</span>
+						</div>
+						<require file="Admin,Public/pagerHtml" />
+					</div>
+
+<if condition=" $_REQUEST['isAjaxBox'] neq 1 ">
+				</div>
+
+			</div>
+
+		</div>
+	</div>
+
+</div>
+</if>
+
+<?php $params = 'smid='.$_REQUEST['smid']; ?>
+<require file="Admin,Block/reloadeAjaxHtml" />
+
+

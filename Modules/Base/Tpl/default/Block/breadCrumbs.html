@@ -1,0 +1,10 @@
+<ul class="breadcrumb">
+	<li><a href="/" title="首页">首页</a> <span class="divider">/</span></li>
+	<volist name="breadCrumbs" id="vo">
+	<if condition=" ( strpos(MODULE_NAME,'Category') != false and count($breadCrumbs) != $i ) or strpos(MODULE_NAME,'Category') == false ">
+	<li><a target="_blank" href="{:getUrl( $modelName, $vo )}" title="{$vo['name']}">{$vo['name']}</a> <span class="divider">/</span></li>
+	</if>
+	</volist>
+	<li class="active">{$info['name']}</li>
+</ul>
+

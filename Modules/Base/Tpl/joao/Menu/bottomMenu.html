@@ -1,0 +1,9 @@
+<ul class="list-unstyled list-inline">
+	<volist name="menuList" id="menu" >
+	<if condition=" ($menu['show_position']&4) == 4 ">
+	<li><a target="_blank" href="{:getUrl( $menu['model'], $menu )}" title="{$menu['name']}">{$menu['name']}</a></li>
+	</if>
+	</volist>
+</ul>
+
+

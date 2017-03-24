@@ -1,0 +1,58 @@
+{//头部}
+<require file="Base,Public/global_header"/>
+
+<div class="container">
+	<volist name="plateList['data']" id="list">
+	<php>$y = $key;</php>
+	<div role="tabpanel" id="tabpanel-{$y}" class="tabpanel">
+		<div class="tabmenu">
+			<div class="col-md-3">
+				<h2>
+					<span class="floor_bg">{$y}F</span>
+					{$list['name']}
+				</h2>
+			</div>
+			<div class="col-md-9">
+				<!-- Nav tabs -->
+				<ul class="nav nav-tabs" role="tablist">
+					<volist name="list['data']" id="row">
+					<volist name="row['data']" id="vo">
+					<li role="presentation" class="<eq name="i" value="1">active</eq>"><a href="#tabpanel-{$y}-{$i}" aria-controls="tabpanel-{$y}-{$i}" role="tab" data-toggle="tab">{$vo['name']}</a></li>
+					</volist>
+					</volist>
+				</ul>
+			</div>
+		</div>
+		<!-- Tab panes -->
+		<div class="tab-content">
+			<volist name="list['data']" id="row">
+			<volist name="row['data']" id="vo">
+			<div role="tabpanel" class="tab-pane <eq name="i" value="1">active</eq>" id="tabpanel-{$y}-{$i}">
+				<ul class="list-unstyled">
+					{//列表      - 商品}
+					<?php $listType = $vo['list_opt']; $modelName = $vo['model']; $list = $vo['data']; $list['smid'] = $vo['model_value'];?>
+					<require file="Product,Block/list" />
+					{//列表 结束}
+				</ul>
+			</div>
+			</volist>
+			</volist>
+		</div>
+	</div>
+	</volist>
+</div>
+
+<div id="sideFloor" class="sideFloor"  data-spy="affix" data-offset-top="200" data-offset-bottom="200">
+	<ul class="nav nav-tabs" role="tablist">
+		<volist name="plateList['data']" id="list">
+		<li><a href="#tabpanel-{$i}" class="floor-{$i}"><span>{$i}F</span></a></li>
+		</volist>
+	</ul>
+</div>
+
+{//底部}
+<require file="Base,Public/global_footer"/>
+
+
+
+

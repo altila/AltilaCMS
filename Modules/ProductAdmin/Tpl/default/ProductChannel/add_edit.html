@@ -1,0 +1,37 @@
+<div class="pageContent">
+	<form method="post" action="__URL__/<empty name="vo[getModelPk(MODULE_NAME)]">insert<else />update</empty>/navTabId/{:MODULE_NAME}" class="pageForm required-validate" onsubmit="return validateCallback(this,dialogAjaxDone);">
+		<input type="hidden" name="{:getModelPk(MODULE_NAME)}" value="{$vo[getModelPk(MODULE_NAME)]}" >
+		<input type="hidden" name="sid" value="{$siteInfo[C('DEFAULT_LANG')]['sid']}" >
+		<div class="pageFormContent" layoutH="58">
+			<div class="unit">
+				<label>渠道名称：</label>
+				<input type="text" class="required"  name="name" value="{$vo['name']}">
+			</div>
+			<div class="unit">
+				<label>渠道ID：</label>
+				<input type="text" class="required"  name="pcid" value="{$vo['pcid']}">
+			</div>
+			<div class="unit">
+				<label>渠道类型：</label>
+				<select name="type" id="type">
+					<option <eq name="vo['type']" value="1" >selected</eq> value="1">商城</option>
+					<option <eq name="vo['type']" value="2" >selected</eq> value="2">手机商城</option>
+					<option <eq name="vo['type']" value="3" >selected</eq> value="3">淘宝</option>
+					<option <eq name="vo['type']" value="4" >selected</eq> value="4">拍拍</option>
+					<option <eq name="vo['type']" value="5" >selected</eq> value="5">QQ团</option>
+					<option <eq name="vo['type']" value="6" >selected</eq> value="6">易贝</option>
+					<option <eq name="vo['type']" value="7" >selected</eq> value="7">一号店</option>
+					<option <eq name="vo['type']" value="8" >selected</eq> value="8">东京</option>
+				</select>
+			</div>
+		</div>
+		<div class="formBar">
+			<ul>
+				<li><div class="buttonActive"><div class="buttonContent"><button type="submit">保存</button></div></div></li>
+				<li><div class="button"><div class="buttonContent"><button type="button" class="close">取消</button></div></div></li>
+			</ul>
+		</div>
+	</form>
+</div>
+
+

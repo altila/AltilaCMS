@@ -18,7 +18,7 @@ class BaseAppDeviceAction extends ABaseAction {
 	+----------------------------------------------------------
 	*/
 	public function _filterInsertCheck() {
-		$map['code'] = $_REQUEST['code'];
+		$map['appdcode'] = $_REQUEST['appdcode'];
 		return $map;
 	}
 
@@ -28,7 +28,7 @@ class BaseAppDeviceAction extends ABaseAction {
 	+----------------------------------------------------------
 	*/
 	public function _filterUpdateCheck() {
-		$map['code'] = $_REQUEST['code'];
+		$map['appdcode'] = $_REQUEST['appdcode'];
 		return $map;
 	}
 

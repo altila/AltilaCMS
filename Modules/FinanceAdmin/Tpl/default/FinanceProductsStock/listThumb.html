@@ -1,0 +1,45 @@
+<?php 
+$moduleName = 'FinanceProductsStock';
+?>
+<table class="table" width="100%" layoutH="505">
+	<thead>
+		<tr>
+			<th width="50">编号</th>
+			<th width="">名称</th>
+			<th width="">价格</th>
+			<th width="">股数</th>
+			<th width="">成本价</th>
+			<th width="">市值</th>
+			<th width="">成本</th>
+			<th width="">盈亏</th>
+		</tr>
+	</thead>
+	<tbody>
+		<volist id="vo" name="_result">
+		<php>
+		$buySum = $sellSum = $sum = $buyAmountSum = $sellAmountSum = $amountSum = $price = $Gainslosses = 0;
+		$TranModelName = 'FinanceTransaction';
+		$buySum = getSum( $TranModelName, array('fprid'=>$vo[getModelPk($moduleName)],'uid'=>$userInfo['Uid'],'type'=>13), 'money' );
+		$sellSum = getSum( $TranModelName, array('fprid'=>$vo[getModelPk($moduleName)],'uid'=>$userInfo['Uid'],'type'=>array('in','14,16')), 'money' );
+		$sum = ( $buySum + $sellSum ) * (-1);
+		$buyAmountSum = getSum( $TranModelName, array('fprid'=>$vo[getModelPk($moduleName)],'uid'=>$userInfo['Uid'],'type'=>array('in','13,15')), 'relation_money' );
+		$sellAmountSum = getSum( $TranModelName, array('fprid'=>$vo[getModelPk($moduleName)],'uid'=>$userInfo['Uid'],'type'=>14), 'relation_money' );
+		$amountSum = $buyAmountSum - $sellAmountSum;
+		$price = round($sum/$amountSum,2);
+		$Gainslosses = $vo['price'] * $amountSum - $sum;
+		</php>
+		<tr target="_id" rel="{$vo[getModelPk($moduleName)]}">
+			<td>{$vo[getModelPk($moduleName)]}</td>
+			<td>{$vo['name']}</td>
+			<td>{$vo['price']}</td>
+			<td>{$amountSum}</td>
+			<td>{$price}</td>
+			<td>{:$vo['price']*$amountSum}</td>
+			<td>{$sum}</td>
+			<td>{$Gainslosses}</td>
+		</tr>
+		</volist>
+	</tbody>
+</table>
+
+<php>unset($moduleName,$vo,$_result)</php>

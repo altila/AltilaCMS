@@ -1,9 +1,16 @@
 <form id="pagerForm" action="__URL__" method="post">
 	<input type="hidden" name="pageNum" value="1"/>
+	<!--<input type="hidden" name="numPerPage" value="20" />-->
 	<input type="hidden" name="orderField" value="{$_REQUEST['orderField']}"/>
 	<input type="hidden" name="orderDirection" value="{$_REQUEST['orderDirection']}"/>
 	<input type="hidden" name="_group" value="{$_REQUEST['_group']}"/>
+	<input type="hidden" name="status" value="{$_REQUEST['status']}"/>
 
+	<!--<input type="hidden" name="isAjaxBox" value="{$_REQUEST['isAjaxBox']}"/>-->
+
+	<input type="hidden" name="type" value="{$_REQUEST['type']}"/>
+	<input type="hidden" name="nature" value="{$_REQUEST['nature']}"/>
+	
 	<input type="hidden" name="domain" value="{$_REQUEST['domain']}"/>
 	<input type="hidden" name="sid" value="{$_REQUEST['sid']}"/>
 	<input type="hidden" name="smid" value="{$_REQUEST['smid']}"/>
@@ -16,4 +23,13 @@
 	<input type="hidden" name="paid" value="{$_REQUEST['paid']}"/>
 	<input type="hidden" name="pcid" value="{$_REQUEST['pcid']}"/>
 	<input type="hidden" name="appdcode" value="{$_REQUEST['appdcode']}"/>
+
+	<input type="hidden" name="faid" value="{$_REQUEST['faid']}"/>
+	<input type="hidden" name="fprid" value="{$_REQUEST['fprid']}"/>
+	<input type="hidden" name="fcid" value="{$_REQUEST['fcid']}"/>
+	<input type="hidden" name="fpid" value="{$_REQUEST['fpid']}"/>
+	<input type="hidden" name="ftid" value="{$_REQUEST['ftid']}"/>
+	<input type="hidden" name="transaction_time" value="{$_REQUEST['transaction_time']}"/>
+
 </form>
+

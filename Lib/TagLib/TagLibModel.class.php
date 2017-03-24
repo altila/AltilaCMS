@@ -138,8 +138,7 @@ class TagLibModel extends TagLib {
 	+----------------------------------------------------------
 	*/
 	function switch_tpl($app,$tpl){
-		$_tpl = ( strpos($tpl,'@') ) ? strtr($tpl,array('@'=>'/')) : "default/{$tpl}";
-		return APP_PATH.C('APP_GROUP_PATH')."/{$app}/Tpl/{$_tpl}".C('TMPL_TEMPLATE_SUFFIX');
+		return switch_tpl($app,$tpl);
 	}
 
 

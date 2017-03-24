@@ -1,0 +1,90 @@
+<div class="pageContent">
+
+	<div class="tabs">
+
+		<require file="Admin,BaseLang/selectLang" />
+
+		<div class="tabsContent">
+
+			<div>
+
+				<div class="unitBox">
+
+					<require file="Admin,Public/pagerForm" />
+
+					<if condition=" !empty($_REQUEST['sid']) ">
+					<div class="pageHeader">
+						<form onsubmit="return navTabSearch(this);" action="__URL__" method="post">
+							<div class="searchBar">
+								<ul class="searchContent">
+									<li>
+										<label>渠道名称：</label>
+										<input type="text" name="name" value="{$_REQUEST['name']}" >
+									</li>
+
+									<input type="hidden" name="sid" value="{$_REQUEST['sid']}" >
+									<div class="subBar">
+										<div class="buttonActive"><div class="buttonContent"><button type="submit">查询</button></div></div>
+									</div>
+
+								</ul>
+							</div>
+						</form>
+					</div>
+
+					<div class="panelBar">
+						<ul class="toolBar">
+							<li><a class="add" href="__URL__/add" target="dialog" mask="true"><span>新增</span></a></li>
+							<li><a class="delete" href="__URL__/delete?{:getModelPk(MODULE_NAME)}={_id}" target="ajaxTodo" title="你确定要删除吗？" warn="请选择数据"><span>删除</span></a></li>
+							<li><a class="edit" href="__URL__/edit?{:getModelPk(MODULE_NAME)}={_id}" target="dialog" mask="true" warn="请选择数据"><span>修改</span></a></li>
+							<li><a class="edit" href="__URL__/sort" target="dialog" mask="true" width="600" height="400" ><span>排序</span></a></li>
+						</ul>
+					</div>
+					</if>
+
+					<table class="table" width="100%" layoutH="143">
+						<thead>
+							<tr>
+								<th width="50">编号</th>
+								<th width="">渠道名称</th>
+								<th width="">渠道ID</th>
+								<th width="">渠道类型</th>
+								<th width="55" orderField="sort" <if condition="$_REQUEST['orderField'] eq 'sort'">class="{$_REQUEST['orderDirection']}"</if> >渠道排序</th>
+								<th width="130">更新时间</th>
+								<th width="35" orderField="status" <if condition="$_REQUEST['orderField'] eq 'status'">class="{$_REQUEST['orderDirection']}"</if> >状态</th>
+							</tr>
+						</thead>
+						<tbody>
+							<if condition=" !empty($_REQUEST['sid']) ">
+							<volist id="vo" name="list">
+							<tr target="_id" rel="{$vo[getModelPk(MODULE_NAME)]}">
+								<td>{$vo[getModelPk(MODULE_NAME)]}</td>
+								<td>{$vo['name']}</td>
+								<td>{$vo['pcid']}</td>
+								<?php $typeArr = array( '','商城','手机商城','淘宝','拍拍','QQ团','易贝','一号店','京东');?>
+								<td>{$typeArr[$vo['type']]}</td>
+								<td>{$vo['sort']}</td>
+								<td>{$vo['update_time']}</td>
+								<td>{$vo['status']|showStatus=$vo[getModelPk(MODULE_NAME)],'',getModelPk(MODULE_NAME)}</td>
+							</tr>
+							</volist>
+							</if>
+						</tbody>
+					</table>
+
+					<div class="panelBar">
+						<div class="pages">
+							<span>共<if condition=" !empty($_REQUEST['sid']) ">{$totalCount}<else/>0</if>条</span>
+						</div>
+						<require file="Admin,Public/pagerHtml" />
+					</div>
+
+				</div>
+
+			</div>
+
+		</div>
+	</div>
+
+</div>
+

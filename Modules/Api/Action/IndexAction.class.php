@@ -11,7 +11,7 @@
 // $Id$
 
 
-class IndexAction extends HBaseAction {
+class IndexAction extends BaseAction {
 	/**
 	+----------------------------------------------------------
 	* 后台登录主页

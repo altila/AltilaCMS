@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
+<head>
+    <meta charset="utf-8"/>
+	<title>{$head['title']|htmlspecialchars}</title>
+	<meta name="description" content="{$head['description']|htmlspecialchars}"/>
+	<meta name="keywords" content="{$head['keywords']|htmlspecialchars}"/>
+	<meta name="Copyright" content="{$head['name']|htmlspecialchars}" />
+	{//腾讯开发平台验证码 开始}
+	<meta property="qc:admins" content="245035305761441416375" />
+	{//腾讯开发平台验证码 结束}
+	{//百度站长平台验证码 开始}
+	<meta name="baidu-site-verification" content="4KQEKyIWU9" />
+	{//百度站长平台验证码 结束}
+	<link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+
+	<php>echo get_static_file(array('bootstrap.css', 'bootstrap-responsive.css'),'bootstrap');</php>
+	<php>echo get_static_file(array('global.css',$css.'.css'),'public');</php>
+	<php>echo get_static_file(array('global.css',$css.'.css'),'default');</php>
+
+	<php>echo get_static_file(array('jquery-1.7.2.min.js','jquery.cookie.js','jquery.lazyload.js','jquery.validate.js','jquery.form.js','form.js','common.js','a.js','login_register.js'),'public');</php>
+	<php>echo get_static_file(array('bootstrap.js'),'bootstrap');</php>
+
+	<!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+      <php>echo get_static_file(array('html5shiv.js'),'public');</php>
+    <![endif]-->
+
+	<!--[if IE 6]>    
+		<php>echo get_static_file(array('ie6.css'),'public');</php>
+		<php>echo get_static_file(array('DD_belatedPNG.js'),'public');</php>
+		<script>DD_belatedPNG.fix("");</script>
+	<![endif]-->
+	<require file="Admin,Public/consts_js" />	
+</head>
+<body>
+
+{//获取广告js数组 开始}
+<if condition=" in_array( '1', explode(',',$siteInfo[$_COOKIE['think_language']]['enable_module']) ) and $siteInfo[$_COOKIE['think_language']]['enable_ad_js'] eq 1 ">
+<script type='text/javascript' src='{:domain('www')}/Ad/getAdPosList?apCode={:GROUP_NAME}_{:MODULE_NAME}_{:ACTION_NAME}'></script>
+</if>
+{//获取广告js数组 结束}
+
+<require file="Base,Ad/topAd" />
+
+<!-- Navbar ================================================== -->
+<div class="navbar navbar-inverse navbar-fixed-top">
+	<div class="navbar-inner">
+		<div class="container">
+			<button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+			</button>
+			<require file="Base,Ad/logo" />
+
+			<require file="Base,Menu/menu" />
+			
+			{//登录注册 开始}
+			<div class="pull-right">
+				<span id="loginRegister"><require file="User,Block/login_register" /></span>
+			</div>
+			<script type="text/javascript">
+				loginRegister.checkLogin();
+			</script>
+			{//登录注册 结束}
+
+		</div>
+	</div>
+</div>
+
+<require file="Base,Ad/default" />
+
+

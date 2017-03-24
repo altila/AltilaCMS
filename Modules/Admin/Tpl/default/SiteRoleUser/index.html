@@ -55,7 +55,7 @@
 							<tr target="_id" rel="{$vo[getModelPk(MODULE_NAME)]}">
 								<td>{$vo[getModelPk(MODULE_NAME)]}</td>
 								<td>{$vo['uid']}</td>
-								<td>{:findById('AdminUser/UserBase',$vo['uid'],'user_id')}</td>
+								<td>{:findById('UserAdmin/UserBase',$vo['uid'],'user_id')}</td>
 								<td>{$vo['update_time']}</td>
 								<td>{$vo['status']|showStatus=$vo[getModelPk(MODULE_NAME)],'',getModelPk(MODULE_NAME),'',1,'setTimeout("reloadeDialog()",200);'}</td>
 							</tr>
@@ -68,7 +68,7 @@
 						<div class="pages">
 							<span>共<if condition=" !empty($_REQUEST['sid']) ">{$totalCount}<else/>0</if>条</span>
 						</div>
-						<div class="pagination" targetType="navTab" totalCount="{$totalCount}" numPerPage="{$numPerPage}" pageNumShown="10" currentPage="{$currentPage}"></div>
+						<require file="Admin,Public/pagerHtml" />
 					</div>
 
 				</div>

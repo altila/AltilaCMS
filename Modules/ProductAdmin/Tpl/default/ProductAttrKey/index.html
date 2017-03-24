@@ -1,0 +1,98 @@
+<div class="pageContent">
+
+	<div class="tabs">
+
+		<require file="Admin,BaseLang/selectLang" />
+
+		<div class="tabsContent">
+
+			<div>
+
+				<div class="unitBox">
+
+					<require file="Admin,Public/pagerForm" />
+
+					<if condition=" !empty($_REQUEST['sid']) ">
+					<div class="pageHeader">
+						<form onsubmit="return navTabSearch(this);" action="__URL__" method="post">
+							<div class="searchBar">
+								<ul class="searchContent">
+									<li>
+										<label>属性键名：</label>
+										<input type="text" name="key" value="{$_REQUEST['key']}" >
+									</li>
+
+									<input type="hidden" name="sid" value="{$_REQUEST['sid']}" >
+									<div class="subBar">
+										<div class="buttonActive"><div class="buttonContent"><button type="submit">查询</button></div></div>
+									</div>
+
+								</ul>
+							</div>
+						</form>
+					</div>
+
+					<div class="panelBar">
+						<ul class="toolBar">
+							<li><a class="add" href="__URL__/add?sid={$_REQUEST['sid']}" target="dialog" mask="true" width="600" height="500" ><span>新增</span></a></li>
+							<li><a class="delete" href="__URL__/delete?{:getModelPk(MODULE_NAME)}={_id}" target="ajaxTodo" title="你确定要删除吗？" warn="请选择数据"><span>删除</span></a></li>
+							<li><a class="edit" href="__URL__/edit?{:getModelPk(MODULE_NAME)}={_id}&sid={$_REQUEST['sid']}" target="dialog" mask="true" warn="请选择数据" width="600" height="500" ><span>修改</span></a></li>
+							<!--<li><a class="edit" href="__URL__/sort?sid={$_REQUEST['sid']}" target="dialog" mask="true" width="600" height="400" ><span>排序</span></a></li>-->
+						</ul>
+					</div>
+					</if>
+
+					<table class="table" width="100%" layoutH="143">
+						<thead>
+							<tr>
+								<th width="50">编号</th>
+								<th width="">属性键名</th>
+								<th width="">属性编码</th>
+								<th width="">表单类型</th>
+								<th width="">是否必填</th>
+								<th width="">是否检索</th>
+								<th width="130">更新时间</th>
+								<th width="35" orderField="status" <if condition="$_REQUEST['orderField'] eq 'status'">class="{$_REQUEST['orderDirection']}"</if> >状态</th>
+								<th width="100">更多操作</th>
+							</tr>
+						</thead>
+						<tbody>
+							<if condition=" !empty($_REQUEST['sid']) ">
+							<volist id="vo" name="list">
+							<tr target="_id" rel="{$vo[getModelPk(MODULE_NAME)]}">
+								<td>{$vo[getModelPk(MODULE_NAME)]}</td>
+								<td>{$vo['key']}</td>
+								<td>{$vo['code']}</td>
+								<?php $inputTypeArr = array( '','手录','单选','多选','多行' );?>
+								<td>{$inputTypeArr[$vo['input_type']]}</td>
+								<?php $isRequired = array( '否','是' );?>
+								<td>{$isRequired[$vo['is_required']]}</td>
+								<?php $isRetrieval = array( '不检索','关键字检索','范围检索' );?>
+								<td>{$isRetrieval[$vo['is_retrieval']]}</td>
+								<td>{$vo['update_time']}</td>
+								<td>{$vo['status']|showStatus=$vo[getModelPk(MODULE_NAME)],'',getModelPk(MODULE_NAME)}</td>
+								<td>
+									<a href="__GROUP__/ProductAttrKeyCat/editForeach?{:getModelPk(MODULE_NAME)}={$vo[getModelPk(MODULE_NAME)]}&sid={$vo['sid']}&returnRequire=1" rel="addForeachProductAttrKeyCat" target="dialog" mask="true" width="600" height="630" >所属分类({:getCount('ProductAttrKeyCat',array(getModelPk(MODULE_NAME)=>$vo[getModelPk(MODULE_NAME)]))})</a>&nbsp;&nbsp;
+								</td>
+							</tr>
+							</volist>
+							</if>
+						</tbody>
+					</table>
+
+					<div class="panelBar">
+						<div class="pages">
+							<span>共<if condition=" !empty($_REQUEST['sid']) ">{$totalCount}<else/>0</if>条</span>
+						</div>
+						<require file="Admin,Public/pagerHtml" />
+					</div>
+
+				</div>
+
+			</div>
+
+		</div>
+	</div>
+
+</div>
+

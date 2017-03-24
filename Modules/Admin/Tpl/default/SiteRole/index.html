@@ -8,7 +8,7 @@
 			<div>
 
 				<div style="float:left; width:240px; border:1px solid rgb(204, 204, 204); background: none repeat scroll 0% 0% rgb(255, 255, 255);" layouth="6">
-					<include file="SiteWeb:treeListShow" />
+					<require file="Admin,SiteWeb/treeListShow" />
 				</div>
 
 				<div class="unitBox" id="{:MODULE_NAME}AjaxBox" style="margin-left:246px;">
@@ -38,7 +38,7 @@
 					<div class="panelBar">
 						<ul class="toolBar">
 							<li><a class="add" href="__URL__/add?sid={$_REQUEST['sid']}" target="dialog" mask="true"><span>新增</span></a></li>
-							<li><a class="delete" href="__URL__/delete?{:getModelPk(MODULE_NAME)}={_id}" target="ajaxTodo" title="你确定要删除吗？" warn="请选择数据"><span>删除</span></a></li>
+							<li><a class="delete" href="__URL__/delete?{:getModelPk(MODULE_NAME)}={_id}" target="ajaxTodo" onclick="setTimeout('reloadeAjax()',2000);"><span>删除</span></a></li>
 							<li><a class="edit" href="__URL__/edit?{:getModelPk(MODULE_NAME)}={_id}" target="dialog" mask="true" warn="请选择数据"><span>修改</span></a></li>
 							<li><a class="edit" href="__URL__/sort?sid={$_REQUEST['sid']}" target="dialog" mask="true" width="600" height="400" ><span>排序</span></a></li>
 						</ul>
@@ -53,7 +53,7 @@
 								<th width="" orderField="sort" <if condition="$_REQUEST['_order'] eq 'sort'">class="{$_REQUEST['_sort']}"</if> >角色排序</th>
 								<th width="130">更新时间</th>
 								<th width="35" orderField="status" <if condition="$_REQUEST['_order'] eq 'status'">class="{$_REQUEST['_sort']}"</if> >状态</th>
-								<th width="160">更多操作</th>
+								<th width="200">更多操作</th>
 							</tr>
 						</thead>
 						<tbody>
@@ -64,10 +64,10 @@
 								<td>{$vo['name']}</td>
 								<td>{$vo['sort']}</td>
 								<td>{$vo['update_time']}</td>
-								<td>{$vo['status']|showStatus=$vo[getModelPk(MODULE_NAME)],'',getModelPk(MODULE_NAME)}</td>
+								<td>{$vo['status']|showStatus=$vo[getModelPk(MODULE_NAME)],'',getModelPk(MODULE_NAME),'',1,'setTimeout("reloadeAjax()",1300);'}</td>
 								<td>
 									<a href="__GROUP__/SiteRoleUser/index?{:getModelPk(MODULE_NAME)}={$vo[getModelPk(MODULE_NAME)]}&sid={$vo['sid']}" rel="SiteRoleUser" target="dialog" mask="true" width="600" height="400" >查看用户({:getCount('SiteRoleUser',array(getModelPk(MODULE_NAME)=>$vo[getModelPk(MODULE_NAME)]))})</a>&nbsp;&nbsp;
-									<a href="__GROUP__/SiteAccess/editForeach?{:getModelPk(MODULE_NAME)}={$vo[getModelPk(MODULE_NAME)]}&sid={$vo['sid']}&returnRequire=1" rel="addForeachSiteAccess" target="dialog" mask="true">查看权限({:getCount('SiteAccess',array(getModelPk(MODULE_NAME)=>$vo[getModelPk(MODULE_NAME)]))})</a>&nbsp;&nbsp;
+									<a href="__GROUP__/SiteAccess/editForeach?{:getModelPk(MODULE_NAME)}={$vo[getModelPk(MODULE_NAME)]}&sid={$vo['sid']}&returnRequire=1" rel="addForeachSiteAccess" target="dialog" mask="true" width="600" height="630" >查看权限({:getCount('SiteAccess',array(getModelPk(MODULE_NAME)=>$vo[getModelPk(MODULE_NAME)]))})</a>&nbsp;&nbsp;
 								</td>
 							</tr>
 							</volist>
@@ -79,7 +79,7 @@
 						<div class="pages">
 							<span>共<if condition=" !empty($_REQUEST['sid']) ">{$totalCount}<else/>0</if>条</span>
 						</div>
-						<div class="pagination" targetType="navTab" totalCount="{$totalCount}" numPerPage="{$numPerPage}" pageNumShown="10" currentPage="{$currentPage}"></div>
+						<require file="Admin,Public/pagerHtml" />
 					</div>
 
 <if condition=" $_REQUEST['isAjaxBox'] neq 1 ">
@@ -92,4 +92,6 @@
 
 </div>
 </if>
+
+<require file="Admin,Block/reloadeAjaxHtml" />
 

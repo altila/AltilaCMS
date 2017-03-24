@@ -1,0 +1,11 @@
+<div class="sidebar-nav">
+	<volist name="leftCategory" id="list">
+	<ul class="nav nav-list">
+		<li class="nav-header"><a title="{$list['name']}" href="{:getUrl( $modelName, $list )}">{$list['name']}</a></li>
+		<volist name="list['_child']" id="vo">
+		<li><a class="{$vo['class']} <eq name="_REQUEST[getModelPk(MODULE_NAME)]" value="$vo[getModelPk(MODULE_NAME)]">active</eq>" title="{$vo['name']}" href="{:getUrl( $modelName, $vo )}">{$vo['name']}</a></li>
+		</volist>
+	</ul>
+	</volist>
+</div>
+

@@ -1,0 +1,190 @@
+.icon_goods.a_1 {
+  background: url(../images/goods/1.jpg) center center no-repeat;
+  /*金针菇*/
+
+}
+.icon_goods.a_2 {
+  background: url(../images/goods/2.jpg) center center no-repeat;
+  /*杏鲍菇*/
+
+}
+.icon_goods.a_3 {
+  background: url(../images/goods/3.jpg) center center no-repeat;
+  /*秀珍菇*/
+
+}
+.icon_goods.a_4 {
+  background: url(../images/goods/4.jpg) center center no-repeat;
+  /*茶树菇*/
+
+}
+.icon_goods.a_5 {
+  background: url(../images/goods/5.jpg) center center no-repeat;
+  /*香菇*/
+
+}
+.icon_goods.a_6 {
+  background: url(../images/goods/6.jpg) center center no-repeat;
+  /*双孢菇*/
+
+}
+.icon_sharp {
+  display: block;
+  height: 80px;
+  margin-top: 25px;
+  background-repeat: no-repeat;
+  background-position: center center;
+}
+.icon_sharp.i_a_1_1 {
+  background-image: url(../images/icon/i_a_1_1.png);
+  /*公司介绍*/
+
+}
+.icon_sharp.i_a_1_2 {
+  background-image: url(../images/icon/i_a_1_2.png);
+  /*组织架构*/
+
+}
+.icon_sharp.i_a_2_1 {
+  background-image: url(../images/icon/i_a_2_1.png);
+  /*发展历程*/
+
+}
+.icon_sharp.i_a_2_2 {
+  background-image: url(../images/icon/i_a_2_2.png);
+  /*发展战略*/
+
+}
+.icon_sharp.i_a_3_1 {
+  background-image: url(../images/icon/i_a_3_1.png);
+  /*祥瑞愿景*/
+
+}
+.icon_sharp.i_a_3_2 {
+  background-image: url(../images/icon/i_a_3_2.png);
+  /*祥瑞使命*/
+
+}
+.icon_sharp.i_a_3_3 {
+  background-image: url(../images/icon/i_a_3_3.png);
+  /*祥瑞文化*/
+
+}
+.icon_sharp.i_a_3_4 {
+  background-image: url(../images/icon/i_a_3_4.png);
+  /*祥瑞理念*/
+
+}
+.icon_sharp.i_a_3_5 {
+  background-image: url(../images/icon/i_a_3_5.png);
+  /*7S管理5大素养*/
+
+}
+.icon_sharp.i_b_1_1 {
+  background-image: url(../images/icon/i_b_1_1.png);
+  /*健康产业 前景*/
+
+}
+.icon_sharp.i_b_1_2 {
+  background-image: url(../images/icon/i_b_1_2.png);
+  /*祥瑞产业链 特色*/
+
+}
+.icon_sharp.i_b_1_3 {
+  background-image: url(../images/icon/i_b_1_3.png);
+  /*祥瑞健康 产业链*/
+
+}
+.icon_sharp.i_b_1_4 {
+  background-image: url(../images/icon/i_b_1_4.png);
+  /*祥瑞产业链 产品*/
+
+}
+.icon_sharp.i_d_1_1 {
+  background-image: url(../images/icon/i_d_1_1.png);
+  /*高水平的 科研平台*/
+
+}
+.icon_sharp.i_d_1_2 {
+  background-image: url(../images/icon/i_d_1_2.png);
+  /*雄厚的 科研力量*/
+
+}
+.icon_sharp.i_d_1_3 {
+  background-image: url(../images/icon/i_d_1_3.png);
+  /*高绩效的 科研模式*/
+
+}
+.icon_sharp.i_d_3_1 {
+  background-image: url(../images/icon/i_d_3_1.png);
+  /*3大现代化技术 确保品质 与新鲜*/
+
+}
+.icon_sharp.i_d_3_2 {
+  background-image: url(../images/icon/i_d_3_2.png);
+  /*生物育种及 品种创制 体系*/
+
+}
+.icon_sharp.i_d_3_3 {
+  background-image: url(../images/icon/i_d_3_3.png);
+  /*液体菌种 培养体系*/
+
+}
+.icon_sharp.i_d_3_4 {
+  background-image: url(../images/icon/i_d_3_4.png);
+  /*生产设备*/
+
+}
+.icon_sharp.i_d_4_1 {
+  background-image: url(../images/icon/i_d_4_1.png);
+  /*工艺流程*/
+
+}
+.icon_sharp.i_d_5_1 {
+  background-image: url(../images/icon/i_d_5_1.png);
+  /*科研合作*/
+
+}
+.icon_sharp.i_e_1_1 {
+  background-image: url(../images/icon/i_e_1_1.png);
+  /*营销网络*/
+
+}
+.icon_sharp.i_e_2_1 {
+  background-image: url(../images/icon/i_e_2_1.png);
+  /*加盟商要求*/
+
+}
+.icon_sharp.i_e_2_2 {
+  background-image: url(../images/icon/i_e_2_2.png);
+  /*加盟商义务*/
+
+}
+.icon_sharp.i_e_2_3 {
+  background-image: url(../images/icon/i_e_2_3.png);
+  /*加盟流程*/
+
+}
+.icon_sharp.i_e_3_1 {
+  background-image: url(../images/icon/i_e_3_1.png);
+  /*高绩效的 科研模式*/
+
+}
+.icon_year {
+  width: 115px;
+  height: 134px;
+  line-height: 124px;
+  color: #fff;
+  font-size: 20px;
+  text-align: center;
+  display: inline-block;
+  background-image: url(../images/bg_year.jpg);
+}
+.icon_plus {
+  width: 11px;
+  height: 12px;
+  line-height: 25px;
+  margin: 0 5px;
+  display: inline-block;
+  background-image: url(../images/icon/icon_plus.png);
+}

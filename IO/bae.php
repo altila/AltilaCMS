@@ -70,17 +70,10 @@ function S_clear(){
 }
 //文件上传,这只是示例代码，暂时以单机写入的方式举例，请根据自己的实际环境修改代码
 function file_upload($src_file,$dest_file){
-	if(!IS_BAE){
-		$pdir=dirname($dest_file);
-		if(!is_dir($pdir)) @mkdir($pdir,0777);
-		return copy($src_file,$dest_file);
-	}
-	$arr=explode('/',ltrim($dest_file,'./'));
-	$bucket=C('BUCKET_PREFIX').strtolower(array_shift($arr));
-	$save_path=implode('/',$arr);
+	$save_path='/'.ltrim($dest_file,C('__UPLOAD__'));
 	try{
 		$bcs=new BaiduBCS();
-		$response=$bcs->create_object($bucket,'/'.$save_path,$src_file,array('acl'=>BaiduBCS::BCS_SDK_ACL_TYPE_PUBLIC_READ));
+		$response=$bcs->create_object('altila-uploads',$save_path,$src_file,array('acl'=>BaiduBCS::BCS_SDK_ACL_TYPE_PUBLIC_READ));
 		return $response->isOK()?true:false;
 	}catch(Exception $e){
 		return false;
@@ -88,13 +81,10 @@ function file_upload($src_file,$dest_file){
 }
 //删除上传的文件
 function file_delete($filename){
-	if(!IS_BAE) return unlink($filename);
-	$arr=explode('/',ltrim($filename,'./'));
-	$bucket=C('BUCKET_PREFIX').strtolower(array_shift($arr));
-	$path=implode('/',$arr);
+	$path='/'.ltrim($filename,C('__UPLOAD__'));
 	try{
 		$bcs=new BaiduBCS();
-		$response=$bcs->delete_object($bucket,'/'.$path);
+		$response=$bcs->delete_object('altila-uploads','/'.$path);
 		return $response->isOK()?true:false;
 	}catch(Exception $e){
 		return false;

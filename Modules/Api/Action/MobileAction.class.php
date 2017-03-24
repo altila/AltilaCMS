@@ -11,25 +11,33 @@
 // $Id$
 
 
-class MobileAction extends HBaseAction {
-
-	function _initialize() {
-		//父类构造函数
-		parent::_initialize();
-		//设置脚本最大执行时间
-		set_time_limit(0);
-	}
+class MobileAction extends BaseAction {
 
 	/**
 	+----------------------------------------------------------
 	* 获取手机号信息
-	* www.altilacms.com/Api/Mobile?mobile=13917440725
+	* www.altila.com/Api/Mobile?mobile=
 	+----------------------------------------------------------
 	*/
 	public function index() {
 		$mobile = $_REQUEST['mobile'];
 		$result = D( $this->getActionName() )->juheMobile($mobile);
 		print_r($result);
+	}
+
+	/**
+	+----------------------------------------------------------
+	* 获取手机号信息
+	* www.altila.com/Api/Mobile/test
+	+----------------------------------------------------------
+	*/
+	public function test() {
+		for( $i = 1; $i < 100; $i++ ){
+			if( $i < 10 ) $mobile = "135640{$i}2347";
+			else $mobile = "13564{$i}2347";
+			$result = D( $this->getActionName() )->juheMobile($mobile);
+			print_r( "{$mobile}:".implode('-',$result['result'])."\n\r" );
+		}
 	}
 
 }

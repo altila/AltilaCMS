@@ -1,0 +1,190 @@
+.page_banner {
+  width: 100%;
+  height: auto;
+  min-height: 323px;
+  _height: 323px;
+  overflow: hidden;
+  position: static;
+  margin-left: 0;
+  text-align: center;
+  float: none;
+}
+.page_banner {
+  background-color: ;
+}
+.page_banner .item {
+  width: 1440px;
+  height: 323px;
+  position: absolute;
+  left: 50%;
+  margin-left: -720px;
+  display: inline-block;
+}
+.page_banner img {
+  display: inline-block;
+  width: auto;
+}
+.article_border_left {
+  border-left: 1px solid #85ABB2;
+  padding-left: 20px;
+  overflow: hidden;
+  height: 300px;
+}
+.article_heading {
+  font-size: 22px;
+  font-weight: normal;
+  line-height: 32px;
+  color: #22ac38;
+  margin: 20px 0 50px;
+}
+.article_image {
+  height: 300px;
+}
+.article_image img {
+  height: 300px;
+}
+.article_share,
+.article_publish_time {
+  color: #0088cc;
+}
+.article_publish_time {
+  border-top: 1px solid #85ABB2;
+  margin-top: 10px;
+  padding-top: 10px;
+}
+.article_nav {
+  color: #22ac38;
+}
+.article_nav .gradient_border_inner {
+  padding: 5px 10px;
+}
+.article_share {
+  margin-top: 40px;
+}
+.article_share .bdsharebuttonbox {
+  display: inline-block;
+  vertical-align: middle;
+}
+.article_details {
+  color: #036eb8;
+}
+/* 关于我们菜单 */
+.article_menu {
+  text-align: center;
+  margin: 60px 0;
+}
+.article_menu li {
+  width: 190px;
+  height: 190px;
+  display: inline;
+  vertical-align: top;
+}
+.article_menu li a {
+  background: url(../images/bg_menu.png) no-repeat;
+  font-size: 18px;
+  display: block;
+  color: #22ac38;
+  text-decoration: none;
+  overflow: hidden;
+  display: inline-block;
+  width: 190px;
+  height: 190px;
+}
+.article_menu li a:hover,
+.article_menu li a.active {
+  color: #22ac38;
+}
+.article_menu li a p {
+  margin: 0 59px;
+}
+/* 里程碑 */
+.milestone_wrap {
+  overflow: hidden;
+  height: 500px;
+  margin-top: 60px;
+}
+.milestone_wrap td {
+  padding: 5px 10px;
+  color: #22ac38;
+  text-align: left;
+}
+.milestone_wrap td:first-child {
+  border-right: 1px solid #85ABB2;
+}
+.milestone_wrap td td:first-child {
+  width: 60px;
+  line-height: 30px;
+  border: none;
+}
+.milestone_wrap .milestone_items {
+  height: 444px;
+}
+.milestone_wrap .m_item {
+  float: left;
+  width: 738px;
+}
+.milestone_mark {
+  background: url(../images/bg_year.jpg) no-repeat;
+  width: 115px;
+  height: 134px;
+  line-height: 110px;
+  display: block;
+  color: #fff;
+  font-size: 22px;
+  text-align: center;
+}
+.milestone_wrap {
+  overflow: hidden;
+  height: 500px;
+  margin-top: 60px;
+}
+.milestone_wrap .m_i_1,
+.milestone_wrap .m_i_2 {
+  padding: 5px 10px;
+  color: #22ac38;
+  text-align: left;
+  float: left;
+  width: 348px;
+}
+.milestone_wrap .m_i_1 .div_dl,
+.milestone_wrap .m_i_2 .div_dl {
+  vertical-align: top;
+  display: inline-block;
+}
+.milestone_wrap .m_i_1 .div_dt,
+.milestone_wrap .m_i_2 .div_dt {
+  vertical-align: top;
+  width: 60px;
+  line-height: 30px;
+  display: inline-block;
+  padding-top: 5px;
+}
+.milestone_wrap .m_i_1 .div_dd,
+.milestone_wrap .m_i_2 .div_dd {
+  padding-top: 5px;
+  display: inline-block;
+  width: 273px;
+}
+.milestone_wrap .m_i_1 {
+  border-right: 1px solid #85ABB2;
+}
+.milestone_wrap .milestone_items {
+  height: 444px;
+}
+.milestone_wrap .m_item {
+  float: left;
+  width: 738px;
+}
+/* 战略 */
+.page_content .row {
+  margin-top: 40px;
+  color: #036eb8;
+}
+.page_content .row p {
+  color: #22ac38;
+  font-size: 18px;
+  margin: 10px 0 0;
+}
+.page_content .row .line {
+  margin: 10px 0;
+}

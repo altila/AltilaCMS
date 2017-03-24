@@ -83,12 +83,16 @@ class DbPdo extends Db{
      * 执行查询 返回数据集
      * @access public
      * @param string $str  sql指令
+     * @param array $bind 参数绑定
      * @return mixed
      */
-    public function query($str) {
+    public function query($str,$bind=array()) {
         $this->initConnect(false);
         if ( !$this->_linkID ) return false;
         $this->queryStr = $str;
+        if(!empty($bind)){
+            $this->queryStr     .=   '[ '.print_r($bind,true).' ]';
+        }        
         //释放前次的查询结果
         if ( !empty($this->PDOStatement) ) $this->free();
         N('db_query',1);
@@ -97,7 +101,7 @@ class DbPdo extends Db{
         $this->PDOStatement = $this->_linkID->prepare($str);
         if(false === $this->PDOStatement)
             throw_exception($this->error());
-        $result =   $this->PDOStatement->execute();
+        $result =   $this->PDOStatement->execute($bind);
         $this->debug();
         if ( false === $result ) {
             $this->error();
@@ -111,12 +115,16 @@ class DbPdo extends Db{
      * 执行语句
      * @access public
      * @param string $str  sql指令
+     * @param array $bind 参数绑定
      * @return integer
      */
-    public function execute($str) {
+    public function execute($str,$bind=array()) {
         $this->initConnect(true);
         if ( !$this->_linkID ) return false;
         $this->queryStr = $str;
+        if(!empty($bind)){
+            $this->queryStr     .=   '[ '.print_r($bind,true).' ]';
+        }        
         $flag = false;
         if($this->dbType == 'OCI')
         {
@@ -134,7 +142,7 @@ class DbPdo extends Db{
         if(false === $this->PDOStatement) {
             throw_exception($this->error());
         }
-        $result	=	$this->PDOStatement->execute();
+        $result	=	$this->PDOStatement->execute($bind);
         $this->debug();
         if ( false === $result) {
             $this->error();
@@ -264,7 +272,7 @@ class DbPdo extends Db{
                     'type'    => $val['type'],
                     'notnull' => (bool)(((isset($val['null'])) && ($val['null'] === '')) || ((isset($val['notnull'])) && ($val['notnull'] === ''))), // not null is empty, null is yes
                     'default' => isset($val['default'])? $val['default'] :(isset($val['dflt_value'])?$val['dflt_value']:""),
-                    'primary' => isset($val['dey'])?strtolower($val['dey']) == 'pri':(isset($val['pk'])?$val['pk']:false),
+                    'primary' => isset($val['key'])?strtolower($val['key']) == 'pri':(isset($val['pk'])?$val['pk']:false),
                     'autoinc' => isset($val['extra'])?strtolower($val['extra']) == 'auto_increment':(isset($val['key'])?$val['key']:false),
                 );
             }
@@ -279,7 +287,7 @@ class DbPdo extends Db{
     public function getTables($dbName='') {
         if(C('DB_FETCH_TABLES_SQL')) {
             // 定义特殊的表查询SQL
-            $sql   = str_replace('%db%',$dnName,C('DB_FETCH_TABLES_SQL'));
+            $sql   = str_replace('%db%',$dbName,C('DB_FETCH_TABLES_SQL'));
         }else{
             switch($this->dbType) {
             case 'ORACLE':
@@ -391,7 +399,7 @@ class DbPdo extends Db{
     public function error() {
         if($this->PDOStatement) {
             $error = $this->PDOStatement->errorInfo();
-            $this->error = $error[2];
+            $this->error = $error[1].':'.$error[2];
         }else{
             $this->error = '';
         }
@@ -421,6 +429,27 @@ class DbPdo extends Db{
             case 'OCI':
                 return str_ireplace("'", "''", $str);
         }
+    }
+
+    /**
+     * value分析
+     * @access protected
+     * @param mixed $value
+     * @return string
+     */
+    protected function parseValue($value) {
+        if(is_string($value)) {
+            $value =  strpos($value,':') === 0 ? $this->escapeString($value) : '\''.$this->escapeString($value).'\'';
+        }elseif(isset($value[0]) && is_string($value[0]) && strtolower($value[0]) == 'exp'){
+            $value =  $this->escapeString($value[1]);
+        }elseif(is_array($value)) {
+            $value =  array_map(array($this, 'parseValue'),$value);
+        }elseif(is_bool($value)){
+            $value =  $value ? '1' : '0';
+        }elseif(is_null($value)){
+            $value =  'null';
+        }
+        return $value;
     }
 
     /**

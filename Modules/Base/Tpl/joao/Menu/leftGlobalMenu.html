@@ -1,0 +1,18 @@
+<php>
+$pk = getModelPk(MODULE_NAME);
+</php>
+<div class="sidebar-nav affix">
+	<div class="sibebar-nav-sub">
+		<ul class="nav nav-stacked nav-pills">
+			<volist name="leftGlobalMenu" id="list">
+			{//$list|print_r}
+			<li class="<if condition=" ( $_REQUEST[$pk] eq $list[$pk] AND strpos(MODULE_NAME,'Category') neq false ) OR ( $info['smid'] eq $list['smid'] AND strpos(MODULE_NAME,'Info') neq false ) OR ( $list['model'] eq 0 AND $_REQUEST[$pk] eq $list['type'] AND strpos(MODULE_NAME,'Info') neq false ) ">active</if>"><a title="{$list['name']}" href="{:getUrl( $list['model'], $list )}">{$list['name']}</a></li>
+			</volist>
+		</ul>
+	</div>
+</div>
+
+<php>
+unset($pk);
+</php>
+

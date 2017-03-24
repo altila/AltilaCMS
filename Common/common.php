@@ -1,6 +1,6 @@
 <?php
 //+---------------------------------------
-//|  系统公共函数库
+//|  项目公共函数库
 //+---------------------------------------
 
 /**
@@ -12,11 +12,26 @@
 +----------------------------------------------------------
 * @return  str
 +----------------------------------------------------------
-* @example domain('www')  =>  "http://www.altilaphp.com";
+* @example domain('www')  =>  "http://www.altila.com";
 +----------------------------------------------------------
 */
-function domain($type){
-	$url = C('APP_SUB_DOMAIN_DEPLOY') ? "http://" . strtolower($type) . "." . C('DOMAIN') : ( $type == 'www' ? "http://{$type}." . C('DOMAIN') : "http://www." . C('DOMAIN') . "/" . ucfirst($type) );
+function domain( $type ){
+	$currentLang = $_COOKIE['think_language'];
+	$siteInfo = D( 'Base' )->siteInfo();
+	$siteInfoArr = explode(',', $siteInfo[$currentLang]['enable_two_domain']);
+	$domain = ( strpos($type,'Service') != false && $siteInfo[$currentLang]['enable_interface_alone_domain'] != 1 ) ? 'altila'.strchr(C('DOMAIN'),'.') : C('DOMAIN');
+	if( $type == 'www' )
+		$url = "http://{$type}.{$domain}";
+	elseif( strpos($type,'Service') != false && in_array('service',$siteInfoArr) )
+		$url = "http://service.{$domain}/" . ucfirst($type);
+	elseif( strpos($type,'Admin') != false && in_array('admin',$siteInfoArr) )
+		$url = "http://admin.{$domain}/" . ucfirst($type);
+	elseif( in_array($type,$siteInfoArr) )
+		$url = "http://" . strtolower($type) . ".{$domain}/" . ucfirst($type);
+	//elseif( C('APP_SUB_DOMAIN_DEPLOY') )
+		//$url = "http://" . strtolower($type) . "." . C('DOMAIN');
+	else
+		$url = "http://www.{$domain}/" . ucfirst($type);
 	return $url;
 }
 
@@ -25,17 +40,43 @@ function domain($type){
 * 主题模板切换
 +----------------------------------------------------------
 * @access  public
-* @param   str      $app      子项目名
+* @param   str      $app      子项目名 或 类型
 * @param   str      $tpl      模板名称
 +----------------------------------------------------------
 * @return  str
 +----------------------------------------------------------
 * @example switch_tpl('分组名','主题名@模块名/操作名')
+*          语言模板主题：域名_语言编码
 +----------------------------------------------------------
 */
-function switch_tpl($app,$tpl){
-	$_tpl = ( strpos($tpl,'@') ) ? strtr($tpl,array('@'=>'/')) : "default/{$tpl}";
-	return APP_PATH.C('APP_GROUP_PATH')."/{$app}/Tpl/{$_tpl}".C('TMPL_TEMPLATE_SUFFIX');
+function switch_tpl( $app, $tpl ){
+	if( !empty($app) && is_numeric($app) ) $type = $app;
+	if( $type == 1 ) {
+		if( strpos($tpl,'@') ) $templ = explode("@",$tpl);
+		$_tpl = !empty($templ[1]) ? explode(':',$templ[1]) : explode(':',$tpl);
+		if( count($_tpl) == 3 ) $tpl = "{$_tpl[0]}@{$_tpl[1]}/{$_tpl[2]}";
+		else if( count($_tpl) == 2 ) $tpl = implode('/',$_tpl);
+		else $tpl = empty($_tpl[0]) ? MODULE_NAME . '/' . ACTION_NAME : MODULE_NAME . "/{$_tpl[0]}";
+		$app = $templ[0];
+	}
+	$path = APP_PATH.C('APP_GROUP_PATH')."/" . ( $app ? $app : GROUP_NAME ) . "/Tpl/";
+	$suffix = C('TMPL_TEMPLATE_SUFFIX');
+	$domain = explode('.',C('DOMAIN'));
+	//语言
+	$lang = $_REQUEST[C('VAR_LANGUAGE')] ? $_REQUEST[C('VAR_LANGUAGE')] : $_COOKIE['think_language'];
+	$lang = in_array( $lang,explode(',',C('LANG_LIST')) ) ? $lang : C('DEFAULT_LANG');
+	//模板主题
+	$temp = $_REQUEST[C('VAR_TEMPLATE')] ? $_REQUEST[C('VAR_TEMPLATE')] : $_COOKIE['think_template'];
+	$temp = in_array( $temp,explode(',',C('THEME_LIST')) ) ? $temp : C('DEFAULT_THEME');
+	if( $type == 1 ) cookie('think_template',$temp,864000);
+	//依次判定主题
+	if( strpos($tpl,'@') ) $tplPath = strtr($tpl,array('@'=>'/'));
+	else if( file_exists("{$path}{$temp}/{$tpl}{$suffix}") !== false && $temp != C('DEFAULT_THEME') ) $tplPath = "{$temp}/{$tpl}";
+	else if( file_exists("{$path}{$domain[0]}_{$lang}/{$tpl}{$suffix}") !== false ) $tplPath = "{$domain[0]}_{$lang}/{$tpl}";
+	else if( file_exists("{$path}{$domain[0]}/{$tpl}{$suffix}") !== false ) $tplPath = "{$domain[0]}/{$tpl}";
+	else $tplPath = C('DEFAULT_THEME') . "/{$tpl}";
+	//print_r("{$path}{$tplPath}{$suffix}\n\r");
+	return "{$path}{$tplPath}{$suffix}";
 }
 
 /**
@@ -50,7 +91,7 @@ function switch_tpl($app,$tpl){
 * @example a=b&c=d  => array('a'=>'b','c'=>'d')
 +----------------------------------------------------------
 */
-function parse_string ( $string ) {
+function parse_string( $string ) {
 	if( empty($string) ) return ;
 	$return = array();
 	$temp = explode('&',$string);
@@ -74,9 +115,22 @@ function parse_string ( $string ) {
 * @example array('a'=>'b','c'=>'d')  =>  a=b&c=d
 +----------------------------------------------------------
 */
-function parseStrToArr($data){
+function parseStrToArr( $data ){
 	foreach( $data as $key=>$val ) $string .= "{$key}={$val}&";
 	return $string;
+}
+
+/**
++----------------------------------------------------------
+* 操作成功后要返回的URL地址 - 默认为当前模块
++----------------------------------------------------------
+* @access  public
++----------------------------------------------------------
+* @return  str
++----------------------------------------------------------
+*/
+function getReturnUrl() {
+	return "http://{$_SERVER[HTTP_HOST]}" . urlencode(daddslashes($_SERVER['REQUEST_URI']));
 }
 
 /**
@@ -85,7 +139,7 @@ function parseStrToArr($data){
 * 返回带参数的图片服务的访问地址
 +----------------------------------------------------------
 */
-function image_url($thumb,$width,$height,$color_code){
+function image_url( $thumb, $width, $height, $color_code ){
 	if(!$thumb) return ;
 	if(!$width && !$height){
 		return $thumb;
@@ -105,31 +159,28 @@ function image_url($thumb,$width,$height,$color_code){
 * 获取url地址
 +----------------------------------------------------------
 */
-function getUrl( $type, $list = '' ){
+function getUrl( $type, $list = '' ) {
 	switch( $type ){
 	case 'ArticleInfo' :
-		$url = domain('www') . "/ArticleInfo/{$list[getModelPk("Home/{$type}")]}";
+		$url = domain('www') . "/ArticleInfo/{$list[getModelPk("Base/{$type}")]}";
 		break;
 	case 'ArticleCategory' :
-		$url = domain('www') . "/ArticleCategory/{$list[getModelPk("Home/{$type}")]}_1";
+		$url = domain('www') . "/ArticleCategory/{$list[getModelPk("Base/{$type}")]}_1";
+		break;
+	case '0' :
+		$url = domain('www') . "/ArticleInfo/{$list['type']}";
 		break;
 	case '1' :
 		$url = domain('www') . "/ArticleCategory/{$list['smid']}_1";
 		break;
-	case 'SiteMap' :
-		$url = domain('www') . "/SiteMap";
+	case '1_info' :
+		$url = domain('www') . "/ArticleInfo/{$list['aiid']}";
 		break;
-	case 'BlogInfo' :
-		$url = domain('Blog') . "/BlogInfo/{$list[getModelPk("Blog/{$type}")]}";
+	case 'PictureCategory' :
+		$url = domain('www') . "/PictureCategory/{$list[getModelPk("Base/{$type}")]}_1";
 		break;
-	case 'BlogCategory' :
-		$url = domain('Blog') . "/BlogCategory/{$list[getModelPk("Blog/{$type}")]}_1";
-		break;
-	case '4' :
-		$url = domain('Blog') . "/BlogCategory/{$list['smid']}_1";
-		break;
-	case 'BlogTag' :
-		$url = domain('Blog') . "/BlogTag/" . urlencode($list);
+	case '2' :
+		$url = domain('www') . "/PictureCategory/{$list['smid']}_1";
 		break;
 	case 'ProductInfo' :
 		$url = domain('Product') . "/ProductInfo/{$list[getModelPk("Product/{$type}")]}";
@@ -138,7 +189,43 @@ function getUrl( $type, $list = '' ){
 		$url = domain('Product') . "/ProductCategory/{$list[getModelPk("Product/{$type}")]}_1";
 		break;
 	case '3' :
-		$url = domain('www') . "/Product/ProductCategory/{$list['smid']}_1";
+		$url = domain('Product') . "/ProductCategory/{$list['smid']}_1";
+		break;
+	case '3_info' :
+		$url = domain('Product') . "/ProductInfo/{$list['piid']}";
+		break;
+	case 'BlogInfo' :
+		$url = domain('Blog') . "/BlogInfo/{$list[getModelPk("Blog/{$type}")]}";
+		break;
+	case 'BlogCategory' :
+		$url = domain('Blog') . "/BlogCategory/{$list[getModelPk("Blog/{$type}")]}_1";
+		break;
+	case 'BlogTag' :
+		$url = domain('Blog') . "/BlogTag/" . urlencode($list);
+		break;
+	case '4' :
+		$url = domain('Blog') . "/BlogCategory/{$list['smid']}_1";
+		break;
+	case '4_info' :
+		$url = domain('Blog') . "/BlogInfo/{$list['biid']}";
+		break;
+	case 'JobCategory' :
+		$url = domain('www') . "/JobCategory/{$list[getModelPk("Base/{$type}")]}_1";
+		break;
+	case '6' :
+		$url = domain('www') . "/JobCategory/{$list['smid']}_1";
+		break;
+	case 'FormCategory' :
+		$url = domain('www') . "/FormCategory/{$list[getModelPk("Base/{$type}")]}_1";
+		break;
+	case '7' :
+		$url = domain('www') . "/FormCategory/{$list['smid']}_1";
+		break;
+	case '8' :
+		$url = domain('Finance') . "/{$list['code']}";
+		break;
+	case 'SiteMap' :
+		$url = domain('www') . "/SiteMap";
 		break;
 	}
 	return $url . C('TMPL_TEMPLATE_SUFFIX');
@@ -370,7 +457,7 @@ function microtime_str($intfal='0'){
 * @return  boo
 +----------------------------------------------------------
 */
-function split_page ( $pages, $showdetail = 0, $pseudoStatic = 1, $sper = 'cp', $showpage = 8, $currpage = 1, $post = array() ) {
+function split_page ( $pages, $showdetail = 0, $pseudoStatic = 1, $sper = 'currentPage', $showpage = 8, $currpage = 1, $post = array() ) {
 	if( $pages <= 1 ) return '';
 	$currpage = ( empty($_GET[$sper]) || intval($_GET[$sper]) <= 0 ) ? $currpage : (  intval($_GET[$sper]) > $pages ? $pages : intval($_GET[$sper]) );
 	$parse =  parse_url($_SERVER['REQUEST_URI']);
@@ -383,8 +470,8 @@ function split_page ( $pages, $showdetail = 0, $pseudoStatic = 1, $sper = 'cp', 
 	if( $pseudoStatic != 1 ) $url = "{$parse['path']}?{$sper}=\$i" . ( !empty($params) ? "&".http_build_query($params) : "" );
 	$upRow = $currpage - 1;$downRow = $currpage + 1;$page_str = ''; $upPage = ''; $downPage = '';$pagestr = '';
 	//上一页,下一页
-	$upPage = ( $upRow > 0 ) ? "<a href='".strtr($url,array('$i'=>$upRow))."' class='prevPage' >上一页</a>" : "<span class='noprevPage'>上一页</span>";
-	$downPage = ( $downRow <= $pages ) ? "<a href='".strtr($url,array('$i'=>$downRow))."' class='nextPage' >下一页</a>" : "<span class='nonextPage'>下一页</span>";
+	$upPage = ( $upRow > 0 ) ? "<a href='".strtr($url,array('$i'=>$upRow))."' class='prevPage' >上一页</a>" : "";
+	$downPage = ( $downRow <= $pages ) ? "<a href='".strtr($url,array('$i'=>$downRow))."' class='nextPage' >下一页</a>" : "";
 	//取得分页的起始位置
 	$start_page = ( $currpage < $showpage ) ? 1 : ( ( $currpage > $pages - $showpage ) ? ( $pages - $showpage + 1 ) : $currpage );
 	$end_page = ( $start_page + $showpage) > $pages ? $pages: ( $currpage < $showpage ? $showpage : ( $start_page + $showpage - 1 ) );
@@ -398,7 +485,7 @@ function split_page ( $pages, $showdetail = 0, $pseudoStatic = 1, $sper = 'cp', 
 	$end_page = ( $end_page + 1 ) <= $pages ? "<em>...</em><a href='".strtr($url,array('$i'=>$pages))."' page='{$pages}' class='pageNum'>{$pages}</a>" : "";
 	//组合样式
 	if( $showdetail == 1 ){
-		$page_str = ( $pages > $showpage ) ? "<form action='".strtr($url,array("_\$i".C('TMPL_TEMPLATE_SUFFIX')=>C('TMPL_TEMPLATE_SUFFIX')))."' method='get' name='gofind' style='display:inline' onSubmit='return isValid(this);' >" : '';
+		$page_str = ( $pages > $showpage ) ? "<form action='".strtr($url,array("_\$i".C('TMPL_TEMPLATE_SUFFIX')=>C('TMPL_TEMPLATE_SUFFIX')))."' method='get' name='gofind' style='display:inline' onSubmit='return common.isValid(this);' >" : '';
 		$page_str .= "{$first_page}{$upPage}{$pagestr}{$downPage}{$end_page}<span>共 {$pages} 页</span>";
 		if( $pages > $showpage ){
 			$page_str .= "  到第<input name='{$sper}' type='text' class='spage_input' />页";
@@ -562,7 +649,7 @@ function strToStr($string,$sper="'",$tper=","){
 * @example msubstr( strip_tags($description), 0, 100 )
 +----------------------------------------------------------
 */
-function msubstr ( $str, $start = 0, $length, $charset = "utf-8", $suffix = '...' ) {
+function msubstr ( $str, $start = 0, $length, $charset = "utf-8", $suffix = '' ) {
 	$str = rtrim( $str, $suffix );
 	if( strlen($str) <= 3*$length )
 		return $str;
@@ -577,58 +664,6 @@ function msubstr ( $str, $start = 0, $length, $charset = "utf-8", $suffix = '...
 	preg_match_all( $re[$charset], $str, $match );
 	$slice = join( "", array_slice($match[0], $start, $length) );
 	return $slice.$suffix;
-}
-
-/*
- * 设定出生年，月，日列表值
- */
-function getBirthdayYearList(){
-	$start_year=1910;
-	$end_year=mydate('Y');
-	$index=$start_year;
-	$year_list=array();
-	for($index=$start_year;$index<=$end_year;$index++){
-		$year_list[$index]=$index;
-	}
-	return $year_list;
-}
-function getBirthdayMonthList(){
-	$start_month=1;
-	$end_month=12;
-	$month_list=array();
-	for($i=$start_month;$i<=$end_month;$i++){
-		$i=sprintf("%02d",$i);
-		$month_list[$i]=$i;
-	}
-	return $month_list;
-}
-function getBirthdayDayList(){
-	$start_day=1;
-	$end_day=31;
-	$day_list=array();
-	for($i=$start_day;$i<=$end_day;$i++){
-		$i=sprintf("%02d",$i);
-		$day_list[$i]=sprintf("%02d",$i);
-	}
-	return $day_list;
-}
-function unique_arr($array2D,$stkeep=false,$ndformat=true){
-	if($stkeep) $stArr = array_keys($array2D);
-	if($ndformat) $ndArr = array_keys(end($array2D));
-	foreach ($array2D as $v){
-		$v = join(",",$v);
-		$temp[] = $v;
-	}
-	$temp = array_unique($temp);
-	foreach ($temp as $k => $v){
-		if($stkeep) $k = $stArr[$k];
-		if($ndformat){
-			$tempArr = explode(",",$v);
-			foreach($tempArr as $ndkey => $ndval) $output[$k][$ndArr[$ndkey]] = $ndval;
-		}
-		else $output[$k] = explode(",",$v);
-	}
-	return $output;
 }
 
 /**
@@ -678,7 +713,7 @@ function make_semiangle($str){
 * 获取当前语言
 +----------------------------------------------------------
 * @access  public
-* @param   int       $type      类型：1为获取sid,2为获取blcode
+* @param   int       $type      类型：1为获取当前sid,2为获取blcode,3为获取默认语言的sid
 +----------------------------------------------------------
 * @return  str
 +----------------------------------------------------------
@@ -686,14 +721,13 @@ function make_semiangle($str){
 +----------------------------------------------------------
 */
 function getLang ( $type = 1 ) {
-	$lang = C('DEFAULT_LANG');
-	if( in_array( $_REQUEST['l'],explode(',',C('LANG_LIST')) ))
-		$lang = $_REQUEST['l'];
-	else if( in_array( $_COOKIE['l'],explode(',',C('LANG_LIST')) ))
-		$lang = $_COOKIE['l'];
+	$lang = $_REQUEST[C('VAR_LANGUAGE')] ? $_REQUEST[C('VAR_LANGUAGE')] : $_COOKIE['think_language'];
+	$lang = in_array( $lang,explode(',',C('LANG_LIST')) ) ? $lang : C('DEFAULT_LANG');
+	//print_r($lang);
 	if( $type == 2 ) return $lang;
-	if( $type == 1 ){
-		$siteInfo = A( 'Base' )->siteInfo;
+	else if( $type == 1 || $type == 3 ){
+		if( $type == 3 ) $lang = C('DEFAULT_LANG');
+		$siteInfo = D( 'Base' )->siteInfo();
 		return $siteInfo[$lang]['sid'];
 	}
 }

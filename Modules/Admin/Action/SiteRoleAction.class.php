@@ -28,6 +28,7 @@ class SiteRoleAction extends ABaseAction {
 	*/
 	public function _filterInsertCheck() {
 		$map['name'] = $_REQUEST['name'];
+		$map['sid'] = $_REQUEST['sid'];
 		return $map;
 	}
 
@@ -38,6 +39,7 @@ class SiteRoleAction extends ABaseAction {
 	*/
 	public function _filterUpdateCheck() {
 		$map['name'] = $_REQUEST['name'];
+		$map['sid'] = $_REQUEST['sid'];
 		return $map;
 	}
 

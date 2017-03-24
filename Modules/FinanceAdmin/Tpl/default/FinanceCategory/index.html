@@ -1,0 +1,52 @@
+<div class="pageContent">
+
+	<div class="tabs">
+
+		<require file="FinanceAdmin,Block/selectBalancePayments" />
+
+		<div class="pageHeader">
+			<form onsubmit="return navTabSearch(this);" action="__URL__" method="post">
+				<div class="searchBar">
+					<ul class="searchContent">
+						<li>
+							<label>名称：</label>
+							<input type="text" name="name" value="{$_REQUEST['name']}" >
+						</li>
+						
+						<input type="hidden" name="type" value="{$_REQUEST['type']}" >
+						<div class="subBar">
+							<div class="buttonActive"><div class="buttonContent"><button type="submit">查询</button></div></div>
+						</div>
+
+					</ul>
+				</div>
+			</form>
+		</div>
+
+		<if condition="  $_REQUEST['type'] != null ">
+		<div class="panelBar">
+			<ul class="toolBar" id="{:MODULE_NAME}Operate">
+				<li><a class="add" href="__URL__/add/type/{$_REQUEST['type']}" target="ajax" rel="{:MODULE_NAME}AjaxBox" mask="true"><span>新增</span></a></li>
+				<li><a class="delete" _href="__URL__/delete/navTabId/{:MODULE_NAME}/{:getModelPk(MODULE_NAME)}/" href="__URL__/delete/navTabId/{:MODULE_NAME}/{:getModelPk(MODULE_NAME)}/{_id}" target="ajaxTodo" title="你确定要删除吗？" warn="请选择数据"><span>删除</span></a></li>
+				<li><a class="edit sort" _href="__URL__/sort/type/{$_REQUEST['type']}/parent_id/" href="__URL__/sort/type/{$_REQUEST['type']}/parent_id/0" target="dialog" mask="true" width="600" height="400" ><span>排序</span></a></li>
+			</ul>
+		</div>
+		</if>
+
+		<div class="tabsContent">
+
+			<div>
+				<div id="{:MODULE_NAME}Tree" style="float:left; width:240px; border:1px solid rgb(204, 204, 204); background: none repeat scroll 0% 0% rgb(255, 255, 255);" layouth="100">
+					<if condition="  $_REQUEST['type'] != null ">
+					<require file="Admin,Block/treeIndexShow" />
+					</if>
+				</div>
+				<div id="{:MODULE_NAME}AjaxBox" class="unitBox" style="margin-left:246px;"></div>
+			</div>
+
+		</div>
+
+	</div>
+
+</div>
+

@@ -6,6 +6,7 @@
 		<title>CMS管理系统</title>
 
 		<php>echo get_static_file(array('style.css','core.css'),'dwz');</php>
+		<php>echo get_static_file(array('global.css'),'admin');</php>
 		<!--[if IE]>
 		<php>echo get_static_file(array('ieHack.css'),'dwz');</php>
 		<![endif]-->
@@ -17,8 +18,7 @@
 		<php>echo get_static_file(array('jquery-1.4.4.min.js','jquery.cookie.js','jquery.validate.js','jquery.bgiframe.js','speedup.js','common.js'),'public');</php>
 		<php>echo get_static_file(array('common.js'),'admin');</php>
 		<php>echo get_static_file(array('dwz.min.js','dwz.regional.zh.js'),'dwz');</php>
-
-		<php>//echo get_static_file(array('accordion.js','ajax.js','alertMsg.js','barDrag.js','checkbox.js','combox.js','contextmenu.js','core.js','cssTable.js','database.js','datepicker.js','dialog.js','dialogDrag.js','drag.js','effects.js','history.js','navTab.js','pagination.js','panel.js','resize.js','scrollCenter.js','stable.js','switchEnv.js','tab.js','taskBar.js','theme.js','tree.js','ui.js','util.date.js','validate.method.js','dwz.regional.zh.js'),'dwz');</php>
+		<php>echo get_static_file(array('WdatePicker.js'),'My97DatePicker');</php>
 
 		<require file="Admin,Public/consts_js" />
 
@@ -91,12 +91,12 @@ if ($.browser.msie) {
 								<p><a target="_blank" title="网站主页" href="{:domain('www')}"><span>[网站主页]</span></a></p>
 							</div>
 							<div class="right">
-								<p>{$nowTime['date']}</p>
+								<p>{$nowDate}</p>
 								<p>{:get_client_ip()}</p>
 							</div>
 							<p><span>{$Think['config']['sitename']}</span></p>
 							<p>Welcome, {$userInfo['UserId']}({$userInfo['Uid']})   
-								<a href="{:domain('Passport')}/Logout"><span>[退出]</span></a>  
+								<a href="{:domain('User')}/Logout"><span>[退出]</span></a>  
 							</p>
 						</div>
 						<div class="pageFormContent" layoutH="80">

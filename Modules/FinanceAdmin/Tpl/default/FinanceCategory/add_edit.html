@@ -1,0 +1,29 @@
+<div class="pageContent">
+	<form method="post" action="__URL__/<empty name="vo[getModelPk(MODULE_NAME)]">insert<else />update</empty>/navTabId/{:MODULE_NAME}" class="pageForm required-validate" onsubmit="return validateCallback(this,navTabAjaxDone);">
+		<input type="hidden" name="{:getModelPk(MODULE_NAME)}" value="{$vo[getModelPk(MODULE_NAME)]}" >
+		<input type="hidden" name="type" value="<notempty name="vo['type']">{$vo['type']}<else/>{$_REQUEST['type']}</notempty>" >
+		<input type="hidden" name="status" value="1">
+		<input type="hidden" name="uid" value="{$userInfo['Uid']}">
+		<div class="pageFormContent" layoutH="158">
+			<div class="unit">
+				<label>父级名称：</label>
+				<select name="parent_id">
+					<option <eq name="vo['parent_id']" value="0" >selected</eq> value="0">顶级</option>
+					<php>$_condition = "&parent_id=0"; $field = array('id'=>'parent_id');</php>
+					<require file="FinanceAdmin,FinanceCategory/treeSelectOption" />
+				</select>
+			</div>
+			<div class="unit">
+				<label>名称：</label>
+				<input type="text" class="required"  name="name" value="{$vo['name']}">
+			</div>
+		</div>
+		<div class="formBar">
+			<ul>
+				<li><div class="buttonActive"><div class="buttonContent"><button type="submit">保存</button></div></div></li>
+				<!--<li><div class="button"><div class="buttonContent"><button type="button" class="close">取消</button></div></div></li>-->
+			</ul>
+		</div>
+	</form>
+</div>
+

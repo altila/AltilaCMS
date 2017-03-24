@@ -1,0 +1,11 @@
+<li>
+	<label>状态：</label>
+	<select name="status">
+		<option <eq name="_REQUEST['status']" value="" >selected</eq> value="">请选择</option>
+		<option <eq name="_REQUEST['status']" value="-1" >selected</eq> value="-1">删除</option>
+		<option <eq name="_REQUEST['status']" value="0" >selected</eq> value="0">禁用</option>
+		<option <eq name="_REQUEST['status']" value="1" >selected</eq> value="1">正常</option>
+		<option <eq name="_REQUEST['status']" value="2" >selected</eq> value="2">待批</option>
+	</select>
+</li>
+
