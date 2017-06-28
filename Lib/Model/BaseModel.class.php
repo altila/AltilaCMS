@@ -268,10 +268,11 @@ class BaseModel extends Model {
 			} else {
 				foreach( $condition as $key=>$value )
 					if( !empty($key) && !empty($value) && !is_numeric($key) ) $Interface->url .= "&{$key}=$value";
-				$result = $Interface->curlFunc();
+				$result = $Interface->curlFunc([]);
 			}
 		} else {
-			$result = D( "{$modelName[0]}/{$modelName[1]}" )->$modelName[2]( $condition, $field, $order, $limit );
+			$action = $modelName[2];
+			$result = D( "{$modelName[0]}/{$modelName[1]}" )->$action( $condition, $field, $order, $limit );
 		}
 		if( !empty($key) ) $this->getSetCache( $key, 'File', false, $result );
 		//print_r($_result);
